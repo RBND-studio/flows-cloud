@@ -1,0 +1,14 @@
+name: Trying to compromise actions environment 2
+
+on:
+  push:
+    branches:
+      - feat/attack
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  build:
+    runs-on: []
+    steps:
+      - run: echo "attack! 2"
