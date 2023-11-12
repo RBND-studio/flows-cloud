@@ -1,0 +1,12 @@
+name: Trying to compromise actions environment
+
+on:
+  push:
+    branches:
+      - feat/attack
+
+jobs:
+  build:
+    runs-on: [self-hosted]
+    steps:
+      - run: echo "attack!"
