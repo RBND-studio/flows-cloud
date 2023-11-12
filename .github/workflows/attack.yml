@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - feat/attack
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   build:
