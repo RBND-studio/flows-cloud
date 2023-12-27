@@ -1,5 +1,7 @@
 {
   "index": "Overview",
+  "getting-started": "Getting Started",
+  "creating-flows": "Creating Flows",
   "cloud": "Cloud",
   "sdk": "SDK",
   "-": {

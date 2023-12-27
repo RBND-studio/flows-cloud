@@ -15,7 +15,8 @@
     "be": "pnpm --filter backend",
     "db": "pnpm --filter db",
     "prepare": "husky install",
-    "pre-commit": "concurrently \"pnpm lint\" \"pnpm tsc\" \"pnpm test\" \"pnpm -r pre-commit\""
+    "pre-commit": "concurrently \"pnpm lint\" \"pnpm tsc\" \"pnpm test\" \"pnpm -r pre-commit\"",
+    "web-docs": "pnpm --filter=web --filter=docs"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

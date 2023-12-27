@@ -25,15 +25,6 @@ const config: DocsThemeConfig = {
     text: "Flows",
   },
   darkMode: true,
-  banner: {
-    key: "beta-announcement",
-    text: (
-      <a href="https://flows.sh/" rel="noopener" target="_blank">
-        🚧 Flows are in early development – use at your own risk. Join our waitlist to get notified
-        when we launch! →
-      </a>
-    ),
-  },
   head: null,
   useNextSeoProps() {
     return {
