@@ -45,7 +45,7 @@
     "storybook-dark-mode": "^3.0.1",
     "tsconfig": "workspace:*",
     "typescript": "5.3.3",
-    "vite": "^4.5.2"
+    "vite": "^5.1.1"
   },
   "optionalDependencies": {
     "@flows/styled-system": "link:node_modules/@flows/pandacss"
