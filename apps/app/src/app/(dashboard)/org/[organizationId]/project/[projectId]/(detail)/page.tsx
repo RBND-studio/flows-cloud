@@ -7,13 +7,16 @@ import { CreateFlowDialog } from "./create-flow-dialog";
 import { FlowsList } from "./flows-list";
 
 type Props = {
-  params: { projectId: string };
+  params: { projectId: string; organizationId: string };
 };
 
 export default async function ProjectDetailPage({
-  params: { projectId },
+  params: { projectId, organizationId },
 }: Props): Promise<JSX.Element> {
-  const [project] = await Promise.all([load(api["/projects/:projectId"](projectId))]);
+  const [project, flows] = await Promise.all([
+    load(api["/projects/:projectId"](projectId)),
+    load(api["/projects/:projectId/flows"](projectId)),
+  ]);
 
   return (
     <>
@@ -29,7 +32,7 @@ export default async function ProjectDetailPage({
         <Text color="muted">{project.description}</Text>
       </Flex>
 
-      <FlowsList projectId={projectId} />
+      <FlowsList flows={flows} organizationId={organizationId} projectId={projectId} />
     </>
   );
 }

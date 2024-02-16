@@ -10,7 +10,6 @@ import { routes } from "routes";
 import { t } from "translations";
 import { Icon, Popover, PopoverContent, PopoverTrigger, Text } from "ui";
 
-import { LogoutButton } from "./logout-button";
 import { MenuItem } from "./menu-item";
 import { MenuSection } from "./menu-section";
 import { ThemeSwitch } from "./theme-switch";
@@ -41,8 +40,8 @@ const Trigger: FC = () => {
 export const SettingsMenu: FC = () => {
   const { projectId, organizationId } = useParams<{ projectId?: string; organizationId: string }>();
   const pathname = usePathname();
+  const { auth, logout, processingLogout } = useAuth();
 
-  const auth = useAuth();
   const SETTINGS_MENU_OPTIONS = [
     ...(auth?.user.id
       ? [
@@ -131,7 +130,13 @@ export const SettingsMenu: FC = () => {
           </MenuSection>
 
           <MenuSection background="bg.muted">
-            <LogoutButton />
+            <MenuItem asChild>
+              <button disabled={processingLogout} onClick={logout} type="submit">
+                <Text as="span" variant="bodyS">
+                  {t.actions.logout}
+                </Text>
+              </button>
+            </MenuItem>
           </MenuSection>
         </div>
       </PopoverContent>

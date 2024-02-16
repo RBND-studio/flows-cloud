@@ -28,6 +28,7 @@ export const t = {
     saveFrequencySuccess: "Frequency updated",
     saveLaunchSuccess: "Launch settings updated",
     inviteSent: "Invite sent",
+    usersInvited: "Users were invited",
     memberRemoved: "Member removed",
     publishFlowSuccess: "Flow published",
     enableFlowSuccess: "Flow enabled",

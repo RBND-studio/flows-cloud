@@ -15,11 +15,11 @@ export const fetcher =
     const headers = {
       Authorization: context.token ? `Bearer ${context.token}` : "",
       ...init?.headers,
-      cache: "no-store",
     };
     if (init?.body) headers["Content-Type"] = "application/json";
 
     return fetch(API_URL + path, {
+      cache: "no-store",
       ...init,
       body: init?.body ? JSON.stringify(init.body) : undefined,
       headers,

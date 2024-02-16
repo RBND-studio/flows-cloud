@@ -7,7 +7,7 @@ import { toast } from "ui";
 export const useSend = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
-  const auth = useAuth();
+  const { auth } = useAuth();
 
   const send = useCallback(
     <T>(

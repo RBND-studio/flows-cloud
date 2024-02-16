@@ -33,6 +33,7 @@ export const OrganizationDeleteDialog: FC<Props> = ({ organization }) => {
     if (res.error) return;
     toast.success(t.toasts.deleteOrgSuccess);
     void mutate("/organizations");
+    router.refresh();
     router.replace(routes.home);
   };
 

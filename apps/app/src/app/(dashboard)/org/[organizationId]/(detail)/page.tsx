@@ -3,7 +3,7 @@ import { CreateProjectDialog } from "components/projects";
 import { api } from "lib/api";
 import { load } from "lib/load";
 import type { Metadata } from "next";
-import { redirect, RedirectType } from "next/navigation";
+import { redirect } from "next/navigation";
 import { routes } from "routes";
 import { Button, Text } from "ui";
 
@@ -28,7 +28,6 @@ export default async function ProjectsPage({ params }: Props): Promise<JSX.Eleme
   if (projects.length)
     return redirect(
       routes.project({ projectId: projects[0].id, organizationId: projects[0].organization_id }),
-      RedirectType.replace,
     );
 
   const org = await load(api["/organizations/:organizationId"](params.organizationId));

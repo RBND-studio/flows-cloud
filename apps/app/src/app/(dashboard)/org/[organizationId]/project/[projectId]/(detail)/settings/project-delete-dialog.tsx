@@ -33,6 +33,7 @@ export const ProjectDeleteDialog: FC<Props> = ({ project }) => {
     if (res.error) return;
     toast.success(t.toasts.deleteProjectSuccess);
     void mutate("/organizations/:organizationId/projects", [project.organization_id]);
+    router.refresh();
     router.replace(routes.organization({ organizationId: project.organization_id }));
   };
 

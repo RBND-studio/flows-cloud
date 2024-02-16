@@ -33,8 +33,8 @@ export const FlowDeleteDialog: FC<Props> = ({ flow, organizationId, trigger }) =
     });
     if (res.error) return;
     toast.success(t.toasts.deleteFlowSuccess);
-    router.replace(routes.project({ projectId: flow.project_id, organizationId }));
     router.refresh();
+    router.replace(routes.project({ projectId: flow.project_id, organizationId }));
   };
 
   return (

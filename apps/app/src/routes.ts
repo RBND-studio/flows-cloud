@@ -8,6 +8,12 @@ export const routes = {
   verifyError: ({ message }: { message: string }) => `/verify/error?message=${message}`,
 
   home: "/",
+
+  welcome: "/welcome",
+  welcomeAcceptInvite: "/welcome/accept-invite",
+  welcomeOrganization: (params: { organizationId: string }) => `/welcome/${params.organizationId}`,
+  welcomeOrganizationProject: (params: { organizationId: string; projectId: string }) =>
+    `/welcome/${params.organizationId}/${params.projectId}`,
   userSettings: (params: { userId: string }) => `/user/${params.userId}/settings`,
   organization: (params: { organizationId: string }) => `/org/${params.organizationId}`,
   organizationSettings: (params: { organizationId: string }) =>

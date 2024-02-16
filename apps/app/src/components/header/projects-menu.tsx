@@ -98,7 +98,7 @@ export const ProjectsMenu: FC = () => {
     organizationId ? [organizationId] : null,
   );
 
-  const auth = useAuth();
+  const { auth } = useAuth();
   if (!auth || isLoadingProjects || isLoadingOrganizations) return <Trigger loading />;
 
   const currentOrg = organizations?.find((org) => org.id === organizationId);

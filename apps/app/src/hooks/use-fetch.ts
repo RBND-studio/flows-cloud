@@ -15,7 +15,7 @@ export const useFetch = <
   args: Args | null = DEFAULT_ARGS as Args,
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- not needed
 ) => {
-  const auth = useAuth();
+  const { auth } = useAuth();
   const token = auth?.token;
 
   const _key = useMemo((): null | [Key, ...Args] => {

@@ -1,29 +1,15 @@
 "use client";
 
 import { css } from "@flows/styled-system/css";
-import { mutate, useFetch } from "hooks/use-fetch";
-import { useSend } from "hooks/use-send";
-import { api } from "lib/api";
-import { useRouter } from "next/navigation";
+import { useAcceptInvite } from "hooks/use-accept-invite";
+import { useFetch } from "hooks/use-fetch";
 import type { FC } from "react";
-import { routes } from "routes";
-import { t } from "translations";
 import { Button, Text } from "ui";
 
 export const Invites: FC = () => {
   const { data } = useFetch("/me");
-  const router = useRouter();
 
-  const { send, loading } = useSend();
-  const handleAccept = async (inviteId: string): Promise<void> => {
-    const res = await send(api["POST /invites/:inviteId/accept"](inviteId), {
-      errorMessage: t.toasts.acceptInviteFailed,
-    });
-    if (!res.data) return;
-    void mutate("/me");
-    void mutate("/organizations");
-    router.push(routes.organization({ organizationId: res.data.organization_id }));
-  };
+  const { handleAccept, loading } = useAcceptInvite();
 
   if (!data?.pendingInvites.length) return null;
 
