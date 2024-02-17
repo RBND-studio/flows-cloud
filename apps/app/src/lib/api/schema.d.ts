@@ -14,11 +14,17 @@ export interface paths {
   "/sdk/flows": {
     get: operations["SdkController_getFlows"];
   };
-  "/sdk/flows/{flowId}": {
+  "/sdk/flows/{flowId}/draft": {
     get: operations["SdkController_getPreviewFlow"];
+  };
+  "/sdk/flows/{flowId}": {
+    get: operations["SdkController_getFlowDetail"];
   };
   "/sdk/events": {
     post: operations["SdkController_createEvent"];
+  };
+  "/sdk/events/{eventId}": {
+    delete: operations["SdkController_deleteEvent"];
   };
   "/projects/{projectId}/flows": {
     get: operations["FlowsControllers_getFlows"];
@@ -69,6 +75,9 @@ export interface paths {
   "/invites/{inviteId}/accept": {
     post: operations["UsersController_acceptInvite"];
   };
+  "/waitlist": {
+    post: operations["UsersController_joinWaitlist"];
+  };
   "/css/vars": {
     get: operations["CssController_getDefaultCssVars"];
   };
@@ -89,17 +98,25 @@ export interface components {
       steps: Record<string, never>[];
       location?: string;
       userProperties?: Record<string, never>;
+      _incompleteSteps?: boolean;
     };
     CreateEventDto: {
+      /** @enum {string} */
+      type: "startFlow" | "nextStep" | "prevStep" | "tooltipError" | "cancelFlow";
       /** Format: date-time */
       eventTime: string;
-      type: string;
       userHash?: string;
       flowId: string;
       projectId: string;
       stepIndex?: string;
       stepHash?: string;
       flowHash: string;
+      sdkVersion: string;
+      targetElement?: string;
+      location: string;
+    };
+    CreateEventResponseDto: {
+      id: string;
     };
     GetFlowsDto: {
       /** @enum {string} */
@@ -206,11 +223,12 @@ export interface components {
     };
     CreateProjectDto: {
       name: string;
+      domains?: string[];
     };
     UpdateProjectDto: {
       name?: string;
-      description?: string;
       domains?: string[];
+      description?: string;
       css_vars?: string | null;
       css_template?: string | null;
     };
@@ -257,6 +275,10 @@ export interface components {
     AcceptInviteResponseDto: {
       organization_id: string;
     };
+    JoinWaitlistDto: {
+      email: string;
+      captchaToken: string;
+    };
   };
   responses: never;
   parameters: never;
@@ -284,6 +306,7 @@ export interface operations {
     parameters: {
       query: {
         projectId: string;
+        v: string;
       };
     };
     responses: {
@@ -332,6 +355,26 @@ export interface operations {
       };
     };
   };
+  SdkController_getFlowDetail: {
+    parameters: {
+      query: {
+        projectId: string;
+      };
+      header: {
+        origin: string;
+      };
+      path: {
+        flowId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetSdkFlowsDto"];
+        };
+      };
+    };
+  };
   SdkController_createEvent: {
     parameters: {
       header: {
@@ -345,6 +388,23 @@ export interface operations {
     };
     responses: {
       201: {
+        content: {
+          "application/json": components["schemas"]["CreateEventResponseDto"];
+        };
+      };
+    };
+  };
+  SdkController_deleteEvent: {
+    parameters: {
+      header: {
+        origin: string;
+      };
+      path: {
+        eventId: string;
+      };
+    };
+    responses: {
+      200: {
         content: never;
       };
     };
@@ -679,6 +739,18 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["AcceptInviteResponseDto"];
         };
+      };
+    };
+  };
+  UsersController_joinWaitlist: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["JoinWaitlistDto"];
+      };
+    };
+    responses: {
+      201: {
+        content: never;
       };
     };
   };

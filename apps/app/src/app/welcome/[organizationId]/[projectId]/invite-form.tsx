@@ -53,7 +53,7 @@ export const InviteForm: FC<Props> = ({ organizationId }) => {
       <Flex direction="column" gap="space8">
         {fields.map((field, i) => (
           <Flex gap="space8" key={field.id}>
-            <Input {...register(`users.${i}.email`)} type="email" />
+            <Input {...register(`users.${i}.email`)} required type="email" />
             <Button onClick={() => remove(i)} variant="secondary">
               {t.actions.remove}
             </Button>

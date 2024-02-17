@@ -31,7 +31,7 @@ export const OrganizationForm: FC = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Input {...register("name")} label="Name" required />
       <Button loading={loading} size="small" type="submit">
-        Create
+        {t.actions.save}
       </Button>
     </form>
   );

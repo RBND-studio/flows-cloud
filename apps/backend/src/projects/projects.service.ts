@@ -107,7 +107,7 @@ export class ProjectsService {
       .values({
         name: data.name,
         organization_id: organizationId,
-        domains: [],
+        domains: data.domains ?? [],
       })
       .returning();
     const project = newProjects.at(0);
