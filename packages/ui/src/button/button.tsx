@@ -3,6 +3,8 @@ import { styled } from "@flows/styled-system/jsx";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 
+import { Spinner } from "../spinner";
+
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   /**
    * @defaultValue "medium"
@@ -45,7 +47,9 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
       disabled={disabled || loading}
       ref={ref}
     >
-      {startIcon ? <Icon position="start">{startIcon}</Icon> : null}
+      {startIcon || loading ? (
+        <Icon position="start">{loading ? <Spinner color="inherit" /> : startIcon}</Icon>
+      ) : null}
       <Slottable>{children}</Slottable>
       {endIcon ? <Icon position="end">{endIcon}</Icon> : null}
     </Component>

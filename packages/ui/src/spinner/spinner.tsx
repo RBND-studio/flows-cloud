@@ -1,4 +1,5 @@
 import { cva, cx } from "@flows/styled-system/css";
+import type { SystemStyleObject } from "@flows/styled-system/types";
 import { Spinner20 } from "icons";
 import { forwardRef } from "react";
 
@@ -6,15 +7,16 @@ import { Icon } from "../icon";
 
 type Props = {
   className?: string;
+  color?: SystemStyleObject["color"];
 };
 
 export const Spinner = forwardRef<HTMLDivElement, Props>(function Spinner(
-  { className, ...props },
+  { className, color, ...props },
   ref,
 ) {
   return (
     <div {...props} className={cx(spinner(), className)} ref={ref}>
-      <Icon color="icon.primary" icon={Spinner20} />
+      <Icon color={color ?? "icon.primary"} icon={Spinner20} />
     </div>
   );
 });

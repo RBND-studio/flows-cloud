@@ -5,9 +5,10 @@ import { Box, Flex } from "@flows/styled-system/jsx";
 import { LoginMessage } from "app/(auth)/login/login-message";
 import { signIn } from "auth/server-actions";
 import { GitHub16, Google16 } from "icons";
+import { Captcha } from "lib/captcha";
 import Link from "next/link";
 import type { FC } from "react";
-import { Suspense, useTransition } from "react";
+import { Suspense, useState, useTransition } from "react";
 import { routes } from "routes";
 import { createClient } from "supabase/client";
 import { Button, Input, Text, toast } from "ui";
@@ -17,13 +18,16 @@ export const LoginForm: FC = () => {
   const [isPending, startTransition] = useTransition();
   const supabase = createClient();
 
+  const [captchaToken, setCaptchaToken] = useState<string>();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+    if (!captchaToken) return;
     const formData = new FormData(event.currentTarget);
+    formData.set("captchaToken", captchaToken);
 
     startTransition(async () => {
       const res = await signIn(formData);
-      if (res.error) toast.error(res.error);
+      if (res.error) toast.error(res.error.title, { description: res.error.description });
     });
   };
 
@@ -93,9 +97,12 @@ export const LoginForm: FC = () => {
           <LoginMessage />
         </Suspense>
 
-        <Button loading={isPending} name="sign-in" size="medium" type="submit">
-          Log in
-        </Button>
+        <Flex direction="column">
+          <Captcha action="login" onSuccess={(v) => setCaptchaToken(v)} />
+          <Button loading={isPending} name="sign-in" size="medium" type="submit">
+            Log in
+          </Button>
+        </Flex>
         {/* <Text align="center" color="muted">
           <Link
             className={css({
@@ -116,23 +123,21 @@ export const LoginForm: FC = () => {
         />
         <Flex flexDir="column" gap="space12">
           <Button
-            loading={isPending}
+            disabled={isPending}
             name="sign-up-github"
             onClick={() => handleSocialSignIn("github")}
             size="medium"
             startIcon={<GitHub16 />}
-            type="button"
             variant="secondary"
           >
             Login with GitHub
           </Button>
           <Button
-            loading={isPending}
+            disabled={isPending}
             name="sign-up-google"
             onClick={() => handleSocialSignIn("google")}
             size="medium"
             startIcon={<Google16 />}
-            type="button"
             variant="secondary"
           >
             Login with Google

@@ -35,6 +35,9 @@ importers:
       '@flows/js':
         specifier: 0.0.37
         version: 0.0.37
+      '@marsidev/react-turnstile':
+        specifier: ^0.5.2
+        version: 0.5.2(react-dom@18.2.0)(react@18.2.0)
       '@monaco-editor/react':
         specifier: ^4.6.0
         version: 4.6.0(monaco-editor@0.44.0)(react-dom@18.2.0)(react@18.2.0)
@@ -4005,6 +4008,16 @@ packages:
   /@lukeed/ms@2.0.1:
     resolution: {integrity: sha512-Xs/4RZltsAL7pkvaNStUQt7netTkyxrS0K+RILcVr3TRMS/ToOg4I6uNfhB9SlGsnWBym4U+EaXq0f0cEMNkHA==}
     engines: {node: '>=8'}
+    dev: false
+
+  /@marsidev/react-turnstile@0.5.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-KQSZt/liBaQdV+NgqMnUBykFC7I9kK7cyfRubnGa4SUwgv2j3DekB+5s62oPvOsj04WoxTPobFCfRWTTiXn4jQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@mdx-js/esbuild@2.3.0(esbuild@0.20.0):

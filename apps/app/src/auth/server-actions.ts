@@ -12,30 +12,37 @@ export const signOut = async (): Promise<void> => {
   return redirect(routes.login());
 };
 
-export const signIn = async (formData: FormData): Promise<{ error?: string }> => {
+export const signIn = async (
+  formData: FormData,
+): Promise<{ error?: { title: string; description: string } }> => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const captchaToken = formData.get("captchaToken") as string;
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
+    options: { captchaToken },
   });
 
   if (error) {
-    return { error: "Could not authenticate user" };
+    return { error: { title: "Could not authenticate user", description: error.message } };
   }
 
   return redirect(routes.home);
 };
 
-export const signUp = async (formData: FormData): Promise<{ error?: string }> => {
+export const signUp = async (
+  formData: FormData,
+): Promise<{ error?: { title: string; description: string } }> => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const captchaToken = formData.get("captchaToken") as string;
 
   const origin = headers().get("x-forwarded-host");
   const protocol = headers().get("x-forwarded-proto");
@@ -45,11 +52,12 @@ export const signUp = async (formData: FormData): Promise<{ error?: string }> =>
     password,
     options: {
       emailRedirectTo: `${protocol}://${origin}${routes.authCallback}`,
+      captchaToken,
     },
   });
 
   if (error) {
-    return { error: "Could not create user" };
+    return { error: { title: "Could not create user", description: error.message } };
   }
 
   return redirect(routes.signupSuccess({ email }));

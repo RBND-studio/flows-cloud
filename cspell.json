@@ -41,6 +41,7 @@
     "**/package.json",
     "**/dist/**/*",
     "**/storybook-static/**/*",
+    "out/**/*",
     "_journal.json",
     "pnpm-lock.yaml",
     "cspell.json"
