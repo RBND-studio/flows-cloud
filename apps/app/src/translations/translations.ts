@@ -168,9 +168,8 @@ export const t = {
   },
   project: {
     domains: {
-      domains: "Domains",
-      description:
-        "Add the domains where you want to access flows from this project. For local development, add localhost with port.",
+      domains: "Project domains",
+      description: "Add the domains from where you want to use this project.",
       localState: "Local project domains need to be changed in your codebase",
       addDomain: "Add domain",
       domainPlaceholder: "example.com",

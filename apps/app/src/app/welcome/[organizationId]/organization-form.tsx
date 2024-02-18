@@ -1,5 +1,6 @@
 "use client";
 
+import { Flex } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
@@ -29,10 +30,12 @@ export const OrganizationForm: FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Input {...register("name")} label="Name" required />
-      <Button loading={loading} size="small" type="submit">
-        {t.actions.save}
-      </Button>
+      <Flex flexDirection="column" gap="space16">
+        <Input {...register("name")} label="Organization name" placeholder="Acme Inc" required />
+        <Button loading={loading} size="default" type="submit">
+          Create organization
+        </Button>
+      </Flex>
     </form>
   );
 };

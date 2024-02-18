@@ -3,7 +3,7 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
-import { Plus16 } from "icons";
+import { Close16, Plus16 } from "icons";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
@@ -11,7 +11,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
-import { Button, Input, Text, toast } from "ui";
+import { Button, Icon, Input, Text, toast } from "ui";
 
 type Props = {
   organizationId: string;
@@ -43,42 +43,50 @@ export const ProjectForm: FC<Props> = ({ organizationId }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Input {...register("name")} label="Name" required />
-
-      <Text>{t.project.domains.domains}</Text>
-      {fields.length > 0 && (
-        <Flex direction="column" gap="space8">
-          {fields.map((field, i) => {
-            return (
-              <Flex gap="space8" key={field.id}>
-                <Input
-                  type="url"
-                  {...register(`domains.${i}.value`)}
-                  className={css({ flex: 1 })}
-                  required
-                />
-                <Button onClick={() => remove(i)} variant="secondary">
-                  {t.actions.remove}
-                </Button>
-              </Flex>
-            );
-          })}
+      <Flex flexDirection="column" gap="space16">
+        <Input {...register("name")} label="Project name" required />
+        <Flex flexDirection="column" gap="space8">
+          <Flex flexDirection="column" gap="space4">
+            <Text>{t.project.domains.domains}</Text>
+            <Text color="muted" variant="bodyXs">
+              {t.project.domains.description}
+            </Text>
+          </Flex>
+          {fields.length > 0 && (
+            <Flex direction="column" gap="space8">
+              {fields.map((field, i) => {
+                return (
+                  <Flex gap="space8" key={field.id}>
+                    <Input
+                      type="url"
+                      {...register(`domains.${i}.value`)}
+                      className={css({ flex: 1 })}
+                      required
+                    />
+                    <Button onClick={() => remove(i)} variant="secondary">
+                      <Icon icon={Close16} />
+                    </Button>
+                  </Flex>
+                );
+              })}
+            </Flex>
+          )}
+          <div>
+            <Button
+              onClick={() => append({ value: "" })}
+              size="small"
+              startIcon={<Plus16 />}
+              variant="secondary"
+            >
+              {t.project.domains.addDomain}
+            </Button>
+          </div>
         </Flex>
-      )}
-      <div>
-        <Button
-          onClick={() => append({ value: "" })}
-          size="small"
-          startIcon={<Plus16 />}
-          variant="secondary"
-        >
-          {t.project.domains.addDomain}
-        </Button>
-      </div>
 
-      <Button loading={loading} size="small" type="submit">
-        {t.actions.save}
-      </Button>
+        <Button loading={loading} type="submit">
+          Create project
+        </Button>
+      </Flex>
     </form>
   );
 };

@@ -1,8 +1,9 @@
 "use client";
 
+import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
-import { Plus16 } from "icons";
+import { Close16, Plus16 } from "icons";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
@@ -10,7 +11,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
-import { Button, Input, Text, toast } from "ui";
+import { Button, Icon, Input, Text, toast } from "ui";
 
 type Props = {
   organizationId: string;
@@ -27,21 +28,24 @@ export const InviteForm: FC<Props> = ({ organizationId }) => {
   const { send, loading } = useSend();
   const router = useRouter();
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const results = await Promise.all(
-      data.users
-        .map((u) => u.email)
-        .filter((e) => Boolean(e.trim()))
-        .map((email) =>
+    const emails = data.users.map((u) => u.email).filter((e) => Boolean(e.trim()));
+    if (emails.length) {
+      const results = await Promise.all(
+        emails.map((email) =>
           send(api["POST /organizations/:organizationId/users"](organizationId, { email }), {
             errorMessage: null,
           }),
         ),
-    );
-    const resWithError = results.find((r) => r.error);
-    if (resWithError?.error)
-      return toast.error(t.toasts.createInviteFailed, { description: resWithError.error.message });
+      );
+      const resWithError = results.find((r) => r.error);
+      if (resWithError?.error)
+        return toast.error(t.toasts.createInviteFailed, {
+          description: resWithError.error.message,
+        });
 
-    toast.success(t.toasts.usersInvited);
+      toast.success(t.toasts.usersInvited);
+    }
+
     router.push(routes.organization({ organizationId }));
   };
 
@@ -49,31 +53,44 @@ export const InviteForm: FC<Props> = ({ organizationId }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Text>Users</Text>
-      <Flex direction="column" gap="space8">
-        {fields.map((field, i) => (
-          <Flex gap="space8" key={field.id}>
-            <Input {...register(`users.${i}.email`)} required type="email" />
-            <Button onClick={() => remove(i)} variant="secondary">
-              {t.actions.remove}
-            </Button>
+      <Flex flexDirection="column" gap="space24">
+        <Flex alignItems="flex-start" flexDirection="column" gap="space8">
+          <Text>Email</Text>
+          <Flex direction="column" gap="space8" width="100%">
+            {fields.map((field, i) => (
+              <Flex gap="space8" key={field.id}>
+                <Input
+                  {...register(`users.${i}.email`)}
+                  className={css({
+                    width: "100%",
+                  })}
+                  type="email"
+                />
+                <Button onClick={() => remove(i)} variant="secondary">
+                  <Icon icon={Close16} />
+                </Button>
+              </Flex>
+            ))}
           </Flex>
-        ))}
-      </Flex>
-      <Button
-        onClick={() => append({ email: "" })}
-        size="small"
-        startIcon={<Plus16 />}
-        variant="secondary"
-      >
-        Add user
-      </Button>
+          <Button
+            onClick={() => append({ email: "" })}
+            size="small"
+            startIcon={<Plus16 />}
+            variant="secondary"
+          >
+            Add user
+          </Button>
+        </Flex>
 
-      <div>
-        <Button loading={loading} type="submit" variant="black">
-          {t.actions.save}
-        </Button>
-      </div>
+        <Flex flexDirection="column" gap="space8">
+          <Button loading={loading} type="submit">
+            Send invites
+          </Button>
+          <Button loading={loading} type="submit" variant="secondary">
+            Continue alone
+          </Button>
+        </Flex>
+      </Flex>
     </form>
   );
 };

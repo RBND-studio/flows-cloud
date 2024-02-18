@@ -14,7 +14,7 @@ export const LogoutButton: FC = () => {
       className={css({ position: "absolute", top: "space24", right: "space24" })}
       loading={processingLogout}
       onClick={logout}
-      variant="ghost"
+      variant="secondary"
     >
       {t.actions.logout}
     </Button>
