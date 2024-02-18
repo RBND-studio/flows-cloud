@@ -27,7 +27,7 @@ export default async function WelcomeOrganizationProjectPage({
         </Text>
       </Flex>
       <Box borderRadius="radius12" cardWrap="-" padding="space24">
-        <InviteForm organizationId={params.organizationId} />
+        <InviteForm organizationId={params.organizationId} projectId={params.projectId} />
       </Box>
     </Flex>
   );

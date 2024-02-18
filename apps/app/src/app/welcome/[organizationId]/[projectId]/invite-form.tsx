@@ -5,6 +5,7 @@ import { Flex } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
 import { Close16, Plus16 } from "icons";
 import { api } from "lib/api";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
@@ -15,13 +16,14 @@ import { Button, Icon, Input, Text, toast } from "ui";
 
 type Props = {
   organizationId: string;
+  projectId: string;
 };
 
 type FormValues = {
   users: { email: string }[];
 };
 
-export const InviteForm: FC<Props> = ({ organizationId }) => {
+export const InviteForm: FC<Props> = ({ organizationId, projectId }) => {
   const { register, handleSubmit, control } = useForm<FormValues>({
     defaultValues: { users: [{ email: "" }] },
   });
@@ -46,7 +48,7 @@ export const InviteForm: FC<Props> = ({ organizationId }) => {
       toast.success(t.toasts.usersInvited);
     }
 
-    router.push(routes.organization({ organizationId }));
+    router.push(routes.project({ organizationId, projectId }));
   };
 
   const { append, remove, fields } = useFieldArray({ control, name: "users" });
@@ -86,8 +88,8 @@ export const InviteForm: FC<Props> = ({ organizationId }) => {
           <Button loading={loading} type="submit">
             Send invites
           </Button>
-          <Button loading={loading} type="submit" variant="secondary">
-            Continue alone
+          <Button asChild variant="secondary">
+            <Link href={routes.project({ organizationId, projectId })}>Continue alone</Link>
           </Button>
         </Flex>
       </Flex>

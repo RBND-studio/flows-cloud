@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 export default async function DashboardPage(): Promise<JSX.Element> {
   const organizations = await load(api["/organizations"]());
 
-  // TODO: Allow user to accept invite if they have one
   if (!organizations.length) return redirect(routes.welcome);
 
   return redirect(routes.organization({ organizationId: organizations[0].id }));

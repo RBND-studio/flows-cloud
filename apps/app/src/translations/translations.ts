@@ -173,6 +173,7 @@ export const t = {
       localState: "Local project domains need to be changed in your codebase",
       addDomain: "Add domain",
       domainPlaceholder: "example.com",
+      invalidDomain: "Invalid domain. Please use https://example.com format.",
     },
     deleteDialog: {
       title: "Delete project",

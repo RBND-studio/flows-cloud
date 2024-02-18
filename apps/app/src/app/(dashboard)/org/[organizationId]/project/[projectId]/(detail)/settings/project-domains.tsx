@@ -6,12 +6,13 @@ import { mutate } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
 import { Plus16 } from "icons";
 import { api, type ProjectDetail } from "lib/api";
+import { isValidUrl } from "lib/url";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";
 import { t } from "translations";
-import { Button, Input, Text, toast } from "ui";
+import { Button, Description, Input, Text, toast } from "ui";
 
 type Props = {
   project: ProjectDetail;
@@ -61,16 +62,25 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
         <Flex direction="column" gap="space8">
           {fields.map((field, i) => {
             return (
-              <Flex gap="space8" key={field.id}>
-                <Input
-                  type="url"
-                  {...register(`domains.${i}.value`)}
-                  className={css({ flex: 1 })}
-                  required
-                />
-                <Button onClick={() => remove(i)} variant="secondary">
-                  {t.actions.remove}
-                </Button>
+              <Flex direction="column" gap="space4" key={field.id}>
+                <Flex gap="space8">
+                  <Input
+                    {...register(`domains.${i}.value`, {
+                      validate: (v) => {
+                        if (!isValidUrl(v)) return t.project.domains.invalidDomain;
+                      },
+                    })}
+                    className={css({ flex: 1 })}
+                    placeholder="https://example.com"
+                    required
+                  />
+                  <Button onClick={() => remove(i)} variant="secondary">
+                    {t.actions.remove}
+                  </Button>
+                </Flex>
+                <Description color="danger">
+                  {formState.errors.domains?.[i]?.value?.message}
+                </Description>
               </Flex>
             );
           })}
