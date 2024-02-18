@@ -2,16 +2,21 @@ import { Test } from "@nestjs/testing";
 import { events, flows } from "db";
 
 import { DatabaseService } from "../database/database.service";
-import { getMockDB, type MockDB } from "../mocks";
+import { DbPermissionService } from "../db-permission/db-permission.service";
+import type { MockDB, MockDbPermissionService } from "../mocks";
+import { getMockDB, getMockDbPermissionService } from "../mocks";
 import { SdkController } from "./sdk.controller";
 import type { CreateEventDto } from "./sdk.dto";
 import { SdkService } from "./sdk.service";
 
 let sdkController: SdkController;
+let dbPermissionService: MockDbPermissionService;
 let db: MockDB;
 
 beforeEach(async () => {
   db = getMockDB();
+  dbPermissionService = getMockDbPermissionService();
+
   const moduleRef = await Test.createTestingModule({
     controllers: [SdkController],
     providers: [SdkService],
@@ -20,6 +25,9 @@ beforeEach(async () => {
     .useMocker((token) => {
       if (token === DatabaseService) {
         return { db };
+      }
+      if (token === DbPermissionService) {
+        return dbPermissionService;
       }
     })
     .compile();
@@ -65,18 +73,11 @@ describe("Get flows", () => {
     },
   ];
   beforeEach(() => {
-    db.query.projects.findFirst.mockReturnValue({ id: "p1" });
     db.query.flows.findMany.mockReturnValue(mockFlows);
   });
-  it("should throw without projectId", async () => {
-    await expect(sdkController.getFlows("origin", "")).rejects.toThrow("Not Found");
-  });
-  it("should throw without requestDomain", async () => {
-    await expect(sdkController.getFlows("", "projId")).rejects.toThrow("Not Found");
-  });
-  it("should throw without project", async () => {
-    db.query.projects.findFirst.mockReturnValue(null);
-    await expect(sdkController.getFlows("origin", "projId")).rejects.toThrow("Not Found");
+  it("should throw with not allowed origin", async () => {
+    dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
+    await expect(sdkController.getFlows("origin", "projId")).rejects.toThrow();
   });
   it("should not return flows without published version", async () => {
     db.query.flows.findMany.mockReturnValue(
@@ -111,27 +112,16 @@ describe("Create event", () => {
     location: "/",
     type: "startFlow",
   };
-  const project = {
-    id: "pid",
-  };
   const flow = {
     id: "fid",
   };
   beforeEach(() => {
-    db.query.projects.findFirst.mockReturnValue(project);
     db.query.flows.findFirst.mockReturnValue(flow);
     db.returning.mockResolvedValueOnce([{ id: "newEventId" }]);
   });
-  it("should throw without requestDomain", async () => {
-    await expect(sdkController.createEvent("", createEventDto)).rejects.toThrow(
-      "Origin is required",
-    );
-  });
-  it("should throw without project", async () => {
-    db.query.projects.findFirst.mockReturnValue(null);
-    await expect(sdkController.createEvent("origin", createEventDto)).rejects.toThrow(
-      "project not found",
-    );
+  it("should throw with not allowed origin", async () => {
+    dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
+    await expect(sdkController.createEvent("origin", createEventDto)).rejects.toThrow();
   });
   it("should throw with no created event", async () => {
     db.returning.mockReset();
@@ -161,7 +151,6 @@ describe("Create event", () => {
 
 describe("Get preview flow", () => {
   beforeEach(() => {
-    db.query.projects.findFirst.mockReturnValue({ id: "p1" });
     db.query.flows.findFirst.mockReturnValue({
       id: "f1",
       human_id: "f1h",
@@ -172,25 +161,14 @@ describe("Get preview flow", () => {
       },
     });
   });
-  it("should throw without projectId", async () => {
-    await expect(sdkController.getPreviewFlow("origin", "", "flowId")).rejects.toThrow("Not Found");
-  });
-  it("should throw without requestDomain", async () => {
-    await expect(sdkController.getPreviewFlow("", "projectId", "flowId")).rejects.toThrow(
-      "Not Found",
-    );
-  });
   it("should throw without flowId", async () => {
     await expect(sdkController.getPreviewFlow("origin", "projectId", "")).rejects.toThrow(
       "Not Found",
     );
   });
-  it("should throw without project", async () => {
-    db.query.projects.findFirst.mockReturnValue(null);
-    await expect(sdkController.getPreviewFlow("origin", "projectId", "flowId")).rejects.toThrow(
-      "Not Found",
-    );
-    expect(db.query.projects.findFirst).toHaveBeenCalled();
+  it("should throw with not allowed origin", async () => {
+    dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
+    await expect(sdkController.getPreviewFlow("origin", "projectId", "flowId")).rejects.toThrow();
   });
   it("should throw without flow", async () => {
     db.query.flows.findFirst.mockReturnValue(null);
@@ -218,7 +196,6 @@ describe("Get preview flow", () => {
 
 describe("Get flow detail", () => {
   beforeEach(() => {
-    db.query.projects.findFirst.mockReturnValue({ id: "p1" });
     db.query.flows.findFirst.mockReturnValue({
       id: "f1",
       human_id: "f1h",
@@ -229,25 +206,14 @@ describe("Get flow detail", () => {
       },
     });
   });
-  it("should throw without projectId", async () => {
-    await expect(sdkController.getFlowDetail("origin", "", "flowId")).rejects.toThrow("Not Found");
-  });
-  it("should throw without requestDomain", async () => {
-    await expect(sdkController.getFlowDetail("", "projectId", "flowId")).rejects.toThrow(
-      "Not Found",
-    );
-  });
   it("should throw without flowId", async () => {
     await expect(sdkController.getFlowDetail("origin", "projectId", "")).rejects.toThrow(
       "Not Found",
     );
   });
-  it("should throw without project", async () => {
-    db.query.projects.findFirst.mockReturnValue(null);
-    await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).rejects.toThrow(
-      "Not Found",
-    );
-    expect(db.query.projects.findFirst).toHaveBeenCalled();
+  it("should throw without requestDomain", async () => {
+    dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
+    await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).rejects.toThrow();
   });
   it("should throw without flow", async () => {
     db.query.flows.findFirst.mockReturnValue(null);

@@ -14,7 +14,7 @@ beforeEach(async () => {
 
   const moduleRef = await Test.createTestingModule({
     providers: [DbPermissionService],
-    exports: [DbPermissionService],
+    exports: [],
   })
     .useMocker((token) => {
       if (token === DatabaseService) return { db };
@@ -158,5 +158,52 @@ describe("doesUserHaveAccessToProject", () => {
         projectId: "projectId",
       }),
     ).resolves.toBeTruthy();
+  });
+});
+
+describe("isAllowedOrigin", () => {
+  beforeEach(() => {
+    db.query.projects.findFirst.mockResolvedValue({ id: "projectId" });
+  });
+  it("should throw without projectId", async () => {
+    await expect(
+      dbPermissionService.isAllowedOrigin({
+        projectId: "",
+        requestOrigin: "http://localhost",
+      }),
+    ).rejects.toThrow("Not Found");
+  });
+  it("should throw without requestOrigin", async () => {
+    await expect(
+      dbPermissionService.isAllowedOrigin({
+        projectId: "projectId",
+        requestOrigin: "",
+      }),
+    ).rejects.toThrow("Not Found");
+  });
+  it("should pass with localhost", async () => {
+    await expect(
+      dbPermissionService.isAllowedOrigin({
+        projectId: "projectId",
+        requestOrigin: "http://localhost",
+      }),
+    ).resolves.toBeUndefined();
+  });
+  it("should throw without project", async () => {
+    db.query.projects.findFirst.mockResolvedValue(null);
+    await expect(
+      dbPermissionService.isAllowedOrigin({
+        projectId: "projectId",
+        requestOrigin: "https://flows.sh",
+      }),
+    ).rejects.toThrow("Not Found");
+  });
+  it("should pass with project", async () => {
+    await expect(
+      dbPermissionService.isAllowedOrigin({
+        projectId: "projectId",
+        requestOrigin: "https://flows.sh",
+      }),
+    ).resolves.toBeUndefined();
   });
 });

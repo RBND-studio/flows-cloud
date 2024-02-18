@@ -5,4 +5,5 @@ export const getMockDbPermissionService = () => ({
   doesUserHaveAccessToOrganization: jest.fn(),
   doesUserHaveAccessToProject: jest.fn(),
   doesUserHaveAccessToFlow: jest.fn(),
+  isAllowedOrigin: jest.fn(),
 });

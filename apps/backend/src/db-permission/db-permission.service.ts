@@ -1,9 +1,10 @@
 import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { flows, organizations, organizationsToUsers, projects } from "db";
-import { and, eq } from "drizzle-orm";
+import { and, arrayContains, eq } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
+import { isLocalhost } from "../lib/origin";
 
 @Injectable()
 export class DbPermissionService {
@@ -103,5 +104,27 @@ export class DbPermissionService {
     if (!data.organizationToUser) throw new ForbiddenException();
 
     return true;
+  }
+
+  async isAllowedOrigin({
+    projectId,
+    requestOrigin,
+  }: {
+    projectId: string;
+    requestOrigin: string;
+  }): Promise<void> {
+    if (!projectId || !requestOrigin) throw new NotFoundException();
+    if (isLocalhost(requestOrigin)) return;
+
+    const projectsWhere = isLocalhost(requestOrigin)
+      ? eq(projects.id, projectId)
+      : and(eq(projects.id, projectId), arrayContains(projects.domains, [requestOrigin]));
+
+    const project = await this.databaseService.db.query.projects.findFirst({
+      where: projectsWhere,
+      columns: { id: true },
+    });
+
+    if (!project) throw new NotFoundException();
   }
 }

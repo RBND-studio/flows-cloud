@@ -3,12 +3,17 @@ import { events, flows, projects } from "db";
 import { and, arrayContains, desc, eq, inArray, isNotNull } from "drizzle-orm";
 
 import { DatabaseService } from "../database/database.service";
+import { DbPermissionService } from "../db-permission/db-permission.service";
 import { getDefaultCssTemplate, getDefaultCssVars } from "../lib/css";
+import { isLocalhost } from "../lib/origin";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
 @Injectable()
 export class SdkService {
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private dbPermissionService: DbPermissionService,
+  ) {}
 
   async getCss({ projectId, version }: { projectId: string; version?: string }): Promise<string> {
     if (!projectId) throw new NotFoundException();
@@ -38,16 +43,11 @@ export class SdkService {
     requestOrigin: string;
     userHash?: string;
   }): Promise<GetSdkFlowsDto[]> {
-    if (!projectId || !requestOrigin) throw new NotFoundException();
-
-    const project = await this.databaseService.db.query.projects.findFirst({
-      where: and(eq(projects.id, projectId), arrayContains(projects.domains, [requestOrigin])),
-    });
-    if (!project) throw new NotFoundException();
+    await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
     const dbFlows = await this.databaseService.db.query.flows.findMany({
       where: and(
-        eq(flows.project_id, project.id),
+        eq(flows.project_id, projectId),
         eq(flows.flow_type, "cloud"),
         isNotNull(flows.enabled_at),
       ),
@@ -113,16 +113,12 @@ export class SdkService {
     projectId: string;
     flowId: string;
   }): Promise<GetSdkFlowsDto> {
-    if (!projectId || !flowId || !requestOrigin) throw new NotFoundException();
-
-    const project = await this.databaseService.db.query.projects.findFirst({
-      where: and(eq(projects.id, projectId), arrayContains(projects.domains, [requestOrigin])),
-    });
-    if (!project) throw new NotFoundException();
+    if (!flowId) throw new NotFoundException();
+    await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
     const flow = await this.databaseService.db.query.flows.findFirst({
       where: and(
-        eq(flows.project_id, project.id),
+        eq(flows.project_id, projectId),
         eq(flows.flow_type, "cloud"),
         eq(flows.human_id, flowId),
         isNotNull(flows.enabled_at),
@@ -150,16 +146,12 @@ export class SdkService {
     projectId: string;
     flowId: string;
   }): Promise<GetSdkFlowsDto> {
-    if (!projectId || !flowId || !requestOrigin) throw new NotFoundException();
-
-    const project = await this.databaseService.db.query.projects.findFirst({
-      where: and(eq(projects.id, projectId), arrayContains(projects.domains, [requestOrigin])),
-    });
-    if (!project) throw new NotFoundException();
+    if (!flowId) throw new NotFoundException();
+    await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
     const flow = await this.databaseService.db.query.flows.findFirst({
       where: and(
-        eq(flows.project_id, project.id),
+        eq(flows.project_id, projectId),
         eq(flows.flow_type, "cloud"),
         eq(flows.human_id, flowId),
       ),
@@ -191,25 +183,19 @@ export class SdkService {
     event: CreateEventDto;
     requestOrigin: string;
   }): Promise<CreateEventResponseDto> {
-    if (!requestOrigin) throw new BadRequestException("Origin is required");
+    const projectId = event.projectId;
+    await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    const project = await this.databaseService.db.query.projects.findFirst({
-      where: and(
-        eq(projects.id, event.projectId),
-        arrayContains(projects.domains, [requestOrigin]),
-      ),
-    });
-    if (!project) throw new BadRequestException("project not found");
     const flow = await (async () => {
       const existingFlow = await this.databaseService.db.query.flows.findFirst({
-        where: and(eq(flows.project_id, project.id), eq(flows.human_id, event.flowId)),
+        where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
       });
       if (existingFlow) return existingFlow;
       const newFlows = await this.databaseService.db
         .insert(flows)
         .values({
           human_id: event.flowId,
-          project_id: project.id,
+          project_id: projectId,
           flow_type: "local",
           description: "",
           name: event.flowId,
@@ -252,14 +238,15 @@ export class SdkService {
   }): Promise<void> {
     if (!requestOrigin || !eventId) throw new NotFoundException();
 
+    const projectsWhere = isLocalhost(requestOrigin)
+      ? eq(flows.project_id, projects.id)
+      : and(eq(flows.project_id, projects.id), arrayContains(projects.domains, [requestOrigin]));
+
     const query = await this.databaseService.db
       .select({ projectId: projects.id, flowId: flows.id, event: events })
       .from(events)
       .leftJoin(flows, eq(events.flow_id, flows.id))
-      .leftJoin(
-        projects,
-        and(eq(flows.project_id, projects.id), arrayContains(projects.domains, [requestOrigin])),
-      )
+      .leftJoin(projects, projectsWhere)
       .where(eq(events.id, eventId));
     const data = query.at(0);
 
