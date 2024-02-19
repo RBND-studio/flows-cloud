@@ -6,8 +6,9 @@
  * ```
  */
 export const plural = (count: number, singular: string, pluralString: string): string => {
-  if (count === 1) {
-    return singular.replace("{{count}}", count.toString());
+  const c = (count as number | undefined) ?? 0;
+  if (c === 1) {
+    return singular.replace("{{count}}", c.toString());
   }
-  return pluralString.replace("{{count}}", count.toString());
+  return pluralString.replace("{{count}}", c.toString());
 };

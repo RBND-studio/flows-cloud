@@ -1,34 +1,50 @@
+"use client";
+
 import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { monthDay } from "lib/date";
+import { useRouter } from "next/navigation";
 import type { FC } from "react";
-import { Text } from "ui";
+import { routes } from "routes";
+import { Checkbox, Text } from "ui";
 
 import type { EventCategory } from "./page";
 
 type Props = {
   categories: EventCategory[];
+  currentCategoryKey: string;
+  organizationId: string;
+  projectId: string;
+  flowId: string;
 };
 
-const titleColumnWidth = 120;
+const titleColumnWidth = 132;
 const columnWidth = 88;
 const boxCss = css({
   paddingY: "space8",
   paddingX: "space12",
 });
 
-export const AnalyticsTable: FC<Props> = ({ categories }) => {
+export const AnalyticsTable: FC<Props> = ({
+  categories,
+  currentCategoryKey,
+  flowId,
+  organizationId,
+  projectId,
+}) => {
+  const router = useRouter();
+
   return (
     <Grid
       borderBottomLeftRadius="0!"
       borderBottomRightRadius="0!"
       cardWrap="-"
       gap={0}
-      gridTemplateColumns="120px 1fr"
+      gridTemplateColumns={`${titleColumnWidth}px 1fr`}
       overflow="auto"
     >
       <Flex backgroundColor="bg.muted" borRight="1px" direction="column" left={0} position="sticky">
-        <Box borBottom="1px" className={boxCss} minWidth={titleColumnWidth}>
+        <Box borBottom="1px" className={boxCss} width={titleColumnWidth}>
           <Text color="muted" variant="bodyXs" weight="600">
             Event
           </Text>
@@ -36,9 +52,21 @@ export const AnalyticsTable: FC<Props> = ({ categories }) => {
         {categories.map((cat) => {
           return (
             <Flex borBottom="1px" borderColor="border.subtle!" key={cat.key}>
-              <Box className={boxCss} minWidth={titleColumnWidth}>
-                {/* TODO: add checkbox here - it's color should be the same as the category color in the line chart */}
-                <Text>{cat.title}</Text>
+              <Box className={boxCss} width={titleColumnWidth}>
+                <Checkbox
+                  checked={currentCategoryKey === cat.key}
+                  label={cat.title}
+                  onCheckedChange={() =>
+                    router.push(
+                      routes.flowAnalytics({
+                        flowId,
+                        organizationId,
+                        projectId,
+                        category: cat.key,
+                      }),
+                    )
+                  }
+                />
               </Box>
             </Flex>
           );

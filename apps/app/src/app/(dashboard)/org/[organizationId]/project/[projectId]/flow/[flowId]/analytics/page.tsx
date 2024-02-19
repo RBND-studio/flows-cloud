@@ -1,10 +1,7 @@
-import { Box, Flex } from "@flows/styled-system/jsx";
+import { Box } from "@flows/styled-system/jsx";
 import { api } from "lib/api";
 import { load } from "lib/load";
-import Link from "next/link";
-import { routes } from "routes";
 import { t } from "translations";
-import { Button } from "ui";
 
 import { AnalyticsChart } from "./analytics-chart";
 import { AnalyticsTable } from "./analytics-table";
@@ -79,28 +76,19 @@ export default async function FlowAnalyticsPage({
 
   return (
     <>
-      <Flex gap="space8" mb="space16">
-        {categories.map((cat) => {
-          return (
-            <Button
-              asChild
-              key={cat.title}
-              size="small"
-              variant={categoryKey === cat.key ? "black" : "secondary"}
-            >
-              <Link href={routes.flowAnalytics({ ...params, category: cat.key })}>{cat.title}</Link>
-            </Button>
-          );
-        })}
-      </Flex>
-
       <Box cardWrap="-" height={400} mb="space40">
         {currentCategory ? (
           <AnalyticsChart categoryKey={currentCategory.key} data={chartData} />
         ) : null}
       </Box>
 
-      <AnalyticsTable categories={categories} />
+      <AnalyticsTable
+        categories={categories}
+        currentCategoryKey={categoryKey}
+        flowId={params.flowId}
+        organizationId={params.organizationId}
+        projectId={params.projectId}
+      />
     </>
   );
 }
