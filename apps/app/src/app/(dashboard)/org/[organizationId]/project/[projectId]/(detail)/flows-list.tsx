@@ -5,6 +5,7 @@ import { timeFromNow } from "lib/date";
 import Link from "next/link";
 import type { FC } from "react";
 import { routes } from "routes";
+import { plural } from "translations";
 import { Icon, Text } from "ui";
 
 import { CreateFlowDialog } from "./create-flow-dialog";
@@ -69,6 +70,9 @@ export const FlowsList: FC<Props> = ({ projectId, flows, organizationId }) => {
               gap: "space24",
             })}
           >
+            <Text className={css({ width: "100px" })} color="muted">
+              {flow.start_count} {plural(flow.start_count, "Start", "Starts")}
+            </Text>
             <Text
               className={css({
                 width: "200px",

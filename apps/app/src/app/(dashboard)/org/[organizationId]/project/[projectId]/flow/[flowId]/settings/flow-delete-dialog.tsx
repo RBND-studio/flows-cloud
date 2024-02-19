@@ -1,7 +1,7 @@
 "use client";
 
 import { useSend } from "hooks/use-send";
-import type { FlowPreview } from "lib/api";
+import type { FlowDetail, FlowPreview } from "lib/api";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
@@ -19,7 +19,7 @@ import {
 } from "ui";
 
 type Props = {
-  flow: FlowPreview;
+  flow: FlowPreview | FlowDetail;
   organizationId: string;
   trigger: React.ReactNode;
 };

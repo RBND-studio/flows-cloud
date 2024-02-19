@@ -121,6 +121,7 @@ export interface components {
     GetFlowsDto: {
       /** @enum {string} */
       flow_type: "cloud" | "local";
+      start_count: number;
       id: string;
       human_id: string;
       project_id: string;
@@ -149,6 +150,9 @@ export interface components {
     GetFlowDetailDto: {
       /** @enum {string} */
       flow_type: "cloud" | "local";
+      preview_stats: components["schemas"]["PreviewStatBucketDto"][];
+      draftVersion?: components["schemas"]["FlowVersionDto"];
+      publishedVersion?: components["schemas"]["FlowVersionDto"];
       id: string;
       human_id: string;
       project_id: string;
@@ -161,9 +165,6 @@ export interface components {
       /** Format: date-time */
       enabled_at: string | null;
       preview_url: string | null;
-      preview_stats: components["schemas"]["PreviewStatBucketDto"][];
-      draftVersion?: components["schemas"]["FlowVersionDto"];
-      publishedVersion?: components["schemas"]["FlowVersionDto"];
     };
     UpdateFlowDto: {
       userProperties?: unknown[][];

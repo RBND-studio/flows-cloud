@@ -2,7 +2,7 @@ import { ApiProperty, PartialType } from "@nestjs/swagger";
 import { IsArray, IsBoolean, IsEnum, IsString, Length, MinLength } from "class-validator";
 import { FlowFrequency, FlowFrequencyEnum, FlowType, FlowTypeEnum } from "db";
 
-export class GetFlowsDto {
+export class GetFlowBase {
   id: string;
   human_id: string;
   project_id: string;
@@ -14,6 +14,10 @@ export class GetFlowsDto {
   updated_at: Date;
   enabled_at: Date | null;
   preview_url: string | null;
+}
+
+export class GetFlowsDto extends GetFlowBase {
+  start_count: number;
 }
 
 export class PreviewStatBucketDto {
@@ -30,7 +34,7 @@ export class FlowVersionDto {
   steps: unknown[];
 }
 
-export class GetFlowDetailDto extends GetFlowsDto {
+export class GetFlowDetailDto extends GetFlowBase {
   preview_stats: PreviewStatBucketDto[];
   draftVersion?: FlowVersionDto;
   publishedVersion?: FlowVersionDto;
