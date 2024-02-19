@@ -75,7 +75,12 @@ export const flowVersions = pgTable("flow_version", {
     .notNull()
     .references(() => flows.id, { onDelete: "cascade" }),
   data: json("data")
-    .$type<{ steps: unknown[]; userProperties: unknown[][]; element?: string; location?: string }>()
+    .$type<{
+      steps: unknown[];
+      userProperties: unknown[][];
+      clickElement?: string;
+      location?: string;
+    }>()
     .notNull(),
   frequency: flowFrequencyEnum("frequency").notNull().default("once"),
   created_at: timestamp("created_at").notNull().defaultNow(),

@@ -59,7 +59,7 @@ describe("Get flows", () => {
       name: "F1",
       publishedVersion: {
         frequency: "once",
-        data: { steps: [{}], element: "e1" },
+        data: { steps: [{}], clickElement: "e1" },
       },
     },
     {
@@ -68,7 +68,7 @@ describe("Get flows", () => {
       name: "F2",
       publishedVersion: {
         frequency: "every-time",
-        data: { steps: [{}, {}], element: "e2" },
+        data: { steps: [{}, {}], clickElement: "e2" },
       },
     },
   ];
@@ -87,14 +87,26 @@ describe("Get flows", () => {
   });
   it("should return flows", async () => {
     await expect(sdkController.getFlows("origin", "projId")).resolves.toEqual([
-      { id: "f1h", steps: [{}], element: "e1", frequency: "once" },
-      { id: "f2h", steps: [{}], element: "e2", frequency: "every-time", _incompleteSteps: true },
+      { id: "f1h", steps: [{}], clickElement: "e1", frequency: "once" },
+      {
+        id: "f2h",
+        steps: [{}],
+        clickElement: "e2",
+        frequency: "every-time",
+        _incompleteSteps: true,
+      },
     ]);
   });
   it("should not return flows if user already seen it", async () => {
     db.orderBy.mockResolvedValue([{ flow_id: "f1", event_time: new Date() }]);
     await expect(sdkController.getFlows("origin", "projId", "userHash")).resolves.toEqual([
-      { id: "f2h", steps: [{}], element: "e2", frequency: "every-time", _incompleteSteps: true },
+      {
+        id: "f2h",
+        steps: [{}],
+        clickElement: "e2",
+        frequency: "every-time",
+        _incompleteSteps: true,
+      },
     ]);
   });
 });
@@ -157,7 +169,7 @@ describe("Get preview flow", () => {
       name: "F1",
       draftVersion: {
         frequency: "once",
-        data: { steps: [], element: "e1" },
+        data: { steps: [], clickElement: "e1" },
       },
     });
   });
@@ -188,7 +200,7 @@ describe("Get preview flow", () => {
     await expect(sdkController.getPreviewFlow("origin", "projectId", "flowId")).resolves.toEqual({
       id: "f1h",
       steps: [],
-      element: "e1",
+      clickElement: "e1",
       frequency: "once",
     });
   });
@@ -202,7 +214,7 @@ describe("Get flow detail", () => {
       name: "F1",
       publishedVersion: {
         frequency: "once",
-        data: { steps: [], element: "e1" },
+        data: { steps: [], clickElement: "e1" },
       },
     });
   });
@@ -233,7 +245,7 @@ describe("Get flow detail", () => {
     await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).resolves.toEqual({
       id: "f1h",
       steps: [],
-      element: "e1",
+      clickElement: "e1",
       frequency: "once",
     });
   });

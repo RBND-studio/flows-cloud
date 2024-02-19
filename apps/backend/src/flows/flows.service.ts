@@ -91,7 +91,7 @@ export class FlowsService {
       return {
         frequency: version.frequency,
         steps: version.data.steps,
-        element: version.data.element,
+        clickElement: version.data.clickElement,
         location: version.data.location,
         userProperties: version.data.userProperties,
       };
@@ -222,21 +222,42 @@ export class FlowsService {
     });
     if (!flow) throw new NotFoundException();
 
-    const currentVersion = flow.draftVersion ?? flow.publishedVersion;
-    const updatedVersionData = {
-      frequency: data.frequency ?? currentVersion?.frequency,
+    const createVersionData = ({
+      compareVersion,
+      updates,
+    }: {
+      updates?: UpdateFlowDto;
+      compareVersion: typeof flow.publishedVersion;
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- ignore
+    }) => ({
+      frequency: updates?.frequency ?? compareVersion?.frequency,
       data: {
-        steps: data.steps ?? currentVersion?.data.steps ?? [],
-        element: data.element ?? currentVersion?.data.element,
-        location: data.location ?? currentVersion?.data.location,
-        userProperties: data.userProperties ?? currentVersion?.data.userProperties ?? [],
+        steps: updates?.steps ?? compareVersion?.data.steps ?? [],
+        clickElement: updates?.clickElement ?? compareVersion?.data.clickElement,
+        location: updates?.location ?? compareVersion?.data.location,
+        userProperties: updates?.userProperties ?? compareVersion?.data.userProperties ?? [],
       },
-    };
-    const versionDataChanged =
-      JSON.stringify(updatedVersionData) !== JSON.stringify(currentVersion);
+    });
+    const updatedVersionData = createVersionData({
+      updates: data,
+      compareVersion: flow.draftVersion ?? flow.publishedVersion,
+    });
+    const changedFromPublished =
+      JSON.stringify(updatedVersionData) !==
+      JSON.stringify(createVersionData({ compareVersion: flow.publishedVersion }));
+    const changedFromDraft =
+      JSON.stringify(updatedVersionData) !==
+      JSON.stringify(createVersionData({ compareVersion: flow.draftVersion }));
 
-    const currentDrafts = await (() => {
-      if (!versionDataChanged) return;
+    const currentDrafts = await (async () => {
+      if (!changedFromPublished) {
+        if (!flow.draft_version_id) return;
+        await this.databaseService.db
+          .delete(flowVersions)
+          .where(eq(flowVersions.id, flow.draft_version_id));
+        return null;
+      }
+      if (!changedFromDraft) return;
       if (flow.draft_version_id)
         return this.databaseService.db
           .update(flowVersions)
@@ -254,8 +275,8 @@ export class FlowsService {
         })
         .returning({ id: flowVersions.id });
     })();
-    const currentDraftVersionId = currentDrafts?.at(0)?.id;
-    if (versionDataChanged && !currentDraftVersionId)
+    const currentDraftVersionId = currentDrafts === null ? null : currentDrafts?.at(0)?.id;
+    if (changedFromDraft && currentDraftVersionId === undefined)
       throw new BadRequestException("Failed to update data");
 
     const enabled_at = (() => {

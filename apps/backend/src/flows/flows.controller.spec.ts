@@ -118,13 +118,14 @@ describe("Update flow", () => {
   beforeEach(() => {
     db.query.flows.findFirst.mockResolvedValue({
       id: "flowId",
-      draftVersion: { data: { steps: [], userProperties: [] } },
+      draftVersion: { data: { steps: [], userProperties: [], clickElement: "oldEl" } },
+      publishedVersion: { data: { steps: [], userProperties: [], clickElement: "publishedEl" } },
     });
     db.returning.mockResolvedValue([{ id: "newVerId" }]);
   });
   const data: UpdateFlowDto = {
     name: "newName",
-    element: "newEl",
+    clickElement: "newEl",
     human_id: "new human id",
     enabled: true,
     description: "new description",
@@ -156,6 +157,29 @@ describe("Update flow", () => {
       }),
     ).resolves.toBeUndefined();
     expect(db.insert).not.toHaveBeenCalled();
+  });
+  it("should not create new version without changes", async () => {
+    await expect(
+      flowsController.updateFlow({ userId: "userId" }, "flowId", {
+        clickElement: "oldEl",
+      }),
+    ).resolves.toBeUndefined();
+    expect(db.insert).not.toHaveBeenCalled();
+  });
+  it("should delete draft version if it's the same as published", async () => {
+    db.query.flows.findFirst.mockResolvedValue({
+      id: "flowId",
+      draft_version_id: "draftVerId",
+      draftVersion: { data: { steps: [], userProperties: [], clickElement: "oldEl" } },
+      publishedVersion: { data: { steps: [], userProperties: [], clickElement: "publishedEl" } },
+    });
+    await expect(
+      flowsController.updateFlow({ userId: "userId" }, "flowId", {
+        clickElement: "publishedEl",
+      }),
+    ).resolves.toBeUndefined();
+    expect(db.insert).not.toHaveBeenCalled();
+    expect(db.delete).toHaveBeenCalled();
   });
   it("should create new version and update flow", async () => {
     await expect(

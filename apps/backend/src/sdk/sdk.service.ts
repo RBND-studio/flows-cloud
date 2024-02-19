@@ -95,7 +95,7 @@ export class SdkService {
         return {
           id: f.human_id,
           frequency: f.publishedVersion.frequency,
-          element: f.publishedVersion.data.element,
+          clickElement: f.publishedVersion.data.clickElement,
           location: f.publishedVersion.data.location,
           userProperties: f.publishedVersion.data.userProperties,
           steps: steps.slice(0, 1),
@@ -130,7 +130,7 @@ export class SdkService {
     return {
       id: flow.human_id,
       steps: data.steps,
-      element: data.element,
+      clickElement: data.clickElement,
       location: data.location,
       userProperties: data.userProperties,
       frequency: flow.publishedVersion.frequency,
@@ -169,7 +169,7 @@ export class SdkService {
     return {
       id: flow.human_id,
       steps: data.steps,
-      element: data.element,
+      clickElement: data.clickElement,
       location: data.location,
       userProperties: data.userProperties,
       frequency: version.frequency,

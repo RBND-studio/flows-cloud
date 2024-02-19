@@ -7,6 +7,7 @@ import { useSend } from "hooks/use-send";
 import { Plus16 } from "icons";
 import type { FlowDetail, UpdateFlow } from "lib/api";
 import { api } from "lib/api";
+import { useRouter } from "next/navigation";
 import { type FC, Fragment } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -37,6 +38,7 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
     name: "steps",
   });
 
+  const router = useRouter();
   const { loading, send } = useSend();
   const onSubmit: SubmitHandler<StepsForm> = async (data) => {
     const res = await send(
@@ -46,6 +48,7 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
       { errorMessage: t.toasts.saveStepsFailed },
     );
     if (res.error) return;
+    router.refresh();
     toast.success(t.toasts.updateFlowSuccess);
   };
 

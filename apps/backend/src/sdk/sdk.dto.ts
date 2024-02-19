@@ -7,7 +7,7 @@ export class GetSdkFlowsDto {
   id: string;
   @ApiProperty({ enum: FlowFrequencyEnum, required: false })
   frequency: FlowFrequency | null;
-  element?: string;
+  clickElement?: string;
   steps: unknown[];
   location?: string;
   userProperties?: unknown;
