@@ -1,4 +1,4 @@
-import type { FlowModalStep, FlowTooltipStep, FlowWaitStep } from "@flows/js";
+import type { FlowModalStep, FlowSteps, FlowTooltipStep, FlowWaitStep } from "@flows/js";
 import { Flex } from "@flows/styled-system/jsx";
 import { type FC, useMemo } from "react";
 import { type Control, useController } from "react-hook-form";
@@ -19,10 +19,12 @@ type Props = {
 const DEFAULT_TOOLTIP: FlowTooltipStep = { targetElement: "", title: "" };
 const DEFAULT_MODAL: FlowModalStep = { title: "" };
 const DEFAULT_WAIT: FlowWaitStep = { wait: {} };
+const FORK_DEFAULT: FlowSteps[number] = [[]];
 export const STEP_DEFAULT = {
   tooltip: DEFAULT_TOOLTIP,
   modal: DEFAULT_MODAL,
   wait: DEFAULT_WAIT,
+  fork: FORK_DEFAULT,
 };
 
 export const StepForm: FC<Props> = ({ control, index, onRemove }) => {

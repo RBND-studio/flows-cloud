@@ -4,16 +4,19 @@ import type { FlowSteps } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
+import { Plus16 } from "icons";
 import type { FlowDetail, UpdateFlow } from "lib/api";
 import { api } from "lib/api";
-import { type FC } from "react";
+import { type FC, Fragment } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";
 import { t } from "translations";
-import { Button, Text, toast } from "ui";
+import { Button, Icon, Menu, MenuItem, Text, toast } from "ui";
 
 import { StepsPreview } from "../steps-preview";
 import { Step } from "./step";
+import { STEP_DEFAULT } from "./step-form";
+import { StepInsertMenu } from "./step-insert-menu";
 import type { StepsForm } from "./steps-editor.types";
 
 type Props = {
@@ -29,7 +32,7 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
     steps: editVersionSteps ?? [],
   };
   const { handleSubmit, control, watch } = useForm<StepsForm>({ defaultValues, mode: "onChange" });
-  const { append, remove, fields } = useFieldArray({
+  const { append, remove, fields, insert } = useFieldArray({
     control,
     name: "steps",
   });
@@ -48,20 +51,29 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex direction="column" gap="space12" mb="space16">
+      <Flex direction="column" mb="space16">
         {fields.map((field, index) => (
-          <Step control={control} index={index} key={field.id} onRemove={() => remove(index)} />
+          <Fragment key={field.id}>
+            <StepInsertMenu onInsert={(step) => insert(index, step)} />
+            <Step control={control} index={index} onRemove={() => remove(index)} />
+          </Fragment>
         ))}
       </Flex>
 
-      <Flex gap="space8" mb="space32">
-        <Button onClick={() => append({ title: "" })} variant="secondary">
-          Add step
-        </Button>
-        <Button onClick={() => append([[]])} variant="secondary">
-          Add fork
-        </Button>
-      </Flex>
+      <Menu
+        trigger={
+          <Button
+            className={css({ mb: "space32" })}
+            startIcon={<Icon icon={Plus16} />}
+            variant="secondary"
+          >
+            Add
+          </Button>
+        }
+      >
+        <MenuItem onClick={() => append(STEP_DEFAULT.tooltip)}>Step</MenuItem>
+        <MenuItem onClick={() => append(STEP_DEFAULT.fork)}>Fork</MenuItem>
+      </Menu>
 
       <Text className={css({ mb: "space8" })} variant="titleM">
         Steps preview
