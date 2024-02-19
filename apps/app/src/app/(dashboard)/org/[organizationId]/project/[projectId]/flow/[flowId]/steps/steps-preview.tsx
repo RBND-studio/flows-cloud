@@ -84,9 +84,7 @@ export const StepsPreview: FC<Props> = ({ steps }) => {
         className={css({
           height: "380px",
           position: "relative",
-          backgroundColor: "bg.muted",
-          bor: "1px",
-          borderRadius: "radius12",
+          cardWrap: "-",
           overflow: "hidden",
           transform: "translate3d(0,0,0)",
           mt: "space16",

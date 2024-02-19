@@ -14,6 +14,8 @@ import { Controller, useForm } from "react-hook-form";
 import { t } from "translations";
 import { Button, Text, toast } from "ui";
 
+import { useTemplate } from "./template-context";
+
 type Props = {
   project: ProjectDetail;
   defaultVars: string;
@@ -28,6 +30,7 @@ const createDefaultValues = ({ defaultVars, project }: Props): FormValues => ({
 });
 
 export const CssVarsForm: FC<Props> = ({ project, defaultVars }) => {
+  const { setCssVars } = useTemplate();
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const { control, handleSubmit, setError, clearErrors, formState, reset, setValue } =
     useForm<FormValues>({ defaultValues: createDefaultValues({ project, defaultVars }) });
@@ -78,7 +81,7 @@ export const CssVarsForm: FC<Props> = ({ project, defaultVars }) => {
               <CodeEditor
                 defaultValue={field.value}
                 language="css"
-                onChange={field.onChange}
+                onChange={(v) => (field.onChange(v), setCssVars(v ?? ""))}
                 onMount={(e) => (editorRef.current = e)}
                 onValidate={(markers) => {
                   if (markers.length)

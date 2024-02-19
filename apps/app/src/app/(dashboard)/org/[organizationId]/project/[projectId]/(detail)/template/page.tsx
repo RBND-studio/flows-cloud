@@ -5,6 +5,8 @@ import { Text } from "ui";
 
 import { CssTemplateForm } from "./css-template-form";
 import { CssVarsForm } from "./css-vars-form";
+import { TemplateProvider } from "./template-context";
+import { TemplatePreview } from "./template-preview";
 
 type Props = {
   params: { projectId: string };
@@ -26,8 +28,11 @@ export default async function ProjectTemplatePage({ params }: Props): Promise<JS
           template.
         </Text>
       </Flex>
-      <CssVarsForm defaultVars={defaultVars} project={project} />
-      <CssTemplateForm defaultTemplate={defaultTemplate} project={project} />
+      <TemplateProvider defaultCssTemplate={defaultTemplate} defaultCssVars={defaultVars}>
+        <CssVarsForm defaultVars={defaultVars} project={project} />
+        <CssTemplateForm defaultTemplate={defaultTemplate} project={project} />
+        <TemplatePreview />
+      </TemplateProvider>
     </>
   );
 }

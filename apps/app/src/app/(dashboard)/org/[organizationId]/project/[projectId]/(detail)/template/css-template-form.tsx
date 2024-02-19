@@ -14,6 +14,8 @@ import { Controller, useForm } from "react-hook-form";
 import { t } from "translations";
 import { Button, Switch, Text, toast } from "ui";
 
+import { useTemplate } from "./template-context";
+
 type Props = {
   project: ProjectDetail;
   defaultTemplate: string;
@@ -29,6 +31,7 @@ const createDefaultValues = ({ defaultTemplate, project }: Props): FormValues =>
 const createDefaultEnabled = (project: ProjectDetail): boolean => !!project.css_template;
 
 export const CssTemplateForm: FC<Props> = ({ project, defaultTemplate }) => {
+  const { setCssTemplate } = useTemplate();
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const { control, handleSubmit, setError, clearErrors, formState, reset, setValue } =
     useForm<FormValues>({
@@ -68,7 +71,7 @@ export const CssTemplateForm: FC<Props> = ({ project, defaultTemplate }) => {
   };
 
   return (
-    <Box cardWrap="-" p="space16">
+    <Box cardWrap="-" mb="space16" p="space16">
       <Flex gap="space16" mb="space12">
         <Box flex={1}>
           <Text variant="titleL">Full CSS template</Text>
@@ -100,7 +103,7 @@ export const CssTemplateForm: FC<Props> = ({ project, defaultTemplate }) => {
                 <CodeEditor
                   defaultValue={field.value}
                   language="css"
-                  onChange={field.onChange}
+                  onChange={(v) => (field.onChange(v), setCssTemplate(v ?? ""))}
                   onMount={(e) => (editorRef.current = e)}
                   onValidate={(markers) => {
                     if (markers.length)
