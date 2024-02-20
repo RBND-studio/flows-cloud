@@ -4,7 +4,7 @@ import { and, arrayContains, desc, eq, inArray, isNotNull } from "drizzle-orm";
 
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
-import { getDefaultCssTemplate, getDefaultCssVars } from "../lib/css";
+import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
 import { isLocalhost } from "../lib/origin";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
@@ -27,8 +27,8 @@ export class SdkService {
     });
     if (!project) throw new NotFoundException();
 
-    const css_vars = project.css_vars?.trim() || getDefaultCssVars(version);
-    const css_template = project.css_template?.trim() || getDefaultCssTemplate(version);
+    const css_vars = project.css_vars?.trim() || getDefaultCssMinVars(version);
+    const css_template = project.css_template?.trim() || getDefaultCssMinTemplate(version);
     const css = await Promise.all([css_vars, css_template]);
 
     return css.join("\n");
