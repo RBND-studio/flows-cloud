@@ -1,10 +1,12 @@
 import type { FlowStep } from "@flows/js";
 import { Box, Flex } from "@flows/styled-system/jsx";
-import type { FC } from "react";
+import { type FC, Fragment } from "react";
 import { type Control, useFieldArray } from "react-hook-form";
 import { Button, Text } from "ui";
 
+import { InsertButton } from "./insert-button";
 import { StepBranch } from "./step-branch";
+import { STEP_DEFAULT } from "./step-form";
 import type { StepsForm } from "./steps-editor.types";
 
 type Props = {
@@ -14,14 +16,14 @@ type Props = {
 };
 
 export const StepFork: FC<Props> = ({ control, index, onRemove }) => {
-  const { append, remove, fields } = useFieldArray({
+  const { append, remove, fields, insert } = useFieldArray({
     control: control as unknown as Control<{ steps: FlowStep[][][] }>,
     name: `steps.${index}`,
   });
 
   return (
     <Box cardWrap="-" px="space12" py="space12">
-      <Flex alignItems="center" justifyContent="space-between" mb="space12">
+      <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center" gap="space8">
           <Text variant="titleM">Fork</Text>
           <Text color="subtle">{index}</Text>
@@ -31,19 +33,19 @@ export const StepFork: FC<Props> = ({ control, index, onRemove }) => {
         </Button>
       </Flex>
       {fields.length !== 0 && (
-        <Flex direction="column" gap="space8" mb="space12">
+        <Flex direction="column" mb="space12">
           {fields.map((field, i) => (
-            <StepBranch
-              control={control}
-              index={`${index}.${i}`}
-              key={field.id}
-              onRemove={() => remove(i)}
-            />
+            <Fragment key={field.id}>
+              <InsertButton onClick={() => insert(i, STEP_DEFAULT.fork)}>
+                Insert branch
+              </InsertButton>
+              <StepBranch control={control} index={`${index}.${i}`} onRemove={() => remove(i)} />
+            </Fragment>
           ))}
         </Flex>
       )}
 
-      <Button onClick={() => append([[]])} shadow={false} variant="secondary">
+      <Button onClick={() => append(STEP_DEFAULT.fork)} shadow={false} variant="secondary">
         Add branch
       </Button>
     </Box>

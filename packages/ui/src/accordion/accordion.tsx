@@ -11,9 +11,10 @@ type Props = {
   children?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  className?: string;
 };
 
-export const Accordion: FC<Props> = ({ title, children, onOpenChange, open }) => {
+export const Accordion: FC<Props> = ({ title, children, onOpenChange, open, ...props }) => {
   // eslint-disable-next-line react/hook-use-state -- useful for controlled components
   const state = useState(false);
   const expanded = open ?? state[0];
@@ -21,7 +22,7 @@ export const Accordion: FC<Props> = ({ title, children, onOpenChange, open }) =>
   const toggleExpanded = (): void => setExpanded(!expanded);
 
   return (
-    <Box cardWrap="-" overflow="hidden">
+    <Box cardWrap="-" overflow="hidden" {...props}>
       <Flex
         alignItems="center"
         borBottom={expanded ? "1px" : undefined}
