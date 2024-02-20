@@ -1,17 +1,15 @@
 import type { FlowModalStep, FlowSteps, FlowTooltipStep, FlowWaitStep } from "@flows/js";
 import { Flex } from "@flows/styled-system/jsx";
 import { type FC, useMemo } from "react";
-import { type Control, useController } from "react-hook-form";
 import { t } from "translations";
 import { Accordion, Button, Select, Text } from "ui";
 
 import { ModalStepForm } from "./modal-step-form";
-import type { StepsForm } from "./steps-editor.types";
+import { useStepsForm } from "./steps-editor.types";
 import { TooltipStepForm } from "./tooltip-step-form";
 import { WaitStepForm } from "./wait-step-form";
 
 type Props = {
-  control: Control<StepsForm>;
   index: number | `${number}.${number}.${number}`;
   onRemove: () => void;
 };
@@ -27,18 +25,19 @@ export const STEP_DEFAULT = {
   fork: FORK_DEFAULT,
 };
 
-export const StepForm: FC<Props> = ({ control, index, onRemove }) => {
+export const StepForm: FC<Props> = ({ index, onRemove }) => {
+  const { watch, setValue } = useStepsForm();
   const stepKey = `steps.${index}` as const;
 
-  const { field } = useController({ name: `${stepKey}`, control });
+  const stepValue = watch(stepKey);
 
   const stepType =
     // eslint-disable-next-line no-nested-ternary -- ignore
-    "targetElement" in field.value ? "tooltip" : "title" in field.value ? "modal" : "wait";
+    "targetElement" in stepValue ? "tooltip" : "title" in stepValue ? "modal" : "wait";
 
   const typeOptions = useMemo(
     () =>
-      Object.keys(STEP_DEFAULT).map((value) => ({
+      (["tooltip", "modal", "wait"] as const).map((value) => ({
         value,
         label: t.steps.stepType[value],
       })),
@@ -59,7 +58,7 @@ export const StepForm: FC<Props> = ({ control, index, onRemove }) => {
       <Flex mb="space12">
         <Flex alignItems="center" flex={1} gap="space4">
           <Select
-            onChange={(v) => field.onChange(STEP_DEFAULT[v])}
+            onChange={(v) => setValue(stepKey, STEP_DEFAULT[v])}
             options={typeOptions}
             value={stepType}
           />
@@ -69,9 +68,9 @@ export const StepForm: FC<Props> = ({ control, index, onRemove }) => {
         </Button>
       </Flex>
 
-      {stepType === "tooltip" && <TooltipStepForm control={control} index={index} />}
-      {stepType === "modal" && <ModalStepForm control={control} index={index} />}
-      {stepType === "wait" && <WaitStepForm control={control} index={index} />}
+      {stepType === "tooltip" && <TooltipStepForm index={index} />}
+      {stepType === "modal" && <ModalStepForm index={index} />}
+      {stepType === "wait" && <WaitStepForm index={index} />}
     </Accordion>
   );
 };

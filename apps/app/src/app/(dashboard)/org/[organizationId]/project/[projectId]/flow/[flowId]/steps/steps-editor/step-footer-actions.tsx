@@ -2,22 +2,21 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { Close16, Plus16 } from "icons";
 import type { FC } from "react";
-import type { Control } from "react-hook-form";
-import { Controller, useController, useFieldArray } from "react-hook-form";
+import { Controller, useFieldArray } from "react-hook-form";
 import { t } from "translations";
 import { Button, Checkbox, Icon, Input, Label, Text } from "ui";
 
-import type { StepsForm } from "./steps-editor.types";
+import { useStepsForm } from "./steps-editor.types";
 
 type Placement = "left" | "center" | "right";
 
 type Props = {
-  control: Control<StepsForm>;
   index: number | `${number}.${number}.${number}`;
   placement: Placement;
 };
 
-export const StepFooterActions: FC<Props> = ({ control, index, placement }) => {
+export const StepFooterActions: FC<Props> = ({ index, placement }) => {
+  const { control } = useStepsForm();
   const fieldName = `steps.${index}.footerActions.${placement}` as const;
   const fieldArray = useFieldArray({ name: fieldName, control });
 
@@ -28,7 +27,6 @@ export const StepFooterActions: FC<Props> = ({ control, index, placement }) => {
       </Box>
       {fieldArray.fields.map((field, i) => (
         <Option
-          control={control}
           fieldName={`${fieldName}.${i}`}
           index={i}
           key={field.id}
@@ -51,7 +49,6 @@ export const StepFooterActions: FC<Props> = ({ control, index, placement }) => {
 };
 
 type OptionProps = {
-  control: Control<StepsForm>;
   fieldName:
     | `steps.${number}.footerActions.${Placement}.${number}`
     | `steps.${number}.${number}.${number}.footerActions.${Placement}.${number}`;
@@ -59,23 +56,21 @@ type OptionProps = {
   index: number;
 };
 
-const Option: FC<OptionProps> = ({ control, fieldName, onRemove, index }) => {
-  const controller = useController({ name: fieldName, control });
+const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
+  const { control, setValue, watch } = useStepsForm();
+  const value = watch(fieldName);
 
   const currentVariant = (() => {
-    if (controller.field.value.href !== undefined) return "href";
-    if (controller.field.value.prev) return "prev";
-    if (controller.field.value.next) return "next";
+    if (value.href !== undefined) return "href";
+    if (value.prev) return "prev";
+    if (value.next) return "next";
     return "targetBranch";
   })();
   const handleSwitchVariant = (variant: typeof currentVariant): void => {
-    if (variant === "href")
-      return controller.field.onChange({ text: controller.field.value.label, href: "" });
-    if (variant === "prev")
-      return controller.field.onChange({ text: controller.field.value.label, prev: true });
-    if (variant === "next")
-      return controller.field.onChange({ text: controller.field.value.label, next: true });
-    return controller.field.onChange({ text: controller.field.value.label, targetBranch: 0 });
+    if (variant === "href") return setValue(fieldName, { label: value.label, href: "" });
+    if (variant === "prev") return setValue(fieldName, { label: value.label, prev: true });
+    if (variant === "next") return setValue(fieldName, { label: value.label, next: true });
+    return setValue(fieldName, { label: value.label, targetBranch: 0 });
   };
 
   return (
@@ -89,7 +84,7 @@ const Option: FC<OptionProps> = ({ control, fieldName, onRemove, index }) => {
       <Input
         {...control.register(`${fieldName}.label`)}
         className={css({ mb: "space16" })}
-        defaultValue={controller.field.value.label}
+        defaultValue={value.label}
         label="Text"
       />
 
@@ -126,7 +121,7 @@ const Option: FC<OptionProps> = ({ control, fieldName, onRemove, index }) => {
           <Input
             id={`${fieldName}.href`}
             {...control.register(`${fieldName}.href`)}
-            defaultValue={controller.field.value.href}
+            defaultValue={value.href}
             placeholder="https://example.com"
           />
         </Box>

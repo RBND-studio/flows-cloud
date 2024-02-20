@@ -7,15 +7,15 @@ import { Button, Text } from "ui";
 import { InsertButton } from "./insert-button";
 import { StepBranch } from "./step-branch";
 import { STEP_DEFAULT } from "./step-form";
-import type { StepsForm } from "./steps-editor.types";
+import { useStepsForm } from "./steps-editor.types";
 
 type Props = {
-  control: Control<StepsForm>;
   index: number;
   onRemove: () => void;
 };
 
-export const StepFork: FC<Props> = ({ control, index, onRemove }) => {
+export const StepFork: FC<Props> = ({ index, onRemove }) => {
+  const { control } = useStepsForm();
   const { append, remove, fields, insert } = useFieldArray({
     control: control as unknown as Control<{ steps: FlowStep[][][] }>,
     name: `steps.${index}`,
@@ -39,7 +39,7 @@ export const StepFork: FC<Props> = ({ control, index, onRemove }) => {
               <InsertButton onClick={() => insert(i, STEP_DEFAULT.fork)}>
                 Insert branch
               </InsertButton>
-              <StepBranch control={control} index={`${index}.${i}`} onRemove={() => remove(i)} />
+              <StepBranch index={`${index}.${i}`} onRemove={() => remove(i)} />
             </Fragment>
           ))}
         </Flex>

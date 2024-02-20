@@ -2,21 +2,20 @@ import type { WaitStepOptions } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Plus16 } from "icons";
 import type { FC } from "react";
-import type { Control } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
 import { Button, Text } from "ui";
 
 import { StepWaitOption } from "./step-wait-option";
-import type { StepsForm } from "./steps-editor.types";
+import { useStepsForm } from "./steps-editor.types";
 
 type Props = {
-  control: Control<StepsForm>;
   fieldName: `steps.${number}.wait` | `steps.${number}.${number}.${number}.wait`;
 };
 
 const DEFAULT_WAIT_OPTION: WaitStepOptions = {};
 
-export const StepWaitOptionList: FC<Props> = ({ control, fieldName }: Props) => {
+export const StepWaitOptionList: FC<Props> = ({ fieldName }: Props) => {
+  const { control } = useStepsForm();
   const { append, remove, fields } = useFieldArray({
     name: fieldName,
     control,
@@ -35,7 +34,6 @@ export const StepWaitOptionList: FC<Props> = ({ control, fieldName }: Props) => 
       </Text>
       {fields.map((field, i) => (
         <StepWaitOption
-          control={control}
           fieldName={`${fieldName}.${i}`}
           index={i}
           key={(field as { id: string }).id}

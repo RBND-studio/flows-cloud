@@ -2,22 +2,20 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { Close16, Plus16 } from "icons";
 import type { FC } from "react";
-import type { Control } from "react-hook-form";
-import { useController, useFieldArray } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { Button, Icon, Input, Text } from "ui";
 
-import type { StepsForm } from "./steps-editor.types";
+import { useStepsForm } from "./steps-editor.types";
 
 type Props = {
-  control: Control<StepsForm>;
   fieldName:
     | `steps.${number}.wait.${number}`
     | `steps.${number}.${number}.${number}.wait.${number}`;
 };
 
-export const StepWaitForm: FC<Props> = ({ control, fieldName }) => {
-  const controller = useController({ control, name: fieldName });
-  const value = controller.field.value;
+export const StepWaitForm: FC<Props> = ({ fieldName }) => {
+  const { register, control, getValues } = useStepsForm();
+  const initialValue = getValues(fieldName);
   const submitValueFieldArray = useFieldArray({ name: `${fieldName}.form.values`, control });
 
   return (
@@ -28,8 +26,8 @@ export const StepWaitForm: FC<Props> = ({ control, fieldName }) => {
           Wait for a form to be submitted and optionally check the values of the fields in it.
         </Text>
         <Input
-          {...control.register(`${fieldName}.form.formElement`)}
-          defaultValue={value.form?.formElement}
+          {...register(`${fieldName}.form.formElement`)}
+          defaultValue={initialValue.form?.formElement}
           description="Form element to listen 'onsubmit' event on."
           label="Form element"
           placeholder=".element"
@@ -37,7 +35,6 @@ export const StepWaitForm: FC<Props> = ({ control, fieldName }) => {
       </Box>
       {submitValueFieldArray.fields.map((field, i) => (
         <SubmitValueForm
-          control={control}
           fieldName={`${fieldName}.form.values.${i}`}
           index={i}
           key={field.id}
@@ -60,15 +57,15 @@ export const StepWaitForm: FC<Props> = ({ control, fieldName }) => {
 };
 
 type SubmitValueProps = {
-  control: Control<StepsForm>;
   fieldName:
     | `steps.${number}.wait.${number}.form.values.${number}`
     | `steps.${number}.${number}.${number}.wait.${number}.form.values.${number}`;
   onRemove: () => void;
   index: number;
 };
-const SubmitValueForm: FC<SubmitValueProps> = ({ control, fieldName, index, onRemove }) => {
-  const { field } = useController({ control, name: fieldName });
+const SubmitValueForm: FC<SubmitValueProps> = ({ fieldName, index, onRemove }) => {
+  const { register, getValues } = useStepsForm();
+  const initialValue = getValues(fieldName);
 
   return (
     <Box borBottom="1px" padding="space12">
@@ -79,16 +76,16 @@ const SubmitValueForm: FC<SubmitValueProps> = ({ control, fieldName, index, onRe
         </Button>
       </Flex>
       <Input
-        {...control.register(`${fieldName}.element`)}
+        {...register(`${fieldName}.element`)}
         className={css({ mb: "space12" })}
-        defaultValue={field.value.element}
+        defaultValue={initialValue.element}
         description="Value of this element will be checked when the form is submitted."
         label="Form field"
         placeholder=".element"
       />
       <Input
-        {...control.register(`${fieldName}.value`)}
-        defaultValue={field.value.value}
+        {...register(`${fieldName}.value`)}
+        defaultValue={initialValue.value}
         description="Regex to match value of the form element."
         label="Value"
         placeholder="^my-value$"

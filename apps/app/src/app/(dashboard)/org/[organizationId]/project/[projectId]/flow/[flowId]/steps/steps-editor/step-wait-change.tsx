@@ -2,19 +2,19 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { Close16, Plus16 } from "icons";
 import type { FC } from "react";
-import { type Control, useController, useFieldArray } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { Button, Icon, Input, Text } from "ui";
 
-import type { StepsForm } from "./steps-editor.types";
+import { useStepsForm } from "./steps-editor.types";
 
 type Props = {
-  control: Control<StepsForm>;
   fieldName:
     | `steps.${number}.wait.${number}`
     | `steps.${number}.${number}.${number}.wait.${number}`;
 };
 
-export const StepWaitChange: FC<Props> = ({ control, fieldName }) => {
+export const StepWaitChange: FC<Props> = ({ fieldName }) => {
+  const { control } = useStepsForm();
   const changeFieldArray = useFieldArray({ name: `${fieldName}.change`, control });
 
   return (
@@ -27,7 +27,6 @@ export const StepWaitChange: FC<Props> = ({ control, fieldName }) => {
       </Box>
       {changeFieldArray.fields.map((field, i) => (
         <ChangeForm
-          control={control}
           fieldName={`${fieldName}.change.${i}`}
           index={i}
           key={field.id}
@@ -50,15 +49,15 @@ export const StepWaitChange: FC<Props> = ({ control, fieldName }) => {
 };
 
 type ChangeProps = {
-  control: Control<StepsForm>;
   fieldName:
     | `steps.${number}.wait.${number}.change.${number}`
     | `steps.${number}.${number}.${number}.wait.${number}.change.${number}`;
   onRemove: () => void;
   index: number;
 };
-const ChangeForm: FC<ChangeProps> = ({ control, fieldName, index, onRemove }) => {
-  const { field } = useController({ control, name: fieldName });
+const ChangeForm: FC<ChangeProps> = ({ fieldName, index, onRemove }) => {
+  const { register, getValues } = useStepsForm();
+  const initialValue = getValues(fieldName);
 
   return (
     <Box borBottom="1px" padding="space12">
@@ -69,16 +68,16 @@ const ChangeForm: FC<ChangeProps> = ({ control, fieldName, index, onRemove }) =>
         </Button>
       </Flex>
       <Input
-        {...control.register(`${fieldName}.element`)}
+        {...register(`${fieldName}.element`)}
         className={css({ mb: "space12" })}
-        defaultValue={field.value.element}
+        defaultValue={initialValue.element}
         description="Value of this element will be checked when its 'onchange' event is fired."
         label="Element"
         placeholder=".element"
       />
       <Input
-        {...control.register(`${fieldName}.value`)}
-        defaultValue={field.value.value}
+        {...register(`${fieldName}.value`)}
+        defaultValue={initialValue.value}
         description="Regex to match value of the element. Leave empty to only check if the element value changed."
         label="Value"
         placeholder="^my-value$"

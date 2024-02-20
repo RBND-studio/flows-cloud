@@ -2,20 +2,20 @@ import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { Plus16 } from "icons";
 import { type FC, Fragment } from "react";
-import { type Control, useFieldArray } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { Accordion, Button, Text } from "ui";
 
 import { InsertButton } from "./insert-button";
 import { STEP_DEFAULT, StepForm } from "./step-form";
-import type { StepsForm } from "./steps-editor.types";
+import { useStepsForm } from "./steps-editor.types";
 
 type Props = {
-  control: Control<StepsForm>;
   index: `${number}.${number}`;
   onRemove: () => void;
 };
 
-export const StepBranch: FC<Props> = ({ control, index, onRemove }) => {
+export const StepBranch: FC<Props> = ({ index, onRemove }) => {
+  const { control } = useStepsForm();
   const { append, remove, fields, insert } = useFieldArray({ control, name: `steps.${index}` });
   const branchIndex = index.split(".")[1];
 
@@ -51,7 +51,7 @@ export const StepBranch: FC<Props> = ({ control, index, onRemove }) => {
           >
             Insert step
           </InsertButton>
-          <StepForm control={control} index={`${index}.${i}`} onRemove={() => remove(i)} />
+          <StepForm index={`${index}.${i}`} onRemove={() => remove(i)} />
         </Fragment>
       ))}
       <Button

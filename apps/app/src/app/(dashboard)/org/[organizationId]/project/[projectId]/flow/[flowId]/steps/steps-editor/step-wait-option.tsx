@@ -3,16 +3,15 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { Close16 } from "icons";
 import type { FC } from "react";
-import { type Control, Controller, useController } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { t } from "translations";
 import { Button, Icon, Input, Text } from "ui";
 
 import { StepWaitChange } from "./step-wait-change";
 import { StepWaitForm } from "./step-wait-submit";
-import type { StepsForm } from "./steps-editor.types";
+import { useStepsForm } from "./steps-editor.types";
 
 type Props = {
-  control: Control<StepsForm>;
   fieldName:
     | `steps.${number}.wait.${number}`
     | `steps.${number}.${number}.${number}.wait.${number}`;
@@ -20,9 +19,9 @@ type Props = {
   index: number;
 };
 
-export const StepWaitOption: FC<Props> = ({ control, fieldName, index, onRemove }) => {
-  const controller = useController({ control, name: fieldName });
-  const value = controller.field.value;
+export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
+  const { setValue, register, watch, control } = useStepsForm();
+  const value = watch(fieldName);
 
   const currentVariant = (() => {
     if (value.form) return "submit";
@@ -33,23 +32,23 @@ export const StepWaitOption: FC<Props> = ({ control, fieldName, index, onRemove 
     let newValue: WaitStepOptions | null = null;
     if (variant === "change")
       newValue = {
-        location: controller.field.value.location,
-        targetBranch: controller.field.value.targetBranch,
+        location: value.location,
+        targetBranch: value.targetBranch,
         change: [],
       };
     if (variant === "submit")
       newValue = {
-        location: controller.field.value.location,
-        targetBranch: controller.field.value.targetBranch,
+        location: value.location,
+        targetBranch: value.targetBranch,
         form: { formElement: "", values: [] },
       };
     if (variant === "click")
       newValue = {
-        location: controller.field.value.location,
-        targetBranch: controller.field.value.targetBranch,
+        location: value.location,
+        targetBranch: value.targetBranch,
         clickElement: "",
       };
-    if (newValue) controller.field.onChange(newValue);
+    if (newValue) setValue(fieldName, newValue);
   };
 
   return (
@@ -61,7 +60,7 @@ export const StepWaitOption: FC<Props> = ({ control, fieldName, index, onRemove 
         </Button>
       </Flex>
       <Input
-        {...control.register(`${fieldName}.location`)}
+        {...register(`${fieldName}.location`)}
         defaultValue={value.location}
         description="Wait for the user to navigate to this location. Leave empty for any location"
         label="Location"
@@ -83,7 +82,7 @@ export const StepWaitOption: FC<Props> = ({ control, fieldName, index, onRemove 
 
       {currentVariant === "click" && (
         <Input
-          {...control.register(`${fieldName}.clickElement`)}
+          {...register(`${fieldName}.clickElement`)}
           defaultValue={value.clickElement}
           description="Wait for the user to click on this element can be combined with 'location'"
           label="Click element"
@@ -91,8 +90,8 @@ export const StepWaitOption: FC<Props> = ({ control, fieldName, index, onRemove 
         />
       )}
 
-      {currentVariant === "change" && <StepWaitChange control={control} fieldName={fieldName} />}
-      {currentVariant === "submit" && <StepWaitForm control={control} fieldName={fieldName} />}
+      {currentVariant === "change" && <StepWaitChange fieldName={fieldName} />}
+      {currentVariant === "submit" && <StepWaitForm fieldName={fieldName} />}
 
       <Controller
         control={control}

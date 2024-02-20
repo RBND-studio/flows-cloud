@@ -2,16 +2,15 @@ import type { FlowTooltipStep } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { type FC } from "react";
-import { type Control, Controller, useController } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { t } from "translations";
 import { Accordion, Checkbox, Input, Select } from "ui";
 
 import { StepFooter } from "./step-footer";
 import { StepWaitOptionList } from "./step-wait-option-list";
-import type { StepsForm } from "./steps-editor.types";
+import { useStepsForm } from "./steps-editor.types";
 
 type Props = {
-  control: Control<StepsForm>;
   index: number | `${number}.${number}.${number}`;
 };
 
@@ -32,11 +31,11 @@ const placementOptions = [
 
 // TODO: maybe add checkbox that will show/hide the custom actions section
 
-export const TooltipStepForm: FC<Props> = ({ control, index }) => {
+export const TooltipStepForm: FC<Props> = ({ index }) => {
+  const { control, getValues, register } = useStepsForm();
   const stepKey = `steps.${index}` as const;
 
-  const controller = useController({ name: `${stepKey}`, control });
-  const value = controller.field.value as FlowTooltipStep;
+  const initialValue = getValues(stepKey) as FlowTooltipStep;
 
   return (
     <>
@@ -44,16 +43,16 @@ export const TooltipStepForm: FC<Props> = ({ control, index }) => {
         <Box>
           <Box>
             <Input
-              {...control.register(`${stepKey}.title`)}
+              {...register(`${stepKey}.title`)}
               className={css({ mb: "space16" })}
-              defaultValue={value.title}
+              defaultValue={initialValue.title}
               description="HTML title of the tooltip"
               label="Title"
             />
             <Input
-              {...control.register(`${stepKey}.body`)}
+              {...register(`${stepKey}.body`)}
               asChild
-              defaultValue={value.body}
+              defaultValue={initialValue.body}
               description="HTML content of the tooltip"
               inputClassName={css({ height: "unset" })}
               label="Body"
@@ -65,9 +64,9 @@ export const TooltipStepForm: FC<Props> = ({ control, index }) => {
 
         <Box>
           <Input
-            {...control.register(`${stepKey}.targetElement`)}
+            {...register(`${stepKey}.targetElement`)}
             className={css({ mb: "space16" })}
-            defaultValue={value.targetElement}
+            defaultValue={initialValue.targetElement}
             description="Element to attach tooltip to"
             label="Target element"
             placeholder=".element"
@@ -138,24 +137,24 @@ export const TooltipStepForm: FC<Props> = ({ control, index }) => {
       </Grid>
 
       <Flex flexDirection="column" gap="space8">
-        <StepFooter control={control} index={index} />
+        <StepFooter index={index} />
 
         <Accordion title="Wait">
-          <StepWaitOptionList control={control} fieldName={`${stepKey}.wait`} />
+          <StepWaitOptionList fieldName={`${stepKey}.wait`} />
         </Accordion>
 
         <Accordion title="Advanced">
           <Input
-            {...control.register(`${stepKey}.stepId`)}
+            {...register(`${stepKey}.stepId`)}
             className={css({ mb: "space16" })}
-            defaultValue={value.stepId}
+            defaultValue={initialValue.stepId}
             description={t.steps.stepIdDescription}
             label={t.steps.stepIdLabel}
             placeholder="my-step-id"
           />
           <Input
-            {...control.register(`${stepKey}.scrollElement`)}
-            defaultValue={value.scrollElement}
+            {...register(`${stepKey}.scrollElement`)}
+            defaultValue={initialValue.scrollElement}
             description="Element to scroll to when tooltip is shown"
             label="Scroll to element"
             placeholder=".element"
