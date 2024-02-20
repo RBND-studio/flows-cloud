@@ -5,9 +5,9 @@
   "sideEffects": false,
   "devDependencies": {
     "@vercel/style-guide": "^5.2.0",
-    "eslint-config-turbo": "^1.12.3",
+    "eslint-config-turbo": "^1.12.4",
     "eslint-plugin-mdx": "^3.1.5",
     "eslint-plugin-simple-import-sort": "^12.0.0",
-    "eslint-plugin-storybook": "^0.6.15"
+    "eslint-plugin-storybook": "^0.8.0"
   }
 }
