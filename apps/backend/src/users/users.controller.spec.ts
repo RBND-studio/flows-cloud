@@ -1,9 +1,11 @@
 import { Test } from "@nestjs/testing";
-import { organizationsToUsers, userInvite } from "db";
+import { organizationsToUsers, userInvite, userMetadata } from "db";
 
 import { DatabaseService } from "../database/database.service";
 import { EmailService } from "../email/email.service";
 import { verifyCaptcha } from "../lib/captcha";
+import type { MockDB } from "../mocks";
+import { getMockDB } from "../mocks";
 import { NewsfeedService } from "../newsfeed/newsfeed.service";
 import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
@@ -13,21 +15,8 @@ jest.mock("../lib/captcha", () => ({
 }));
 
 let usersController: UsersController;
-const db = {
-  query: {
-    users: {
-      findFirst: jest.fn(),
-    },
-    userInvite: {
-      findMany: jest.fn(),
-      findFirst: jest.fn(),
-    },
-  },
-  insert: jest.fn().mockReturnThis(),
-  delete: jest.fn().mockReturnThis(),
-  values: jest.fn().mockReturnThis(),
-  where: jest.fn().mockReturnThis(),
-};
+let db: MockDB;
+
 const emailService = {
   createContact: jest.fn(),
 };
@@ -36,25 +25,7 @@ const newsfeedService = {
 };
 
 beforeEach(async () => {
-  db.query.users.findFirst.mockResolvedValue({
-    id: "userId",
-    email: "email",
-  });
-  db.query.userInvite.findMany.mockResolvedValue([
-    {
-      id: "inviteId",
-      expires_at: new Date(),
-      organization: {
-        name: "orgName",
-      },
-    },
-  ]);
-  db.query.userInvite.findFirst.mockResolvedValue({
-    id: "inviteId",
-    expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-    organization_id: "orgId",
-    email: "email",
-  });
+  db = getMockDB();
 
   const moduleRef = await Test.createTestingModule({
     controllers: [UsersController],
@@ -82,33 +53,61 @@ afterEach(() => {
 });
 
 describe("Get me", () => {
+  beforeEach(() => {
+    db.query.userMetadata.findFirst.mockResolvedValue({ userId: "userId", role: "user" });
+    db.query.users.findFirst.mockResolvedValue({ id: "userId", email: "email" });
+    db.query.userInvite.findMany.mockResolvedValue([
+      { id: "inviteId", expires_at: new Date(), organization: { name: "orgName" } },
+    ]);
+  });
+  it("should throw without metadata", async () => {
+    db.query.userMetadata.findFirst.mockResolvedValue(null);
+    db.returning.mockResolvedValue([]);
+    await expect(usersController.me({ userId: "userId" })).rejects.toThrow("Not Found");
+    expect(db.insert).toHaveBeenCalledWith(userMetadata);
+  });
   it("should throw without user", async () => {
     db.query.users.findFirst.mockResolvedValue(null);
     await expect(usersController.me({ userId: "userId" })).rejects.toThrow("Not Found");
   });
   it("should not return invites without email", async () => {
-    db.query.users.findFirst.mockResolvedValue({
-      id: "userId",
-      email: null,
-    });
+    db.query.users.findFirst.mockResolvedValue({ id: "userId", email: null });
     await expect(usersController.me({ userId: "userId" })).resolves.toEqual({
       pendingInvites: [],
+      role: "user",
     });
+  });
+  it("should create metadata", async () => {
+    db.query.userMetadata.findFirst.mockResolvedValue(null);
+    db.returning.mockResolvedValue([{ userId: "userId", role: "user" }]);
+    await expect(usersController.me({ userId: "userId" })).resolves.toEqual({
+      pendingInvites: [
+        { id: "inviteId", expires_at: expect.any(Date), organizationName: "orgName" },
+      ],
+      role: "user",
+    });
+    expect(db.insert).toHaveBeenCalledWith(userMetadata);
   });
   it("should return invites", async () => {
     await expect(usersController.me({ userId: "userId" })).resolves.toEqual({
       pendingInvites: [
-        {
-          id: "inviteId",
-          expires_at: expect.any(Date),
-          organizationName: "orgName",
-        },
+        { id: "inviteId", expires_at: expect.any(Date), organizationName: "orgName" },
       ],
+      role: "user",
     });
   });
 });
 
 describe("Accept invite", () => {
+  beforeEach(() => {
+    db.query.users.findFirst.mockResolvedValue({ id: "userId", email: "email" });
+    db.query.userInvite.findFirst.mockResolvedValue({
+      id: "inviteId",
+      expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      organization_id: "orgId",
+      email: "email",
+    });
+  });
   it("should throw without invite", async () => {
     db.query.userInvite.findFirst.mockResolvedValue(null);
     await expect(usersController.acceptInvite({ userId: "userId" }, "inviteId")).rejects.toThrow(

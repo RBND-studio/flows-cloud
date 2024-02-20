@@ -1,5 +1,6 @@
 "use client";
 
+import { useFetch } from "hooks/use-fetch";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { type FC, useMemo } from "react";
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export const FlowTabs: FC<Props> = ({ cloudFlow }) => {
+  const { data: me } = useFetch("/me");
   const { projectId, organizationId, flowId } = useParams<{
     projectId: string;
     organizationId: string;
@@ -23,8 +25,11 @@ export const FlowTabs: FC<Props> = ({ cloudFlow }) => {
       { title: "Overview", href: routes.flow({ organizationId, projectId, flowId }) },
       { title: "Analytics", href: routes.flowAnalytics({ organizationId, projectId, flowId }) },
       ...(cloudFlow
+        ? [{ title: "Steps", href: routes.flowSteps({ organizationId, projectId, flowId }) }]
+        : []),
+
+      ...(cloudFlow && me?.role === "admin"
         ? [
-            { title: "Steps", href: routes.flowSteps({ organizationId, projectId, flowId }) },
             {
               title: "Versions",
               href: routes.flowVersions({ organizationId, projectId, flowId }),
@@ -34,10 +39,9 @@ export const FlowTabs: FC<Props> = ({ cloudFlow }) => {
             },
           ]
         : []),
-
       { title: "Settings", href: routes.flowSettings({ organizationId, projectId, flowId }) },
     ],
-    [cloudFlow, flowId, organizationId, pathname, projectId],
+    [cloudFlow, flowId, me?.role, organizationId, pathname, projectId],
   );
 
   const currentItem = useMemo(

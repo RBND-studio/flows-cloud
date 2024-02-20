@@ -19,9 +19,17 @@ export const getMockDB = () => ({
     },
     userInvite: {
       findFirst: jest.fn(),
+      findMany: jest.fn(),
     },
     organizationsToUsers: {
+      findFirst: jest.fn(),
       findMany: jest.fn(),
+    },
+    users: {
+      findFirst: jest.fn(),
+    },
+    userMetadata: {
+      findFirst: jest.fn(),
     },
   },
   select: jest.fn().mockReturnThis(),

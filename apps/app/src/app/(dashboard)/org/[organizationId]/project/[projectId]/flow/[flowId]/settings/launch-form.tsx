@@ -15,12 +15,12 @@ type Props = {
   flow: FlowDetail;
 };
 
-type LaunchForm = Pick<UpdateFlow, "element" | "location">;
+type LaunchForm = Pick<UpdateFlow, "clickElement" | "location">;
 
 const createDefaultValues = (flow: FlowDetail): LaunchForm => {
   const editVersion = flow.draftVersion ?? flow.publishedVersion;
   return {
-    element: editVersion?.element || "",
+    clickElement: editVersion?.clickElement || "",
     location: editVersion?.location || "",
   };
 };
@@ -55,11 +55,11 @@ export const LaunchForm: FC<Props> = ({ flow }) => {
       {isCloud ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
-            {...register("element")}
+            {...register("clickElement")}
             className={css({ maxWidth: "400px", width: "100%", mb: "space16" })}
-            defaultValue={formState.defaultValues?.element}
+            defaultValue={formState.defaultValues?.clickElement}
             description={t.launch.element}
-            label="Element"
+            label="Click element"
             placeholder=".onboarding-flow"
           />
           <Input

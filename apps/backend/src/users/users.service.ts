@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { organizationsToUsers, userInvite, users } from "db";
+import { organizationsToUsers, userInvite, userMetadata, users } from "db";
 import { and, eq, gt } from "drizzle-orm";
 
 import type { Auth } from "../auth";
@@ -18,6 +18,19 @@ export class UsersService {
   ) {}
 
   async me({ auth }: { auth: Auth }): Promise<GetMeDto> {
+    let meta = await this.databaseService.db.query.userMetadata.findFirst({
+      where: eq(userMetadata.user_id, auth.userId),
+    });
+    if (!meta) {
+      const newMeta = await this.databaseService.db
+        .insert(userMetadata)
+        .values({ user_id: auth.userId })
+        .returning();
+
+      meta = newMeta.at(0);
+    }
+    if (!meta) throw new NotFoundException();
+
     const user = await this.databaseService.db.query.users.findFirst({
       where: eq(users.id, auth.userId),
     });
@@ -39,6 +52,7 @@ export class UsersService {
         expires_at: invite.expires_at,
         organizationName: invite.organization.name,
       })),
+      role: meta.role,
     };
   }
 

@@ -94,7 +94,7 @@ export interface components {
       /** @enum {string|null} */
       frequency?: "once" | "every-time" | null;
       id: string;
-      element?: string;
+      clickElement?: string;
       steps: Record<string, never>[];
       location?: string;
       userProperties?: Record<string, never>;
@@ -143,7 +143,7 @@ export interface components {
       /** @enum {string} */
       frequency: "once" | "every-time";
       userProperties: Record<string, never>[][];
-      element?: string;
+      clickElement?: string;
       location?: string;
       steps: Record<string, never>[];
     };
@@ -172,7 +172,7 @@ export interface components {
       description?: string;
       human_id?: string;
       enabled?: boolean;
-      element?: string;
+      clickElement?: string;
       location?: string;
       steps?: Record<string, never>[];
       /** @enum {string} */
@@ -271,6 +271,8 @@ export interface components {
       organizationName: string;
     };
     GetMeDto: {
+      /** @enum {string} */
+      role: "admin" | "user";
       pendingInvites: components["schemas"]["Invite"][];
     };
     AcceptInviteResponseDto: {
