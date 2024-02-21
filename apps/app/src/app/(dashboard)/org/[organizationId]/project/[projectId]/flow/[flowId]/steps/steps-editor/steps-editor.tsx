@@ -2,7 +2,7 @@
 
 import type { FlowSteps } from "@flows/js";
 import { css } from "@flows/styled-system/css";
-import { Flex } from "@flows/styled-system/jsx";
+import { Box, Flex } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
 import { Plus16 } from "icons";
 import type { FlowDetail, UpdateFlow } from "lib/api";
@@ -65,29 +65,64 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
           ))}
         </Flex>
 
-        <Menu
-          trigger={
-            <Button
-              className={css({ mb: "space32" })}
-              startIcon={<Icon icon={Plus16} />}
-              variant="secondary"
+        <Box mb="space24">
+          {!fields.length ? (
+            <Menu
+              trigger={
+                <button
+                  className={css({
+                    cardWrap: "-",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flex: 1,
+                    gap: "space8",
+                    py: "space32",
+                    cursor: "pointer",
+                    width: "100%",
+
+                    fastEaseInOut: "all",
+
+                    _hover: {
+                      bg: "bg.subtleHover",
+                    },
+                  })}
+                  type="button"
+                >
+                  <Text color="muted">Start by adding a step</Text>
+                  <Text color="subtle" variant="bodyXs">
+                    Steps are the building blocks of your flow. They are the individual steps a user
+                    can take when interacting with your flow.
+                  </Text>
+                </button>
+              }
             >
-              Add
-            </Button>
-          }
-        >
-          <MenuItem onClick={() => append(STEP_DEFAULT.tooltip)}>Step</MenuItem>
-          <MenuItem onClick={() => append(STEP_DEFAULT.fork)}>Fork</MenuItem>
-        </Menu>
+              <MenuItem onClick={() => append(STEP_DEFAULT.tooltip)}>Step</MenuItem>
+              <MenuItem onClick={() => append(STEP_DEFAULT.fork)}>Fork</MenuItem>
+            </Menu>
+          ) : (
+            <Menu
+              trigger={
+                <Button startIcon={<Icon icon={Plus16} />} variant="secondary">
+                  Add
+                </Button>
+              }
+            >
+              <MenuItem onClick={() => append(STEP_DEFAULT.tooltip)}>Step</MenuItem>
+              <MenuItem onClick={() => append(STEP_DEFAULT.fork)}>Fork</MenuItem>
+            </Menu>
+          )}
+        </Box>
+
+        <Button loading={loading} type="submit" className={css({ mb: "space40" })}>
+          Save changes
+        </Button>
 
         <Text className={css({ mb: "space8" })} variant="titleM">
-          Steps preview
+          Flow preview
         </Text>
         <StepsEditorPreview />
-
-        <Button className={css({ mt: "space24" })} loading={loading} type="submit">
-          Save
-        </Button>
       </form>
     </FormProvider>
   );
