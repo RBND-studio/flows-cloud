@@ -61,128 +61,134 @@ export const Sidebar: FC = () => {
   return (
     <nav
       className={css({
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        borderBottomWidth: "1px",
-        borderStyle: "solid",
-        borderColor: "border",
         width: "240px",
-        minWidth: "240px",
-        borRight: "1px",
-        backgroundColor: "bg",
-        paddingY: "space16",
-        position: "sticky",
-        top: 0,
       })}
     >
-      <div className={NavSectionCss}>
-        <Flex justifyContent="space-between" mb="space12" mx="space8">
-          <Link
-            className={css({
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "space8",
-            })}
-            href={routes.home}
-          >
-            <Image alt="Logo" height={32} priority src="/logo.svg" width={32} />
-            <Text variant="titleM">Flows</Text>
-          </Link>
-          <Flex gap="space8">
-            <HelpMenu />
-            <SettingsMenu />
-          </Flex>
-        </Flex>
-        <ProjectsMenu />
-      </div>
-
       <div
-        className={cx(
-          NavSectionCss,
-          css({
-            height: "100%",
-          }),
-        )}
+        className={css({
+          position: "fixed",
+          top: 0,
+          width: "240px",
+
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+          borRight: "1px",
+          backgroundColor: "bg",
+          paddingY: "space16",
+        })}
       >
-        <ul
-          className={css({
-            display: "flex",
-            flexDirection: "column",
-            gap: "space4",
-            mt: "space16",
-          })}
-        >
-          {HEADER_ITEMS.map((item) => {
-            const active = item.href === pathname;
-            return (
-              <li key={item.label}>
-                <Link href={item.href}>
-                  <span
-                    className={css({
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "space8",
-
-                      paddingY: "space8",
-                      paddingX: "space8",
-                      width: "100%",
-
-                      borderRadius: "radius8",
-
-                      fastEaseInOut: "background-color",
-
-                      color: "text.muted",
-
-                      "&:hover": {
-                        bg: "bg.hover",
-                      },
-
-                      "&&[data-active=true]": {
-                        color: "text.primary",
-                        bg: "bg.subtle",
-                      },
-                    })}
-                    data-active={active}
-                  >
-                    <Icon color="inherit" icon={item.icon} />
-                    <Text color="inherit" variant="bodyS" weight="600">
-                      {item.label}
-                    </Text>
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <Flex direction="column" gap="space12">
         <div className={NavSectionCss}>
-          <Invites />
+          <Flex justifyContent="space-between" mb="space12" mx="space8">
+            <Link
+              className={css({
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "space8",
+              })}
+              href={routes.home}
+            >
+              <Image alt="Logo" height={32} priority src="/logo.svg" width={32} />
+              <Text variant="titleM">Flows</Text>
+            </Link>
+            <Flex gap="space8">
+              <HelpMenu />
+              <SettingsMenu />
+            </Flex>
+          </Flex>
+          <ProjectsMenu />
         </div>
-        <div className={NavSectionCss}>
-          <div
+
+        <div
+          className={cx(
+            NavSectionCss,
+            css({
+              height: "100%",
+            }),
+          )}
+        >
+          <ul
             className={css({
               display: "flex",
-
-              backgroundColor: "bg.muted",
-              bor: "1px",
-              borderRadius: "radius8",
-
-              paddingY: "space8",
-              paddingX: "space8",
-
-              marginX: "space8",
-
-              justifyContent: "space-between",
-              alignItems: "center",
+              flexDirection: "column",
+              gap: "space4",
+              mt: "space16",
             })}
           >
-            <Text weight="600">Free plan</Text>
-            <Text variant="bodyXs">600 / 1000 TODO</Text>
-          </div>
+            {HEADER_ITEMS.map((item) => {
+              const active = item.href === pathname;
+              return (
+                <li key={item.label}>
+                  <Link href={item.href}>
+                    <span
+                      className={css({
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "space8",
+
+                        paddingY: "space8",
+                        paddingX: "space8",
+                        width: "100%",
+
+                        borderRadius: "radius8",
+
+                        fastEaseInOut: "background-color",
+
+                        color: "text.muted",
+
+                        "&:hover": {
+                          bg: "bg.hover",
+                        },
+
+                        "&&[data-active=true]": {
+                          color: "text.primary",
+                          bg: "bg.subtle",
+                        },
+                      })}
+                      data-active={active}
+                    >
+                      <Icon color="inherit" icon={item.icon} />
+                      <Text color="inherit" variant="bodyS" weight="600">
+                        {item.label}
+                      </Text>
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-      </Flex>
+        <Flex direction="column" gap="space12">
+          <div className={NavSectionCss}>
+            <Invites />
+          </div>
+          <div className={NavSectionCss}>
+            <div
+              className={css({
+                display: "flex",
+                flexDirection: "column",
+                gap: "2px",
+
+                backgroundColor: "bg.muted",
+                bor: "1px",
+                borderRadius: "radius8",
+
+                paddingY: "space8",
+                paddingX: "space8",
+
+                marginX: "space8",
+              })}
+            >
+              <Text variant="bodyXs" weight="600">
+                Enjoy flows for free in the beta!
+              </Text>
+              <Text variant="bodyXs" color="muted">
+                Pricing will be announced by the end of Q1 2024.
+              </Text>
+            </div>
+          </div>
+        </Flex>
+      </div>
     </nav>
   );
 };

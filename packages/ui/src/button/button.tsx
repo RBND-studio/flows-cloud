@@ -81,6 +81,7 @@ const button = cva({
     borderRadius: 8,
     fastEaseInOut: "all",
     shadow: "l1",
+    textWrap: "nowrap",
   },
   variants: {
     size: {
