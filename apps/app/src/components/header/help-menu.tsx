@@ -18,7 +18,7 @@ const options = [
   {
     label: "Send feedback",
     icon: Comment16,
-    onClick: () => showSurvey("feedback"),
+    onClick: () => showSurvey("feedback-survey"),
   },
   "separator",
   {
