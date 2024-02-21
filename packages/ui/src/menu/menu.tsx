@@ -5,6 +5,7 @@ import type { ComponentProps, FC, ReactNode } from "react";
 import { forwardRef } from "react";
 
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "../popover";
+import { Separator } from "../separator";
 
 type Props = {
   trigger: ReactNode;
@@ -17,7 +18,7 @@ export const Menu: FC<Props> = ({ trigger, children, align }) => {
     <Popover>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent align={align ?? "start"}>
-        <Flex flexDir="column" justifyContent="center" minW="200px" p="space8">
+        <Flex flexDir="column" justifyContent="center" minW="240px" p="space8">
           {children}
         </Flex>
       </PopoverContent>
@@ -53,9 +54,13 @@ export const MenuItem: FC<MenuItemProps> = forwardRef<HTMLButtonElement, MenuIte
               width: "100%",
               fastEaseInOut: "all",
               textStyle: "bodyS",
+              color: disabled ? "text.disabled" : undefined,
 
               _hover: {
                 bg: disabled ? "transparent" : "bg.hover",
+              },
+              "& svg": {
+                color: disabled ? "text.disabled" : undefined,
               },
             }),
 
@@ -68,3 +73,7 @@ export const MenuItem: FC<MenuItemProps> = forwardRef<HTMLButtonElement, MenuIte
     );
   },
 );
+
+export const MenuSeparator: FC<{ className?: string }> = ({ className }) => {
+  return <Separator className={cx(css({ mx: "-space8", w: "auto", my: "space8" }), className)} />;
+};

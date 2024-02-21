@@ -1,4 +1,5 @@
 import { signOut } from "auth/server-actions";
+import posthog from "posthog-js";
 import type { FC, ReactNode } from "react";
 import {
   createContext,
@@ -62,6 +63,11 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       }),
     [],
   );
+
+  useEffect(() => {
+    if (!auth) return;
+    posthog.identify(auth.user.email);
+  }, [auth]);
 
   const value = useMemo(
     (): AuthContextType => ({ auth, logout, processingLogout }),

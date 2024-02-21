@@ -1,46 +1,41 @@
 import { css } from "@flows/styled-system/css";
+import { showSurvey } from "components/providers";
 import { Book16, Comment16, Log16, Question16, Question24, Slack16 } from "icons";
-import Link from "next/link";
 import type { FC } from "react";
 import { links } from "shared";
-import { Icon, Popover, PopoverContent, PopoverTrigger, Text } from "ui";
+import { Icon, Menu, MenuItem, MenuSeparator } from "ui";
 
-import { MenuItem } from "./menu-item";
-import { MenuSection } from "./menu-section";
+const options = [
+  {
+    label: "Documentation",
+    icon: Book16,
+    href: links.docs,
+  },
+  {
+    label: "Contact support TODO",
+    icon: Question16,
+  },
+  {
+    label: "Send feedback",
+    icon: Comment16,
+    onClick: () => showSurvey("feedback"),
+  },
+  "separator",
+  {
+    label: "Changelog TODO",
+    icon: Log16,
+  },
+  {
+    label: "Slack community TODO",
+    icon: Slack16,
+  },
+];
 
 export const HelpMenu: FC = () => {
-  const PRIMARY_OPTIONS = [
-    {
-      label: "Documentation",
-      icon: Book16,
-      href: links.docs,
-    },
-    {
-      label: "Contact support TODO",
-      icon: Question16,
-    },
-    {
-      label: "Send feedback TODO",
-      icon: Comment16,
-    },
-  ];
-
-  const SECONDARY_OPTIONS = [
-    {
-      label: "Changelog TODO",
-      icon: Log16,
-      href: "",
-    },
-    {
-      label: "Slack community TODO",
-      icon: Slack16,
-    },
-  ];
-
   return (
-    <Popover>
-      <PopoverTrigger>
-        <div
+    <Menu
+      trigger={
+        <button
           className={css({
             cursor: "pointer",
             padding: "space4",
@@ -54,60 +49,36 @@ export const HelpMenu: FC = () => {
               bg: "bg.hover",
             },
           })}
+          type="button"
         >
           <Icon icon={Question24} />
-        </div>
-      </PopoverTrigger>
-      <PopoverContent align="end">
-        <div
-          className={css({
-            minWidth: "280px",
-          })}
-        >
-          <MenuSection bottomBorder>
-            {PRIMARY_OPTIONS.map((option) =>
-              option.href ? (
-                <MenuItem asChild key={option.label}>
-                  <Link href={option.href} target="_blank">
-                    <Icon icon={option.icon} />
-                    <Text as="span" variant="bodyS">
-                      {option.label}
-                    </Text>
-                  </Link>
-                </MenuItem>
-              ) : (
-                <MenuItem disabled key={option.label}>
-                  <Icon color="text.disabled" icon={option.icon} />
-                  <Text as="span" color="disabled" variant="bodyS">
-                    {option.label}
-                  </Text>
-                </MenuItem>
-              ),
-            )}
-          </MenuSection>
-          <MenuSection bottomBorder>
-            {SECONDARY_OPTIONS.map((option) =>
-              option.href ? (
-                <MenuItem asChild key={option.label}>
-                  <Link href={option.href} target="_blank">
-                    <Icon icon={option.icon} />
-                    <Text as="span" variant="bodyS">
-                      {option.label}
-                    </Text>
-                  </Link>
-                </MenuItem>
-              ) : (
-                <MenuItem disabled key={option.label}>
-                  <Icon color="text.disabled" icon={option.icon} />
-                  <Text as="span" color="disabled" variant="bodyS">
-                    {option.label}
-                  </Text>
-                </MenuItem>
-              ),
-            )}
-          </MenuSection>
-        </div>
-      </PopoverContent>
-    </Popover>
+        </button>
+      }
+    >
+      {options.map((opt, i) => {
+        if (typeof opt === "string") {
+          if (opt === "separator") return <MenuSeparator key={i} />;
+          return null;
+        }
+
+        if (opt.href) {
+          return (
+            <MenuItem asChild key={opt.label}>
+              <a href={opt.href} rel="noopener" target="_blank">
+                <Icon icon={opt.icon} />
+                {opt.label}
+              </a>
+            </MenuItem>
+          );
+        }
+
+        return (
+          <MenuItem disabled={!opt.onClick} key={opt.label} onClick={opt.onClick}>
+            <Icon icon={opt.icon} />
+            {opt.label}
+          </MenuItem>
+        );
+      })}
+    </Menu>
   );
 };
