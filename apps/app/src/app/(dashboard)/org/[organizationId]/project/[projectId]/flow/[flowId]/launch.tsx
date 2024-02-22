@@ -9,8 +9,8 @@ type Props = {
 };
 
 export const Launch: FC<Props> = ({ flow }) => {
-  const location = flow.draftVersion?.location ?? flow.publishedVersion?.location;
-  const clickElement = flow.draftVersion?.clickElement ?? flow.publishedVersion?.clickElement;
+  const location = flow.publishedVersion?.location;
+  const clickElement = flow.publishedVersion?.clickElement;
 
   return (
     <Flex alignItems="flex-start" direction="column" gap="space8">
@@ -48,6 +48,7 @@ export const Launch: FC<Props> = ({ flow }) => {
             </div>
           </>
         ) : null}
+        {!location && !clickElement ? <Text color="muted">Only manually</Text> : null}
       </Flex>
     </Flex>
   );

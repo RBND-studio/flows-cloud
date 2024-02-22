@@ -66,9 +66,9 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
         </Flex>
 
         <Box mb="space24">
-          {!fields.length ? (
-            <Menu
-              trigger={
+          <Menu
+            trigger={
+              !fields.length ? (
                 <button
                   className={css({
                     cardWrap: "-",
@@ -96,23 +96,16 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
                     can take when interacting with your flow.
                   </Text>
                 </button>
-              }
-            >
-              <MenuItem onClick={() => append(STEP_DEFAULT.tooltip)}>Step</MenuItem>
-              <MenuItem onClick={() => append(STEP_DEFAULT.fork)}>Fork</MenuItem>
-            </Menu>
-          ) : (
-            <Menu
-              trigger={
+              ) : (
                 <Button startIcon={<Icon icon={Plus16} />} variant="secondary">
                   Add
                 </Button>
-              }
-            >
-              <MenuItem onClick={() => append(STEP_DEFAULT.tooltip)}>Step</MenuItem>
-              <MenuItem onClick={() => append(STEP_DEFAULT.fork)}>Fork</MenuItem>
-            </Menu>
-          )}
+              )
+            }
+          >
+            <MenuItem onClick={() => append(STEP_DEFAULT.tooltip)}>Step</MenuItem>
+            <MenuItem onClick={() => append(STEP_DEFAULT.fork)}>Fork</MenuItem>
+          </Menu>
         </Box>
 
         <Button className={css({ mb: "space40" })} loading={loading} type="submit">

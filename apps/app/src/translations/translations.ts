@@ -144,7 +144,8 @@ export const t = {
   },
   launch: {
     launch: "Launch",
-    description: "When and where should the flow be shown to your users.",
+    description:
+      "When and where should the flow be shown to your users. Leave empty when launching manually in your codebase.",
     localState: "Local flow launch settings need to be changed in your codebase",
     element: "After clicking on a specified element.",
     location: "After visiting a specified url. Supports regex.",
