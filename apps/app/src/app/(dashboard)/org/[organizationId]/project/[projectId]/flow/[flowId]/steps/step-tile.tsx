@@ -66,8 +66,16 @@ export const StepTile: FC<Props> = ({ step, activeIndex, index, onClick }) => {
 
   // If the step is a wait step, we don't want to show the title but icon instead
   const title =
-    // eslint-disable-next-line no-nested-ternary -- @VojtechVidra said it's fine
-    "title" in step ? step.title !== "" ? step.title : <TitlePlaceholder /> : <WaitStep />;
+    "title" in step ? (
+      //
+      step.title !== "" ? (
+        step.title
+      ) : (
+        <TitlePlaceholder />
+      )
+    ) : (
+      <WaitStep />
+    );
 
   return (
     <button

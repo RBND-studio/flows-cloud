@@ -15,6 +15,7 @@ module.exports = {
     "import/no-default-export": "off",
     "no-implicit-coercion": "off",
     "no-sequences": "off",
+    "no-nested-ternary": "off",
   },
   plugins: ["simple-import-sort"],
 };
