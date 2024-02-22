@@ -3,23 +3,25 @@ title: Install Flows
 description: Learn how to install Flows in your product
 ---
 
-import { useData } from "nextra/data"
+import { useData } from "nextra/data";
 import { Tabs, Pre, Code } from "nextra/components";
 
 export const getServerSideProps = () => {
-  return fetch("https://cdn.jsdelivr.net/npm/@flows/js/package.json").then(res => res.json()).then(pkgJson => ({
-    props: {
-      ssg: {
-        version: pkgJson.version
-      }
-    },
-  }))
-}
+  return fetch("https://cdn.jsdelivr.net/npm/@flows/js/package.json")
+    .then((res) => res.json())
+    .then((pkgJson) => ({
+      props: {
+        ssg: {
+          version: pkgJson.version,
+        },
+      },
+    }));
+};
 
 export const LatestScript = ({children}) => {
   const {version} = useData()
 
-  return <Pre hasCopyCode data-language="html" data-theme="default"><Code><span className="line"><span style={{color:"var(--shiki-color-text)"}}>&lt;</span><span style={{color:"var(--shiki-token-string-expression)"}}>script</span><span style={{color:"var(--shiki-color-text)"}}> </span><span style={{color:"var(--shiki-token-function)"}}>src</span><span style={{color:"var(--shiki-token-keyword)"}}>=</span><span style={{color:"var(--shiki-token-string-expression)"}}>"https://cdn.jsdelivr.net/npm/@flows/js@{version}/dist/cloud/index.global.js"</span><span style={{color:"var(--shiki-color-text)"}}>&gt;&lt;/</span><span style={{color:"var(--shiki-token-string-expression)"}}>script</span><span style={{color:"var(--shiki-color-text)"}}>&gt;</span></span></Code></Pre>
+return <Pre hasCopyCode data-language="html" data-theme="default"><Code><span className="line"><span style={{color:"var(--shiki-color-text)"}}>&lt;</span><span style={{color:"var(--shiki-token-string-expression)"}}>script</span><span style={{color:"var(--shiki-color-text)"}}> </span><span style={{color:"var(--shiki-token-function)"}}>src</span><span style={{color:"var(--shiki-token-keyword)"}}>=</span><span style={{color:"var(--shiki-token-string-expression)"}}>"https://cdn.jsdelivr.net/npm/@flows/js@{version}/dist/cloud/index.global.js"</span><span style={{color:"var(--shiki-color-text)"}}>&gt;&lt;/</span><span style={{color:"var(--shiki-token-string-expression)"}}>script</span><span style={{color:"var(--shiki-color-text)"}}>&gt;</span></span></Code></Pre>
 }
 
 # Install Flows
@@ -30,7 +32,7 @@ export const LatestScript = ({children}) => {
 
 Copy the snippet bellow and paste it within the `<head>` tag of your product - ideally right before the closing `</head>` tag.
 
-<LatestScript/>
+<LatestScript />
 
 When you're done, you can start using Flows by calling `window.Flows` anywhere in your code. You can find the `projectId` in your project settings.
 
@@ -39,7 +41,7 @@ When you're done, you can start using Flows by calling `window.Flows` anywhere i
   window.FlowsJS.init({
     // Insert your Flows Cloud projectId
     projectId: "xxxx",
-    // Optionally define local flows. Learn how at https://flows.sh/docs/SDK/local-flows TODO: fix link
+    // Optionally define local flows.
     flows: [],
   });
 </script>
@@ -64,7 +66,7 @@ import { init } from "@flows/js";
 init({
   // Insert your Flows Cloud projectId
   projectId: "xxxx",
-  // Optionally define local flows. Learn how at https://flows.sh/docs/SDK/local-flows TODO: fix link
+  // Optionally define local flows.
   flows: [],
 });
 ```

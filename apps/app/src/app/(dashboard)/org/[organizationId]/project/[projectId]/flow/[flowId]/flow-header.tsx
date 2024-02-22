@@ -55,13 +55,6 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
         />
       ),
     },
-    {
-      item: (
-        <MenuItem as="button" key="duplicate">
-          <Text as="span">Duplicate TODO</Text>
-        </MenuItem>
-      ),
-    },
   ];
   return (
     <Flex flexDirection="column" gap="space8" mb="space16">

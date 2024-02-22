@@ -1,6 +1,6 @@
 import { css } from "@flows/styled-system/css";
 import { showSurvey } from "components/providers";
-import { Book16, Comment16, Log16, Question16, Question24, Slack16 } from "icons";
+import { Book16, Comment16, Question16, Question24, Slack16 } from "icons";
 import type { FC } from "react";
 import { links } from "shared";
 import { Icon, Menu, MenuItem, MenuSeparator } from "ui";
@@ -12,22 +12,24 @@ const options = [
     href: links.docs,
   },
   {
-    label: "Contact support TODO",
+    label: "Contact support",
     icon: Question16,
+    href: "mailto:hello@flows.sh?subject=Support%20request",
   },
   {
     label: "Send feedback",
     icon: Comment16,
     onClick: () => showSurvey("feedback-survey"),
   },
-  "separator",
+  // "separator",
+  // {
+  //   label: "Changelog TODO",
+  //   icon: Log16,
+  // },
   {
-    label: "Changelog TODO",
-    icon: Log16,
-  },
-  {
-    label: "Slack community TODO",
+    label: "Join Slack community",
     icon: Slack16,
+    href: links.slack,
   },
 ];
 

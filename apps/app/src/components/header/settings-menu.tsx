@@ -2,7 +2,7 @@
 
 import { css } from "@flows/styled-system/css";
 import { useAuth } from "auth/client";
-import { Check16, Person24 } from "icons";
+import { Check16, Settings24 } from "icons";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import type { FC } from "react";
@@ -19,7 +19,7 @@ const Trigger: FC = () => {
     <div
       className={css({
         cursor: "pointer",
-        padding: "space4",
+        padding: "6px",
         borderStyle: "solid",
         borderWidth: "1px",
         borderColor: "border",
@@ -30,9 +30,13 @@ const Trigger: FC = () => {
         "&:hover": {
           bg: "bg.hover",
         },
+        "& > svg": {
+          width: "20px",
+          height: "20px",
+        },
       })}
     >
-      <Icon icon={Person24} />
+      <Icon icon={Settings24} />
     </div>
   );
 };
@@ -83,8 +87,8 @@ export const SettingsMenu: FC = () => {
           })}
         >
           <MenuSection background="bg.muted" bottomBorder header>
-            <Text variant="titleS">John Doe</Text>
-            <Text color="muted" variant="bodyXs">
+            {/* TODO: bring this back one we have names <Text variant="titleS">John Doe</Text> */}
+            <Text color="muted" variant="bodyS">
               {auth.user.email}
             </Text>
           </MenuSection>

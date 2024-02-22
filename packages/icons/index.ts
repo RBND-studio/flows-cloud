@@ -34,6 +34,7 @@ export * from "./src/question16";
 export * from "./src/question24";
 export * from "./src/send16";
 export * from "./src/settings16";
+export * from "./src/settings24";
 export * from "./src/shield-lock16";
 export * from "./src/slack16";
 export * from "./src/sliders24";

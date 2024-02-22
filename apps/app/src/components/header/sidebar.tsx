@@ -35,13 +35,11 @@ export const Sidebar: FC = () => {
       },
       // {
       //   label: "Flows",
-      //   // TODO: add flows route
       //   href: "/",
       //   icon: Flows16,
       // },
       // {
       //   label: "Analytics",
-      //   // TODO: add analytics route
       //   href: "/",
       //   icon: Graph16,
       // },

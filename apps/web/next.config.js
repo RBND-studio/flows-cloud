@@ -41,6 +41,16 @@ const nextConfig = {
       },
     ];
   },
+  redirects() {
+    return [
+      {
+        source: "/join-slack",
+        destination:
+          "https://join.slack.com/t/flows-sh/shared_invite/zt-2dkcznh40-gmX5TfKywRKA6iUGqbI~zg",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 module.exports = withBundleAnalyzer(withContentlayer(nextConfig));
