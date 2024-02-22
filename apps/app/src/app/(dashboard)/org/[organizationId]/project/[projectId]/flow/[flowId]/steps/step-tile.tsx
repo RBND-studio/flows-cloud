@@ -4,7 +4,8 @@ import type { FlowStep } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { Hourglass16 } from "icons";
-import { Fragment, type FC } from "react";
+import type { FC } from "react";
+import { Fragment } from "react";
 import { Icon } from "ui";
 
 type Props = {
@@ -14,7 +15,7 @@ type Props = {
   onClick: (index: number | number[]) => void;
 };
 
-const TitlePlaceholder = () => (
+const TitlePlaceholder = (): JSX.Element => (
   <span
     className={css({
       color: "text.subtle",
@@ -24,8 +25,8 @@ const TitlePlaceholder = () => (
   </span>
 );
 
-const WaitStep = () => (
-  <Flex width="100%" justifyContent="center">
+const WaitStep = (): JSX.Element => (
+  <Flex justifyContent="center" width="100%">
     <Icon icon={Hourglass16} />
   </Flex>
 );
@@ -63,9 +64,16 @@ export const StepTile: FC<Props> = ({ step, activeIndex, index, onClick }) => {
 
   const active = activeIndex === index;
 
-  // Here we are checking if the step title is empty or if it's a wait step
-  const title =
-    "title" in step ? step.title !== "" ? step.title : <TitlePlaceholder /> : <WaitStep />;
+  // If the step is a wait step, we don't want to show the title but icon instead
+  const title = (): string | JSX.Element => {
+    if ("title" in step) {
+      if (step.title !== "") {
+        return step.title;
+      }
+      return <TitlePlaceholder />;
+    }
+    return <WaitStep />;
+  };
 
   return (
     <button
@@ -91,7 +99,7 @@ export const StepTile: FC<Props> = ({ step, activeIndex, index, onClick }) => {
       onClick={() => onClick(index)}
       type="button"
     >
-      {title}
+      {title()}
     </button>
   );
 };

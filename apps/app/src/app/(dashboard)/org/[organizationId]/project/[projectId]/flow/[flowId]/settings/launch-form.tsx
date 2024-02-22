@@ -55,20 +55,20 @@ export const LaunchForm: FC<Props> = ({ flow }) => {
       {isCloud ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
-            {...register("clickElement")}
-            className={css({ maxWidth: "400px", width: "100%", mb: "space16" })}
-            defaultValue={formState.defaultValues?.clickElement}
-            description={t.launch.element}
-            label="Click element"
-            placeholder=".onboarding-flow"
-          />
-          <Input
             {...register("location")}
             className={css({ maxWidth: "400px", width: "100%", mb: "space16" })}
             defaultValue={formState.defaultValues?.location}
             description={t.launch.location}
             label="Location"
             placeholder="^\/home$ <- shows up only on the home page"
+          />
+          <Input
+            {...register("clickElement")}
+            className={css({ maxWidth: "400px", width: "100%", mb: "space16" })}
+            defaultValue={formState.defaultValues?.clickElement}
+            description={t.launch.element}
+            label="Click element"
+            placeholder=".onboarding-flow"
           />
           <Button disabled={!formState.isDirty} loading={loading} type="submit" variant="black">
             Save

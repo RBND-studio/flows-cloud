@@ -115,7 +115,7 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
           )}
         </Box>
 
-        <Button loading={loading} type="submit" className={css({ mb: "space40" })}>
+        <Button className={css({ mb: "space40" })} loading={loading} type="submit">
           Save changes
         </Button>
 

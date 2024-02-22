@@ -7,6 +7,7 @@ import { routes } from "routes";
 import { Button, Text } from "ui";
 
 import { Frequency } from "./frequency";
+import { Launch } from "./launch";
 import { Targeting } from "./targeting";
 
 type Props = {
@@ -34,6 +35,7 @@ export const SetupSection: FC<Props> = ({ params, flow }) => {
       <Flex direction="column" gap="space24">
         <Frequency flow={flow} />
         <Targeting flow={flow} />
+        <Launch flow={flow} />
       </Flex>
     </Flex>
   );

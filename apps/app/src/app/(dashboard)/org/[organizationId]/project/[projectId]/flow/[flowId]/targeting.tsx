@@ -83,7 +83,7 @@ export const Targeting: FC<Props> = ({ flow }) => {
           </Wrap>
         </Fragment>
       ))}
-      {!properties.length && <Text color="muted">No targeting</Text>}
+      {!properties.length && <Text color="muted">Shown to anyone</Text>}
     </Flex>
   );
 };

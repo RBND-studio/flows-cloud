@@ -182,7 +182,7 @@ export const Sidebar: FC = () => {
               <Text variant="bodyXs" weight="600">
                 Enjoy flows for free in the beta!
               </Text>
-              <Text variant="bodyXs" color="muted">
+              <Text color="muted" variant="bodyXs">
                 Pricing will be announced by the end of Q1 2024.
               </Text>
             </div>
