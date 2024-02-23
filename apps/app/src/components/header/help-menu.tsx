@@ -59,6 +59,7 @@ export const HelpMenu: FC = () => {
     >
       {options.map((opt, i) => {
         if (typeof opt === "string") {
+          // eslint-disable-next-line react/no-array-index-key -- ignore
           if (opt === "separator") return <MenuSeparator key={i} />;
           return null;
         }

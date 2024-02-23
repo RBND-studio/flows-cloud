@@ -87,7 +87,7 @@ export const SettingsMenu: FC = () => {
           })}
         >
           <MenuSection background="bg.muted" bottomBorder header>
-            {/* TODO: bring this back one we have names <Text variant="titleS">John Doe</Text> */}
+            {auth.user.name ? <Text variant="titleS">{auth.user.name}</Text> : null}
             <Text color="muted" variant="bodyS">
               {auth.user.email}
             </Text>

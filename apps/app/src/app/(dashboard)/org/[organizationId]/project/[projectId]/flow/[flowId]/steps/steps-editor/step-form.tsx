@@ -14,8 +14,12 @@ type Props = {
   onRemove: () => void;
 };
 
-const DEFAULT_TOOLTIP: FlowTooltipStep = { targetElement: "", title: "" };
-const DEFAULT_MODAL: FlowModalStep = { title: "" };
+const DEFAULT_TOOLTIP: FlowTooltipStep = {
+  targetElement: "",
+  title: "Tooltip Title",
+  body: "Lorem ipsum dolor sit..",
+};
+const DEFAULT_MODAL: FlowModalStep = { title: "Modal Title", body: "Lorem ipsum dolor sit.." };
 const DEFAULT_WAIT: FlowWaitStep = { wait: {} };
 const FORK_DEFAULT: FlowSteps[number] = [[]];
 export const STEP_DEFAULT = {
@@ -32,7 +36,6 @@ export const StepForm: FC<Props> = ({ index, onRemove }) => {
   const stepValue = watch(stepKey);
 
   const stepType =
-    // eslint-disable-next-line no-nested-ternary -- ignore
     "targetElement" in stepValue ? "tooltip" : "title" in stepValue ? "modal" : "wait";
 
   const typeOptions = useMemo(
