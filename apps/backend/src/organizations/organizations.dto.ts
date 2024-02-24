@@ -24,7 +24,17 @@ export class InviteUserDto {
   email: string;
 }
 
-export class GetOrganizationMembersDto {
+export class OrganizationMemberDto {
   id: string;
   email: string;
+}
+export class OrganizationInviteDto {
+  id: string;
+  email: string;
+  expires_at: Date;
+}
+
+export class GetOrganizationMembersDto {
+  members: OrganizationMemberDto[];
+  pending_invites: OrganizationInviteDto[];
 }

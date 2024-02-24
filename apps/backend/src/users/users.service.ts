@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { organizationsToUsers, userInvite, userMetadata, users } from "db";
-import { and, eq, gt } from "drizzle-orm";
+import { and, eq, gt, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
@@ -39,7 +39,7 @@ export class UsersService {
     const invites = await (() => {
       if (!user.email) return [];
       return this.databaseService.db.query.userInvite.findMany({
-        where: and(eq(userInvite.email, user.email), gt(userInvite.expires_at, new Date())),
+        where: and(eq(userInvite.email, user.email), gt(userInvite.expires_at, sql`now()`)),
         with: {
           organization: true,
         },
@@ -56,13 +56,9 @@ export class UsersService {
     };
   }
 
-  async acceptInvite({
-    auth,
-    inviteId,
-  }: {
-    auth: Auth;
-    inviteId: string;
-  }): Promise<AcceptInviteResponseDto> {
+  async hasAccessToInvite({ auth, inviteId }: { auth: Auth; inviteId: string }): Promise<{
+    organizationId: string;
+  }> {
     const invite = await this.databaseService.db.query.userInvite.findFirst({
       where: eq(userInvite.id, inviteId),
     });
@@ -77,16 +73,32 @@ export class UsersService {
 
     if (user.email !== invite.email) throw new NotFoundException();
 
+    return { organizationId: invite.organization_id };
+  }
+
+  async acceptInvite({
+    auth,
+    inviteId,
+  }: {
+    auth: Auth;
+    inviteId: string;
+  }): Promise<AcceptInviteResponseDto> {
+    const { organizationId } = await this.hasAccessToInvite({ auth, inviteId });
+
     await this.databaseService.db.insert(organizationsToUsers).values({
-      organization_id: invite.organization_id,
+      organization_id: organizationId,
       user_id: auth.userId,
     });
 
     await this.databaseService.db.delete(userInvite).where(eq(userInvite.id, inviteId));
 
-    return {
-      organization_id: invite.organization_id,
-    };
+    return { organization_id: organizationId };
+  }
+
+  async declineInvite({ auth, inviteId }: { auth: Auth; inviteId: string }): Promise<void> {
+    await this.hasAccessToInvite({ auth, inviteId });
+
+    await this.databaseService.db.delete(userInvite).where(eq(userInvite.id, inviteId));
   }
 
   async joinWaitlist({ data }: { data: JoinWaitlistDto }): Promise<void> {

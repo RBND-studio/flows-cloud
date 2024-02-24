@@ -69,11 +69,17 @@ export interface paths {
   "/organizations/{organizationId}/users/{userId}": {
     delete: operations["OrganizationsController_removeUser"];
   };
+  "/invites/{inviteId}": {
+    delete: operations["OrganizationsController_removeInvite"];
+  };
   "/me": {
     get: operations["UsersController_me"];
   };
   "/invites/{inviteId}/accept": {
     post: operations["UsersController_acceptInvite"];
+  };
+  "/invites/{inviteId}/decline": {
+    post: operations["UsersController_declineInvite"];
   };
   "/waitlist": {
     post: operations["UsersController_joinWaitlist"];
@@ -260,9 +266,19 @@ export interface components {
     InviteUserDto: {
       email: string;
     };
-    GetOrganizationMembersDto: {
+    OrganizationMemberDto: {
       id: string;
       email: string;
+    };
+    OrganizationInviteDto: {
+      id: string;
+      email: string;
+      /** Format: date-time */
+      expires_at: string;
+    };
+    GetOrganizationMembersDto: {
+      members: components["schemas"]["OrganizationMemberDto"][];
+      pending_invites: components["schemas"]["OrganizationInviteDto"][];
     };
     Invite: {
       id: string;
@@ -687,7 +703,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["GetOrganizationMembersDto"][];
+          "application/json": components["schemas"]["GetOrganizationMembersDto"];
         };
       };
     };
@@ -722,6 +738,18 @@ export interface operations {
       };
     };
   };
+  OrganizationsController_removeInvite: {
+    parameters: {
+      path: {
+        inviteId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
   UsersController_me: {
     responses: {
       200: {
@@ -742,6 +770,18 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["AcceptInviteResponseDto"];
         };
+      };
+    };
+  };
+  UsersController_declineInvite: {
+    parameters: {
+      path: {
+        inviteId: string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
       };
     };
   };

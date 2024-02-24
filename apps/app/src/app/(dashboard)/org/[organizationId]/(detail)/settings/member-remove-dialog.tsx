@@ -1,7 +1,8 @@
 "use client";
 
 import { useSend } from "hooks/use-send";
-import { api, type OrganizationDetail, type OrganizationUser } from "lib/api";
+import type { OrganizationDetail, OrganizationMember } from "lib/api";
+import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import { t } from "translations";
@@ -18,7 +19,7 @@ import {
 
 type Props = {
   organization: OrganizationDetail;
-  user: OrganizationUser;
+  user: OrganizationMember;
 };
 
 export const MemberRemoveDialog: FC<Props> = ({ organization, user }) => {

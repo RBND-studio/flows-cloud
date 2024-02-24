@@ -9,7 +9,9 @@ type Schemas = components["schemas"];
 export type OrganizationPreview = Schemas["GetOrganizationsDto"];
 export type OrganizationDetail = Schemas["GetOrganizationDetailDto"];
 export type InviteUser = Schemas["InviteUserDto"];
-export type OrganizationUser = Schemas["GetOrganizationMembersDto"];
+export type OrganizationUsers = Schemas["GetOrganizationMembersDto"];
+export type OrganizationMember = components["schemas"]["OrganizationMemberDto"];
+export type OrganizationPendingInvite = components["schemas"]["OrganizationInviteDto"];
 export type CreateOrganization = Schemas["CreateOrganizationDto"];
 export type ProjectPreview = Schemas["GetProjectsDto"];
 export type ProjectDetail = Schemas["GetProjectDetailDto"];
@@ -34,8 +36,9 @@ export type Api = {
     [string, CreateOrganization]
   >;
   "/organizations/:organizationId": Endpoint<OrganizationDetail, [string]>;
-  "/organizations/:organizationId/users": Endpoint<OrganizationUser[], [string]>;
+  "/organizations/:organizationId/users": Endpoint<OrganizationUsers, [string]>;
   "POST /organizations/:organizationId/users": Endpoint<void, [string, InviteUser]>;
+  "DELETE /invites/:inviteId": Endpoint<void, [string]>;
   "DELETE /organizations/:organizationId/users/:userId": Endpoint<void, [string, string]>;
   "DELETE /organizations/:organizationId": Endpoint<void, [string]>;
   "/organizations/:organizationId/projects": Endpoint<ProjectPreview[], [string]>;
@@ -53,6 +56,7 @@ export type Api = {
   "DELETE /flows/:flowId": Endpoint<void, [string]>;
   "/me": Endpoint<Me>;
   "POST /invites/:inviteId/accept": Endpoint<AcceptInviteResponse, [string]>;
+  "POST /invites/:inviteId/decline": Endpoint<void, [string]>;
 
   "/css/vars": Endpoint<string>;
   "/css/template": Endpoint<string>;
@@ -68,6 +72,7 @@ export const api: Api = {
     fetcher(`/organizations/${organizationId}/users`),
   "POST /organizations/:organizationId/users": (organizationId, body) =>
     fetcher(`/organizations/${organizationId}/users`, { method: "POST", body }),
+  "DELETE /invites/:inviteId": (inviteId) => fetcher(`/invites/${inviteId}`, { method: "DELETE" }),
   "DELETE /organizations/:organizationId/users/:userId": (organizationId, userId) =>
     fetcher(`/organizations/${organizationId}/users/${userId}`, { method: "DELETE" }),
   "DELETE /organizations/:organizationId": (organizationId) =>
@@ -95,6 +100,8 @@ export const api: Api = {
   "/me": () => fetcher("/me"),
   "POST /invites/:inviteId/accept": (inviteId) =>
     fetcher(`/invites/${inviteId}/accept`, { method: "POST" }),
+  "POST /invites/:inviteId/decline": (inviteId) =>
+    fetcher(`/invites/${inviteId}/decline`, { method: "POST" }),
 
   "/css/vars": () => fetcher("/css/vars"),
   "/css/template": () => fetcher("/css/template"),

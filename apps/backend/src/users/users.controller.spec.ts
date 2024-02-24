@@ -156,6 +156,24 @@ describe("Accept invite", () => {
   });
 });
 
+describe("Decline invite", () => {
+  beforeEach(() => {
+    db.query.users.findFirst.mockResolvedValue({ id: "userId", email: "email" });
+    db.query.userInvite.findFirst.mockResolvedValue({
+      id: "inviteId",
+      expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      organization_id: "orgId",
+      email: "email",
+    });
+  });
+  it("Should delete invite", async () => {
+    await expect(
+      usersController.declineInvite({ userId: "userId" }, "inviteId"),
+    ).resolves.toBeUndefined();
+    expect(db.delete).toHaveBeenCalledWith(userInvite);
+  });
+});
+
 describe("Join waitlist", () => {
   beforeEach(() => {
     (verifyCaptcha as jest.Mock).mockResolvedValue({ success: true });

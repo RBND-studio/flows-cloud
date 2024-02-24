@@ -1,12 +1,11 @@
 import {
   BadRequestException,
   ConflictException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
 import { organizations, organizationsToUsers, userInvite } from "db";
-import { and, eq } from "drizzle-orm";
+import { and, eq, gt, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
@@ -17,6 +16,7 @@ import type {
   GetOrganizationDetailDto,
   GetOrganizationMembersDto,
   GetOrganizationsDto,
+  OrganizationMemberDto,
   UpdateOrganizationDto,
 } from "./organizations.dto";
 
@@ -60,17 +60,12 @@ export class OrganizationsService {
     auth: Auth;
     organizationId: string;
   }): Promise<GetOrganizationDetailDto> {
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
+
     const org = await this.databaseService.db.query.organizations.findFirst({
       where: eq(organizations.id, organizationId),
-      with: {
-        organizationsToUsers: {
-          where: eq(organizationsToUsers.user_id, auth.userId),
-        },
-      },
     });
     if (!org) throw new NotFoundException();
-    const userHasAccessToOrg = !!org.organizationsToUsers.length;
-    if (!userHasAccessToOrg) throw new ForbiddenException();
 
     return {
       id: org.id,
@@ -161,31 +156,38 @@ export class OrganizationsService {
     organizationId: string;
     email: string;
   }): Promise<void> {
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
+
     const org = await this.databaseService.db.query.organizations.findFirst({
       where: eq(organizations.id, organizationId),
       with: {
         organizationsToUsers: {
           with: {
-            user: true,
+            user: {
+              columns: {
+                email: true,
+              },
+            },
           },
         },
       },
+      columns: { name: true },
     });
     if (!org) throw new NotFoundException();
-    const userHasAccessToOrg = org.organizationsToUsers.some(
-      (orgToUser) => orgToUser.user_id === auth.userId,
-    );
-    if (!userHasAccessToOrg) throw new ForbiddenException();
 
     const userAlreadyInOrg = org.organizationsToUsers.some(
       (orgToUser) => orgToUser.user.email === email,
     );
-    if (userAlreadyInOrg) throw new ConflictException();
+    if (userAlreadyInOrg) throw new ConflictException("User already in organization");
 
     const existingInvite = await this.databaseService.db.query.userInvite.findFirst({
-      where: and(eq(userInvite.organization_id, organizationId), eq(userInvite.email, email)),
+      where: and(
+        eq(userInvite.organization_id, organizationId),
+        eq(userInvite.email, email),
+        gt(userInvite.expires_at, sql`now()`),
+      ),
     });
-    if (existingInvite) throw new ConflictException();
+    if (existingInvite) throw new ConflictException("User already invited");
 
     const invites = await this.databaseService.db
       .insert(userInvite)
@@ -210,9 +212,10 @@ export class OrganizationsService {
     organizationId: string;
     userId: string;
   }): Promise<void> {
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
+
     if (auth.userId === userId)
       throw new BadRequestException("Cannot remove yourself from organization");
-    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
 
     await this.databaseService.db
       .delete(organizationsToUsers)
@@ -224,27 +227,58 @@ export class OrganizationsService {
       );
   }
 
+  async deleteInvite({ auth, inviteId }: { auth: Auth; inviteId: string }): Promise<void> {
+    const invite = await this.databaseService.db.query.userInvite.findFirst({
+      where: eq(userInvite.id, inviteId),
+    });
+    if (!invite) throw new NotFoundException();
+
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({
+      auth,
+      organizationId: invite.organization_id,
+    });
+
+    await this.databaseService.db.delete(userInvite).where(eq(userInvite.id, inviteId));
+  }
+
   async getOrganizationMembers({
     auth,
     organizationId,
   }: {
     auth: Auth;
     organizationId: string;
-  }): Promise<GetOrganizationMembersDto[]> {
+  }): Promise<GetOrganizationMembersDto> {
     await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
 
-    const members = await this.databaseService.db.query.organizationsToUsers.findMany({
-      where: eq(organizationsToUsers.organization_id, organizationId),
-      with: {
-        user: true,
-      },
-    });
+    const [members, invites] = await Promise.all([
+      this.databaseService.db.query.organizationsToUsers.findMany({
+        where: eq(organizationsToUsers.organization_id, organizationId),
+        with: {
+          user: {
+            columns: {
+              id: true,
+              email: true,
+            },
+          },
+        },
+        columns: {},
+      }),
+      this.databaseService.db.query.userInvite.findMany({
+        where: and(
+          eq(userInvite.organization_id, organizationId),
+          gt(userInvite.expires_at, sql`now()`),
+        ),
+        columns: {
+          email: true,
+          id: true,
+          expires_at: true,
+        },
+      }),
+    ]);
 
-    return members.map(({ user }) => ({
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- should be safe
-      id: user.id!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- should be safe
-      email: user.email!,
-    }));
+    return {
+      members: members.map(({ user }) => user as OrganizationMemberDto),
+      pending_invites: invites,
+    };
   }
 }

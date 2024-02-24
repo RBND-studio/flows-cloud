@@ -2,6 +2,7 @@
 
 import { css } from "@flows/styled-system/css";
 import { useAcceptInvite } from "hooks/use-accept-invite";
+import { useDeclineInvite } from "hooks/use-decline-invite";
 import { useFetch } from "hooks/use-fetch";
 import type { FC } from "react";
 import { Button, Text } from "ui";
@@ -9,7 +10,8 @@ import { Button, Text } from "ui";
 export const Invites: FC = () => {
   const { data } = useFetch("/me");
 
-  const { handleAccept, loading } = useAcceptInvite();
+  const { handleAccept, loading: accepting } = useAcceptInvite();
+  const { handleDecline, loading: declining } = useDeclineInvite();
 
   if (!data?.pendingInvites.length) return null;
 
@@ -31,8 +33,16 @@ export const Invites: FC = () => {
       <Text>
         You&apos;ve been invited to join <strong>{invite.organizationName}</strong>
       </Text>
-      <Button loading={loading} onClick={() => handleAccept(invite.id)} size="small">
+      <Button loading={accepting} onClick={() => handleAccept(invite.id)} size="small">
         Accept
+      </Button>
+      <Button
+        loading={declining}
+        onClick={() => handleDecline(invite.id)}
+        size="small"
+        variant="secondary"
+      >
+        Decline
       </Button>
     </div>
   ));

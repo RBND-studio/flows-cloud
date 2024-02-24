@@ -4,6 +4,7 @@ import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import { routes } from "routes";
 import { t } from "translations";
+import { toast } from "ui";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- ignore
 export const useAcceptInvite = () => {
@@ -16,6 +17,7 @@ export const useAcceptInvite = () => {
     if (!res.data) return;
     void mutate("/me");
     void mutate("/organizations");
+    toast.success(t.toasts.acceptInviteSuccess);
     router.push(routes.organization({ organizationId: res.data.organization_id }));
   };
 

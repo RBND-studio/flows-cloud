@@ -72,11 +72,16 @@ export class OrganizationsController {
     return this.organizationsService.removeUser({ auth, organizationId, userId });
   }
 
+  @Delete("/invites/:inviteId")
+  removeInvite(@Authorization() auth: Auth, @Param("inviteId") inviteId: string): Promise<void> {
+    return this.organizationsService.deleteInvite({ auth, inviteId });
+  }
+
   @Get("organizations/:organizationId/users")
   getUsers(
     @Authorization() auth: Auth,
     @Param("organizationId") organizationId: string,
-  ): Promise<GetOrganizationMembersDto[]> {
+  ): Promise<GetOrganizationMembersDto> {
     return this.organizationsService.getOrganizationMembers({ auth, organizationId });
   }
 }

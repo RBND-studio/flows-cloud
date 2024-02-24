@@ -25,6 +25,11 @@ export class UsersController {
     return this.usersService.acceptInvite({ auth, inviteId });
   }
 
+  @Post("invites/:inviteId/decline")
+  declineInvite(@Authorization() auth: Auth, @Param("inviteId") inviteId: string): Promise<void> {
+    return this.usersService.declineInvite({ auth, inviteId });
+  }
+
   @Post("waitlist")
   joinWaitlist(@Body() body: JoinWaitlistDto): Promise<void> {
     return this.usersService.joinWaitlist({ data: body });

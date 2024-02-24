@@ -14,10 +14,12 @@ type Props = {
 };
 
 export default async function OrganizationSettingsPage({ params }: Props): Promise<JSX.Element> {
-  const [org, members] = await Promise.all([
+  const [org, users] = await Promise.all([
     load(api["/organizations/:organizationId"](params.organizationId)),
     load(api["/organizations/:organizationId/users"](params.organizationId)),
   ]);
+
+  users;
 
   return (
     <>
@@ -27,7 +29,7 @@ export default async function OrganizationSettingsPage({ params }: Props): Promi
       </Flex>
 
       <OrganizationEditForm org={org} />
-      <OrganizationMembers members={members} org={org} />
+      <OrganizationMembers org={org} users={users} />
     </>
   );
 }
