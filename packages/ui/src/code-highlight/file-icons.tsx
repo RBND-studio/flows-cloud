@@ -9,7 +9,7 @@ export const fileIcons: Extension = {
     const { title } = props;
     const extension = title?.split(".").pop();
 
-    // File icons are stored in public/file-icons
+    // File icons are stored in public/file-icons in both app and web
     // Additional icons can be found at
     // https://github.com/PKief/vscode-material-icon-theme/tree/main/icons
     const icon = (() => {

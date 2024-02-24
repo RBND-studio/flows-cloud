@@ -25,6 +25,8 @@ export const routes = {
     `/org/${params.organizationId}/project/${params.projectId}/template`,
   projectSettings: (params: { projectId: string; organizationId: string }) =>
     `/org/${params.organizationId}/project/${params.projectId}/settings`,
+  projectGettingStarted: (params: { projectId: string; organizationId: string }) =>
+    `/org/${params.organizationId}/project/${params.projectId}/getting-started`,
 
   flow: (params: { flowId: string; projectId: string; organizationId: string }) =>
     `/org/${params.organizationId}/project/${params.projectId}/flow/${params.flowId}`,

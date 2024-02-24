@@ -4,4 +4,5 @@ export const links = {
   docs: "https://flows.sh/docs",
   status: "https://status.flows.sh",
   slack: "https://flows.sh/join-slack",
+  support: "mailto:hello@flows.sh?subject=Support%20request",
 };

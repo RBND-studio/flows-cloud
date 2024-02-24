@@ -3,7 +3,7 @@
 import { css, cx } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { SettingsMenu } from "components/header/settings-menu";
-import { Home16, Paintbrush16, Settings16 } from "icons";
+import { Hat16, Home16, Paintbrush16, Settings16 } from "icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
@@ -28,6 +28,11 @@ export const Sidebar: FC = () => {
   const HEADER_ITEMS = useMemo(() => {
     if (!projectId) return [];
     return [
+      {
+        label: "Getting started",
+        href: routes.projectGettingStarted({ organizationId, projectId }),
+        icon: Hat16,
+      },
       {
         label: "Home",
         href: routes.project({ organizationId, projectId }),

@@ -39,8 +39,8 @@ const Content: BrightProps["Pre"] = (brightProps) => {
   const propsList = subProps?.length ? subProps : [brightProps];
   return (
     <>
-      {propsList.map((props) => (
-        <TabsContent key={props.title} value={props.title ?? ""}>
+      {propsList.map((props, i) => (
+        <TabsContent key={props.title ?? i} value={props.title ?? ""}>
           <CodePre {...brightProps} {...props} />
         </TabsContent>
       ))}

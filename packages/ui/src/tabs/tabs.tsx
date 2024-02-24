@@ -5,6 +5,7 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { forwardRef } from "react";
 
 export const Tabs = TabsPrimitive.Root;
+export const TabsContent = TabsPrimitive.Content;
 
 export const TabsList = forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
