@@ -2,8 +2,8 @@
 
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { MenuItem } from "components/header/menu-item";
-import { MenuSection } from "components/header/menu-section";
+import { MenuItem } from "components/sidebar/menu-item";
+import { MenuSection } from "components/sidebar/menu-section";
 import { useSend } from "hooks/use-send";
 import { KebabHorizontal16 } from "icons";
 import { api, type FlowDetail } from "lib/api";

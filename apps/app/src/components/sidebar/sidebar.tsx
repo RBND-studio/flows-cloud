@@ -2,7 +2,7 @@
 
 import { css, cx } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { SettingsMenu } from "components/header/settings-menu";
+import { SettingsMenu } from "components/sidebar/settings-menu";
 import { Hat16, Home16, Paintbrush16, Settings16 } from "icons";
 import Image from "next/image";
 import Link from "next/link";

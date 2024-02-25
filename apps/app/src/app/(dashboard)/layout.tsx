@@ -1,6 +1,6 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { Sidebar } from "components/header";
+import { Sidebar } from "components/sidebar";
 import type { ReactNode } from "react";
 
 import { DashboardProviders } from "./dashboard-providers";

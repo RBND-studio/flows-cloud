@@ -14,7 +14,7 @@ const options = [
   {
     label: "Contact support",
     icon: Question16,
-    href: "mailto:hello@flows.sh?subject=Support%20request",
+    href: links.support,
   },
   {
     label: "Send feedback",

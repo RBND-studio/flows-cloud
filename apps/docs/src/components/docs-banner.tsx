@@ -1,4 +1,5 @@
 import { css } from "@flows/styled-system/css";
+import { links } from "shared";
 
 export const DocsBanner = (): JSX.Element => {
   return (
@@ -10,7 +11,7 @@ export const DocsBanner = (): JSX.Element => {
           textDecoration: "underline!",
           fontWeight: "700!",
         })}
-        href="mailto:hello@flows.sh"
+        href={links.support}
       >
         hello@flows.sh
       </a>
