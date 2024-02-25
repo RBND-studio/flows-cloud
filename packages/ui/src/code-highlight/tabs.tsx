@@ -1,6 +1,7 @@
 import type { BrightProps, Extension } from "bright";
 import { Code } from "bright";
 
+import { CopyButton } from "./copy-button";
 import { TabsContent, TabsList, TabsRoot } from "./tabs-client";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- it's safe to assume that Code exists
@@ -41,7 +42,10 @@ const Content: BrightProps["Pre"] = (brightProps) => {
     <>
       {propsList.map((props, i) => (
         <TabsContent key={props.title ?? i} value={props.title ?? ""}>
-          <CodePre {...brightProps} {...props} />
+          <>
+            <CodePre {...brightProps} {...props} />
+            <CopyButton code={props.code ?? ""} />
+          </>
         </TabsContent>
       ))}
     </>

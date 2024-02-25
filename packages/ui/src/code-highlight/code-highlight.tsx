@@ -19,6 +19,7 @@ export const CodeHighlight: FC<Props> = ({ lineNumbers = true, ...props }) => {
       {...props}
       className={cx(
         css({
+          position: "relative",
           borderRadius: "radius12!",
           borderStyle: "solid",
           borderWidth: "1px",
@@ -27,6 +28,9 @@ export const CodeHighlight: FC<Props> = ({ lineNumbers = true, ...props }) => {
           flexDirection: "column",
           "& pre": {
             flex: 1,
+          },
+          "&:hover .copy-button": {
+            opacity: 1,
           },
         }),
         props.className,

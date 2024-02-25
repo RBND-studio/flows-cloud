@@ -48,7 +48,7 @@ export const InviteForm: FC<Props> = ({ organizationId, projectId }) => {
       toast.success(t.toasts.usersInvited);
     }
 
-    router.push(routes.project({ organizationId, projectId }));
+    router.push(routes.projectGettingStarted({ organizationId, projectId }));
   };
 
   const { append, remove, fields } = useFieldArray({ control, name: "users" });

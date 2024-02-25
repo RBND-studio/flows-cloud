@@ -5,13 +5,12 @@ import { Flex } from "@flows/styled-system/jsx";
 import { mutate } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
 import { api, type ProjectDetail } from "lib/api";
-import { clipboard } from "lib/clipboard";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { t } from "translations";
-import { Button, Input, Text, toast } from "ui";
+import { Button, clipboard, Input, Text, toast } from "ui";
 
 type Props = {
   project: ProjectDetail;

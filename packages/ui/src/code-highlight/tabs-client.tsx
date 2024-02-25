@@ -30,5 +30,5 @@ export const TabsList: FC<{ children?: ReactNode; titles: string[] }> = ({ title
 };
 
 export const TabsContent: FC<{ value: string; children?: ReactNode }> = (props) => {
-  return <Tabs.Content {...props} asChild />;
+  return <Tabs.Content {...props} className={css({ position: "relative" })} />;
 };
