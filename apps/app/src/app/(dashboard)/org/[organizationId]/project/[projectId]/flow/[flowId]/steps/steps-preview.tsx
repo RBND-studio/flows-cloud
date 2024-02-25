@@ -23,6 +23,9 @@ export const StepsPreview: FC<Props> = ({ steps }) => {
   useEffect(() => {
     if (!steps) return;
     void init({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment -- internal option
+      // @ts-expect-error
+      validate: false,
       flows: [{ id: "flow", steps: prepareSteps(steps) }],
       rootElement: "#preview-root",
     }).then(() => {

@@ -12,7 +12,7 @@ type Props = {
 };
 
 const CDNSnippet: FC<Props> = async ({ projectId }) => {
-  const latestPackageJson = await fetch("https://cdn.jsdelivr.net/npm/@flows/js/package.json").then(
+  const latestPackageJson = await fetch("https://www.unpkg.com/@flows/js@latest/package.json").then(
     (res) => res.json() as Promise<{ version?: string } | undefined>,
   );
   const latestVersion = latestPackageJson?.version;
@@ -35,7 +35,7 @@ const CDNSnippet: FC<Props> = async ({ projectId }) => {
       <CodeHighlight className={css({ margin: "0!", width: "100%" })}>
         <pre>
           <code className="index.html">{`<script>
-  window.FlowsJS.init({
+  FlowsJS.init({
     projectId: "${projectId}",
     // Optionally define local flows. 
     flows: [],

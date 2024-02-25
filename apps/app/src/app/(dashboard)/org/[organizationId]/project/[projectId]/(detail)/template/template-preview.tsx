@@ -17,6 +17,9 @@ export const TemplatePreview: FC = () => {
   useEffect(() => {
     if (firstRender) return;
     void init({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment -- internal option
+      // @ts-expect-error
+      validate: false,
       rootElement: "#template-preview-root",
       flows: [
         {

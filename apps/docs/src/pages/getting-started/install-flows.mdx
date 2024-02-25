@@ -7,7 +7,7 @@ import { useData } from "nextra/data";
 import { Tabs, Pre, Code } from "nextra/components";
 
 export const getServerSideProps = () => {
-  return fetch("https://cdn.jsdelivr.net/npm/@flows/js/package.json")
+  return fetch("https://www.unpkg.com/@flows/js@latest/package.json")
     .then((res) => res.json())
     .then((pkgJson) => ({
       props: {
