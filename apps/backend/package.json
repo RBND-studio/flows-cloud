@@ -46,7 +46,7 @@
     "@swc/core": "^1.4.0",
     "@types/cors": "^2.8.17",
     "@types/jest": "^29.5.12",
-    "@types/jsonwebtoken": "^9.0.5",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.17",
     "@types/supertest": "^6.0.2",
     "concurrently": "^8.2.2",
