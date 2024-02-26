@@ -347,19 +347,31 @@ export class FlowsService {
     await this.dbPermissionService.doesUserHaveAccessToProject({ auth, projectId });
 
     let human_id = slugify(data.name, { lower: true, strict: true });
-    let tryCount = 0;
-    while (
-      // eslint-disable-next-line no-await-in-loop -- it is useful here
-      await this.databaseService.db.query.flows.findFirst({
-        where: and(eq(flows.project_id, projectId), eq(flows.human_id, human_id)),
-        columns: { id: true },
+
+    const humanIdCount = await this.databaseService.db
+      .select({
+        human_id_count: sql<number | null>`substring(human_id from '_(\\d+)$')::int`,
       })
-    ) {
-      tryCount++;
-      human_id = slugify(`${data.name}-${String(tryCount).padStart(2, "0")}`, {
-        lower: true,
-        strict: true,
-      });
+      .from(flows)
+      .where(
+        and(
+          eq(flows.project_id, projectId),
+          sql`regexp_replace(human_id, '_\\d+$', '') = ${human_id}`,
+        ),
+      )
+      .orderBy(desc(sql`substring(human_id from '_(\\d+)$')::int`));
+
+    if (humanIdCount.length > 0) {
+      if (humanIdCount[0].human_id_count === null) {
+        human_id = `${human_id}_01`;
+      } else {
+        const humanIdSlug = slugify(data.name, {
+          lower: true,
+          strict: true,
+        });
+
+        human_id = `${humanIdSlug}_${String(humanIdCount[0].human_id_count + 1).padStart(2, "0")}`;
+      }
     }
 
     let flow: typeof flows.$inferSelect;
