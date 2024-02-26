@@ -109,7 +109,7 @@ describe("Get flow analytics", () => {
   });
   it("should return flow analytics", async () => {
     await expect(flowsController.getFlowAnalytics({ userId: "userId" }, "flowId")).resolves.toEqual(
-      { daily_stats: [{ count: 1 }, { count: 2, type: "uniqueUsers" }] },
+      { daily_stats: [{ count: 1 }, { count: 2 }] },
     );
   });
 });

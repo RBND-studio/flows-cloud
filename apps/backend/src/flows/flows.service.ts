@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import dayjs from "dayjs";
 import type { EventType } from "db";
 import { events, flows, flowVersions } from "db";
-import { and, desc, eq, gt, gte, lte, sql } from "drizzle-orm";
+import { and, desc, eq, gt, gte, lt, sql } from "drizzle-orm";
 import { union } from "drizzle-orm/pg-core";
 import slugify from "slugify";
 
@@ -117,7 +117,7 @@ export class FlowsService {
   async getFlowAnalytics({
     auth,
     flowId,
-    startDate,
+    startDate = dayjs().subtract(30, "day").toDate(),
     endDate,
   }: {
     auth: Auth;
@@ -137,10 +137,9 @@ export class FlowsService {
       .$with("event_types")
       .as(this.databaseService.db.selectDistinct({ type: events.event_type }).from(events));
 
-    const sD = startDate
-      ? dayjs(startDate).format("YYYY-MM-DD")
-      : dayjs().subtract(30, "day").format("YYYY-MM-DD");
-    const eD = dayjs(endDate).format("YYYY-MM-DD");
+    const sD = dayjs(startDate).format("YYYY-MM-DD");
+    // Add 1 day to include events from today
+    const eD = dayjs(endDate).add(1, "day").format("YYYY-MM-DD");
 
     const flowEvents = this.databaseService.db.$with("flow_events").as(
       this.databaseService.db
@@ -154,20 +153,22 @@ export class FlowsService {
           and(
             eq(events.flow_id, flowId),
             gte(events.event_time, sql`${sD}`),
-            lte(events.event_time, sql`${eD}`),
+            lt(events.event_time, sql`${eD}`),
           ),
         )
         .groupBy((row) => [row.date, row.type]),
     );
 
-    const calendarTable = sql`generate_series( ${sD}, ${eD}, '1 day'::interval) cal`;
+    const calendarTable = sql`generate_series( ${sD}, ${dayjs(endDate).format(
+      "YYYY-MM-DD",
+    )}, '1 day'::interval) cal`;
 
     const dailyStatsQuery = this.databaseService.db
       .with(eventTypes, flowEvents)
       .select({
         date: sql<Date>`date_trunc('day', cal)`,
         count: sql<number>`coalesce(${flowEvents.count}, 0)`,
-        type: sql<string>`${eventTypes.type}`,
+        type: sql<EventType>`${eventTypes.type}`,
       })
       .from(calendarTable)
       .fullJoin(eventTypes, sql`true`)
@@ -180,7 +181,11 @@ export class FlowsService {
         .select({ date: sql`date_trunc('day', ${events.event_time})`.as("date") })
         .from(events)
         .where(
-          and(eq(events.flow_id, flowId), gt(events.event_time, sql`now() - interval '30 day'`)),
+          and(
+            eq(events.flow_id, flowId),
+            gte(events.event_time, sql`${sD}`),
+            lt(events.event_time, sql`${eD}`),
+          ),
         )
         .groupBy((row) => [row.date, events.user_hash]),
     );
@@ -190,6 +195,7 @@ export class FlowsService {
       .select({
         date: sql<Date>`date_trunc('day', cal)`,
         count: sql<number>`cast(count(${eventUsers.date}) as int)`,
+        type: sql<EventType>`'uniqueUsers'`,
       })
       .from(calendarTable)
       .leftJoin(eventUsers, (row) => eq(eventUsers.date, row.date))
@@ -197,8 +203,9 @@ export class FlowsService {
       .orderBy((row) => row.date);
 
     const [dailyStats, uniqueUsers] = await Promise.all([dailyStatsQuery, uniqueUsersQuery]);
+
     return {
-      daily_stats: [...dailyStats, ...uniqueUsers.map((row) => ({ ...row, type: "uniqueUsers" }))],
+      daily_stats: [...dailyStats, ...uniqueUsers],
     };
   }
 
@@ -339,18 +346,41 @@ export class FlowsService {
   }): Promise<GetFlowsDto> {
     await this.dbPermissionService.doesUserHaveAccessToProject({ auth, projectId });
 
-    const newFlows = await this.databaseService.db
-      .insert(flows)
-      .values({
-        name: data.name,
-        description: "",
-        project_id: projectId,
-        flow_type: "cloud",
-        human_id: slugify(data.name, { lower: true, strict: true }),
+    let human_id = slugify(data.name, { lower: true, strict: true });
+    let tryCount = 0;
+    while (
+      // eslint-disable-next-line no-await-in-loop -- it is useful here
+      await this.databaseService.db.query.flows.findFirst({
+        where: and(eq(flows.project_id, projectId), eq(flows.human_id, human_id)),
+        columns: { id: true },
       })
-      .returning();
-    const flow = newFlows.at(0);
-    if (!flow) throw new BadRequestException("failed to create flow");
+    ) {
+      tryCount++;
+      human_id = slugify(`${data.name}-${String(tryCount).padStart(2, "0")}`, {
+        lower: true,
+        strict: true,
+      });
+    }
+
+    let flow: typeof flows.$inferSelect;
+
+    try {
+      const newFlows = await this.databaseService.db
+        .insert(flows)
+        .values({
+          name: data.name,
+          description: "",
+          project_id: projectId,
+          flow_type: "cloud",
+          human_id,
+        })
+        .returning();
+      const newFlow = newFlows.at(0);
+      if (!newFlow) throw new Error("failed to create flow");
+      flow = newFlow;
+    } catch (e) {
+      throw new BadRequestException((e as Error).message);
+    }
 
     return {
       id: flow.id,
