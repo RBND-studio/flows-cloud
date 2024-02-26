@@ -51,7 +51,8 @@ export const SettingsMenu: FC = () => {
       ? [
           {
             label: "Personal settings",
-            href: routes.userSettings({ userId: auth.user.id }),
+            // TODO: enable when user settings are implemented
+            // href: routes.userSettings({ userId: auth.user.id }),
           },
         ]
       : []),

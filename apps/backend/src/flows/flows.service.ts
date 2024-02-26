@@ -247,7 +247,9 @@ export class FlowsService {
       JSON.stringify(createVersionData({ compareVersion: flow.publishedVersion }));
     const changedFromDraft =
       JSON.stringify(updatedVersionData) !==
-      JSON.stringify(createVersionData({ compareVersion: flow.draftVersion }));
+      JSON.stringify(
+        createVersionData({ compareVersion: flow.draftVersion ?? flow.publishedVersion }),
+      );
 
     const currentDrafts = await (async () => {
       if (!changedFromPublished) {

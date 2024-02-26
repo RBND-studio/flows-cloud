@@ -89,7 +89,9 @@ export const InviteForm: FC<Props> = ({ organizationId, projectId }) => {
             Send invites
           </Button>
           <Button asChild variant="secondary">
-            <Link href={routes.project({ organizationId, projectId })}>Continue alone</Link>
+            <Link href={routes.projectGettingStarted({ organizationId, projectId })}>
+              Continue alone
+            </Link>
           </Button>
         </Flex>
       </Flex>

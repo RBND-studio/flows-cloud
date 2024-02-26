@@ -7,7 +7,7 @@ import { useData } from "nextra/data";
 import { Tabs, Pre, Code } from "nextra/components";
 
 export const getServerSideProps = () => {
-  return fetch("https://www.unpkg.com/@flows/js@latest/package.json")
+  return fetch("https://unpkg.com/@flows/js@latest/package.json")
     .then((res) => res.json())
     .then((pkgJson) => ({
       props: {
@@ -21,7 +21,7 @@ export const getServerSideProps = () => {
 export const LatestScript = ({children}) => {
   const {version} = useData()
 
-return <Pre hasCopyCode data-language="html" data-theme="default"><Code><span className="line"><span style={{color:"var(--shiki-color-text)"}}>&lt;</span><span style={{color:"var(--shiki-token-string-expression)"}}>script</span><span style={{color:"var(--shiki-color-text)"}}> </span><span style={{color:"var(--shiki-token-function)"}}>src</span><span style={{color:"var(--shiki-token-keyword)"}}>=</span><span style={{color:"var(--shiki-token-string-expression)"}}>"https://cdn.jsdelivr.net/npm/@flows/js@{version}/dist/cloud/index.global.js"</span><span style={{color:"var(--shiki-color-text)"}}>&gt;&lt;/</span><span style={{color:"var(--shiki-token-string-expression)"}}>script</span><span style={{color:"var(--shiki-color-text)"}}>&gt;</span></span></Code></Pre>
+return <Pre hasCopyCode data-language="html" data-theme="default"><Code><span className="line"><span style={{color:"var(--shiki-color-text)"}}>&lt;</span><span style={{color:"var(--shiki-token-string-expression)"}}>script</span> <span style={{color:"var(--shiki-token-function)"}}>defer</span> <span style={{color:"var(--shiki-token-function)"}}>src</span><span style={{color:"var(--shiki-token-keyword)"}}>=</span><span style={{color:"var(--shiki-token-string-expression)"}}>"https://cdn.jsdelivr.net/npm/@flows/js@{version}/dist/index.global.js"</span><span style={{color:"var(--shiki-color-text)"}}>&gt;&lt;/</span><span style={{color:"var(--shiki-token-string-expression)"}}>script</span><span style={{color:"var(--shiki-color-text)"}}>&gt;</span></span></Code></Pre>
 }
 
 # Install Flows
@@ -34,11 +34,11 @@ Copy the snippet bellow and paste it within the `<head>` tag of your product - i
 
 <LatestScript />
 
-When you're done, you can start using Flows by calling `window.Flows` anywhere in your code. You can find the `projectId` in your project settings.
+When you're done, you can start using Flows by calling `flows.init()` anywhere in your code. You can find the `projectId` in your project settings.
 
 ```html
 <script>
-  window.FlowsJS.init({
+  flows.init({
     // Insert your Flows Cloud projectId
     projectId: "xxxx",
     // Optionally define local flows.

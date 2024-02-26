@@ -49,7 +49,9 @@ export class CreateEventDto {
 
   @IsString()
   location: string;
+
   @ApiProperty({ enum: EventTypeEnum })
+  @IsString()
   type: EventType;
 }
 

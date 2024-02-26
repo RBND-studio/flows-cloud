@@ -12,9 +12,9 @@ type Props = {
 };
 
 const CDNSnippet: FC<Props> = async ({ projectId }) => {
-  const latestPackageJson = await fetch("https://www.unpkg.com/@flows/js@latest/package.json").then(
-    (res) => res.json() as Promise<{ version?: string } | undefined>,
-  );
+  const latestPackageJson = await fetch("https://unpkg.com/@flows/js@latest/package.json", {
+    cache: "no-store",
+  }).then((res) => res.json() as Promise<{ version?: string } | undefined>);
   const latestVersion = latestPackageJson?.version;
 
   return (
@@ -25,17 +25,17 @@ const CDNSnippet: FC<Props> = async ({ projectId }) => {
       </Text>
       <CodeHighlight className={css({ margin: "0!", width: "100%" })}>
         <pre>
-          <code className="index.html">{`<script src="https://cdn.jsdelivr.net/npm/@flows/js@${latestVersion}/dist/cloud/index.global.js" />`}</code>
+          <code className="index.html">{`<script defer src="https://cdn.jsdelivr.net/npm/@flows/js@${latestVersion}/dist/index.global.js"></script>`}</code>
         </pre>
       </CodeHighlight>
       <Text>
-        After that start using Flows by calling <strong>window.Flows.init</strong> anywhere in your
-        code to initialize the script.
+        After that start using Flows by calling <strong>flows.init()</strong> anywhere in your code
+        to initialize the script.
       </Text>
       <CodeHighlight className={css({ margin: "0!", width: "100%" })}>
         <pre>
           <code className="index.html">{`<script>
-  FlowsJS.init({
+  flows.init({
     projectId: "${projectId}",
     // Optionally define local flows. 
     flows: [],
@@ -72,7 +72,7 @@ init({
   );
 };
 
-export const InstalInstructions: FC<Props> = ({ projectId }) => {
+export const InstallInstructions: FC<Props> = ({ projectId }) => {
   return (
     <Flex gap="space12">
       <NumberCircle>1</NumberCircle>
