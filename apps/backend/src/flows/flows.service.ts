@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import dayjs from "dayjs";
 import type { EventType } from "db";
 import { events, flows, flowVersions } from "db";
-import { and, desc, eq, gt, gte, lt, sql } from "drizzle-orm";
+import { and, desc, eq, gt, gte, like, lt, sql } from "drizzle-orm";
 import { union } from "drizzle-orm/pg-core";
 import slugify from "slugify";
 
@@ -346,32 +346,19 @@ export class FlowsService {
   }): Promise<GetFlowsDto> {
     await this.dbPermissionService.doesUserHaveAccessToProject({ auth, projectId });
 
-    let human_id = slugify(data.name, { lower: true, strict: true });
+    const human_id_base = slugify(data.name, { lower: true, strict: true });
 
-    const humanIdCount = await this.databaseService.db
-      .select({
-        human_id_count: sql<number | null>`substring(human_id from '_(\\d+)$')::int`,
-      })
-      .from(flows)
-      .where(
-        and(
-          eq(flows.project_id, projectId),
-          sql`regexp_replace(human_id, '_\\d+$', '') = ${human_id}`,
-        ),
-      )
-      .orderBy(desc(sql`substring(human_id from '_(\\d+)$')::int`));
+    const existingFlowsWithHumanId = await this.databaseService.db.query.flows.findMany({
+      where: and(eq(flows.project_id, projectId), like(flows.human_id, `${human_id_base}%`)),
+      columns: { human_id: true },
+    });
+    const existingHumanIds = new Set(existingFlowsWithHumanId.map((flow) => flow.human_id));
 
-    if (humanIdCount.length > 0) {
-      if (humanIdCount[0].human_id_count === null) {
-        human_id = `${human_id}_01`;
-      } else {
-        const humanIdSlug = slugify(data.name, {
-          lower: true,
-          strict: true,
-        });
-
-        human_id = `${humanIdSlug}_${String(humanIdCount[0].human_id_count + 1).padStart(2, "0")}`;
-      }
+    let human_id = human_id_base;
+    let i = 0;
+    while (existingHumanIds.has(human_id)) {
+      i++;
+      human_id = `${human_id_base}_${String(i).padStart(2, "0")}`;
     }
 
     let flow: typeof flows.$inferSelect;

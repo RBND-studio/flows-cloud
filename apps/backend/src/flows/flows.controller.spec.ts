@@ -201,6 +201,7 @@ describe("Update flow", () => {
 describe("Create flow", () => {
   beforeEach(() => {
     db.returning.mockResolvedValue([{ id: "flowId" }]);
+    db.query.flows.findMany.mockResolvedValue([]);
   });
   const data = { name: "newName", data: JSON.stringify({ el: "newEl" }) };
   it("should throw access", async () => {
@@ -218,10 +219,18 @@ describe("Create flow", () => {
       flowsController.createFlow({ userId: "userId" }, "projectId", data),
     ).rejects.toThrow("failed to create flow");
   });
+  it("should create human_id with number if it exists", async () => {
+    db.query.flows.findMany.mockResolvedValue([{ human_id: "newname" }]);
+    await expect(
+      flowsController.createFlow({ userId: "userId" }, "projectId", data),
+    ).resolves.toEqual({ id: "flowId", start_count: 0 });
+    expect(db.values).toHaveBeenCalledWith(expect.objectContaining({ human_id: "newname_01" }));
+  });
   it("should return new flow", async () => {
     await expect(
       flowsController.createFlow({ userId: "userId" }, "projectId", data),
     ).resolves.toEqual({ id: "flowId", start_count: 0 });
+    expect(db.values).toHaveBeenCalledWith(expect.objectContaining({ human_id: "newname" }));
   });
 });
 
