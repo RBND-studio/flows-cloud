@@ -1,11 +1,11 @@
 "use client";
 
-import "@flows/js/flows.css";
-
 import type { FlowStep, FlowSteps } from "@flows/js";
 import { endFlow, getCurrentStep, init, nextStep, startFlow } from "@flows/js/core";
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
+import { useFetch } from "hooks/use-fetch";
+import { useParams } from "next/navigation";
 import type { FC } from "react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -16,12 +16,24 @@ type Props = {
 };
 
 export const StepsPreview: FC<Props> = ({ steps }) => {
+  const { projectId } = useParams<{ projectId: string }>();
+  const { data: project, isLoading: projectIsLoading } = useFetch("/projects/:projectId", [
+    projectId,
+  ]);
+  const { data: vars, isLoading: varsIsLoading } = useFetch("/css/vars");
+  const { data: template, isLoading: templateIsLoading } = useFetch("/css/template");
+  const loading = projectIsLoading || varsIsLoading || templateIsLoading;
+  const cssStyle = useMemo(
+    () => [project?.css_vars || vars, project?.css_template || template].join(""),
+    [project?.css_template, project?.css_vars, template, vars],
+  );
+
   const [stepIndex, setStepIndex] = useState<number | number[]>(0);
   const [currentStep, setCurrentStep] = useState<FlowStep | null>();
 
   const stepsJson = JSON.stringify(steps);
   useEffect(() => {
-    if (!steps) return;
+    if (!steps || loading) return;
     void init({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment -- internal option
       // @ts-expect-error
@@ -49,6 +61,7 @@ export const StepsPreview: FC<Props> = ({ steps }) => {
 
     return () => endFlow("flow");
   }, [
+    loading,
     stepIndex,
     steps,
     // We need to watch for changes in nested objects, hence the JSON.stringify
@@ -113,6 +126,7 @@ export const StepsPreview: FC<Props> = ({ steps }) => {
           />
         ) : null}
       </div>
+      <style>{cssStyle}</style>
     </>
   );
 };
