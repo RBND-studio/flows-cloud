@@ -7,6 +7,7 @@ export const eventType = pgEnum("event_type", [
   "nextStep",
   "prevStep",
   "tooltipError",
+  "invalidStepError",
   "cancelFlow",
   "finishFlow",
 ]);
