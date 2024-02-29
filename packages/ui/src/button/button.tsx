@@ -82,6 +82,9 @@ const button = cva({
     fastEaseInOut: "all",
     shadow: "l1",
     textWrap: "nowrap",
+    _disabled: {
+      pointerEvents: "none",
+    },
   },
   variants: {
     size: {
@@ -133,6 +136,13 @@ const button = cva({
         backgroundColor: "bg.muted",
         _hover: {
           backgroundColor: "bg.hover",
+        },
+        _disabled: {
+          backgroundColor: "bg.subtle",
+          borderColor: "bg.subtle",
+          color: "text.subtle",
+          pointerEvents: "none",
+          boxShadow: "none",
         },
       },
       black: {

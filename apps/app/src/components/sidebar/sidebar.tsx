@@ -3,7 +3,7 @@
 import { css, cx } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { SettingsMenu } from "components/sidebar/settings-menu";
-import { Hat16, Home16, Paintbrush16, Settings16 } from "icons";
+import { Flows16, Hat16, Paintbrush16, Settings16 } from "icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
@@ -37,15 +37,15 @@ export const Sidebar: FC = () => {
         label: "Flows",
         href: routes.project({ organizationId, projectId }),
         // TODO: change icon
-        icon: Home16,
+        icon: Flows16,
         active:
           pathname === routes.project({ organizationId, projectId }) ||
           pathname.startsWith(`${routes.project({ organizationId, projectId })}/flow`),
       },
       // {
-      //   label: "Flows",
+      //   label: "Home",
       //   href: "/",
-      //   icon: Flows16,
+      //   icon: Home16,
       // },
       // {
       //   label: "Analytics",

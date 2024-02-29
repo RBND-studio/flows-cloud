@@ -18,6 +18,7 @@ const DEFAULT_TOOLTIP: FlowTooltipStep = {
   targetElement: "",
   title: "Tooltip Title",
   body: "Lorem ipsum dolor sit..",
+  overlay: true,
 };
 const DEFAULT_MODAL: FlowModalStep = { title: "Modal Title", body: "Lorem ipsum dolor sit.." };
 const DEFAULT_WAIT: FlowWaitStep = { wait: {} };

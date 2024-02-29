@@ -1,5 +1,6 @@
 "use client";
 
+import { css } from "@flows/styled-system/css";
 import { useSend } from "hooks/use-send";
 import type { FlowDetail, FlowPreview } from "lib/api";
 import { api } from "lib/api";
@@ -37,11 +38,13 @@ export const FlowDeleteDialog: FC<Props> = ({ flow, organizationId, trigger }) =
     router.replace(routes.project({ projectId: flow.project_id, organizationId }));
   };
 
-  // TODO: add extra warning for local flows?
   return (
     <Dialog trigger={trigger}>
       <DialogTitle>{t.flow.deleteDialog.confirm}</DialogTitle>
       <DialogContent>
+        {flow.flow_type === "local" && (
+          <Text className={css({ mb: "space16" })}>{t.flow.deleteDialog.localFlowDescription}</Text>
+        )}
         <Text>{t.flow.deleteDialog.description}</Text>
       </DialogContent>
       <DialogActions>

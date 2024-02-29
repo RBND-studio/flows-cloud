@@ -90,7 +90,7 @@ export const FlowsList: FC<Props> = ({ projectId, flows, organizationId }) => {
               })}
             >
               {flow.flow_type === "local" ? (
-                "- "
+                <Text color="muted">Local flow</Text>
               ) : flow.enabled_at ? (
                 <>
                   <Icon color="icon.success" icon={Check16} />

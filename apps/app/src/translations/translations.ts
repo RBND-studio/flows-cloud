@@ -211,6 +211,8 @@ export const t = {
     deleteDialog: {
       title: "Delete flow",
       description: "Are you sure you want to delete this flow?",
+      localFlowDescription:
+        "Deleting local flow will not stop it from running until you remove it from your codebase. This action just removes the analytics and logs associated with the flow.",
       confirm: "Delete flow",
     },
   },
