@@ -40,18 +40,46 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
         <textarea rows={5} />
       </Input>
 
-      <Controller
-        control={control}
-        name={`${stepKey}.hideClose`}
-        render={({ field }) => (
-          <Checkbox
-            checked={field.value}
-            className={css({ mb: "space16" })}
-            label="Hide close button"
-            onCheckedChange={field.onChange}
-          />
-        )}
-      />
+      {/* TODO: maybe we should push this to the side as in tooltip? */}
+      <Flex flexDirection="column" gap="space8" mb="space16">
+        <Controller
+          control={control}
+          name={`${stepKey}.hideClose`}
+          render={({ field }) => (
+            <Checkbox
+              checked={field.value}
+              label="Hide close button"
+              onCheckedChange={field.onChange}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name={`${stepKey}.hideOverlay`}
+          render={({ field }) => (
+            <>
+              <Checkbox
+                checked={field.value}
+                label="Hide overlay"
+                onCheckedChange={field.onChange}
+              />
+              {!field.value ? (
+                <Controller
+                  control={control}
+                  name={`${stepKey}.closeOnOverlayClick`}
+                  render={({ field: closeField }) => (
+                    <Checkbox
+                      checked={closeField.value}
+                      label="Close on overlay click"
+                      onCheckedChange={closeField.onChange}
+                    />
+                  )}
+                />
+              ) : null}
+            </>
+          )}
+        />
+      </Flex>
       <Flex flexDirection="column" gap="space8">
         <StepFooter index={index} />
 

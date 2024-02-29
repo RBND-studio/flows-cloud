@@ -33,8 +33,8 @@ importers:
   apps/app:
     dependencies:
       '@flows/js':
-        specifier: 0.0.39
-        version: 0.0.39
+        specifier: 0.0.41
+        version: 0.0.41
       '@marsidev/react-turnstile':
         specifier: ^0.5.2
         version: 0.5.2(react-dom@18.2.0)(react@18.2.0)
@@ -270,8 +270,8 @@ importers:
   apps/docs:
     dependencies:
       '@flows/js':
-        specifier: 0.0.39
-        version: 0.0.39
+        specifier: 0.0.41
+        version: 0.0.41
       icons:
         specifier: workspace:*
         version: link:../../packages/icons
@@ -3524,18 +3524,11 @@ packages:
     dependencies:
       '@floating-ui/utils': 0.1.6
 
-  /@floating-ui/dom@1.5.3:
-    resolution: {integrity: sha512-ClAbQnEqJAKCJOEbbLo5IUlZHkNszqhuxS4fHAVxRPXPya6Ysf2G8KypnYcOTpx6I8xcgF9bbHb6g/2KpbV8qA==}
-    dependencies:
-      '@floating-ui/core': 1.5.0
-      '@floating-ui/utils': 0.1.6
-
   /@floating-ui/dom@1.6.3:
     resolution: {integrity: sha512-RnDthu3mzPlQ31Ss/BTwQ1zjzIhr3lk1gZB1OC56h/1vEtaXkESrOqL5fQVMfXpwGtRwX+YsZBdyHtJMQnkArw==}
     dependencies:
       '@floating-ui/core': 1.5.0
       '@floating-ui/utils': 0.2.1
-    dev: false
 
   /@floating-ui/react-dom@2.0.2(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-5qhlDvjaLmAst/rKb3VdlCinwTF4EYMiVxuuc/HVUjs46W0zgtbMmAZ1UTsDrRTxRmUEzl92mOtWbeeXL26lSQ==}
@@ -3543,7 +3536,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@floating-ui/dom': 1.5.3
+      '@floating-ui/dom': 1.6.3
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
@@ -3552,10 +3545,9 @@ packages:
 
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
-    dev: false
 
-  /@flows/js@0.0.39:
-    resolution: {integrity: sha512-YkWj0tK790N45DAOKk6JI9WeqsyRZTCKyHFl9zR9/68C4L7M48w3vEWPtotSjmjMoAsWi5rFExvv8rB2Lje5hg==}
+  /@flows/js@0.0.41:
+    resolution: {integrity: sha512-eE6qdUWVaxzdit4rRDeBHB8oW/RqusMctlGW+ZeEPishrUqUPKTHYQuOfR35Od5QXYSJzw5FAZb5HHBSrwzWJw==}
     dependencies:
       '@floating-ui/dom': 1.6.3
       superstruct: 1.0.3

@@ -15,7 +15,7 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@flows/js": "0.0.39",
+    "@flows/js": "0.0.41",
     "@marsidev/react-turnstile": "^0.5.2",
     "@monaco-editor/react": "^4.6.0",
     "@radix-ui/react-slot": "^1.0.2",
