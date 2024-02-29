@@ -20,7 +20,7 @@ export default async function DashboardLayout({ children }: Props): Promise<JSX.
 
   return (
     <DashboardProviders>
-      <Flex height="100%" minHeight="100%" overflowX="hidden">
+      <Flex height="100%" minHeight="100%">
         <Sidebar />
         <div
           className={css({
@@ -30,7 +30,7 @@ export default async function DashboardLayout({ children }: Props): Promise<JSX.
             py: "space24",
             px: "space32",
             minHeight: "100%",
-            overflowX: "hidden",
+            minWidth: "0",
           })}
         >
           {children}

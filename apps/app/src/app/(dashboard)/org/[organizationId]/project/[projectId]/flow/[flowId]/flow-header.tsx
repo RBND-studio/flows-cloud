@@ -3,14 +3,13 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { MenuItem } from "components/sidebar/menu-item";
-import { MenuSection } from "components/sidebar/menu-section";
 import { useSend } from "hooks/use-send";
 import { KebabHorizontal16 } from "icons";
 import { api, type FlowDetail } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import { t } from "translations";
-import { Button, Icon, Popover, PopoverContent, PopoverTrigger, Switch, Text, toast } from "ui";
+import { Button, Icon, Menu, Switch, Text, toast } from "ui";
 
 import { FlowPreviewDialog } from "./flow-preview-dialog";
 import { FlowPublishChangesDialog } from "./flow-publish-changes-dialog";
@@ -41,20 +40,12 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
   };
 
   const POPOVER_OPTIONS = [
-    {
-      item: (
-        <FlowDeleteDialog
-          flow={flow}
-          key="delete"
-          organizationId={params.organizationId}
-          trigger={
-            <MenuItem>
-              <Text as="span">Delete</Text>
-            </MenuItem>
-          }
-        />
-      ),
-    },
+    <FlowDeleteDialog
+      flow={flow}
+      key="delete"
+      organizationId={params.organizationId}
+      trigger={<MenuItem>Delete</MenuItem>}
+    />,
   ];
   return (
     <Flex flexDirection="column" gap="space8" mb="space16">
@@ -71,19 +62,26 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
               label="Live"
               onChange={handlePublishedToggle}
             />
-            <Popover>
-              <PopoverTrigger asChild>
+            <Menu
+              trigger={
                 <Button variant="ghost">
                   <Icon icon={KebabHorizontal16} />
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent>
-                <MenuSection>{POPOVER_OPTIONS.map((option) => option.item)}</MenuSection>
-              </PopoverContent>
-            </Popover>
+              }
+            >
+              {POPOVER_OPTIONS}
+            </Menu>
           </Flex>
         ) : (
-          <Text>Local flow</Text>
+          <Menu
+            trigger={
+              <Button variant="ghost">
+                <Icon icon={KebabHorizontal16} />
+              </Button>
+            }
+          >
+            {POPOVER_OPTIONS}
+          </Menu>
         )}
       </Flex>
       {flow.description.length > 0 && <Text color="muted">{flow.description}</Text>}

@@ -15,21 +15,23 @@ export const Frequency: FC<Props> = ({ flow }) => {
   return (
     <Flex alignItems="flex-start" direction="column" gap="space8">
       <Text variant="titleS">Frequency</Text>
-      {frequency ? (
-        <div
-          className={css({
-            paddingY: "space4",
-            paddingX: "space8",
-            backgroundColor: "bg.chip",
-            bor: "1px",
-            borderRadius: "radius8",
-          })}
-        >
-          <Text weight="600">{t.frequency[frequency]}</Text>
-        </div>
-      ) : (
-        <Text color="muted">No frequency</Text>
-      )}
+      {flow.flow_type === "local" && <Text color="muted">See in code</Text>}
+      {flow.flow_type === "cloud" &&
+        (frequency ? (
+          <div
+            className={css({
+              paddingY: "space4",
+              paddingX: "space8",
+              backgroundColor: "bg.chip",
+              bor: "1px",
+              borderRadius: "radius8",
+            })}
+          >
+            <Text weight="600">{t.frequency[frequency]}</Text>
+          </div>
+        ) : (
+          <Text color="muted">No frequency</Text>
+        ))}
     </Flex>
   );
 };

@@ -34,9 +34,13 @@ export const Sidebar: FC = () => {
         icon: Hat16,
       },
       {
-        label: "Home",
+        label: "Flows",
         href: routes.project({ organizationId, projectId }),
+        // TODO: change icon
         icon: Home16,
+        active:
+          pathname === routes.project({ organizationId, projectId }) ||
+          pathname.startsWith(`${routes.project({ organizationId, projectId })}/flow`),
       },
       // {
       //   label: "Flows",
@@ -59,12 +63,13 @@ export const Sidebar: FC = () => {
         icon: Settings16,
       },
     ];
-  }, [organizationId, projectId]);
+  }, [organizationId, pathname, projectId]);
 
   return (
     <nav
       className={css({
         width: "240px",
+        flexShrink: 0,
       })}
     >
       <div
@@ -119,7 +124,7 @@ export const Sidebar: FC = () => {
             })}
           >
             {HEADER_ITEMS.map((item) => {
-              const active = item.href === pathname;
+              const active = item.active ?? item.href === pathname;
               return (
                 <li key={item.label}>
                   <Link href={item.href}>

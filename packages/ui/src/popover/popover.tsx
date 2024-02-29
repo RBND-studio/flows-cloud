@@ -25,7 +25,7 @@ export const PopoverContent = forwardRef<React.ElementRef<typeof PopoverPrimitiv
           className={cx(content(), props.className)}
           ref={ref}
           {...props}
-          collisionPadding={8}
+          collisionPadding={16}
           sideOffset={4}
         />
       </PopoverPrimitive.Portal>
