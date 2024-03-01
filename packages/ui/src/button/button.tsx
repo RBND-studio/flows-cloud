@@ -82,6 +82,7 @@ const button = cva({
     fastEaseInOut: "all",
     shadow: "l1",
     textWrap: "nowrap",
+    border: "1px solid transparent",
     _disabled: {
       pointerEvents: "none",
     },

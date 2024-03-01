@@ -96,6 +96,7 @@ export const t = {
         targetBranch: "Branch",
         next: "Next",
         prev: "Previous",
+        cancel: "Cancel",
       },
     },
     wait: {
