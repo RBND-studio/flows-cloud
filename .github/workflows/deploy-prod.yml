@@ -24,6 +24,7 @@ jobs:
         working-directory: "./prod-deploy/apps/docs"
       - run: |
           touch .env
+          echo SERVER_API_URL=${{ secrets.SERVER_API_URL }} >> .env
           echo NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }} >> .env
           echo NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }} >> .env
           echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> .env
@@ -68,7 +69,7 @@ jobs:
       - run: docker pull docker.flows.sh/backend-prod:${{github.sha}}
       - run: docker stop flows-app-frontend-prod
       - run: docker rm flows-app-frontend-prod
-      - run: docker run -d --restart always -p 6001:3000 --name flows-app-frontend-prod docker.flows.sh/app-frontend-prod:${{github.sha}}
+      - run: docker run -d --restart always -p 6001:3000 --network flows_supabase_bridge --name flows-app-frontend-prod docker.flows.sh/app-frontend-prod:${{github.sha}}
       - run: docker stop flows-web-frontend-prod
       - run: docker rm flows-web-frontend-prod
       - run: docker run -d --restart always -p 6002:3000 --name flows-web-frontend-prod docker.flows.sh/web-frontend-prod:${{github.sha}}
