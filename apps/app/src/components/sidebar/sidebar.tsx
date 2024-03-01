@@ -36,7 +36,6 @@ export const Sidebar: FC = () => {
       {
         label: "Flows",
         href: routes.project({ organizationId, projectId }),
-        // TODO: change icon
         icon: Flows16,
         active:
           pathname === routes.project({ organizationId, projectId }) ||

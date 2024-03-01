@@ -39,14 +39,23 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
     router.refresh();
   };
 
-  const POPOVER_OPTIONS = [
-    <FlowDeleteDialog
-      flow={flow}
-      key="delete"
-      organizationId={params.organizationId}
-      trigger={<MenuItem>Delete</MenuItem>}
-    />,
-  ];
+  const dropdownMenu = (
+    <Menu
+      trigger={
+        <Button variant="ghost">
+          <Icon icon={KebabHorizontal16} />
+        </Button>
+      }
+    >
+      <FlowDeleteDialog
+        flow={flow}
+        key="delete"
+        organizationId={params.organizationId}
+        trigger={<MenuItem>Delete</MenuItem>}
+      />
+    </Menu>
+  );
+
   return (
     <Flex flexDirection="column" gap="space8" mb="space16">
       <Flex justifyContent="space-between">
@@ -62,26 +71,10 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
               label="Live"
               onChange={handlePublishedToggle}
             />
-            <Menu
-              trigger={
-                <Button variant="ghost">
-                  <Icon icon={KebabHorizontal16} />
-                </Button>
-              }
-            >
-              {POPOVER_OPTIONS}
-            </Menu>
+            {dropdownMenu}
           </Flex>
         ) : (
-          <Menu
-            trigger={
-              <Button variant="ghost">
-                <Icon icon={KebabHorizontal16} />
-              </Button>
-            }
-          >
-            {POPOVER_OPTIONS}
-          </Menu>
+          dropdownMenu
         )}
       </Flex>
       {flow.description.length > 0 && <Text color="muted">{flow.description}</Text>}
