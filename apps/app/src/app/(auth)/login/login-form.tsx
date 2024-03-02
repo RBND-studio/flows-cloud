@@ -13,7 +13,6 @@ import { routes } from "routes";
 import { createClient } from "supabase/client";
 import { Button, Input, Text, toast } from "ui";
 
-//TODO: @pesickadavid add password reset page and uncomment the link
 export const LoginForm: FC = () => {
   const [isPending, startTransition] = useTransition();
   const supabase = createClient();

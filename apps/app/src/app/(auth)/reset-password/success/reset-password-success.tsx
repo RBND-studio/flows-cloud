@@ -26,12 +26,12 @@ export const ResetPasswordSuccess = () => {
         </Text>
 
         <Text align="center" className={css({ mb: "space24" })}>
-          We&apos;ve sent a verification link.
-          <br />
-          Please check your inbox at{" "}
+          We&apos;ve sent you a link to
           <Text as="span" weight="700">
             {email}
           </Text>
+          <br />
+          where you can create a new password.
         </Text>
 
         <Text align="center" color="muted">
