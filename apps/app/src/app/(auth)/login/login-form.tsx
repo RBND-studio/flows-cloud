@@ -103,17 +103,17 @@ export const LoginForm: FC = () => {
             Log in
           </Button>
         </Flex>
-        {/* <Text align="center" color="muted">
+        <Text align="center" color="muted">
           <Link
             className={css({
               textDecoration: "underline",
               color: "text",
             })}
-            href="/reset-password"
+            href={routes.resetPassword}
           >
             Forgot password?
           </Link>
-        </Text> */}
+        </Text>
 
         <hr
           className={css({

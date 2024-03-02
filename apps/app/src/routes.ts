@@ -5,6 +5,9 @@ export const routes = {
   authCallback: "/auth/callback",
   signUp: (params?: { message?: string }) => `/signup${createParams(params)}`,
   signupSuccess: ({ email }: { email: string }) => `/signup/success?email=${email}`,
+  resetPassword: `/reset-password`,
+  resetPasswordSuccess: ({ email }: { email: string }) => `/reset-password/success?email=${email}`,
+  resetPasswordNew: `/reset-password/new`,
   verifyError: ({ message }: { message: string }) => `/verify/error?message=${message}`,
 
   home: "/",
