@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import browserslist from "browserslist";
 import { events, flows, projects } from "db";
 import { and, arrayContains, desc, eq, inArray, isNotNull } from "drizzle-orm";
+import { browserslistToTargets, transform } from "lightningcss";
 
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
@@ -29,9 +31,19 @@ export class SdkService {
 
     const css_vars = project.css_vars?.trim() || getDefaultCssMinVars(version);
     const css_template = project.css_template?.trim() || getDefaultCssMinTemplate(version);
-    const css = await Promise.all([css_vars, css_template]);
+    const css = (await Promise.all([css_vars, css_template])).join("\n");
 
-    return css.join("\n");
+    try {
+      const minified = transform({
+        filename: "template.css",
+        code: Buffer.from(css),
+        minify: true,
+        targets: browserslistToTargets(browserslist(">= 0.25%")),
+      });
+      return minified.code.toString();
+    } catch {
+      return css;
+    }
   }
 
   async getFlows({

@@ -22,6 +22,7 @@ type Props = {
 
 export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
   const [open, setOpen] = useState(false);
+  const [makeLiveOpen, setMakeLiveOpen] = useState(false);
 
   const { loading, send } = useSend();
   const router = useRouter();
@@ -33,7 +34,44 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
     setOpen(false);
     toast.success(t.toasts.publishFlowSuccess);
     router.refresh();
+    if (flow.enabled_at === null) {
+      // Timeout to create nice transition between dialogs
+      setTimeout(() => {
+        setMakeLiveOpen(true);
+      }, 300);
+    }
   };
+
+  const handleMakeLive = async (): Promise<void> => {
+    const res = await send(api["PATCH /flows/:flowId"](flow.id, { enabled: true }), {
+      errorMessage: t.toasts.enableFlowFailed,
+    });
+    if (res.error) return;
+    toast.success(t.toasts.enableFlowSuccess);
+    router.refresh();
+    setMakeLiveOpen(false);
+  };
+
+  // TODO: @opesicka make this nicer
+  if (makeLiveOpen)
+    return (
+      <Dialog onOpenChange={setMakeLiveOpen} open={makeLiveOpen}>
+        <DialogTitle>Make live?</DialogTitle>
+        <DialogContent>
+          <Text>For the users to see your flow, you need to make it live first.</Text>
+        </DialogContent>
+        <DialogActions>
+          <DialogClose asChild>
+            <Button shadow={false} size="small" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+          <Button loading={loading} onClick={handleMakeLive} size="small" variant="primary">
+            Make live
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
 
   const changesToPublish = !!flow.draftVersion;
   if (!changesToPublish) return null;

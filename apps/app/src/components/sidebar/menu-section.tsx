@@ -9,6 +9,7 @@ type Props = {
   header?: boolean;
 };
 
+// TODO: replace this component Menu from UI
 export const MenuSection: FC<Props> = ({ children, bottomBorder, background, header }) => {
   return (
     <div

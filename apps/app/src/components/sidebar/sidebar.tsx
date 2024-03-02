@@ -3,7 +3,7 @@
 import { css, cx } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { SettingsMenu } from "components/sidebar/settings-menu";
-import { Hat16, Home16, Paintbrush16, Settings16 } from "icons";
+import { Flows16, Hat16, Paintbrush16, Settings16 } from "icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
@@ -34,14 +34,17 @@ export const Sidebar: FC = () => {
         icon: Hat16,
       },
       {
-        label: "Home",
+        label: "Flows",
         href: routes.project({ organizationId, projectId }),
-        icon: Home16,
+        icon: Flows16,
+        active:
+          pathname === routes.project({ organizationId, projectId }) ||
+          pathname.startsWith(`${routes.project({ organizationId, projectId })}/flow`),
       },
       // {
-      //   label: "Flows",
+      //   label: "Home",
       //   href: "/",
-      //   icon: Flows16,
+      //   icon: Home16,
       // },
       // {
       //   label: "Analytics",
@@ -59,12 +62,13 @@ export const Sidebar: FC = () => {
         icon: Settings16,
       },
     ];
-  }, [organizationId, projectId]);
+  }, [organizationId, pathname, projectId]);
 
   return (
     <nav
       className={css({
         width: "240px",
+        flexShrink: 0,
       })}
     >
       <div
@@ -119,7 +123,7 @@ export const Sidebar: FC = () => {
             })}
           >
             {HEADER_ITEMS.map((item) => {
-              const active = item.href === pathname;
+              const active = item.active ?? item.href === pathname;
               return (
                 <li key={item.label}>
                   <Link href={item.href}>

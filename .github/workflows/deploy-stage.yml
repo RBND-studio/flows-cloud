@@ -25,6 +25,7 @@ jobs:
         working-directory: "./stage-deploy/apps/docs"
       - run: |
           touch .env
+          echo SERVER_API_URL=${{ secrets.SERVER_API_URL }} >> .env
           echo NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }} >> .env
           echo NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }} >> .env
           echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> .env
@@ -56,7 +57,7 @@ jobs:
     steps:
       - run: docker stop flows-app-frontend-stage
       - run: docker rm flows-app-frontend-stage
-      - run: docker run -d --restart always -p 6001:3000 --name flows-app-frontend-stage docker.flows.sh/app-frontend-stage:${{github.sha}}
+      - run: docker run -d --restart always -p 6001:3000 --network flows_supabase_bridge --name flows-app-frontend-stage docker.flows.sh/app-frontend-stage:${{github.sha}}
       - run: docker stop flows-web-frontend-stage
       - run: docker rm flows-web-frontend-stage
       - run: docker run -d --restart always -p 6002:3000 --name flows-web-frontend-stage docker.flows.sh/web-frontend-stage:${{github.sha}}

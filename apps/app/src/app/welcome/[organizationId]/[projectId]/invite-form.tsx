@@ -41,7 +41,7 @@ export const InviteForm: FC<Props> = ({ organizationId, projectId }) => {
       );
       const resWithError = results.find((r) => r.error);
       if (resWithError?.error)
-        return toast.error(t.toasts.createInviteFailed, {
+        return toast.error(t.toasts.sendInviteFailed, {
           description: resWithError.error.message,
         });
 

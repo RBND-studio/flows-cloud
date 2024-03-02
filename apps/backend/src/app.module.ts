@@ -22,6 +22,7 @@ const publicRoutes: string[] = [
   "/sdk/events",
   "/sdk/events/:eventId",
   "/sdk/flows/:flowId",
+  "/sdk/flows/:flowId/draft",
 ];
 
 @Module({

@@ -4,7 +4,7 @@ import { Close16, Plus16 } from "icons";
 import type { FC } from "react";
 import { Controller, useFieldArray } from "react-hook-form";
 import { t } from "translations";
-import { Button, Checkbox, Icon, Input, Label, Text } from "ui";
+import { Button, Checkbox, Icon, Input, Label, Select, Text } from "ui";
 
 import { useStepsForm } from "./steps-editor.types";
 
@@ -21,7 +21,7 @@ export const StepFooterActions: FC<Props> = ({ index, placement }) => {
   const fieldArray = useFieldArray({ name: fieldName, control });
 
   return (
-    <Box bor="1px" borderRadius="radius8">
+    <Box bor="1px" borderRadius="radius8" minWidth={0}>
       <Box borBottom="1px" padding="space12">
         <Text>{t.steps.footer.buttonAlignment[placement]} actions</Text>
       </Box>
@@ -64,12 +64,14 @@ const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
     if (value.href !== undefined) return "href";
     if (value.prev) return "prev";
     if (value.next) return "next";
+    if (value.cancel) return "cancel";
     return "targetBranch";
   })();
   const handleSwitchVariant = (variant: typeof currentVariant): void => {
     if (variant === "href") return setValue(fieldName, { label: value.label, href: "" });
     if (variant === "prev") return setValue(fieldName, { label: value.label, prev: true });
     if (variant === "next") return setValue(fieldName, { label: value.label, next: true });
+    if (variant === "cancel") return setValue(fieldName, { label: value.label, cancel: true });
     return setValue(fieldName, { label: value.label, targetBranch: 0 });
   };
 
@@ -83,19 +85,35 @@ const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
       </Flex>
       <Input
         {...control.register(`${fieldName}.label`)}
-        className={css({ mb: "space16" })}
+        className={css({ mb: "space8" })}
         defaultValue={value.label}
         label="Text"
       />
+      <Controller
+        control={control}
+        name={`${fieldName}.variant`}
+        render={({ field }) => (
+          <Select
+            className={css({ mb: "space16" })}
+            label="Variant"
+            onChange={field.onChange}
+            options={[
+              { value: "primary", label: "Primary" },
+              { value: "secondary", label: "Secondary" },
+            ]}
+            value={field.value ?? "primary"}
+          />
+        )}
+      />
 
-      <Flex gap="space4" mb="space16">
-        {(["href", "targetBranch", "prev", "next"] as const).map((variant) => (
+      <Flex cardWrap="-" mb="space16" overflowX="auto">
+        {(["href", "targetBranch", "prev", "next", "cancel"] as const).map((variant) => (
           <Button
-            className={css({ flex: 1 })}
+            className={css({ flex: 1, fontWeight: "normal" })}
             key={variant}
             onClick={() => handleSwitchVariant(variant)}
             size="small"
-            variant={currentVariant === variant ? "black" : "secondary"}
+            variant={currentVariant === variant ? "black" : "ghost"}
           >
             {t.steps.footer.variant[variant]}
           </Button>

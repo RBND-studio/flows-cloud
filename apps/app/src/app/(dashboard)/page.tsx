@@ -13,5 +13,12 @@ export default async function DashboardPage(): Promise<JSX.Element> {
 
   if (!organizations.length) return redirect(routes.welcome);
 
+  const org = organizations[0];
+  const projects = await load(api["/organizations/:organizationId/projects"](org.id));
+  if (projects.length)
+    return redirect(
+      routes.project({ projectId: projects[0].id, organizationId: projects[0].organization_id }),
+    );
+
   return redirect(routes.organization({ organizationId: organizations[0].id }));
 }

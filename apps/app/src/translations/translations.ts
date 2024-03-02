@@ -34,7 +34,7 @@ export const t = {
     enableFlowSuccess: "Flow enabled",
     disableFlowSuccess: "Flow disabled",
 
-    createInviteFailed: "Failed to send invite",
+    sendInviteFailed: "Failed to send invite",
     createProjectFailed: "Failed to create project",
     createOrgFailed: "Failed to create organization",
     updateOrgFailed: "Failed to update organization",
@@ -96,6 +96,7 @@ export const t = {
         targetBranch: "Branch",
         next: "Next",
         prev: "Previous",
+        cancel: "Cancel",
       },
     },
     wait: {
@@ -211,6 +212,8 @@ export const t = {
     deleteDialog: {
       title: "Delete flow",
       description: "Are you sure you want to delete this flow?",
+      localFlowDescription:
+        "Deleting local flow will not stop it from running until you remove it from your codebase. This action just removes the analytics and logs associated with the flow.",
       confirm: "Delete flow",
     },
   },

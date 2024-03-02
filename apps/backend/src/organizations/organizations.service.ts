@@ -187,18 +187,19 @@ export class OrganizationsService {
         gt(userInvite.expires_at, sql`now()`),
       ),
     });
-    if (existingInvite) throw new ConflictException("User already invited");
 
-    const invites = await this.databaseService.db
-      .insert(userInvite)
-      .values({
-        email,
-        organization_id: organizationId,
-        expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
-      })
-      .returning();
-    const invite = invites.at(0);
-    if (!invite) throw new BadRequestException("Failed to create invite");
+    if (!existingInvite) {
+      const invites = await this.databaseService.db
+        .insert(userInvite)
+        .values({
+          email,
+          organization_id: organizationId,
+          expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
+        })
+        .returning();
+      const invite = invites.at(0);
+      if (!invite) throw new BadRequestException("Failed to create invite");
+    }
 
     await this.emailService.sendInvite({ email, organizationName: org.name });
   }

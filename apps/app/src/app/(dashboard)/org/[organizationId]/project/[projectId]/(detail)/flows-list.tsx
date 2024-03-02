@@ -79,7 +79,7 @@ export const FlowsList: FC<Props> = ({ projectId, flows, organizationId }) => {
               })}
               color="muted"
             >
-              Updated {timeFromNow(flow.updated_at)}
+              {flow.flow_type === "local" ? "-" : `Updated ${timeFromNow(flow.updated_at)}`}
             </Text>
             <div
               className={css({
@@ -89,7 +89,9 @@ export const FlowsList: FC<Props> = ({ projectId, flows, organizationId }) => {
                 width: "200px",
               })}
             >
-              {flow.enabled_at ? (
+              {flow.flow_type === "local" ? (
+                <Text color="muted">Local flow</Text>
+              ) : flow.enabled_at ? (
                 <>
                   <Icon color="icon.success" icon={Check16} />
                   <Text color="success">Published {timeFromNow(flow.enabled_at)}</Text>

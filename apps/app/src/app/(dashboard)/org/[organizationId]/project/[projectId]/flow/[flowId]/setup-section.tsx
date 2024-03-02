@@ -16,6 +16,8 @@ type Props = {
 };
 
 export const SetupSection: FC<Props> = ({ params, flow }) => {
+  const flowIsLocal = flow.flow_type === "local";
+
   return (
     <Flex
       className={css({
@@ -28,14 +30,21 @@ export const SetupSection: FC<Props> = ({ params, flow }) => {
     >
       <Flex alignItems="flex-start" justifyContent="space-between" width="100%">
         <Text variant="titleL">Published setup</Text>
-        <Link href={routes.flowSettings(params)}>
-          <Button variant="secondary">Edit</Button>
-        </Link>
+        <Button asChild disabled={flowIsLocal} variant="secondary">
+          <Link href={routes.flowSettings(params)}>Edit</Link>
+        </Button>
       </Flex>
       <Flex direction="column" gap="space24">
-        <Frequency flow={flow} />
-        <Targeting flow={flow} />
-        <Launch flow={flow} />
+        {flowIsLocal ? (
+          <Text color="muted">Check your codebase to see setup of a local flow.</Text>
+        ) : null}
+        {!flowIsLocal && (
+          <>
+            <Frequency flow={flow} />
+            <Targeting flow={flow} />
+            <Launch flow={flow} />
+          </>
+        )}
       </Flex>
     </Flex>
   );

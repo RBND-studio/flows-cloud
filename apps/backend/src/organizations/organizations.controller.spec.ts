@@ -175,7 +175,11 @@ describe("Invite user", () => {
     db.query.userInvite.findFirst.mockResolvedValue({ id: "inviteId" });
     await expect(
       organizationsController.inviteUser({ userId: "userId" }, "org1", { email: "email" }),
-    ).rejects.toThrow("User already invited");
+    ).resolves.toBeUndefined();
+    expect(emailService.sendInvite).toHaveBeenCalledWith({
+      email: "email",
+      organizationName: "org",
+    });
   });
   it("should throw without new invite", async () => {
     db.returning.mockResolvedValue([]);

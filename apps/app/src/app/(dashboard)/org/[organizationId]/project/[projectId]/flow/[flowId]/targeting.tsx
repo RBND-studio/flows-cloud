@@ -27,63 +27,66 @@ export const Targeting: FC<Props> = ({ flow }) => {
   return (
     <Flex direction="column" gap="space8">
       <Text variant="titleS">Targeting</Text>
-      {properties.map((group, groupIndex) => (
-        <Fragment
-          // eslint-disable-next-line react/no-array-index-key -- ignore
-          key={groupIndex}
-        >
-          {groupIndex !== 0 && <Text>or</Text>}
-
-          <Wrap
-            align="center"
-            bg="bg.subtle"
-            bor="1px"
-            borderRadius="radius12"
-            gap="space8"
-            p="space4"
+      {!properties.length ? (
+        <Text color="muted">Shown to anyone</Text>
+      ) : (
+        properties.map((group, groupIndex) => (
+          <Fragment
+            // eslint-disable-next-line react/no-array-index-key -- ignore
+            key={groupIndex}
           >
-            {group.map((item, matcherIndex) => {
-              const operatorKey = Object.keys(item).filter((key) => key !== "key")[0];
-              const value = item[operatorKey as MatcherKey];
-              return (
-                <Fragment
-                  // eslint-disable-next-line react/no-array-index-key -- ignore
-                  key={matcherIndex}
-                >
-                  {matcherIndex !== 0 && <Text>and</Text>}
-                  <Flex
-                    className={css({
-                      paddingY: "space4",
-                      paddingX: "space8",
-                      backgroundColor: "bg",
-                      bor: "1px",
-                      borderRadius: "radius8",
-                    })}
-                    gap="space8"
+            {groupIndex !== 0 && <Text>or</Text>}
+
+            <Wrap
+              align="center"
+              bg="bg.subtle"
+              bor="1px"
+              borderRadius="radius12"
+              gap="space8"
+              p="space4"
+            >
+              {group.map((item, matcherIndex) => {
+                const operatorKey = Object.keys(item).filter((key) => key !== "key")[0];
+                const value = item[operatorKey as MatcherKey];
+                return (
+                  <Fragment
+                    // eslint-disable-next-line react/no-array-index-key -- ignore
+                    key={matcherIndex}
                   >
-                    <Text weight="600">{item.key}</Text>
-                    <Text color="muted">{t.targeting.operatorExplanation[operatorKey]}</Text>
-                    {Array.isArray(value) ? (
-                      value.map((v, valueIndex) => (
-                        <Fragment
-                          // eslint-disable-next-line react/no-array-index-key -- ignore
-                          key={valueIndex}
-                        >
-                          {valueIndex !== 0 && <Text>or</Text>}
-                          <ValueText>{v}</ValueText>
-                        </Fragment>
-                      ))
-                    ) : (
-                      <ValueText>{value}</ValueText>
-                    )}
-                  </Flex>
-                </Fragment>
-              );
-            })}
-          </Wrap>
-        </Fragment>
-      ))}
-      {!properties.length && <Text color="muted">Shown to anyone</Text>}
+                    {matcherIndex !== 0 && <Text>and</Text>}
+                    <Flex
+                      className={css({
+                        paddingY: "space4",
+                        paddingX: "space8",
+                        backgroundColor: "bg",
+                        bor: "1px",
+                        borderRadius: "radius8",
+                      })}
+                      gap="space8"
+                    >
+                      <Text weight="600">{item.key}</Text>
+                      <Text color="muted">{t.targeting.operatorExplanation[operatorKey]}</Text>
+                      {Array.isArray(value) ? (
+                        value.map((v, valueIndex) => (
+                          <Fragment
+                            // eslint-disable-next-line react/no-array-index-key -- ignore
+                            key={valueIndex}
+                          >
+                            {valueIndex !== 0 && <Text>or</Text>}
+                            <ValueText>{v}</ValueText>
+                          </Fragment>
+                        ))
+                      ) : (
+                        <ValueText>{value}</ValueText>
+                      )}
+                    </Flex>
+                  </Fragment>
+                );
+              })}
+            </Wrap>
+          </Fragment>
+        ))
+      )}
     </Flex>
   );
 };
