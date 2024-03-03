@@ -8,7 +8,7 @@ import { GitHub16, Google16 } from "icons";
 import { Captcha } from "lib/captcha";
 import Link from "next/link";
 import type { FC } from "react";
-import { Suspense, useState, useTransition } from "react";
+import { Suspense, useTransition } from "react";
 import { routes } from "routes";
 import { createClient } from "supabase/client";
 import { Button, Input, Text, toast } from "ui";
@@ -18,12 +18,9 @@ export const LoginForm: FC = () => {
   const [isPending, startTransition] = useTransition();
   const supabase = createClient();
 
-  const [captchaToken, setCaptchaToken] = useState<string>();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    if (!captchaToken) return;
     const formData = new FormData(event.currentTarget);
-    formData.set("captchaToken", captchaToken);
 
     startTransition(async () => {
       const res = await signIn(formData);
@@ -35,7 +32,7 @@ export const LoginForm: FC = () => {
     await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.origin}/auth/callback`,
+        redirectTo: `${window.origin}${routes.authCallback}`,
       },
     });
   };
@@ -98,7 +95,7 @@ export const LoginForm: FC = () => {
         </Suspense>
 
         <Flex direction="column">
-          <Captcha action="login" onSuccess={(v) => setCaptchaToken(v)} />
+          <Captcha action="login" />
           <Button loading={isPending} name="sign-in" size="medium" type="submit">
             Log in
           </Button>

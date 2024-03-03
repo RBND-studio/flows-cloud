@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@flows/js": "0.0.42",
-    "@marsidev/react-turnstile": "^0.5.2",
+    "@marsidev/react-turnstile": "^0.5.3",
     "@monaco-editor/react": "^4.6.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@rbnd/react-dark-mode": "^2.0.1",
