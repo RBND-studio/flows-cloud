@@ -22,8 +22,16 @@ export const Accordion: FC<Props> = ({ title, children, onOpenChange, open, ...p
   const toggleExpanded = (): void => setExpanded(!expanded);
 
   return (
-    <Box cardWrap="-" overflow="hidden" {...props}>
+    <Box
+      cardWrap="-"
+      overflow="hidden"
+      {...props}
+      borderColor={expanded ? "border.strong" : "border"}
+    >
       <Flex
+        _hover={{
+          bg: "bg.subtleHover",
+        }}
         alignItems="center"
         borBottom={expanded ? "1px" : undefined}
         cursor="pointer"

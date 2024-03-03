@@ -57,7 +57,6 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
         <Text variant="titleL">{t.project.domains.domains}</Text>
         <Text color="muted">{t.project.domains.description}</Text>
       </Flex>
-
       {fields.length > 0 && (
         <Flex direction="column" gap="space8">
           {fields.map((field, i) => {
@@ -96,7 +95,6 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
           {t.project.domains.addDomain}
         </Button>
       </div>
-
       <div>
         <Button disabled={!formState.isDirty} loading={loading} type="submit" variant="black">
           {t.actions.save}

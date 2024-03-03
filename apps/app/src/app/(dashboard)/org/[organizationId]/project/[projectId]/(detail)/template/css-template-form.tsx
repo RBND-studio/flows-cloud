@@ -76,7 +76,8 @@ export const CssTemplateForm: FC<Props> = ({ project, defaultTemplate }) => {
         <Box flex={1}>
           <Text variant="titleL">Full CSS template</Text>
           <Text color="muted">
-            Full CSS template gives you full control over all elements of flows.
+            Full CSS template gives you control over all elements of flows. Customizing it increases
+            the risk of breaking changes in future. Use with caution.
           </Text>
         </Box>
 

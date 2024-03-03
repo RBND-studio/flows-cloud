@@ -2,6 +2,7 @@ import { Flex } from "@flows/styled-system/jsx";
 import { Text } from "ui";
 
 import { CreateFlow } from "./create-flow";
+import { Domains } from "./domains";
 import { InstallInstructions } from "./install-instructions";
 import { LearnMore } from "./learn-more";
 
@@ -15,10 +16,11 @@ export default function ProjectSettingsPage({ params }: Props): JSX.Element {
       <Flex flexDirection="column" gap="space8">
         <Text variant="titleXl">Welcome to Flows 👋</Text>
         <Text color="muted">
-          Here&apos;s how to get up and running with Flows in two easy steps.
+          Here&apos;s how to get up and running with Flows in three easy steps.
         </Text>
       </Flex>
       <InstallInstructions organizationId={params.organizationId} projectId={params.projectId} />
+      <Domains organizationId={params.organizationId} projectId={params.projectId} />
       <CreateFlow organizationId={params.organizationId} projectId={params.projectId} />
       <LearnMore />
     </Flex>

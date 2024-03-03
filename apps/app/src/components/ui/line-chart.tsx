@@ -33,14 +33,14 @@ type InnerProps = Props & {
 };
 
 const LineChartWithoutSize: FC<InnerProps> = ({ data, height, width, renderTooltip }) => {
-  const axisLeftWidth = 56;
+  const axisLeftWidth = 40;
   const axisLeftLineHeight = 16;
   const axisLeftAxisLinePadding = 8;
-  const axisBottomHeight = 24;
+  const axisBottomHeight = 32;
   const paddingTop = 8;
   const paddingRight = 24;
   const axisBottomTickWidth = 80;
-  const highlightDot = 7;
+  const highlightDot = 6;
 
   const minValue = 0;
   const maxValue = useMemo(() => Math.max(...data.map((item) => item.value)), [data]);
@@ -133,6 +133,7 @@ const LineChartWithoutSize: FC<InnerProps> = ({ data, height, width, renderToolt
             left={axisLeftWidth}
             numTicks={5}
             scale={valueScale}
+            stroke={token("colors.border")}
             tickComponent={axisLeftTickComponent}
             top={paddingTop}
           />
@@ -140,8 +141,9 @@ const LineChartWithoutSize: FC<InnerProps> = ({ data, height, width, renderToolt
           <Group left={axisLeftWidth} top={paddingTop}>
             <AxisBottom
               hideTicks
-              numTicks={3}
+              numTicks={6}
               scale={labelScale}
+              stroke={token("colors.border")}
               tickComponent={axisBottomTickComponent}
               tickFormat={(v) => monthDay(v)}
               top={chartHeight}

@@ -14,7 +14,7 @@ type Props = {
 export const CreateFlow: FC<Props> = ({ projectId, organizationId }) => {
   return (
     <Flex gap="space12">
-      <NumberCircle>2</NumberCircle>
+      <NumberCircle>3</NumberCircle>
       <Flex
         alignItems="center"
         flex="1"
