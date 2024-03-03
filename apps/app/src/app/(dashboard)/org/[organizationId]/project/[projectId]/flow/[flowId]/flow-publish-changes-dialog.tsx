@@ -73,7 +73,7 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
       </Dialog>
     );
 
-  const changesToPublish = !!flow.draftVersion;
+  const changesToPublish = !!flow.draftVersion && !!flow.draftVersion.steps.length;
   if (!changesToPublish) return null;
 
   return (
