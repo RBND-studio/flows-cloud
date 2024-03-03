@@ -3,7 +3,6 @@
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { resetPassword } from "auth/server-actions";
-import { Captcha } from "lib/captcha";
 import Link from "next/link";
 import React, { useTransition } from "react";
 import { routes } from "routes";
@@ -59,7 +58,6 @@ export const ResetPasswordForm = (): JSX.Element => {
         />
 
         <Flex direction="column">
-          <Captcha action="resetPassword" />
           <Button loading={isPending} name="sign-in" size="medium" type="submit">
             Reset password
           </Button>

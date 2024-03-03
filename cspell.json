@@ -13,31 +13,34 @@
     "grecaptcha",
     "Lekgu",
     "libc",
+    "marsidev",
     "nestjs",
     "nextjs",
     "nextra",
     "noflash",
     "Ondrej",
+    "opesicka",
     "Pesicka",
-    "Vojtech",
-    "Vidra",
     "pesickadavid",
     "rbnd",
     "rehype",
     "reimagined",
+    "shiki",
     "Sonner",
     "supabase",
     "Usetiful",
+    "Vidra",
     "visx",
     "Vixww",
-    "waivable",
-    "shiki",
-    "opesicka"
+    "Vojtech",
+    "waivable"
   ],
   // flagWords - list of words to be always considered incorrect
   // This is useful for offensive words and common spelling errors.
   // For example "hte" should be "the"
-  "flagWords": ["hte"],
+  "flagWords": [
+    "hte"
+  ],
   "ignorePaths": [
     "**/node_modules/**",
     "**/tsconfig.*",

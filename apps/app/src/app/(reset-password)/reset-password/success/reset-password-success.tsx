@@ -8,7 +8,7 @@ import React from "react";
 import { routes } from "routes";
 import { Text } from "ui";
 
-export const ResetPasswordSuccess = () => {
+export const ResetPasswordSuccess = (): JSX.Element => {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
 

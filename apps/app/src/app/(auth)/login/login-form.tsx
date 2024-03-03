@@ -2,13 +2,14 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
+import type { TurnstileInstance } from "@marsidev/react-turnstile";
 import { LoginMessage } from "app/(auth)/login/login-message";
 import { signIn } from "auth/server-actions";
 import { GitHub16, Google16 } from "icons";
 import { Captcha } from "lib/captcha";
 import Link from "next/link";
 import type { FC } from "react";
-import { Suspense, useTransition } from "react";
+import { Suspense, useRef, useTransition } from "react";
 import { routes } from "routes";
 import { createClient } from "supabase/client";
 import { Button, Input, Text, toast } from "ui";
@@ -16,6 +17,7 @@ import { Button, Input, Text, toast } from "ui";
 export const LoginForm: FC = () => {
   const [isPending, startTransition] = useTransition();
   const supabase = createClient();
+  const captchaRef = useRef<TurnstileInstance>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -24,6 +26,7 @@ export const LoginForm: FC = () => {
     startTransition(async () => {
       const res = await signIn(formData);
       if (res.error) toast.error(res.error.title, { description: res.error.description });
+      captchaRef.current?.reset();
     });
   };
 
@@ -65,7 +68,6 @@ export const LoginForm: FC = () => {
           Sign up
         </Link>
       </Text>
-
       <form
         className={css({
           display: "flex",
@@ -93,9 +95,17 @@ export const LoginForm: FC = () => {
           <LoginMessage />
         </Suspense>
 
-        <Flex direction="column">
-          <Captcha action="login" />
-          <Button loading={isPending} name="sign-in" size="medium" type="submit">
+        <Flex alignItems="center" direction="column" gap="space16">
+          <Captcha action="login" ref={captchaRef} />
+          <Button
+            className={css({
+              width: "100%",
+            })}
+            loading={isPending}
+            name="sign-in"
+            size="medium"
+            type="submit"
+          >
             Log in
           </Button>
         </Flex>

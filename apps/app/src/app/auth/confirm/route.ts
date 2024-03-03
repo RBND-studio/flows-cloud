@@ -7,7 +7,6 @@ import { createClient } from "supabase/server";
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get("token_hash");
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents -- eslint is on drugs
   const type = searchParams.get("type") as EmailOtpType | null;
   const next = searchParams.get("next") ?? "/";
 
@@ -15,6 +14,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   redirectTo.pathname = next;
   if (type === "recovery") {
     redirectTo.pathname = routes.resetPasswordNew;
+    redirectTo.searchParams.delete("redirect_to");
   }
   redirectTo.searchParams.delete("token_hash");
   redirectTo.searchParams.delete("type");

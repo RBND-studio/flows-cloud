@@ -4,21 +4,11 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { updatePassword } from "auth/server-actions";
 import { Captcha } from "lib/captcha";
-import React, { useState, useTransition } from "react";
-import { createClient } from "supabase/client";
+import React, { useTransition } from "react";
 import { Button, Input, Text, toast } from "ui";
 
 export const ResetPasswordNewForm = (): JSX.Element => {
-  const supabase = createClient();
   const [isPending, startTransition] = useTransition();
-
-  const [resetEnabled, setResetEnabled] = useState(false);
-
-  supabase.auth.onAuthStateChange((event) => {
-    if (event === "SIGNED_IN") {
-      setResetEnabled(true);
-    }
-  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -57,9 +47,12 @@ export const ResetPasswordNewForm = (): JSX.Element => {
           required
           type="password"
         />
-        <Flex direction="column">
+        <Flex alignItems="center" direction="column" gap="space16">
+          <Captcha action="resetPasswordNew" />
           <Button
-            disabled={!resetEnabled}
+            className={css({
+              width: "100%",
+            })}
             loading={isPending}
             name="sign-up"
             size="medium"
@@ -67,7 +60,6 @@ export const ResetPasswordNewForm = (): JSX.Element => {
           >
             Reset password
           </Button>
-          <Captcha action="resetPasswordNew" />
         </Flex>
       </form>
     </Box>

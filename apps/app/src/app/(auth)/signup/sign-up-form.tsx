@@ -107,11 +107,19 @@ export const SignUpForm: FC = () => {
         />
         <LoginMessage />
 
-        <Flex direction="column">
-          <Button loading={isPending} name="sign-up" size="medium" type="submit">
+        <Flex alignItems="center" direction="column" gap="space16">
+          <Captcha action="signUp" />
+          <Button
+            className={css({
+              width: "100%",
+            })}
+            loading={isPending}
+            name="sign-up"
+            size="medium"
+            type="submit"
+          >
             Sign up
           </Button>
-          <Captcha action="signUp" />
         </Flex>
 
         <Text align="center" color="muted">
