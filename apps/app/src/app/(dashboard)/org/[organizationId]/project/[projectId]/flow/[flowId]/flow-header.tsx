@@ -3,9 +3,11 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { MenuItem } from "components/sidebar/menu-item";
+import { LocalChip } from "components/ui/local-chip";
 import { useSend } from "hooks/use-send";
 import { KebabHorizontal16 } from "icons";
 import { api, type FlowDetail } from "lib/api";
+import { timeFromNow } from "lib/date";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import { t } from "translations";
@@ -57,25 +59,35 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
   );
 
   return (
-    <Flex flexDirection="column" gap="space8" mb="space16">
-      <Flex justifyContent="space-between">
-        <Text variant="titleXl">{flow.name}</Text>
-        {flowIsCloud ? (
-          <Flex alignItems="center" gap="space16">
-            <FlowPublishChangesDialog flow={flow} />
-            <FlowPreviewDialog flow={flow} />
-            <Switch
-              checked={flowIsPublic}
-              className={css({ flexDir: "row-reverse" })}
-              disabled={loading}
-              label="Live"
-              onChange={handlePublishedToggle}
-            />
-            {dropdownMenu}
+    <Flex flexDirection="column" gap="space12" mb="space16">
+      <Flex flexDirection="column" gap="space4">
+        <Flex justifyContent="space-between">
+          <Flex alignItems="center" gap="space8">
+            <Text variant="titleXl">{flow.name}</Text>
+            {!flowIsCloud && <LocalChip />}
           </Flex>
-        ) : (
-          dropdownMenu
-        )}
+          {flowIsCloud ? (
+            <Flex alignItems="center" gap="space16">
+              <FlowPublishChangesDialog flow={flow} />
+              <FlowPreviewDialog flow={flow} />
+              <Switch
+                checked={flowIsPublic}
+                className={css({ flexDir: "row-reverse" })}
+                disabled={loading}
+                label="Live"
+                onChange={handlePublishedToggle}
+              />
+              {dropdownMenu}
+            </Flex>
+          ) : (
+            dropdownMenu
+          )}
+        </Flex>
+        {flowIsCloud ? (
+          <Text color="muted" variant="bodyXs">
+            Updated {timeFromNow(flow.updated_at)}
+          </Text>
+        ) : null}
       </Flex>
       {flow.description.length > 0 && <Text color="muted">{flow.description}</Text>}
     </Flex>

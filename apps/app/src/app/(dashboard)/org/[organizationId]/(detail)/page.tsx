@@ -1,4 +1,5 @@
 import { css } from "@flows/styled-system/css";
+import { Flex } from "@flows/styled-system/jsx";
 import { CreateProjectDialog } from "components/projects";
 import { api } from "lib/api";
 import { load } from "lib/load";
@@ -34,19 +35,35 @@ export default async function ProjectsPage({ params }: Props): Promise<JSX.Eleme
 
   return (
     <>
-      <div className={css({ display: "flex", alignItems: "center", gap: "space8" })}>
-        <Text className={css({ mb: "space16", flex: 1 })} variant="title3xl">
-          {org.name}
-        </Text>
+      <Flex alignItems="center" justifyContent="space-between" mb="space16">
+        <Text variant="titleXl">{org.name}</Text>
+        <OrganizationDeleteDialog organization={org} />
+      </Flex>
 
+      <Flex
+        alignItems="center"
+        cardWrap="-"
+        flexDirection="column"
+        gap="space8"
+        py="space32"
+        width="100%"
+      >
+        <Text variant="titleM">This organization has no projects</Text>
+        <Text
+          className={css({
+            mb: "space16",
+          })}
+          color="subtle"
+          variant="bodyXs"
+        >
+          Projects typically represent a single application or a set of related applications. Each
+          project has its own set of flows, analytics, and settings.
+        </Text>
         <CreateProjectDialog
           organizationId={params.organizationId}
           trigger={<Button>New Project</Button>}
         />
-        <OrganizationDeleteDialog organization={org} />
-      </div>
-
-      <Text>No projects found</Text>
+      </Flex>
     </>
   );
 }
