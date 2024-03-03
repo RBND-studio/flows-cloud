@@ -58,6 +58,10 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
     </Menu>
   );
 
+  const subtitleItems = [`Updated ${timeFromNow(flow.updated_at)}`];
+  if (flow.publishedVersion?.published_at)
+    subtitleItems.push(`Last published ${timeFromNow(flow.publishedVersion.published_at)}`);
+
   return (
     <Flex flexDirection="column" gap="space12" mb="space16">
       <Flex flexDirection="column" gap="space4">
@@ -85,7 +89,7 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
         </Flex>
         {flowIsCloud ? (
           <Text color="muted" variant="bodyXs">
-            Updated {timeFromNow(flow.updated_at)}
+            {subtitleItems.join(" • ")}
           </Text>
         ) : null}
       </Flex>

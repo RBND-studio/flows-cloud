@@ -92,6 +92,7 @@ export class FlowsService {
         clickElement: version.data.clickElement,
         location: version.data.location,
         userProperties: version.data.userProperties,
+        published_at: version.published_at ?? undefined,
       };
     };
 
