@@ -7,3 +7,5 @@ export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 export const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 
 export const PRODUCTION = process.env.NEXT_PUBLIC_ENV === "prod";
+export const STAGING = process.env.NEXT_PUBLIC_ENV === "staging";
+export const DEVELOPMENT = process.env.NEXT_PUBLIC_ENV === "development";

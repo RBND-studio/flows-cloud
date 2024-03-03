@@ -5,18 +5,16 @@ import { Box, Flex } from "@flows/styled-system/jsx";
 import { resetPassword } from "auth/server-actions";
 import { Captcha } from "lib/captcha";
 import Link from "next/link";
-import React, { useState, useTransition } from "react";
+import React, { useTransition } from "react";
+import { routes } from "routes";
 import { Button, Input, Text, toast } from "ui";
 
 export const ResetPasswordForm = (): JSX.Element => {
   const [isPending, startTransition] = useTransition();
-  const [captchaToken, setCaptchaToken] = useState<string>();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    if (!captchaToken) return;
     const formData = new FormData(event.currentTarget);
-    formData.set("captchaToken", captchaToken);
 
     startTransition(async () => {
       const res = await resetPassword(formData);
@@ -61,7 +59,7 @@ export const ResetPasswordForm = (): JSX.Element => {
         />
 
         <Flex direction="column">
-          <Captcha action="login" onSuccess={(v) => setCaptchaToken(v)} />
+          <Captcha action="resetPassword" />
           <Button loading={isPending} name="sign-in" size="medium" type="submit">
             Reset password
           </Button>
@@ -80,7 +78,7 @@ export const ResetPasswordForm = (): JSX.Element => {
             textDecoration: "underline",
             color: "text",
           })}
-          href="/reset-password"
+          href={routes.login()}
         >
           login
         </Link>

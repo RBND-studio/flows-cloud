@@ -2,24 +2,33 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
+import { updatePassword } from "auth/server-actions";
 import { Captcha } from "lib/captcha";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { routes } from "routes";
+import React, { useState, useTransition } from "react";
 import { createClient } from "supabase/client";
-import { Button, Input, Text } from "ui";
+import { Button, Input, Text, toast } from "ui";
 
 export const ResetPasswordNewForm = (): JSX.Element => {
-  const router = useRouter();
   const supabase = createClient();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- only for test
-  const [captchaToken, setCaptchaToken] = useState<string>();
+  const [isPending, startTransition] = useTransition();
+
+  const [resetEnabled, setResetEnabled] = useState(false);
 
   supabase.auth.onAuthStateChange((event) => {
     if (event === "SIGNED_IN") {
-      router.push(routes.home);
+      setResetEnabled(true);
     }
   });
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    startTransition(async () => {
+      const res = await updatePassword(formData);
+      if (res.error) toast.error(res.error.title, { description: res.error.description });
+    });
+  };
+
   return (
     <Box borderRadius="radius12" cardWrap="-" padding="space24">
       <Text
@@ -38,7 +47,7 @@ export const ResetPasswordNewForm = (): JSX.Element => {
           gap: "space16",
           marginTop: "space24",
         })}
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
       >
         <Input
           label="Password"
@@ -50,14 +59,15 @@ export const ResetPasswordNewForm = (): JSX.Element => {
         />
         <Flex direction="column">
           <Button
-            //loading={isPending}
+            disabled={!resetEnabled}
+            loading={isPending}
             name="sign-up"
             size="medium"
             type="submit"
           >
             Reset password
           </Button>
-          <Captcha action="signUp" onSuccess={(v) => setCaptchaToken(v)} />
+          <Captcha action="resetPasswordNew" />
         </Flex>
       </form>
     </Box>

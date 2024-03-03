@@ -1,6 +1,7 @@
-import { ResetPasswordNewForm } from "app/(auth)/reset-password/new/reset-password-new-form";
 import type { Metadata } from "next";
 import React from "react";
+
+import { ResetPasswordNewForm } from "./reset-password-new-form";
 
 export const metadata: Metadata = {
   title: "New Password | Flows",

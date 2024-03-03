@@ -54,6 +54,22 @@ export const resetPassword = async (
   return redirect(routes.resetPasswordSuccess({ email }));
 };
 
+export const updatePassword = async (
+  formData: FormData,
+): Promise<{ error?: { title: string; description: string } }> => {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const password = formData.get("password") as string;
+
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    return { error: { title: "Could not update password", description: error.message } };
+  }
+
+  return redirect(routes.home);
+};
+
 export const signUp = async (
   formData: FormData,
 ): Promise<{ error?: { title: string; description: string } }> => {

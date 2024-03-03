@@ -26,7 +26,7 @@ export const ResetPasswordSuccess = () => {
         </Text>
 
         <Text align="center" className={css({ mb: "space24" })}>
-          We&apos;ve sent you a link to
+          We&apos;ve sent you a link to{" "}
           <Text as="span" weight="700">
             {email}
           </Text>
