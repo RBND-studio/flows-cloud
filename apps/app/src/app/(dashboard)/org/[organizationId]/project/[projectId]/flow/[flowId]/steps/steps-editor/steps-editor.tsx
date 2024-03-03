@@ -12,7 +12,7 @@ import { type FC, Fragment } from "react";
 import type { DefaultValues, SubmitHandler } from "react-hook-form";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { t } from "translations";
-import { Button, Icon, Menu, MenuItem, Text, toast } from "ui";
+import { Button, Menu, MenuItem, Text, toast } from "ui";
 
 import { Step } from "./step";
 import { STEP_DEFAULT } from "./step-form";
@@ -54,6 +54,14 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <Flex alignItems="center" justifyContent="space-between" width="100%">
+          <Text variant="titleM">Flow steps</Text>
+
+          <Button disabled={!formState.isDirty} loading={loading} type="submit">
+            Save changes
+          </Button>
+        </Flex>
+
         <Flex direction="column" mb="space16">
           {fields.map((field, index) => (
             <Fragment key={field.id}>
@@ -63,57 +71,38 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
           ))}
         </Flex>
 
-        <Box mb="space24">
+        <Box mb="space40">
+          {fields.length === 0 && (
+            <Flex
+              alignItems="center"
+              cardWrap="-"
+              flexDirection="column"
+              gap="space8"
+              mb="space16"
+              px="space16"
+              py="space32"
+            >
+              <Text color="muted">Start by adding a step</Text>
+              <Text align="center" color="subtle" variant="bodyXs">
+                Steps are the building blocks of your flow. They are the individual steps a user can
+                take when interacting with your flow.
+              </Text>
+            </Flex>
+          )}
+
           <Menu
             trigger={
-              !fields.length ? (
-                <button
-                  className={css({
-                    cardWrap: "-",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    gap: "space8",
-                    py: "space32",
-                    cursor: "pointer",
-                    width: "100%",
-
-                    fastEaseInOut: "all",
-
-                    _hover: {
-                      bg: "bg.subtleHover",
-                    },
-                  })}
-                  type="button"
-                >
-                  <Text color="muted">Start by adding a step</Text>
-                  <Text color="subtle" variant="bodyXs">
-                    Steps are the building blocks of your flow. They are the individual steps a user
-                    can take when interacting with your flow.
-                  </Text>
-                </button>
-              ) : (
-                <Button startIcon={<Icon icon={Plus16} />} variant="secondary">
-                  Add
-                </Button>
-              )
+              <Button startIcon={<Plus16 />} variant="secondary">
+                Add step
+              </Button>
             }
           >
-            <MenuItem onClick={() => append(STEP_DEFAULT.tooltip)}>Step</MenuItem>
+            <MenuItem onClick={() => append(STEP_DEFAULT.tooltip)}>Tooltip</MenuItem>
+            <MenuItem onClick={() => append(STEP_DEFAULT.modal)}>Modal</MenuItem>
+            <MenuItem onClick={() => append(STEP_DEFAULT.wait)}>Wait</MenuItem>
             <MenuItem onClick={() => append(STEP_DEFAULT.fork)}>Fork</MenuItem>
           </Menu>
         </Box>
-
-        <Button
-          className={css({ mb: "space40" })}
-          disabled={!formState.isDirty}
-          loading={loading}
-          type="submit"
-        >
-          Save changes
-        </Button>
 
         <Text className={css({ mb: "space8" })} variant="titleM">
           Flow preview
