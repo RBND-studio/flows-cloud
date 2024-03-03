@@ -9,7 +9,7 @@ import type { FlowDetail, UpdateFlow } from "lib/api";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import { type FC, Fragment } from "react";
-import type { SubmitHandler } from "react-hook-form";
+import type { DefaultValues, SubmitHandler } from "react-hook-form";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { t } from "translations";
 import { Button, Icon, Menu, MenuItem, Text, toast } from "ui";
@@ -23,17 +23,16 @@ import { StepsEditorPreview } from "./steps-editor-preview";
 type Props = {
   flow: FlowDetail;
 };
+const createDefaultValues = (flow: FlowDetail): DefaultValues<StepsForm> => ({
+  steps: (flow.draftVersion?.steps ?? flow.publishedVersion?.steps) as FlowSteps | undefined,
+});
 
 export const StepsEditor: FC<Props> = ({ flow }) => {
-  const editVersionSteps = (flow.draftVersion?.steps ?? flow.publishedVersion?.steps) as
-    | FlowSteps
-    | undefined;
-
-  const defaultValues: StepsForm = {
-    steps: editVersionSteps ?? [],
-  };
-  const methods = useForm<StepsForm>({ defaultValues, mode: "onChange" });
-  const { handleSubmit, control } = methods;
+  const methods = useForm<StepsForm>({
+    defaultValues: createDefaultValues(flow),
+    mode: "onChange",
+  });
+  const { handleSubmit, control, reset, formState } = methods;
   const { append, remove, fields, insert } = useFieldArray({
     control,
     name: "steps",
@@ -43,12 +42,11 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
   const { loading, send } = useSend();
   const onSubmit: SubmitHandler<StepsForm> = async (data) => {
     const res = await send(
-      api["PATCH /flows/:flowId"](flow.id, {
-        steps: data.steps as unknown as UpdateFlow["steps"],
-      }),
+      api["PATCH /flows/:flowId"](flow.id, { steps: data.steps as unknown as UpdateFlow["steps"] }),
       { errorMessage: t.toasts.saveStepsFailed },
     );
     if (res.error) return;
+    reset(data, { keepValues: true });
     router.refresh();
     toast.success(t.toasts.updateFlowSuccess);
   };
@@ -108,7 +106,12 @@ export const StepsEditor: FC<Props> = ({ flow }) => {
           </Menu>
         </Box>
 
-        <Button className={css({ mb: "space40" })} loading={loading} type="submit">
+        <Button
+          className={css({ mb: "space40" })}
+          disabled={!formState.isDirty}
+          loading={loading}
+          type="submit"
+        >
           Save changes
         </Button>
 

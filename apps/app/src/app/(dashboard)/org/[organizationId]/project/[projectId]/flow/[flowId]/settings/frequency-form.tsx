@@ -34,9 +34,7 @@ export const FrequencyForm: FC<Props> = ({ flow }) => {
       errorMessage: t.toasts.saveFrequencyFailed,
     });
     if (res.error) return;
-    void send(api["/flows/:flowId"](flow.id), { errorMessage: null }).then((flowRes) => {
-      if (flowRes.data) reset(createDefaultValues(flowRes.data));
-    });
+    reset(data, { keepValues: true });
     toast.success(t.toasts.saveFrequencySuccess);
     router.refresh();
   };
