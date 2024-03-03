@@ -83,9 +83,11 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
             dropdownMenu
           )}
         </Flex>
-        <Text color="muted" variant="bodyXs">
-          {flow.flow_type === "local" ? "-" : `Updated ${timeFromNow(flow.updated_at)}`}
-        </Text>
+        {flowIsCloud ? (
+          <Text color="muted" variant="bodyXs">
+            Updated {timeFromNow(flow.updated_at)}
+          </Text>
+        ) : null}
       </Flex>
       {flow.description.length > 0 && <Text color="muted">{flow.description}</Text>}
     </Flex>
