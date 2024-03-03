@@ -6,7 +6,7 @@ import { mutate } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
 import { Plus16 } from "icons";
 import { api, type ProjectDetail } from "lib/api";
-import { isValidUrl } from "lib/url";
+import { fixOrigin, isValidUrl } from "lib/url";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
@@ -32,7 +32,9 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
   const router = useRouter();
   const onSubmit: SubmitHandler<DomainsForm> = async (data) => {
     const res = await send(
-      api["PATCH /projects/:projectId"](project.id, { domains: data.domains.map((d) => d.value) }),
+      api["PATCH /projects/:projectId"](project.id, {
+        domains: data.domains.map((d) => fixOrigin(d.value)).filter((x): x is string => !!x),
+      }),
       { errorMessage: t.toasts.saveProjectFailed },
     );
     if (res.error) return;
@@ -57,7 +59,6 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
         <Text variant="titleL">{t.project.domains.domains}</Text>
         <Text color="muted">{t.project.domains.description}</Text>
       </Flex>
-
       {fields.length > 0 && (
         <Flex direction="column" gap="space8">
           {fields.map((field, i) => {
@@ -71,6 +72,7 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
                       },
                     })}
                     className={css({ flex: 1 })}
+                    defaultValue={formState.defaultValues?.domains?.[i]?.value}
                     placeholder="https://example.com"
                     required
                   />
@@ -96,7 +98,6 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
           {t.project.domains.addDomain}
         </Button>
       </div>
-
       <div>
         <Button disabled={!formState.isDirty} loading={loading} type="submit" variant="black">
           {t.actions.save}
