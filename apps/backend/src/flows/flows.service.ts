@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import dayjs from "dayjs";
 import type { EventType } from "db";
 import { events, flows, flowVersions } from "db";
-import { and, desc, eq, gt, gte, like, lt, sql } from "drizzle-orm";
+import { and, desc, eq, gt, gte, isNotNull, like, lt, sql } from "drizzle-orm";
 import { union } from "drizzle-orm/pg-core";
 import slugify from "slugify";
 
@@ -64,8 +64,7 @@ export class FlowsService {
     const uniqueUsersQuerySql = this.databaseService.db
       .select({
         type: sql<EventType>`'uniqueUsers'`,
-        count: sql<number>`cast(count(${events.user_hash}) as int)`,
-        uniqueUsers: sql<number>`0`,
+        count: sql<number>`cast(count(distinct ${events.user_hash}) as int)`,
       })
       .from(events)
       .where(
@@ -76,7 +75,6 @@ export class FlowsService {
       .select({
         type: sql<EventType>`cast(${events.event_type} as text)`,
         count: sql<number>`cast(count(${events.id}) as int)`,
-        uniqueUsers: sql<number>`cast(count(distinct ${events.user_hash}) as int)`,
       })
       .from(events)
       .where(and(eq(events.flow_id, flowId), gt(events.event_time, sql`now() - interval '30 day'`)))
@@ -193,6 +191,7 @@ export class FlowsService {
             eq(events.flow_id, flowId),
             gte(events.event_time, sql`${sD}`),
             lt(events.event_time, sql`${eD}`),
+            isNotNull(events.user_hash),
           ),
         )
         .groupBy((row) => [row.date, events.user_hash]),
