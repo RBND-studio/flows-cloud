@@ -26,7 +26,6 @@ export const signIn = async (
     password,
     options: { captchaToken },
   });
-
   if (error) {
     return { error: { title: "Could not authenticate user", description: error.message } };
   }

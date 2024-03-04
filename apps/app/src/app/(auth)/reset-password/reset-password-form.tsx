@@ -2,14 +2,17 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
+import type { TurnstileInstance } from "@marsidev/react-turnstile";
 import { resetPassword } from "auth/server-actions";
+import { Captcha } from "lib/captcha";
 import Link from "next/link";
-import React, { useTransition } from "react";
+import React, { useRef, useTransition } from "react";
 import { routes } from "routes";
 import { Button, Input, Text, toast } from "ui";
 
 export const ResetPasswordForm = (): JSX.Element => {
   const [isPending, startTransition] = useTransition();
+  const captchaRef = useRef<TurnstileInstance>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -17,7 +20,10 @@ export const ResetPasswordForm = (): JSX.Element => {
 
     startTransition(async () => {
       const res = await resetPassword(formData);
-      if (res.error) toast.error(res.error.title, { description: res.error.description });
+      if (res.error) {
+        toast.error(res.error.title, { description: res.error.description });
+        captchaRef.current?.reset();
+      }
     });
   };
 
@@ -57,8 +63,17 @@ export const ResetPasswordForm = (): JSX.Element => {
           type="email"
         />
 
-        <Flex direction="column">
-          <Button loading={isPending} name="sign-in" size="medium" type="submit">
+        <Flex alignItems="center" direction="column" gap="space16">
+          <Captcha action="resetPassword" ref={captchaRef} />
+          <Button
+            className={css({
+              width: "100%",
+            })}
+            loading={isPending}
+            name="sign-in"
+            size="medium"
+            type="submit"
+          >
             Reset password
           </Button>
         </Flex>

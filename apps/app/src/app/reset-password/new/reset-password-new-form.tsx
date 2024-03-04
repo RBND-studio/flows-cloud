@@ -2,20 +2,25 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
+import type { TurnstileInstance } from "@marsidev/react-turnstile";
 import { updatePassword } from "auth/server-actions";
 import { Captcha } from "lib/captcha";
-import React, { useTransition } from "react";
+import React, { useRef, useTransition } from "react";
 import { Button, Input, Text, toast } from "ui";
 
 export const ResetPasswordNewForm = (): JSX.Element => {
   const [isPending, startTransition] = useTransition();
+  const captchaRef = useRef<TurnstileInstance>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     startTransition(async () => {
       const res = await updatePassword(formData);
-      if (res.error) toast.error(res.error.title, { description: res.error.description });
+      if (res.error) {
+        toast.error(res.error.title, { description: res.error.description });
+        captchaRef.current?.reset();
+      }
     });
   };
 
@@ -48,7 +53,7 @@ export const ResetPasswordNewForm = (): JSX.Element => {
           type="password"
         />
         <Flex alignItems="center" direction="column" gap="space16">
-          <Captcha action="resetPasswordNew" />
+          <Captcha action="resetPasswordNew" ref={captchaRef} />
           <Button
             className={css({
               width: "100%",

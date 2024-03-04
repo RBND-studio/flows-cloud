@@ -31,9 +31,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       redirectTo.searchParams.delete("next");
       return NextResponse.redirect(redirectTo);
     }
+
+    // return the user to an error page with some instructions
+    redirectTo.pathname = routes.verifyError({ message: error.message });
+    return NextResponse.redirect(redirectTo);
   }
 
   // return the user to an error page with some instructions
-  redirectTo.pathname = "/error";
+  redirectTo.pathname = routes.verifyError({
+    message: "Invalid token or expired link. Please try again.",
+  });
   return NextResponse.redirect(redirectTo);
 }

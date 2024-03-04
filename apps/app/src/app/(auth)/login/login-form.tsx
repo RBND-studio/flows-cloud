@@ -25,8 +25,10 @@ export const LoginForm: FC = () => {
 
     startTransition(async () => {
       const res = await signIn(formData);
-      if (res.error) toast.error(res.error.title, { description: res.error.description });
-      captchaRef.current?.reset();
+      if (res.error) {
+        toast.error(res.error.title, { description: res.error.description });
+        captchaRef.current?.reset();
+      }
     });
   };
 
