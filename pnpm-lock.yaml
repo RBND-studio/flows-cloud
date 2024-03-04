@@ -51,8 +51,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0(@supabase/supabase-js@2.38.5)
       '@visx/axis':
-        specifier: ^3.5.0
-        version: 3.5.0(react@18.2.0)
+        specifier: ^3.9.0
+        version: 3.9.0(react@18.2.0)
       '@visx/event':
         specifier: ^3.3.0
         version: 3.3.0
@@ -8199,8 +8199,8 @@ packages:
       - supports-color
     dev: true
 
-  /@visx/axis@3.5.0(react@18.2.0):
-    resolution: {integrity: sha512-vaY/CGk9+iQL1BFlHd5muIAuAjpPKLwtt6HwpITErW+cImjQJlNgYdgbwDCyuJMmJqXOlC9byWlmF+iI1dOPYg==}
+  /@visx/axis@3.9.0(react@18.2.0):
+    resolution: {integrity: sha512-tMLMJ086WB0dyLx8HeSyZ3qBNB13m2NUWA14V3VxtvG+Z+X651+3VstBhO2JUMoimzeRFTXtH7vUyG39f27IjQ==}
     peerDependencies:
       react: ^16.3.0-0 || ^17.0.0-0 || ^18.0.0-0
     dependencies:
