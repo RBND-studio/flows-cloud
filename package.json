@@ -14,7 +14,7 @@
     "ui": "pnpm --filter ui",
     "be": "pnpm --filter backend",
     "db": "pnpm --filter db",
-    "prepare": "husky install",
+    "prepare": "husky",
     "pre-push": "concurrently \"pnpm lint\" \"pnpm tsc\" \"pnpm test\" \"pnpm spellcheck\" \"pnpm -r pre-commit\"",
     "web-docs": "pnpm --filter=web --filter=docs",
     "spellcheck": "pnpm cspell .  --quiet"
