@@ -33,7 +33,7 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.10",
     "db": "workspace:*",
-    "drizzle-orm": "^0.29.3",
+    "drizzle-orm": "^0.29.4",
     "jsonwebtoken": "^9.0.2",
     "lightningcss": "^1.24.0",
     "loops": "^0.2.1",
