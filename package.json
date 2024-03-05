@@ -14,7 +14,7 @@
     "ui": "pnpm --filter ui",
     "be": "pnpm --filter backend",
     "db": "pnpm --filter db",
-    "prepare": "husky install",
+    "prepare": "husky",
     "pre-push": "concurrently \"pnpm lint\" \"pnpm tsc\" \"pnpm test\" \"pnpm spellcheck\" \"pnpm -r pre-commit\"",
     "web-docs": "pnpm --filter=web --filter=docs",
     "spellcheck": "pnpm cspell .  --quiet"
@@ -23,7 +23,7 @@
     "concurrently": "^8.2.2",
     "cspell": "^8.4.0",
     "eslint": "8.50.0",
-    "husky": "^8.0.3",
+    "husky": "^9.0.11",
     "prettier": "^3.0.3",
     "tsconfig": "workspace:*",
     "turbo": "^1.10.14"
