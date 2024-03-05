@@ -179,8 +179,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/db
       drizzle-orm:
-        specifier: ^0.29.3
-        version: 0.29.3(postgres@3.4.3)
+        specifier: ^0.29.4
+        version: 0.29.4(postgres@3.4.3)
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -415,8 +415,8 @@ importers:
   packages/db:
     dependencies:
       drizzle-orm:
-        specifier: ^0.29.3
-        version: 0.29.3(postgres@3.4.3)
+        specifier: ^0.29.4
+        version: 0.29.4(postgres@3.4.3)
       postgres:
         specifier: ^3.4.3
         version: 3.4.3
@@ -10743,8 +10743,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.29.3(postgres@3.4.3):
-    resolution: {integrity: sha512-uSE027csliGSGYD0pqtM+SAQATMREb3eSM/U8s6r+Y0RFwTKwftnwwSkqx3oS65UBgqDOM0gMTl5UGNpt6lW0A==}
+  /drizzle-orm@0.29.4(postgres@3.4.3):
+    resolution: {integrity: sha512-ZnSM8TAxFhzH7p1s3+w3pRE/eKaOeNkH9SKitm717pubDVVcV2I0BCDBPGKV+pe02+wMfw37ntlTcCyo2rA3IA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
