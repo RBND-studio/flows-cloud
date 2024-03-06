@@ -29,9 +29,22 @@ export class OrganizationsService {
   ) {}
 
   async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
+    const membersQuery = this.databaseService.db
+      .select({
+        organization_id: organizationsToUsers.organization_id,
+        count: sql<number>`count(*)`.as("count"),
+      })
+      .from(organizationsToUsers)
+      .groupBy(organizationsToUsers.organization_id)
+      .as("membersQuery");
     const orgs = await this.databaseService.db
       .select({
-        organization: organizations,
+        id: organizations.id,
+        name: organizations.name,
+        description: organizations.description,
+        created_at: organizations.created_at,
+        updated_at: organizations.updated_at,
+        members: membersQuery.count,
       })
       .from(organizations)
       .leftJoin(
@@ -41,16 +54,11 @@ export class OrganizationsService {
           eq(organizationsToUsers.user_id, auth.userId),
         ),
       )
+      .leftJoin(membersQuery, eq(organizations.id, membersQuery.organization_id))
       .where(eq(organizationsToUsers.user_id, auth.userId))
       .orderBy(organizations.name);
 
-    return orgs.map(({ organization }) => ({
-      id: organization.id,
-      name: organization.name,
-      description: organization.description,
-      created_at: organization.created_at,
-      updated_at: organization.updated_at,
-    }));
+    return orgs;
   }
 
   async getOrganizationDetail({
@@ -202,6 +210,32 @@ export class OrganizationsService {
     }
 
     await this.emailService.sendInvite({ email, organizationName: org.name });
+  }
+
+  async leaveOrganization({
+    auth,
+    organizationId,
+  }: {
+    auth: Auth;
+    organizationId: string;
+  }): Promise<void> {
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
+
+    const amIAlone = await this.databaseService.db.query.organizationsToUsers.findMany({
+      where: eq(organizationsToUsers.organization_id, organizationId),
+    });
+
+    if (amIAlone.length === 1)
+      throw new BadRequestException("Cannot leave organization if you are the only member");
+
+    await this.databaseService.db
+      .delete(organizationsToUsers)
+      .where(
+        and(
+          eq(organizationsToUsers.organization_id, organizationId),
+          eq(organizationsToUsers.user_id, auth.userId),
+        ),
+      );
   }
 
   async removeUser({

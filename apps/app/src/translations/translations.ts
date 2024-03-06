@@ -8,6 +8,7 @@ export const t = {
     close: "Close",
     delete: "Delete",
     copy: "Copy",
+    leave: "Leave",
   },
   settings: {
     theme: "Theme",

@@ -40,6 +40,7 @@ export type Api = {
   "POST /organizations/:organizationId/users": Endpoint<void, [string, InviteUser]>;
   "DELETE /invites/:inviteId": Endpoint<void, [string]>;
   "DELETE /organizations/:organizationId/users/:userId": Endpoint<void, [string, string]>;
+  "POST /organizations/:organizationId/users/leave": Endpoint<void, [string]>;
   "DELETE /organizations/:organizationId": Endpoint<void, [string]>;
   "/organizations/:organizationId/projects": Endpoint<ProjectPreview[], [string]>;
   "/projects/:projectId": Endpoint<ProjectDetail, [string]>;
@@ -75,6 +76,8 @@ export const api: Api = {
   "DELETE /invites/:inviteId": (inviteId) => fetcher(`/invites/${inviteId}`, { method: "DELETE" }),
   "DELETE /organizations/:organizationId/users/:userId": (organizationId, userId) =>
     fetcher(`/organizations/${organizationId}/users/${userId}`, { method: "DELETE" }),
+  "POST /organizations/:organizationId/users/leave": (organizationId) =>
+    fetcher(`/organizations/${organizationId}/users/leave`, { method: "POST" }),
   "DELETE /organizations/:organizationId": (organizationId) =>
     fetcher(`/organizations/${organizationId}`, { method: "DELETE" }),
   "/organizations/:organizationId/projects": (organizationId) =>
