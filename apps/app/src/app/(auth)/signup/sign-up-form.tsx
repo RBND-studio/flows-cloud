@@ -2,13 +2,14 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
+import type { TurnstileInstance } from "@marsidev/react-turnstile";
 import { LoginMessage } from "app/(auth)/login/login-message";
 import { signUp } from "auth/server-actions";
 import { GitHub16, Google16 } from "icons";
 import { Captcha } from "lib/captcha";
 import Link from "next/link";
 import type { FC } from "react";
-import { useTransition } from "react";
+import { useRef, useTransition } from "react";
 import { routes } from "routes";
 import { createClient } from "supabase/client";
 import { Button, Input, Text, toast } from "ui";
@@ -16,6 +17,7 @@ import { Button, Input, Text, toast } from "ui";
 export const SignUpForm: FC = () => {
   const [isPending, startTransition] = useTransition();
   const supabase = createClient();
+  const captchaRef = useRef<TurnstileInstance>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -24,6 +26,7 @@ export const SignUpForm: FC = () => {
     startTransition(async () => {
       const res = await signUp(formData);
       if (res.error) toast.error(res.error.title, { description: res.error.description });
+      captchaRef.current?.reset();
     });
   };
 

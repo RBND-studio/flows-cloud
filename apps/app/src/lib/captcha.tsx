@@ -1,4 +1,3 @@
-/* cspell:disable-next-line */
 import { Turnstile } from "@marsidev/react-turnstile";
 import { TURNSTILE_SITE_KEY } from "lib/constants";
 import type { FC } from "react";
