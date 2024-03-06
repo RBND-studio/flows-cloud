@@ -8,4 +8,6 @@ export const links = {
   signUp: "https://app.flows.sh/signup",
   logIn: "https://app.flows.sh/login",
   nextJsDemo: "https://nextjs.flows.sh/",
+  privacy: "https://flows.sh/privacy",
+  terms: "https://flows.sh/terms",
 };

@@ -55,6 +55,19 @@ const footerGroups: FooterGroup[] = [
       },
     ],
   },
+  {
+    title: "Other",
+    links: [
+      {
+        title: "Privacy",
+        href: "/privacy",
+      },
+      {
+        title: "Terms",
+        href: "/terms",
+      },
+    ],
+  },
 ];
 
 export const Footer = (): ReactElement => {
