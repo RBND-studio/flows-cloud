@@ -41,10 +41,7 @@ export const resetPassword = async (
   const email = formData.get("email") as string;
   const captchaToken = formData.get("captchaToken") as string;
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: routes.resetPasswordNew,
-    captchaToken,
-  });
+  const { error } = await supabase.auth.resetPasswordForEmail(email, { captchaToken });
 
   if (error) {
     return { error: { title: "Could not reset password", description: error.message } };
