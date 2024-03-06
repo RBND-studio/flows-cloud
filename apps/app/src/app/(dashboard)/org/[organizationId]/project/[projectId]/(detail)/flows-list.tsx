@@ -99,7 +99,7 @@ export const FlowsList: FC<Props> = ({ projectId, flows, organizationId }) => {
               ) : (
                 <>
                   <Icon icon={CircleSlash16} />
-                  <Text color="muted">Private</Text>
+                  <Text color="muted">Draft</Text>
                 </>
               )}
             </div>
