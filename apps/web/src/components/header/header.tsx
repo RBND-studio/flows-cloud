@@ -1,6 +1,7 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { MobileMenu } from "components/header/mobile-menu";
+import { SignupClick } from "components/utils/signup-click";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactElement } from "react";
@@ -55,9 +56,11 @@ export const Header = (): ReactElement => {
           <Button asChild variant="ghost">
             <a href={links.logIn}>Log in</a>
           </Button>
-          <Button asChild variant="black">
-            <a href={links.signUp}>Sign up</a>
-          </Button>
+          <SignupClick>
+            <Button asChild variant="black">
+              <a href={links.signUp}>Sign up</a>
+            </Button>
+          </SignupClick>
         </Flex>
         <MobileMenu />
       </div>

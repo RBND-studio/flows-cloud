@@ -1,5 +1,6 @@
 import { css } from "@flows/styled-system/css";
 import { Section } from "components/ui/section";
+import { SignupClick } from "components/utils/signup-click";
 import Image from "next/image";
 import type { ReactElement } from "react";
 import { links } from "shared";
@@ -36,17 +37,19 @@ export const CtaBanner = (): ReactElement => {
           With forever free plan, see what Flows can do.
         </Text>
       </div>
-      <Button
-        asChild
-        className={css({
-          maxWidth: "240px",
-          width: "100%",
-        })}
-        shadow="highlight"
-        size="large"
-      >
-        <a href={links.signUp}>Sign up for free</a>
-      </Button>
+      <SignupClick>
+        <Button
+          asChild
+          className={css({
+            maxWidth: "240px",
+            width: "100%",
+          })}
+          shadow="highlight"
+          size="large"
+        >
+          <a href={links.signUp}>Sign up for free</a>
+        </Button>
+      </SignupClick>
     </Section>
   );
 };

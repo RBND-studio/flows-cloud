@@ -3,6 +3,7 @@ import { Box, Flex } from "@flows/styled-system/jsx";
 import { ThemeImage } from "components/theme-image";
 import { SmartLink } from "components/ui";
 import { Section } from "components/ui/section";
+import { SignupClick } from "components/utils/signup-click";
 import { ArrowRight16 } from "icons";
 import type { ReactElement } from "react";
 import { links } from "shared";
@@ -56,16 +57,18 @@ export const Hero = (): ReactElement => {
         </Text>
       </Flex>
       <Flex alignItems="center" flexDirection="column" gap="space16" maxWidth="240px" width="100%">
-        <Button
-          asChild
-          className={css({
-            width: "100%",
-          })}
-          shadow="highlight"
-          size="large"
-        >
-          <SmartLink href={links.signUp}>Sign up for free</SmartLink>
-        </Button>
+        <SignupClick>
+          <Button
+            asChild
+            className={css({
+              width: "100%",
+            })}
+            shadow="highlight"
+            size="large"
+          >
+            <SmartLink href={links.signUp}>Sign up for free</SmartLink>
+          </Button>
+        </SignupClick>
         <Button
           asChild
           className={css({

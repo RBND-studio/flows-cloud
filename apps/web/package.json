@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^14.1.0",
+    "@radix-ui/react-slot": "^1.0.2",
     "@rbnd/react-dark-mode": "^2.0.1",
     "contentlayer": "^0.3.4",
     "dayjs": "^1.11.10",
