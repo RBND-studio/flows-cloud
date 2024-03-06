@@ -24,7 +24,8 @@ type Props = {
   flow: FlowDetail;
 };
 const createDefaultValues = (flow: FlowDetail): DefaultValues<StepsForm> => ({
-  steps: (flow.draftVersion?.steps ?? flow.publishedVersion?.steps) as FlowSteps | undefined,
+  steps:
+    ((flow.draftVersion?.steps ?? flow.publishedVersion?.steps) as FlowSteps | undefined) ?? [],
 });
 
 export const StepsEditor: FC<Props> = ({ flow }) => {

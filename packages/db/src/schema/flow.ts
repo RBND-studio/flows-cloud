@@ -31,8 +31,11 @@ export const flows = pgTable(
     name: text("name").notNull(),
     published_version_id: uuid("published_version_id").references(
       (): AnyPgColumn => flowVersions.id,
+      { onDelete: "set null" },
     ),
-    draft_version_id: uuid("draft_version_id").references((): AnyPgColumn => flowVersions.id),
+    draft_version_id: uuid("draft_version_id").references((): AnyPgColumn => flowVersions.id, {
+      onDelete: "set null",
+    }),
     flow_type: flowTypeEnum("flow_type").notNull(),
     description: text("description").notNull(),
     created_at: timestamp("created_at").notNull().defaultNow(),
