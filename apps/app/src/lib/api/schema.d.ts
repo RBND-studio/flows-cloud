@@ -152,6 +152,8 @@ export interface components {
       clickElement?: string;
       location?: string;
       steps: Record<string, never>[];
+      /** Format: date-time */
+      published_at?: string;
     };
     GetFlowDetailDto: {
       /** @enum {string} */

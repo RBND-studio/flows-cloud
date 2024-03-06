@@ -86,7 +86,7 @@ export const FlowsList: FC<Props> = ({ projectId, flows, organizationId }) => {
                 display: "flex",
                 alignItems: "center",
                 gap: "space8",
-                width: "200px",
+                width: "80px",
               })}
             >
               {flow.flow_type === "local" ? (
@@ -94,12 +94,12 @@ export const FlowsList: FC<Props> = ({ projectId, flows, organizationId }) => {
               ) : flow.enabled_at ? (
                 <>
                   <Icon color="icon.success" icon={Check16} />
-                  <Text color="success">Published {timeFromNow(flow.enabled_at)}</Text>
+                  <Text color="success">Live</Text>
                 </>
               ) : (
                 <>
                   <Icon icon={CircleSlash16} />
-                  <Text color="muted">Not published</Text>
+                  <Text color="muted">Draft</Text>
                 </>
               )}
             </div>
