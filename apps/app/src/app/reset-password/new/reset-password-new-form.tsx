@@ -4,7 +4,6 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import type { TurnstileInstance } from "@marsidev/react-turnstile";
 import { updatePassword } from "auth/server-actions";
-import { Captcha } from "lib/captcha";
 import React, { useRef, useTransition } from "react";
 import { Button, Input, Text, toast } from "ui";
 
@@ -53,7 +52,6 @@ export const ResetPasswordNewForm = (): JSX.Element => {
           type="password"
         />
         <Flex alignItems="center" direction="column" gap="space16">
-          <Captcha action="resetPasswordNew" ref={captchaRef} />
           <Button
             className={css({
               width: "100%",
