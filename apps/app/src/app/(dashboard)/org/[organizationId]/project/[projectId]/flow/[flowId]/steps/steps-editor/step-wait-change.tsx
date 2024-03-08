@@ -36,7 +36,7 @@ export const StepWaitChange: FC<Props> = ({ fieldName }) => {
       <Box padding="space12">
         <Button
           onClick={() => changeFieldArray.append({ element: "", value: "" })}
-          shadow={false}
+          shadow="none"
           size="small"
           startIcon={<Plus16 />}
           variant="secondary"

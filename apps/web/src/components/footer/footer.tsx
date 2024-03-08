@@ -25,6 +25,11 @@ const footerGroups: FooterGroup[] = [
         title: "Features",
         href: "/features",
       },
+      {
+        title: "Demo",
+        href: links.nextJsDemo,
+        target: "_blank",
+      },
     ],
   },
   {
@@ -47,6 +52,19 @@ const footerGroups: FooterGroup[] = [
         title: "Status",
         href: links.status,
         target: "_blank",
+      },
+    ],
+  },
+  {
+    title: "Other",
+    links: [
+      {
+        title: "Privacy",
+        href: "/privacy",
+      },
+      {
+        title: "Terms",
+        href: "/terms",
       },
     ],
   },
@@ -118,7 +136,7 @@ export const Footer = (): ReactElement => {
             </div>
           </div>
           <Text color="subtle" variant="bodyS">
-            © 2023 RBND studios
+            © 2024 RBND studios
           </Text>
         </div>
         <div

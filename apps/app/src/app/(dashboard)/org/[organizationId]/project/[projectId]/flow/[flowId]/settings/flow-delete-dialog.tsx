@@ -49,7 +49,7 @@ export const FlowDeleteDialog: FC<Props> = ({ flow, organizationId, trigger }) =
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
-          <Button shadow={false} size="small" variant="secondary">
+          <Button shadow="none" size="small" variant="secondary">
             {t.actions.close}
           </Button>
         </DialogClose>

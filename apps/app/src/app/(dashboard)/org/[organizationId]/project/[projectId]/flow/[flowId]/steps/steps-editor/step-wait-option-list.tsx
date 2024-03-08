@@ -42,7 +42,7 @@ export const StepWaitOptionList: FC<Props> = ({ fieldName }: Props) => {
       ))}
       <Button
         onClick={() => append(DEFAULT_WAIT_OPTION as never)}
-        shadow={false}
+        shadow="none"
         size="small"
         startIcon={<Plus16 />}
         variant="secondary"

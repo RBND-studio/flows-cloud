@@ -31,7 +31,7 @@ export const t = {
     usersInvited: "Users were invited",
     memberRemoved: "Member removed",
     publishFlowSuccess: "Flow published",
-    enableFlowSuccess: "Flow enabled",
+    enableFlowSuccess: "Flow is live",
     disableFlowSuccess: "Flow disabled",
 
     sendInviteFailed: "Failed to send invite",

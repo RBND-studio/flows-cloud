@@ -32,6 +32,7 @@ export class FlowVersionDto {
   clickElement?: string;
   location?: string;
   steps: unknown[];
+  published_at?: Date;
 }
 
 export class GetFlowDetailDto extends GetFlowBase {

@@ -16,7 +16,7 @@
     "typescript": "5.3.3"
   },
   "dependencies": {
-    "drizzle-orm": "^0.29.3",
+    "drizzle-orm": "^0.29.4",
     "postgres": "^3.4.3"
   }
 }

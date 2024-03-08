@@ -44,7 +44,7 @@ export const StepWaitForm: FC<Props> = ({ fieldName }) => {
       <Box padding="space12">
         <Button
           onClick={() => submitValueFieldArray.append({ element: "", value: "" })}
-          shadow={false}
+          shadow="none"
           size="small"
           startIcon={<Plus16 />}
           variant="secondary"

@@ -67,7 +67,7 @@ export const StepForm: FC<Props> = ({ index, onRemove }) => {
             value={stepType}
           />
         </Flex>
-        <Button onClick={onRemove} shadow={false} size="small" variant="secondary">
+        <Button onClick={onRemove} shadow="none" size="small" variant="secondary">
           Remove step
         </Button>
       </Flex>

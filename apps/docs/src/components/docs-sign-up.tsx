@@ -4,11 +4,11 @@ export const DocsSignUp = (): JSX.Element => {
   return (
     <Box
       _hover={{
-        backgroundColor: "bg.primaryHover",
+        backgroundColor: "bg.blackHover",
       }}
-      backgroundColor="bg.primary"
+      backgroundColor="bg.black"
       borderRadius="radius8"
-      color="text.onPrimary"
+      color="text.white"
       fastEaseInOut="background-color"
       paddingX="space12"
       paddingY="6px"

@@ -26,6 +26,9 @@ export class UsersService {
         .insert(userMetadata)
         .values({ user_id: auth.userId })
         .returning();
+      await this.newsfeedService.postMessage({
+        message: `🐼🤩 ${auth.email} signed up to Flows!`,
+      });
 
       meta = newMeta.at(0);
     }

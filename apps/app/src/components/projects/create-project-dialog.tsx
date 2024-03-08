@@ -55,7 +55,7 @@ export const CreateProjectDialog: FC<Props> = ({ trigger, organizationId }) => {
         </DialogContent>
         <DialogActions>
           <DialogClose asChild>
-            <Button shadow={false} size="small" variant="secondary">
+            <Button shadow="none" size="small" variant="secondary">
               Close
             </Button>
           </DialogClose>

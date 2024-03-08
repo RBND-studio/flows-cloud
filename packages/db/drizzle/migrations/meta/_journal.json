@@ -183,6 +183,20 @@
       "when": 1709201455538,
       "tag": "0025_sharp_puff_adder",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "5",
+      "when": 1709708103113,
+      "tag": "0026_absurd_talkback",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "5",
+      "when": 1709708135863,
+      "tag": "0027_equal_sister_grimm",
+      "breakpoints": true
     }
   ]
 }

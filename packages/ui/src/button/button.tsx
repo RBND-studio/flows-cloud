@@ -18,7 +18,10 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   endIcon?: React.ReactNode;
   asChild?: boolean;
   loading?: boolean;
-  shadow?: boolean;
+  /**
+   * @defaultValue "default"
+   */
+  shadow?: (typeof button.variantMap.shadow)[number];
 };
 
 //TODO: separate icon only buttons intro separate component with tooltip and square shape
@@ -27,7 +30,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
   {
     size = "default",
     variant = "primary",
-    shadow = true,
+    shadow = "default",
     children,
     startIcon,
     endIcon,
@@ -186,9 +189,13 @@ const button = cva({
       },
     },
     shadow: {
-      false: {
-        shadow: "none",
+      none: {
+        boxShadow: "none",
       },
+      highlight: {
+        boxShadow: "focus",
+      },
+      default: {},
     },
   },
 });

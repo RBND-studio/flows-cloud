@@ -83,18 +83,20 @@ export const StepsPreview: FC<Props> = ({ steps }) => {
 
   return (
     <>
-      <Flex alignItems="center" gap="space8">
-        {steps?.map((s, i) => (
-          <StepTile
-            activeIndex={stepIndex}
-            index={i}
-            // eslint-disable-next-line react/no-array-index-key -- there's no better key
-            key={i}
-            onClick={setStepIndex}
-            step={s as FlowStep}
-          />
-        ))}
-      </Flex>
+      {steps?.length ? (
+        <Flex alignItems="center" gap="space8">
+          {steps.map((s, i) => (
+            <StepTile
+              activeIndex={stepIndex}
+              index={i}
+              // eslint-disable-next-line react/no-array-index-key -- there's no better key
+              key={i}
+              onClick={setStepIndex}
+              step={s as FlowStep}
+            />
+          ))}
+        </Flex>
+      ) : null}
 
       <div
         className={css({

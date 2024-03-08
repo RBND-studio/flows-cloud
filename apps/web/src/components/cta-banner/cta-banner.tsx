@@ -1,11 +1,10 @@
 import { css } from "@flows/styled-system/css";
 import { Section } from "components/ui/section";
+import { SignupClick } from "components/utils/signup-click";
 import Image from "next/image";
 import type { ReactElement } from "react";
-import React from "react";
-import { Text } from "ui";
-
-import { WaitlistForm } from "./waitlist-form";
+import { links } from "shared";
+import { Button, Text } from "ui";
 
 export const CtaBanner = (): ReactElement => {
   return (
@@ -32,13 +31,25 @@ export const CtaBanner = (): ReactElement => {
         })}
       >
         <Text align="center" as="h2" variant="title3xl">
-          Join Flows waitlist today
+          Try Flows today
         </Text>
         <Text align="center" variant="bodyM">
-          Be the first one to know about our beta launch.
+          With forever free plan, see what Flows can do.
         </Text>
       </div>
-      <WaitlistForm />
+      <SignupClick>
+        <Button
+          asChild
+          className={css({
+            maxWidth: "240px",
+            width: "100%",
+          })}
+          shadow="highlight"
+          size="large"
+        >
+          <a href={links.signUp}>Sign up for free</a>
+        </Button>
+      </SignupClick>
     </Section>
   );
 };

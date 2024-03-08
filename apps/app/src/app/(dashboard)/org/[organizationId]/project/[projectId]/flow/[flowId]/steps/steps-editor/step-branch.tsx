@@ -34,7 +34,7 @@ export const StepBranch: FC<Props> = ({ index, onRemove }) => {
 
           <Button
             onClick={(e) => (e.stopPropagation(), onRemove())}
-            shadow={false}
+            shadow="none"
             size="small"
             variant="secondary"
           >
@@ -57,7 +57,7 @@ export const StepBranch: FC<Props> = ({ index, onRemove }) => {
       <Button
         className={css({ mt: "space16" })}
         onClick={() => append(STEP_DEFAULT.tooltip)}
-        shadow={false}
+        shadow="none"
         startIcon={<Plus16 />}
         variant="secondary"
       >

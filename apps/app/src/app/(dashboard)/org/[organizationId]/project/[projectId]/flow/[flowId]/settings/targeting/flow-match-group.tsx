@@ -50,7 +50,7 @@ export const FlowMatchGroup: FC<Props> = ({ control, index, onRemove }) => {
       <div>
         <Button
           onClick={() => append({ key: "" })}
-          shadow={false}
+          shadow="none"
           size="small"
           startIcon={<Plus16 />}
           variant="secondary"

@@ -28,7 +28,7 @@ export const StepFork: FC<Props> = ({ index, onRemove }) => {
           <Text variant="titleM">Fork</Text>
           <Text color="subtle">{index}</Text>
         </Flex>
-        <Button onClick={onRemove} shadow={false} variant="secondary">
+        <Button onClick={onRemove} shadow="none" variant="secondary">
           Remove fork
         </Button>
       </Flex>
@@ -45,7 +45,7 @@ export const StepFork: FC<Props> = ({ index, onRemove }) => {
         </Flex>
       )}
 
-      <Button onClick={() => append(STEP_DEFAULT.fork)} shadow={false} variant="secondary">
+      <Button onClick={() => append(STEP_DEFAULT.fork)} shadow="none" variant="secondary">
         Add branch
       </Button>
     </Box>

@@ -1,10 +1,13 @@
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
-import { WaitlistForm } from "components/cta-banner/waitlist-form";
 import { ThemeImage } from "components/theme-image";
+import { SmartLink } from "components/ui";
 import { Section } from "components/ui/section";
+import { SignupClick } from "components/utils/signup-click";
+import { ArrowRight16 } from "icons";
 import type { ReactElement } from "react";
-import { Text } from "ui";
+import { links } from "shared";
+import { Button, Text } from "ui";
 
 import heroDarkImg from "./hero-dark.webp";
 import heroLightImg from "./hero-light.webp";
@@ -23,15 +26,15 @@ export const Hero = (): ReactElement => {
         gap: "space40",
       })}
       outerClassName={css({
-        paddingTop: "100px",
-        paddingBottom: "160px",
+        paddingTop: "80px",
+        paddingBottom: "140px",
         position: "relative",
 
         overflow: "hidden",
 
         md: {
-          paddingTop: "180px",
-          paddingBottom: "200px",
+          paddingTop: "160px",
+          paddingBottom: "140px",
         },
       })}
       sectionPadding="none"
@@ -53,7 +56,34 @@ export const Hero = (): ReactElement => {
           improve revenue.
         </Text>
       </Flex>
-      <WaitlistForm />
+      <Flex alignItems="center" flexDirection="column" gap="space16" maxWidth="240px" width="100%">
+        <SignupClick>
+          <Button
+            asChild
+            className={css({
+              width: "100%",
+            })}
+            shadow="highlight"
+            size="large"
+          >
+            <SmartLink href={links.signUp}>Sign up for free</SmartLink>
+          </Button>
+        </SignupClick>
+        <Button
+          asChild
+          className={css({
+            maxWidth: "240px",
+            width: "100%",
+          })}
+          endIcon={<ArrowRight16 />}
+          size="large"
+          variant="ghost"
+        >
+          <SmartLink href={links.nextJsDemo} target="_blank">
+            See demo
+          </SmartLink>
+        </Button>
+      </Flex>
       <Box
         display="unset"
         mdDown={{

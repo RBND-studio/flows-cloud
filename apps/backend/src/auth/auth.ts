@@ -4,14 +4,15 @@ import { verify } from "jsonwebtoken";
 
 export type Auth = {
   userId: string;
+  email?: string;
 };
 
 const verifyJwt = (authorization: string): Auth | null => {
   try {
     const token = authorization.split("Bearer ").pop();
     if (!token) throw new Error();
-    const user = verify(token, process.env.BACKEND_JWT_SECRET) as { sub: string };
-    return { userId: user.sub };
+    const user = verify(token, process.env.BACKEND_JWT_SECRET) as { sub: string; email?: string };
+    return { userId: user.sub, email: user.email };
   } catch (err) {
     return null;
   }

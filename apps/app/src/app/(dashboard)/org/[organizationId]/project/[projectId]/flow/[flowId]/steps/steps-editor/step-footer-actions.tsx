@@ -36,7 +36,7 @@ export const StepFooterActions: FC<Props> = ({ index, placement }) => {
       <Box padding="space12">
         <Button
           onClick={() => fieldArray.append({ label: "" })}
-          shadow={false}
+          shadow="none"
           size="small"
           startIcon={<Plus16 />}
           variant="secondary"

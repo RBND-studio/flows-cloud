@@ -1,6 +1,7 @@
 import { css } from "@flows/styled-system/css";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { links } from "shared";
 import { Text } from "ui";
 
 import { SignUpForm } from "./sign-up-form";
@@ -27,7 +28,7 @@ export default function SignUp(): JSX.Element {
             textDecoration: "underline",
             color: "text",
           })}
-          href="TODO"
+          href={links.terms}
           target="_blank"
         >
           Terms of service
@@ -38,7 +39,7 @@ export default function SignUp(): JSX.Element {
             textDecoration: "underline",
             color: "text",
           })}
-          href="TODO"
+          href={links.privacy}
           target="_blank"
         >
           Privacy policy
