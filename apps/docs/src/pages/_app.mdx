@@ -1,12 +1,17 @@
 import "../globals.css";
 import "@flows/js/flows.css"
-import {DemoFlows} from "../components/demo-flows"
+import { DemoFlows } from "../components/demo-flows"
+import Script from "next/script";
+import { PRODUCTION } from "../lib/constants"
 
 export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Component {...pageProps} />
       <DemoFlows />
+      {PRODUCTION ? (
+        <Script data-api="/box/event" data-domain="flows.sh" defer src="/box/script.js" />
+      ) : null}
     </>
   );
 }

@@ -3,6 +3,7 @@
   "editor.detectIndentation": false,
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "[html]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false
   }
 }

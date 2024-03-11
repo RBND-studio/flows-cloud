@@ -36,4 +36,9 @@ export class EmailService {
     const loops = await this.loops();
     return loops.createContact(email);
   }
+
+  async signedUp({ email }: { email: string }): Promise<ReturnType<LoopsClient["sendEvent"]>> {
+    const loops = await this.loops();
+    return loops.sendEvent({ email }, "signup");
+  }
 }

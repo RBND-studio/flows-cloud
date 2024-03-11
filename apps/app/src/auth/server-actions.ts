@@ -26,9 +26,41 @@ export const signIn = async (
     password,
     options: { captchaToken },
   });
-
   if (error) {
     return { error: { title: "Could not authenticate user", description: error.message } };
+  }
+
+  return redirect(routes.home);
+};
+
+export const resetPassword = async (
+  formData: FormData,
+): Promise<{ error?: { title: string; description: string } }> => {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const email = formData.get("email") as string;
+  const captchaToken = formData.get("captchaToken") as string;
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, { captchaToken });
+
+  if (error) {
+    return { error: { title: "Could not reset password", description: error.message } };
+  }
+
+  return redirect(routes.resetPasswordSuccess({ email }));
+};
+
+export const updatePassword = async (
+  formData: FormData,
+): Promise<{ error?: { title: string; description: string } }> => {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const password = formData.get("password") as string;
+
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    return { error: { title: "Could not update password", description: error.message } };
   }
 
   return redirect(routes.home);
