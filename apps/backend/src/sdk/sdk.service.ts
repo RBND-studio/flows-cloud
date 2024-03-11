@@ -200,6 +200,17 @@ export class SdkService {
     const projectId = event.projectId;
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
+    // const project = await this.databaseService.db.query.projects.findFirst({
+    //   where: eq(projects.id, projectId),
+    //   columns: {
+    //     organization_id: true
+    //   }
+    // })
+    // if (!project) throw new NotFoundException()
+
+    // const organizationId = project.organization_id
+    // TODO: Send usage record to Lemon Squeezy
+
     const flow = await (async () => {
       const existingFlow = await this.databaseService.db.query.flows.findFirst({
         where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),

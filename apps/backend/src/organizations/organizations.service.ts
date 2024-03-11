@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { organizations, organizationsToUsers, userInvite } from "db";
+import { organizations, organizationsToUsers, subscriptions, userInvite } from "db";
 import { and, eq, gt, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
