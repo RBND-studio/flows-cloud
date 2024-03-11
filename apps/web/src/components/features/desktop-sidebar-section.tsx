@@ -22,8 +22,9 @@ export const DesktopSidebarSection: FC<Props> = ({ link, title, items }) => {
         className={css({
           mb: "space16",
           textStyle: "titleM",
-          color: active ? "text.primary" : "text",
-          _hover: { textDecoration: "underline" },
+          color: active ? "text" : "text.subtle",
+          fastEaseInOut: "color",
+          _hover: { color: "text.primary" },
         })}
         color={pathname.startsWith(link) ? "primary" : undefined}
         href={link}
