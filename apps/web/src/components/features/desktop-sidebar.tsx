@@ -12,6 +12,7 @@ export const DesktopSidebar = ({ data }: { data: SidebarData }): JSX.Element => 
       flexDirection="column"
       height="calc(100vh - 120px)"
       maxWidth={200}
+      mb="space40"
       mdDown={{ display: "none" }}
       overflowY="auto"
       position="sticky"

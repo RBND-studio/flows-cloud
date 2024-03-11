@@ -71,7 +71,7 @@ const Page = (): ReactElement => {
         </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="modal" variant="title2xl">
+        <Text className={Heading2styles} id="wait" variant="title2xl">
           Wait
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">

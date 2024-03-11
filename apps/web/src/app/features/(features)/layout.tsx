@@ -1,7 +1,9 @@
 import { Box, Flex } from "@flows/styled-system/jsx";
-import { DesktopSidebar } from "components/features/desktop-navbar";
-import { MobileSidebar } from "components/features/mobile-navbar";
+import { DesktopSidebar } from "components/features/desktop-sidebar";
+import { MobileSidebar } from "components/features/mobile-sidebar";
 import { sidebarData } from "components/features/sidebar-content";
+
+//TODO: add option to copy anchor links to headings in feature pages
 
 export default function FeaturesLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (

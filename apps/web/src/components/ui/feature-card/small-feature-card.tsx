@@ -1,5 +1,6 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
+import { ArrowRight16 } from "icons";
 import { Icon, Text } from "ui";
 
 import { cardWrapper } from "./card-wrapper";
@@ -22,17 +23,22 @@ export const SmallFeatureCard = (props: SmallFeatureCardTypes): JSX.Element => {
       <Flex bor="1px" borderRadius="radius8" padding="space12">
         <Icon icon={props.icon} />
       </Flex>
-      <Text
-        className={css({
-          "& span": {
-            color: "text",
-          },
-        })}
-        color="muted"
-        variant="titleM"
-      >
-        {props.mainSlot}
-      </Text>
+      <Flex alignItems="center" mdDown={{ gap: "space8" }}>
+        <Text
+          className={css({
+            "& span": {
+              color: "text",
+            },
+          })}
+          color="muted"
+          variant="titleM"
+        >
+          {props.mainSlot}
+        </Text>
+        <Flex>
+          <Icon icon={ArrowRight16} />
+        </Flex>
+      </Flex>
     </Flex>
   );
 };
