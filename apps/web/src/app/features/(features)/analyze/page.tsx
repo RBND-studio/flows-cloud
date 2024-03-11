@@ -1,5 +1,11 @@
 import { Box } from "@flows/styled-system/jsx";
-import { FeatureHeader, Heading2styles, ImageStyles, ParagraphStyles } from "components/features";
+import {
+  FeatureHeader,
+  FeatureSuggestions,
+  Heading2styles,
+  ImageStyles,
+  ParagraphStyles,
+} from "components/features";
 import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactElement } from "react";
@@ -11,7 +17,7 @@ export const metadata: Metadata = {
     "Building truly great user onboarding is part intuition and part data. To help with the data part, Flows offer tools to help you understand how users are interacting with your tours.",
 };
 
-const Page = (): ReactElement => {
+export default function Page(): ReactElement {
   return (
     <>
       <FeatureHeader
@@ -53,8 +59,8 @@ const Page = (): ReactElement => {
           sync Flows with your analytics toolkit, ensuring a smooth workflow and data analysis.
         </Text>
       </Box>
+
+      <FeatureSuggestions featureSectionTitle="Analyze" />
     </>
   );
-};
-
-export default Page;
+}

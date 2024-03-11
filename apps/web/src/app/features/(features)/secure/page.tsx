@@ -1,6 +1,7 @@
 import { Box } from "@flows/styled-system/jsx";
 import {
   FeatureHeader,
+  FeatureSuggestions,
   Heading2styles,
   Heading3styles,
   ImageStyles,
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     "Flows are built with privacy in mind. We don’t track your users, store any of their personal data, and we use only one functional cookie.",
 };
 
-const Page = (): ReactElement => {
+export default function Page(): ReactElement {
   return (
     <>
       <FeatureHeader
@@ -63,8 +64,8 @@ const Page = (): ReactElement => {
           This means we never send user data to our servers.
         </Text>
       </Box>
+
+      <FeatureSuggestions featureSectionTitle="Modern and secure" />
     </>
   );
-};
-
-export default Page;
+}

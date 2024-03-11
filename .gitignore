@@ -44,4 +44,3 @@ storybook-static
 dist
 
 # web build page
-!apps/web/src/app/features/(features)/build

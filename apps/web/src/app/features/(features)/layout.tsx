@@ -1,7 +1,6 @@
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { DesktopSidebar } from "components/features/desktop-sidebar";
 import { MobileSidebar } from "components/features/mobile-sidebar";
-import { sidebarData } from "components/features/sidebar-content";
 
 //TODO: add option to copy anchor links to headings in feature pages
 
@@ -14,8 +13,8 @@ export default function FeaturesLayout({ children }: { children: React.ReactNode
       pt="space64"
       px="space24"
     >
-      <MobileSidebar data={sidebarData} />
-      <DesktopSidebar data={sidebarData} />
+      <MobileSidebar />
+      <DesktopSidebar />
 
       <Box maxWidth={720} mdDown={{ px: "space24" }}>
         {children}

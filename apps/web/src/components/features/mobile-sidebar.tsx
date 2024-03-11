@@ -3,9 +3,9 @@ import { Flex } from "@flows/styled-system/jsx";
 import Link from "next/link";
 import { Icon, Text } from "ui";
 
-import type { SidebarData } from "./sidebar-content";
+import { sidebarData } from "./sidebar-content";
 
-export const MobileSidebar = ({ data }: { data: SidebarData }): JSX.Element => {
+export const MobileSidebar = (): JSX.Element => {
   return (
     <Flex
       backgroundColor="bg.muted"
@@ -13,12 +13,12 @@ export const MobileSidebar = ({ data }: { data: SidebarData }): JSX.Element => {
       display="none"
       gap="space32"
       mdDown={{ display: "flex" }}
-      overflow="scroll"
+      overflow="auto"
       pt="space16"
       px="space24"
       width="100%"
     >
-      {data.map((section) => (
+      {sidebarData.map((section) => (
         <Flex flexDirection="column" key={section.title}>
           <Text className={css({ mb: "space4", textWrap: "nowrap" })} variant="titleM">
             {section.title}

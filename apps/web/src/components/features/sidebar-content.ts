@@ -22,16 +22,18 @@ type Feature = {
   link: string;
 };
 
-type Section = {
+export type SidebarSection = {
   title: string;
+  link: string;
   features: Feature[];
 };
 
-export type SidebarData = Section[];
+export type SidebarData = SidebarSection[];
 
 export const sidebarData: SidebarData = [
   {
     title: "Build",
+    link: "/features/build",
     features: [
       {
         title: "No-code",
@@ -41,7 +43,7 @@ export const sidebarData: SidebarData = [
       {
         title: "In-code",
         icon: Code16,
-        link: "/features/build#code",
+        link: "/features/build#in-code",
       },
       {
         title: "Preview",
@@ -52,6 +54,7 @@ export const sidebarData: SidebarData = [
   },
   {
     title: "Flow steps",
+    link: "/features/flow-steps",
     features: [
       {
         title: "Tooltip",
@@ -77,6 +80,7 @@ export const sidebarData: SidebarData = [
   },
   {
     title: "Deliver",
+    link: "/features/deliver",
     features: [
       {
         title: "Speed as a priority",
@@ -108,6 +112,7 @@ export const sidebarData: SidebarData = [
 
   {
     title: "Analyze",
+    link: "/features/analyze",
     features: [
       {
         title: "Flow insights",
@@ -128,6 +133,7 @@ export const sidebarData: SidebarData = [
   },
   {
     title: "Modern and secure",
+    link: "/features/secure",
     features: [
       {
         title: "Privacy first",

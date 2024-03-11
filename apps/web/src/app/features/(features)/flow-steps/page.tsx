@@ -1,6 +1,7 @@
 import { Box } from "@flows/styled-system/jsx";
 import {
   FeatureHeader,
+  FeatureSuggestions,
   Heading2styles,
   Heading3styles,
   ImageStyles,
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     "Great onboarding needs powerful step types. With Flows we are reinventing the way you can guide users through your product. Wait for user input or branch based on their actions to create a truly personalized experience.",
 };
 
-const Page = (): ReactElement => {
+export default function Page(): ReactElement {
   return (
     <>
       <FeatureHeader
@@ -125,8 +126,8 @@ const Page = (): ReactElement => {
           experiences that resonate with your users.
         </Text>
       </Box>
+
+      <FeatureSuggestions featureSectionTitle="Flow steps" />
     </>
   );
-};
-
-export default Page;
+}

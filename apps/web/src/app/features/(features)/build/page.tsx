@@ -1,6 +1,7 @@
 import { Box } from "@flows/styled-system/jsx";
 import {
   FeatureHeader,
+  FeatureSuggestions,
   Heading2styles,
   Heading3styles,
   ImageStyles,
@@ -17,12 +18,12 @@ export const metadata: Metadata = {
     "Flows is the tool to build advanced user onboarding. Powerful yet simple to use, it allows you to work how you want. Without clunky limitations or bottlenecks.",
 };
 
-const Page = (): ReactElement => {
+export default function Page(): ReactElement {
   return (
     <>
       <FeatureHeader
         description="Flows is the tool to build advanced user onboarding. Powerful yet simple to use, it allows you to work how you want. Without clunky limitations or bottlenecks."
-        title="Powerfull tool for onboarding"
+        title="Powerful tool for onboarding"
       />
       <Box borBottom="1px" mb="space40" pb="space40">
         <Text className={Heading2styles} id="no-code" variant="title2xl">
@@ -86,8 +87,8 @@ const Page = (): ReactElement => {
           width={2160}
         />
       </Box>
+
+      <FeatureSuggestions featureSectionTitle="Build" />
     </>
   );
-};
-
-export default Page;
+}

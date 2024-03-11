@@ -1,6 +1,7 @@
 import { Box } from "@flows/styled-system/jsx";
 import {
   FeatureHeader,
+  FeatureSuggestions,
   Heading2styles,
   Heading3styles,
   ImageStyles,
@@ -17,12 +18,12 @@ export const metadata: Metadata = {
     "Flows are built in pursuit of high-performance. We’ve optimized every aspect of Flows to make sure your users get the best experience possible.",
 };
 
-const Page = (): ReactElement => {
+export default function Page(): ReactElement {
   return (
     <>
       <FeatureHeader
         description="Flows are built in pursuit of high-performance. We’ve optimized every aspect of Flows to make sure your users get the best experience possible."
-        title="Relivable flow delivery"
+        title="Reliable flow delivery"
       />
       <Box borBottom="1px" mb="space40" pb="space40">
         <Text className={Heading2styles} id="speed" variant="title2xl">
@@ -54,8 +55,8 @@ const Page = (): ReactElement => {
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
           Size matters, especially when it comes to site performance. Flows’ script is incredibly
-          lightweight, weighing in at just ~20kB, Flows script is just ~20kB, making it one of the
-          most compact options available.
+          lightweight, weighing in at just ~20kB, making it one of the most compact options
+          available.
         </Text>
         <Image
           alt="Size"
@@ -135,8 +136,8 @@ const Page = (): ReactElement => {
           width={2160}
         />
       </Box>
+
+      <FeatureSuggestions featureSectionTitle="Deliver" />
     </>
   );
-};
-
-export default Page;
+}
