@@ -21,6 +21,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@rbnd/react-dark-mode": "^2.0.1",
     "@supabase/ssr": "^0.1.0",
+    "@supabase/supabase-js": "^2.39.7",
     "@visx/axis": "^3.9.0",
     "@visx/event": "^3.3.0",
     "@visx/group": "^3.3.0",

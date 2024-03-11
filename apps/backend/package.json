@@ -36,7 +36,7 @@
     "drizzle-orm": "^0.29.4",
     "jsonwebtoken": "^9.0.2",
     "lightningcss": "^1.24.0",
-    "loops": "^0.2.1",
+    "loops": "^0.3.0",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",
     "slugify": "^1.6.6"

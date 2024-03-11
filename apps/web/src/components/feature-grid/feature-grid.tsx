@@ -1,6 +1,7 @@
 import { Flex, Grid } from "@flows/styled-system/jsx";
 import type { SmallFeatureCardTypes } from "components/ui";
 import { Section, SmallFeatureCard } from "components/ui";
+import Link from "next/link";
 import { Text } from "ui";
 
 type ExtendedFeatureCardTypes = SmallFeatureCardTypes & { link: string };
@@ -26,7 +27,9 @@ export const FeatureGrid = (props: FeatureGridTypes): JSX.Element => {
         </Flex>
         <Grid gap="space16" gridTemplateColumns={["1", "2", "3"]}>
           {props.features.map((feature) => (
-            <SmallFeatureCard key={feature.link} {...feature} />
+            <Link href={feature.link} key={feature.link}>
+              <SmallFeatureCard hover {...feature} />
+            </Link>
           ))}
         </Grid>
       </Flex>
