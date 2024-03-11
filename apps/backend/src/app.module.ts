@@ -6,6 +6,7 @@ import { minutes, ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import cors from "cors";
 
 import { AppController } from "./app.controller";
+import { BillingModule } from "./billing/billing.module";
 import { CssModule } from "./css/css.module";
 import { DatabaseModule } from "./database/database.module";
 import { DbPermissionModule } from "./db-permission/db-permission.module";
@@ -44,6 +45,7 @@ const publicRoutes: string[] = [
     OrganizationsModule,
     UsersModule,
     CssModule,
+    BillingModule,
   ],
   controllers: [AppController],
   providers: [
