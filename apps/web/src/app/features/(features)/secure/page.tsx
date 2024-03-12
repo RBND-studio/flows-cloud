@@ -26,7 +26,7 @@ export default function Page(): ReactElement {
         title="Safe, secure, and private"
       />
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="privacy-first" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="privacy-first" variant="title2xl">
           Privacy first
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -41,7 +41,7 @@ export default function Page(): ReactElement {
           src="/images/features/privacy.png"
           width={2160}
         />
-        <Text className={Heading3styles} variant="titleL">
+        <Text as="h3" className={Heading3styles} variant="titleL">
           Identify users semi-anonymously
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -56,7 +56,7 @@ export default function Page(): ReactElement {
           frequency of how often flows show up yourself. In this case, Flows won’t store any data
           about your users.
         </Text>
-        <Text className={Heading3styles} variant="titleL">
+        <Text as="h3" className={Heading3styles} variant="titleL">
           Client side user segmentation
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">

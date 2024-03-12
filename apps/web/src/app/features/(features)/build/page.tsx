@@ -26,7 +26,7 @@ export default function Page(): ReactElement {
         title="Powerful tool for onboarding"
       />
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="no-code" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="no-code" variant="title2xl">
           No-code
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -40,7 +40,7 @@ export default function Page(): ReactElement {
           src="/images/features/no-code.png"
           width={2160}
         />
-        <Text className={Heading3styles} variant="titleL">
+        <Text as="h3" className={Heading3styles} variant="titleL">
           Steps editor
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -48,7 +48,7 @@ export default function Page(): ReactElement {
         </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="in-code" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="in-code" variant="title2xl">
           In-code
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -63,7 +63,7 @@ export default function Page(): ReactElement {
           src="/images/features/in-code.png"
           width={2160}
         />
-        <Text className={Heading3styles} variant="titleL">
+        <Text as="h3" className={Heading3styles} variant="titleL">
           Flows JS SDK
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -72,7 +72,7 @@ export default function Page(): ReactElement {
         </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="preview" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="preview" variant="title2xl">
           Preview
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">

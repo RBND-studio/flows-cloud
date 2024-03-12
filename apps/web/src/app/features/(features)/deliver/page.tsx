@@ -26,7 +26,7 @@ export default function Page(): ReactElement {
         title="Reliable flow delivery"
       />
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="speed" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="speed" variant="title2xl">
           Speed as a priority
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -40,7 +40,7 @@ export default function Page(): ReactElement {
           src="/images/features/speed.png"
           width={2160}
         />
-        <Text className={Heading3styles} variant="titleL">
+        <Text as="h3" className={Heading3styles} variant="titleL">
           Async loading
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -50,7 +50,7 @@ export default function Page(): ReactElement {
         </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="size" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="size" variant="title2xl">
           Tiny size
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -65,13 +65,13 @@ export default function Page(): ReactElement {
           src="/images/features/size.png"
           width={2160}
         />
-        <Text className={Heading3styles} variant="titleL">
+        <Text as="h3" className={Heading3styles} variant="titleL">
           CDN hosted
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
           Flows script can also be loaded from a Content Delivery Network (CDN).
         </Text>
-        <Text className={Heading3styles} variant="titleL">
+        <Text as="h3" className={Heading3styles} variant="titleL">
           Flows JS SDK
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -80,7 +80,7 @@ export default function Page(): ReactElement {
         </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="frequency" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="frequency" variant="title2xl">
           Frequency
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -96,7 +96,7 @@ export default function Page(): ReactElement {
         />
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="targeting" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="targeting" variant="title2xl">
           Targeting
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -111,7 +111,7 @@ export default function Page(): ReactElement {
           src="/images/features/targeting.png"
           width={2160}
         />
-        <Text className={Heading3styles} variant="titleL">
+        <Text as="h3" className={Heading3styles} variant="titleL">
           Secure and private
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -121,7 +121,7 @@ export default function Page(): ReactElement {
         </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="launch-action" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="launch-action" variant="title2xl">
           Launch action
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
