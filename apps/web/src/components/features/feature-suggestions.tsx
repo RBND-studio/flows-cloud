@@ -19,7 +19,9 @@ export const FeatureSuggestions: FC<Props> = ({ featureSectionTitle }) => {
 
   return (
     <Box>
-      <Text variant="title2xl">There’s more</Text>
+      <Text as="h2" variant="title2xl">
+        There’s more
+      </Text>
       <Grid gap="space16" gridTemplateColumns={[1, 1, 1, 2]} mt="space16">
         <div>
           {prevFeature ? (

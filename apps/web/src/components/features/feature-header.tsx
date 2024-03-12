@@ -12,7 +12,7 @@ export const FeatureHeader = ({
 }): ReactElement => {
   return (
     <Box borBottom="1px" mb="space40" pb="space40">
-      <Text className={css({ mb: "space12" })} variant="title3xl">
+      <Text as="h1" className={css({ mb: "space12" })} variant="title3xl">
         {title}
       </Text>
       <Text color="muted" variant="bodyL">

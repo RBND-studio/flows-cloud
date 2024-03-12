@@ -25,7 +25,7 @@ export default function Page(): ReactElement {
         title="Analyze, optimize, fix"
       />
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="flow-insights" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="flow-insights" variant="title2xl">
           Flows insights
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -41,7 +41,7 @@ export default function Page(): ReactElement {
         />
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="error-tracking" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="error-tracking" variant="title2xl">
           Error tracking
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
@@ -50,7 +50,7 @@ export default function Page(): ReactElement {
         </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text className={Heading2styles} id="analytics-integration" variant="title2xl">
+        <Text as="h2" className={Heading2styles} id="analytics-integration" variant="title2xl">
           Analytics integration
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
