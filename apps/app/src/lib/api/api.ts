@@ -56,6 +56,7 @@ export type Api = {
   "POST /projects/:projectId/flows": Endpoint<FlowPreview, [string, CreateFlow]>;
   "DELETE /flows/:flowId": Endpoint<void, [string]>;
   "/me": Endpoint<Me>;
+  "POST /me/delete-account": Endpoint<void>;
   "POST /invites/:inviteId/accept": Endpoint<AcceptInviteResponse, [string]>;
   "POST /invites/:inviteId/decline": Endpoint<void, [string]>;
 
@@ -101,6 +102,7 @@ export const api: Api = {
     fetcher(`/projects/${projectId}/flows`, { method: "POST", body }),
   "DELETE /flows/:flowId": (flowId) => fetcher(`/flows/${flowId}`, { method: "DELETE" }),
   "/me": () => fetcher("/me"),
+  "POST /me/delete-account": () => fetcher("/me/delete-account", { method: "POST" }),
   "POST /invites/:inviteId/accept": (inviteId) =>
     fetcher(`/invites/${inviteId}/accept`, { method: "POST" }),
   "POST /invites/:inviteId/decline": (inviteId) =>

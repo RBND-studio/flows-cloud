@@ -5,7 +5,7 @@ import { load } from "lib/load";
 import Link from "next/link";
 import React from "react";
 import { routes } from "routes";
-import { Button } from "ui";
+import { Button, Text } from "ui";
 
 export const OrganizationsList = async (): Promise<JSX.Element> => {
   const organizations = await load(api["/organizations"]());
@@ -34,16 +34,30 @@ export const OrganizationsList = async (): Promise<JSX.Element> => {
               gap: "space16",
               display: "flex",
               flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
             })}
             key={org.id}
           >
-            {org.name}
-            <br />
-            members: {org.members}
-            <Button asChild size="small" variant="secondary">
-              <Link href={routes.organizationSettings({ organizationId: org.id })}>Edit</Link>
-            </Button>
-            <OrganizationLeaveDialog organization={org} />
+            <Text variant="bodyM">
+              {org.name} <br />
+              members: {org.members}
+            </Text>
+
+            <div
+              className={css({
+                gap: "space16",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              })}
+            >
+              <Button asChild size="small" variant="secondary">
+                <Link href={routes.organizationSettings({ organizationId: org.id })}>Edit</Link>
+              </Button>
+              <OrganizationLeaveDialog organization={org} />
+            </div>
           </li>
         ))}
       </ul>

@@ -115,4 +115,11 @@ export class UsersService {
       message: `🤩 ${data.email} has joined the waitlist!`,
     });
   }
+
+  async softDeleteUser({ auth }: { auth: Auth }): Promise<void> {
+    // TODO: Would be better to use a supabase method for this, also delete user sessions and log out in the frontend
+    await this.databaseService.db.execute(
+      sql`UPDATE auth.users SET deleted_at = now() WHERE id = ${auth.userId}`,
+    );
+  }
 }

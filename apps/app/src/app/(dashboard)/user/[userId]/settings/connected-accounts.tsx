@@ -1,10 +1,9 @@
 import { css } from "@flows/styled-system/css";
 import { GitHub16, Google16 } from "icons";
 import { cookies } from "next/headers";
-import Image from "next/image";
 import React from "react";
 import { createClient } from "supabase/server";
-import { Text } from "ui";
+import { Avatar, Text } from "ui";
 
 export const ConnectedAccounts = async (): Promise<JSX.Element> => {
   const cookieStore = cookies();
@@ -39,17 +38,13 @@ export const ConnectedAccounts = async (): Promise<JSX.Element> => {
                 gap: "space16",
                 display: "flex",
                 flexDirection: "row",
+                alignItems: "center",
               })}
               key={identity.id}
             >
-              <Image
-                alt="avatar"
-                className={css({
-                  borderRadius: "radius100",
-                })}
-                height={64}
+              <Avatar
+                fullName={identity.identity_data?.name || "Unknown"}
                 src={identity.identity_data?.avatar_url}
-                width={64}
               />
               {identity.provider === "google" ? (
                 <Google16 />

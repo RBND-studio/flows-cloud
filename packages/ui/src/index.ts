@@ -1,4 +1,5 @@
 export * from "./accordion";
+export * from "./avatar/avatar";
 export * from "./button";
 export * from "./checkbox";
 export * from "./description";
@@ -16,4 +17,5 @@ export * from "./switch";
 export * from "./tabs";
 export * from "./text";
 export * from "./toast";
+export * from "./tooltip/tooltip";
 export * from "./utils";

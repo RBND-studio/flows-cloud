@@ -1,7 +1,7 @@
 "use client";
 
 import { useSend } from "hooks/use-send";
-import type { OrganizationDetail } from "lib/api";
+import type { OrganizationPreview } from "lib/api";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
@@ -15,10 +15,14 @@ import {
   DialogTitle,
   Text,
   toast,
+  TooltipContent,
+  TooltipProvider,
+  TooltipRoot,
+  TooltipTrigger,
 } from "ui";
 
 type Props = {
-  organization: OrganizationDetail;
+  organization: OrganizationPreview;
 };
 
 export const OrganizationLeaveDialog: FC<Props> = ({ organization }) => {
@@ -33,13 +37,21 @@ export const OrganizationLeaveDialog: FC<Props> = ({ organization }) => {
     toast.success(t.toasts.memberRemoved);
     router.refresh();
   };
-
   return (
     <Dialog
       trigger={
-        <Button size="small" variant="secondary">
-          {t.actions.leave}
-        </Button>
+        <TooltipProvider>
+          <TooltipRoot>
+            <TooltipTrigger asChild>
+              <Button disabled={organization.members === 1} size="small" variant="secondary">
+                {t.actions.leave}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              {organization.members === 1 ? "You are the last member" : "Leave organization"}
+            </TooltipContent>
+          </TooltipRoot>
+        </TooltipProvider>
       }
     >
       <DialogTitle>Leave organization</DialogTitle>

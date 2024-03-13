@@ -34,4 +34,9 @@ export class UsersController {
   joinWaitlist(@Body() body: JoinWaitlistDto): Promise<void> {
     return this.usersService.joinWaitlist({ data: body });
   }
+
+  @Post("me/delete-account")
+  deleteAccount(@Authorization() auth: Auth): Promise<void> {
+    return this.usersService.softDeleteUser({ auth });
+  }
 }

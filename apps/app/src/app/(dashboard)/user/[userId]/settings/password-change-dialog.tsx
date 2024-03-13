@@ -20,7 +20,7 @@ type PasswordChangeForm = {
   password: string;
 };
 
-export const PasswordChangeDialog = () => {
+export const PasswordChangeDialog = (): JSX.Element => {
   const supabase = createClient();
   const { register, handleSubmit, formState, reset } = useForm<PasswordChangeForm>({
     defaultValues: {

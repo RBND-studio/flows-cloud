@@ -1,3 +1,5 @@
+"use client";
+
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { ChevronDown16 } from "icons";

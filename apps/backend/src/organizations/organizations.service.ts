@@ -32,7 +32,7 @@ export class OrganizationsService {
     const membersQuery = this.databaseService.db
       .select({
         organization_id: organizationsToUsers.organization_id,
-        count: sql<number>`count(*)`.as("count"),
+        count: sql<number>`cast(count(*) as int)`.as("count"),
       })
       .from(organizationsToUsers)
       .groupBy(organizationsToUsers.organization_id)
