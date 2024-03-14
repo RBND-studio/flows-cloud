@@ -58,7 +58,7 @@ export const StepForm: FC<Props> = ({ index }) => {
       <Flex mb="space12">
         <Flex alignItems="center" flex={1} gap="space4">
           <Select
-            onChange={(v) => setValue(stepKey, STEP_DEFAULT[v])}
+            onChange={(v) => setValue(stepKey, STEP_DEFAULT[v], { shouldDirty: true })}
             options={typeOptions}
             value={stepType}
           />

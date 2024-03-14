@@ -4,8 +4,8 @@ import type { FC } from "react";
 import { t } from "translations";
 import { Accordion, Input } from "ui";
 
-import { StepWaitOptionList } from "./step-wait-option-list";
 import { useStepsForm } from "../edit-constants";
+import { StepWaitOptionList } from "./step-wait-option-list";
 
 type Props = {
   index: number | `${number}.${number}.${number}`;

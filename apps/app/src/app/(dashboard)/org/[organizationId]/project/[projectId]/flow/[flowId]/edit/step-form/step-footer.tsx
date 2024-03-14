@@ -4,8 +4,8 @@ import type { FC } from "react";
 import { Controller } from "react-hook-form";
 import { Accordion, Checkbox, Input, Label, Text } from "ui";
 
-import { StepFooterActions } from "./step-footer-actions";
 import { useStepsForm } from "../edit-constants";
+import { StepFooterActions } from "./step-footer-actions";
 
 type Props = {
   index: number | `${number}.${number}.${number}`;

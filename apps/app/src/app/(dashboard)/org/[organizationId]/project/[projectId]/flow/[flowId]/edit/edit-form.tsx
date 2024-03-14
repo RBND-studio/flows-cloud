@@ -14,7 +14,7 @@ import { t } from "translations";
 import { Button, Separator, Text, toast } from "ui";
 
 import type { StepsForm } from "./edit-constants";
-import { EditDetail } from "./edit-detail";
+import { StepForm } from "./step-form";
 import { StepPreview } from "./step-preview";
 import { StepsFlow } from "./steps-flow";
 
@@ -66,11 +66,19 @@ export const EditForm: FC<Props> = ({ flow }) => {
             <StepsFlow onSelectStep={setSelectedStep} selectedStep={selectedStep} />
           </Box>
           <Box overflow="auto">
-            <Box p="space16">
-              <EditDetail selectedStep={selectedStep} />
-            </Box>
-            <Separator />
-            <StepPreview selectedStep={selectedStep} />
+            {selectedStep !== undefined ? (
+              <>
+                <Box p="space16">
+                  <StepForm index={selectedStep} key={selectedStep} />
+                </Box>
+                <Separator />
+                <StepPreview selectedStep={selectedStep} />
+              </>
+            ) : (
+              <Box p="space16">
+                <Text>Start by selecting a step on the left</Text>
+              </Box>
+            )}
           </Box>
         </Grid>
       </form>

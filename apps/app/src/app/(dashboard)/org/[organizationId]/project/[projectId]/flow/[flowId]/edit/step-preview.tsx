@@ -21,6 +21,7 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
   const { data: template, isLoading: templateIsLoading } = useFetch("/css/template");
   const loading = projectIsLoading || varsIsLoading || templateIsLoading;
   const cssStyle = useMemo(
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing is not suitable here
     () => [project?.css_vars || vars, project?.css_template || template].join(""),
     [project?.css_template, project?.css_vars, template, vars],
   );
@@ -65,9 +66,10 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
       renderEl = res.root;
     }
 
-    if (renderEl) root.appendChild(renderEl);
+    const el = renderEl as HTMLElement | undefined;
+    if (el) root.appendChild(el);
     return () => {
-      if (renderEl) renderEl.remove();
+      if (el) el.remove();
     };
   });
 
