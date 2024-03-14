@@ -33,8 +33,8 @@ importers:
   apps/app:
     dependencies:
       '@flows/js':
-        specifier: ../../../flows-js/workspaces/js
-        version: link:../../../flows-js/workspaces/js
+        specifier: 0.0.46
+        version: 0.0.46
       '@marsidev/react-turnstile':
         specifier: ^0.5.3
         version: 0.5.3(react-dom@18.2.0)(react@18.2.0)
@@ -269,8 +269,8 @@ importers:
   apps/docs:
     dependencies:
       '@flows/js':
-        specifier: 0.0.42
-        version: 0.0.42
+        specifier: 0.0.46
+        version: 0.0.46
       icons:
         specifier: workspace:*
         version: link:../../packages/icons
@@ -3642,11 +3642,11 @@ packages:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
     dev: false
 
-  /@flows/js@0.0.42:
-    resolution: {integrity: sha512-lJ7jzenCV/E8WTBV212q2FcNF5i73spvpY+29s0Y+y2NfBktRRjXmtDrFIoA8gFnFFQZmDLbAENjetMstkbdEw==}
+  /@flows/js@0.0.46:
+    resolution: {integrity: sha512-d9U0PX4hgVx66BxwWx0OWFlQzqtBmSAqclaLRNG52+FiOL8HIhEH8oYvtyRvbOkT0bHtcUEtOMeiBvLiLh/rPA==}
     dependencies:
       '@floating-ui/dom': 1.6.3
-      superstruct: 1.0.3
+      superstruct: 1.0.4
     dev: false
 
   /@grpc/grpc-js@1.9.4:
@@ -18513,8 +18513,8 @@ packages:
       copy-anything: 3.0.5
     dev: true
 
-  /superstruct@1.0.3:
-    resolution: {integrity: sha512-8iTn3oSS8nRGn+C2pgXSKPI3jmpm6FExNazNpjvqS6ZUJQCej3PUXEKM8NjHBOs54ExM+LPW/FBRhymrdcCiSg==}
+  /superstruct@1.0.4:
+    resolution: {integrity: sha512-7JpaAoX2NGyoFlI9NBh66BQXGONc+uE+MRS5i2iOBKuS4e+ccgMDjATgZldkah+33DakBxDHiss9kvUcGAO8UQ==}
     engines: {node: '>=14.0.0'}
     dev: false
 
