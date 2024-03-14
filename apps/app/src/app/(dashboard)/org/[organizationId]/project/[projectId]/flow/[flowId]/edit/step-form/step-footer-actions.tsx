@@ -1,3 +1,4 @@
+import { type FooterActionItem } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { Close16, Plus16 } from "icons";
@@ -68,11 +69,14 @@ const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
     return "targetBranch";
   })();
   const handleSwitchVariant = (variant: typeof currentVariant): void => {
-    if (variant === "href") return setValue(fieldName, { label: value.label, href: "" });
-    if (variant === "prev") return setValue(fieldName, { label: value.label, prev: true });
-    if (variant === "next") return setValue(fieldName, { label: value.label, next: true });
-    if (variant === "cancel") return setValue(fieldName, { label: value.label, cancel: true });
-    return setValue(fieldName, { label: value.label, targetBranch: 0 });
+    const newValue = ((): FooterActionItem => {
+      if (variant === "href") return { label: value.label, href: "" };
+      if (variant === "prev") return { label: value.label, prev: true };
+      if (variant === "next") return { label: value.label, next: true };
+      if (variant === "cancel") return { label: value.label, cancel: true };
+      return { label: value.label, targetBranch: 0 };
+    })();
+    setValue(fieldName, newValue, { shouldDirty: true });
   };
 
   return (

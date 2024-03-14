@@ -48,7 +48,7 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
         targetBranch: value.targetBranch,
         clickElement: "",
       };
-    if (newValue) setValue(fieldName, newValue);
+    if (newValue) setValue(fieldName, newValue, { shouldDirty: true });
   };
 
   return (

@@ -8,7 +8,7 @@ import { api, type FlowDetail } from "lib/api";
 import { useRouter } from "next/navigation";
 import { type FC, Fragment } from "react";
 import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { t } from "translations";
 import { Button, Text, toast } from "ui";
 
@@ -27,9 +27,10 @@ const createDefaultValues = (flow: FlowDetail): TargetingForm => {
 };
 
 export const FlowTargetingForm: FC<Props> = ({ flow }) => {
-  const { watch, setValue, control, handleSubmit, reset, formState } = useForm<TargetingForm>({
+  const { control, handleSubmit, reset, formState } = useForm<TargetingForm>({
     defaultValues: createDefaultValues(flow),
   });
+  const { fields, append, remove } = useFieldArray({ control, name: "userProperties" });
   const { send, loading } = useSend();
   const router = useRouter();
   const onSubmit: SubmitHandler<TargetingForm> = async (data) => {
@@ -48,14 +49,6 @@ export const FlowTargetingForm: FC<Props> = ({ flow }) => {
     router.refresh();
   };
 
-  const userProperties = watch("userProperties");
-
-  const handleRemoveGroup = (index: number): void => {
-    const updated = [...userProperties];
-    updated.splice(index, 1);
-    setValue("userProperties", updated);
-  };
-
   const isCloud = flow.flow_type === "cloud";
 
   return (
@@ -67,11 +60,8 @@ export const FlowTargetingForm: FC<Props> = ({ flow }) => {
       {isCloud ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box borTop="1px">
-            {userProperties.map((_, i) => (
-              <Fragment
-                // eslint-disable-next-line react/no-array-index-key -- index is fine here
-                key={i}
-              >
+            {fields.map((field, i) => (
+              <Fragment key={field.id}>
                 {i !== 0 && (
                   <Flex justifyContent="center" width="100%">
                     <Text
@@ -89,7 +79,7 @@ export const FlowTargetingForm: FC<Props> = ({ flow }) => {
                     </Text>
                   </Flex>
                 )}
-                <FlowMatchGroup control={control} index={i} onRemove={() => handleRemoveGroup(i)} />
+                <FlowMatchGroup control={control} index={i} onRemove={() => remove(i)} />
               </Fragment>
             ))}
           </Box>
@@ -97,11 +87,7 @@ export const FlowTargetingForm: FC<Props> = ({ flow }) => {
             <Button disabled={!formState.isDirty} loading={loading} type="submit" variant="black">
               Save
             </Button>
-            <Button
-              onClick={() => setValue("userProperties", [...userProperties, []])}
-              startIcon={<Plus16 />}
-              variant="secondary"
-            >
+            <Button onClick={() => append([])} startIcon={<Plus16 />} variant="secondary">
               {t.targeting.addGroup}
             </Button>
           </Flex>

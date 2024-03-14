@@ -67,7 +67,6 @@ export const CssTemplateForm: FC<Props> = ({ project, defaultTemplate }) => {
   };
 
   const handleDefault = (): void => {
-    setValue("cssTemplate", defaultTemplate);
     editorRef.current?.setValue(defaultTemplate);
   };
 

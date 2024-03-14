@@ -33,8 +33,9 @@ const createDefaultValues = ({ defaultVars, project }: Props): FormValues => ({
 export const CssVarsForm: FC<Props> = ({ project, defaultVars }) => {
   const { setCssVars } = useTemplate();
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
-  const { control, handleSubmit, setError, clearErrors, formState, reset, setValue } =
-    useForm<FormValues>({ defaultValues: createDefaultValues({ project, defaultVars }) });
+  const { control, handleSubmit, setError, clearErrors, formState, reset } = useForm<FormValues>({
+    defaultValues: createDefaultValues({ project, defaultVars }),
+  });
 
   const { send, loading } = useSend();
   const router = useRouter();
@@ -55,7 +56,6 @@ export const CssVarsForm: FC<Props> = ({ project, defaultVars }) => {
   };
 
   const handleDefault = (): void => {
-    setValue("cssVars", defaultVars);
     editorRef.current?.setValue(defaultVars);
   };
 
