@@ -52,7 +52,7 @@
     "@types/node": "^20.11.21",
     "@types/supertest": "^6.0.2",
     "concurrently": "^8.2.2",
-    "dotenv": "^16.4.3",
+    "dotenv": "^16.4.5",
     "eslint-config-custom": "workspace:*",
     "jest": "^29.7.0",
     "source-map-support": "^0.5.21",
