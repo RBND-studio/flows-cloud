@@ -50,7 +50,7 @@
     "@types/react-dom": "^18.2.19",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "5.3.3"
+    "typescript": "5.4.2"
   },
   "optionalDependencies": {
     "@flows/styled-system": "link:node_modules/@flows/pandacss"
