@@ -6,7 +6,7 @@ import { Controller, useFieldArray } from "react-hook-form";
 import { t } from "translations";
 import { Button, Checkbox, Icon, Input, Label, Select, Text } from "ui";
 
-import { useStepsForm } from "./steps-editor.types";
+import { useStepsForm } from "../edit-constants";
 
 type Placement = "left" | "center" | "right";
 

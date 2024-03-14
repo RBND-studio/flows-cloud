@@ -6,7 +6,7 @@ import { useFieldArray } from "react-hook-form";
 import { Button, Text } from "ui";
 
 import { StepWaitOption } from "./step-wait-option";
-import { useStepsForm } from "./steps-editor.types";
+import { useStepsForm } from "../edit-constants";
 
 type Props = {
   fieldName: `steps.${number}.wait` | `steps.${number}.${number}.${number}.wait`;

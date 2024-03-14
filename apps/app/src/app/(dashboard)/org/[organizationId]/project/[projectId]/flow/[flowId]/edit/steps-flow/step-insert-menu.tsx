@@ -5,7 +5,7 @@ import { Plus16 } from "icons";
 import { type FC } from "react";
 import { Button, Icon, Menu, MenuItem } from "ui";
 
-import { STEP_DEFAULT } from "./step-form";
+import { STEP_DEFAULT } from "../step-form";
 
 type Props = {
   onInsert: (step: FlowSteps[number]) => void;

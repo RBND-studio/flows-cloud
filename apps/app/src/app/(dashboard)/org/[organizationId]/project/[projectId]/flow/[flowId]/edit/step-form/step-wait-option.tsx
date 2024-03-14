@@ -7,9 +7,9 @@ import { Controller } from "react-hook-form";
 import { t } from "translations";
 import { Button, Icon, Input, Text } from "ui";
 
+import { useStepsForm } from "../edit-constants";
 import { StepWaitChange } from "./step-wait-change";
 import { StepWaitForm } from "./step-wait-submit";
-import { useStepsForm } from "./steps-editor.types";
 
 type Props = {
   fieldName:

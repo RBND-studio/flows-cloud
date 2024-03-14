@@ -8,8 +8,10 @@ import { useSend } from "hooks/use-send";
 import { KebabHorizontal16 } from "icons";
 import { api, type FlowDetail } from "lib/api";
 import { timeFromNow } from "lib/date";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
+import { routes } from "routes";
 import { t } from "translations";
 import { Button, Icon, Menu, Switch, Text, toast } from "ui";
 
@@ -23,6 +25,7 @@ type Props = {
 };
 
 export const FlowHeader: FC<Props> = ({ flow, params }) => {
+  const { flowId, organizationId, projectId } = params;
   //TODO: Improve local flow options
   const flowIsCloud = flow.flow_type === "cloud";
   const flowIsPublic = flow.enabled_at !== null;
@@ -52,7 +55,7 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
       <FlowDeleteDialog
         flow={flow}
         key="delete"
-        organizationId={params.organizationId}
+        organizationId={organizationId}
         trigger={<MenuItem>Delete</MenuItem>}
       />
     </Menu>
@@ -72,6 +75,9 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
           </Flex>
           {flowIsCloud ? (
             <Flex alignItems="center" gap="space16">
+              <Button asChild>
+                <Link href={routes.flowEdit({ flowId, organizationId, projectId })}>Edit</Link>
+              </Button>
               <FlowPublishChangesDialog flow={flow} />
               <FlowPreviewDialog flow={flow} />
               <Switch

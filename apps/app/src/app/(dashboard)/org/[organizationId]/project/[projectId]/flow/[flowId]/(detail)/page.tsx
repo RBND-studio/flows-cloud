@@ -4,7 +4,6 @@ import { load } from "lib/load";
 
 import { AnalyticsPreview } from "./analytics-preview";
 import { SetupSection } from "./setup-section";
-import { StepsSection } from "./steps-section";
 
 type Props = {
   params: { flowId: string; projectId: string; organizationId: string };
@@ -16,7 +15,6 @@ export default async function FlowDetailPage({ params }: Props): Promise<JSX.Ele
   return (
     <Flex direction="column" gap="space24" width="100%">
       <AnalyticsPreview flow={flow} />
-      <StepsSection flow={flow} params={params} />
       <SetupSection flow={flow} params={params} />
     </Flex>
   );

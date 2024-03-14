@@ -1,3 +1,4 @@
+import { Container } from "components/ui/container";
 import { api } from "lib/api";
 import { load } from "lib/load";
 import type { Metadata } from "next";
@@ -23,10 +24,10 @@ export default async function FlowLayout({ children, params }: Props): Promise<J
   const flow = await load(api["/flows/:flowId"](params.flowId));
 
   return (
-    <>
+    <Container>
       <FlowHeader flow={flow} params={params} />
       <FlowTabs cloudFlow={flow.flow_type === "cloud"} />
       {children}
-    </>
+    </Container>
   );
 }

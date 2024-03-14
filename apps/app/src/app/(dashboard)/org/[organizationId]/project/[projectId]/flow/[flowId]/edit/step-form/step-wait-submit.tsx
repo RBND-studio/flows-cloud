@@ -5,7 +5,7 @@ import type { FC } from "react";
 import { useFieldArray } from "react-hook-form";
 import { Button, Icon, Input, Text } from "ui";
 
-import { useStepsForm } from "./steps-editor.types";
+import { useStepsForm } from "../edit-constants";
 
 type Props = {
   fieldName:

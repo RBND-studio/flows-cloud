@@ -1,3 +1,4 @@
+import { Container } from "components/ui/container";
 import { api } from "lib/api";
 import { load } from "lib/load";
 import type { Metadata } from "next";
@@ -17,5 +18,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function ProjectDetailLayout({ children }: Props): JSX.Element {
-  return <>{children}</>;
+  return <Container>{children}</Container>;
 }

@@ -24,9 +24,6 @@ export const FlowTabs: FC<Props> = ({ cloudFlow }) => {
     () => [
       { title: "Overview", href: routes.flow({ organizationId, projectId, flowId }) },
       { title: "Analytics", href: routes.flowAnalytics({ organizationId, projectId, flowId }) },
-      ...(cloudFlow
-        ? [{ title: "Steps", href: routes.flowSteps({ organizationId, projectId, flowId }) }]
-        : []),
 
       ...(cloudFlow && me?.role === "admin"
         ? [

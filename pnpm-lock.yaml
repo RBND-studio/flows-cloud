@@ -33,8 +33,8 @@ importers:
   apps/app:
     dependencies:
       '@flows/js':
-        specifier: 0.0.42
-        version: 0.0.42
+        specifier: ../../../flows-js/workspaces/js
+        version: link:../../../flows-js/workspaces/js
       '@marsidev/react-turnstile':
         specifier: ^0.5.3
         version: 0.5.3(react-dom@18.2.0)(react@18.2.0)

@@ -2,16 +2,15 @@ import type { FlowModalStep, FlowSteps, FlowTooltipStep, FlowWaitStep } from "@f
 import { Flex } from "@flows/styled-system/jsx";
 import { type FC, useMemo } from "react";
 import { t } from "translations";
-import { Accordion, Button, Select, Text } from "ui";
+import { Select, Text } from "ui";
 
+import { useStepsForm } from "../edit-constants";
 import { ModalStepForm } from "./modal-step-form";
-import { useStepsForm } from "./steps-editor.types";
 import { TooltipStepForm } from "./tooltip-step-form";
 import { WaitStepForm } from "./wait-step-form";
 
 type Props = {
   index: number | `${number}.${number}.${number}`;
-  onRemove: () => void;
 };
 
 const DEFAULT_TOOLTIP: FlowTooltipStep = {
@@ -30,7 +29,7 @@ export const STEP_DEFAULT = {
   fork: FORK_DEFAULT,
 };
 
-export const StepForm: FC<Props> = ({ index, onRemove }) => {
+export const StepForm: FC<Props> = ({ index }) => {
   const { watch, setValue } = useStepsForm();
   const stepKey = `steps.${index}` as const;
 
@@ -49,16 +48,13 @@ export const StepForm: FC<Props> = ({ index, onRemove }) => {
   );
 
   return (
-    <Accordion
-      title={
-        <Flex alignItems="center" gap="space8">
-          <Text variant="titleM">{t.steps.stepType[stepType]}</Text>
-          <Text color="subtle" variant="bodyS">
-            {index}
-          </Text>
-        </Flex>
-      }
-    >
+    <>
+      <Flex alignItems="center" gap="space8">
+        <Text variant="titleM">{t.steps.stepType[stepType]}</Text>
+        <Text color="subtle" variant="bodyS">
+          {index}
+        </Text>
+      </Flex>
       <Flex mb="space12">
         <Flex alignItems="center" flex={1} gap="space4">
           <Select
@@ -67,14 +63,11 @@ export const StepForm: FC<Props> = ({ index, onRemove }) => {
             value={stepType}
           />
         </Flex>
-        <Button onClick={onRemove} shadow="none" size="small" variant="secondary">
-          Remove step
-        </Button>
       </Flex>
 
       {stepType === "tooltip" && <TooltipStepForm index={index} />}
       {stepType === "modal" && <ModalStepForm index={index} />}
       {stepType === "wait" && <WaitStepForm index={index} />}
-    </Accordion>
+    </>
   );
 };

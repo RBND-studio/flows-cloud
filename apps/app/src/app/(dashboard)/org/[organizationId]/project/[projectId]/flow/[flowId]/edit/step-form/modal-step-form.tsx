@@ -8,7 +8,7 @@ import { Accordion, Checkbox, Input } from "ui";
 
 import { StepFooter } from "./step-footer";
 import { StepWaitOptionList } from "./step-wait-option-list";
-import { useStepsForm } from "./steps-editor.types";
+import { useStepsForm } from "../edit-constants";
 
 type Props = {
   index: number | `${number}.${number}.${number}`;
