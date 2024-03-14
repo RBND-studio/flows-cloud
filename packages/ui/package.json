@@ -45,9 +45,7 @@
     "storybook": "^8.0.0",
     "tsconfig": "workspace:*",
     "typescript": "5.4.2",
-    "vite": "^5.1.6"
-  },
-  "optionalDependencies": {
-    "@flows/styled-system": "link:node_modules/@flows/pandacss"
+    "vite": "^5.1.6",
+    "vite-tsconfig-paths": "^4.3.2"
   }
 }

@@ -17,12 +17,9 @@ export default defineConfig({
   utilities,
 
   // The output directory for your css system
-  outdir: "@flows/pandacss",
+  outdir: "pandacss-generated",
 
   jsxFramework: "react",
-
-  emitPackage: true,
-  forceConsistentTypeExtension: true,
 
   minify: true,
 

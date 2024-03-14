@@ -8,7 +8,7 @@ export const DocsSignUp = (): JSX.Element => {
       }}
       backgroundColor="bg.black"
       borderRadius="radius8"
-      color="text.white"
+      color="text.onBlack"
       fastEaseInOut="background-color"
       paddingX="space12"
       paddingY="6px"

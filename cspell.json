@@ -53,7 +53,8 @@
     "out/**/*",
     "_journal.json",
     "pnpm-lock.yaml",
-    "cspell.json"
+    "cspell.json",
+    "pandacss-generated"
   ],
   "allowCompoundWords": true
 }

@@ -42,4 +42,4 @@ storybook-static
 .contentlayer
 dist
 
-# web build page
+pandacss-generated

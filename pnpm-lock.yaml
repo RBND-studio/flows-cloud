@@ -110,10 +110,6 @@ importers:
       ui:
         specifier: workspace:*
         version: link:../../packages/ui
-    optionalDependencies:
-      '@flows/styled-system':
-        specifier: link:node_modules/@flows/pandacss
-        version: link:node_modules/@flows/pandacss
     devDependencies:
       '@next/eslint-plugin-next':
         specifier: 14.1.0
@@ -302,10 +298,6 @@ importers:
       ui:
         specifier: workspace:*
         version: link:../../packages/ui
-    optionalDependencies:
-      '@flows/styled-system':
-        specifier: link:node_modules/@flows/pandacss
-        version: link:node_modules/@flows/pandacss
     devDependencies:
       '@next/eslint-plugin-next':
         specifier: 14.1.0
@@ -388,10 +380,6 @@ importers:
       ui:
         specifier: workspace:*
         version: link:../../packages/ui
-    optionalDependencies:
-      '@flows/styled-system':
-        specifier: link:node_modules/@flows/pandacss
-        version: link:node_modules/@flows/pandacss
     devDependencies:
       '@next/eslint-plugin-next':
         specifier: 14.1.0
@@ -537,10 +525,6 @@ importers:
       sonner:
         specifier: ^1.4.0
         version: 1.4.0(react-dom@18.2.0)(react@18.2.0)
-    optionalDependencies:
-      '@flows/styled-system':
-        specifier: link:node_modules/@flows/pandacss
-        version: link:node_modules/@flows/pandacss
     devDependencies:
       '@pandacss/dev':
         specifier: 0.34.3
@@ -590,6 +574,9 @@ importers:
       vite:
         specifier: ^5.1.6
         version: 5.1.6
+      vite-tsconfig-paths:
+        specifier: ^4.3.2
+        version: 4.3.2(typescript@5.4.2)(vite@5.1.6)
 
 packages:
 
@@ -12359,6 +12346,10 @@ packages:
       slash: 4.0.0
     dev: true
 
+  /globrex@0.1.2:
+    resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
+    dev: true
+
   /gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
     dependencies:
@@ -18971,6 +18962,19 @@ packages:
       typescript: 5.4.2
     dev: true
 
+  /tsconfck@3.0.3(typescript@5.4.2):
+    resolution: {integrity: sha512-4t0noZX9t6GcPTfBAbIbbIU4pfpCwh0ueq3S4O/5qXI1VwK1outmxhe9dOiEWqMz3MW2LKgDTpqWV+37IWuVbA==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+    peerDependencies:
+      typescript: ^5.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 5.4.2
+    dev: true
+
   /tsconfig-paths-webpack-plugin@4.1.0:
     resolution: {integrity: sha512-xWFISjviPydmtmgeUAuXp4N1fky+VCtfhOkDUFIv5ea7p4wuTomI4QTrXvFBX2S4jZsmyTSrStQl+E+4w+RzxA==}
     engines: {node: '>=10.13.0'}
@@ -19721,6 +19725,23 @@ packages:
       '@types/unist': 3.0.1
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
+
+  /vite-tsconfig-paths@4.3.2(typescript@5.4.2)(vite@5.1.6):
+    resolution: {integrity: sha512-0Vd/a6po6Q+86rPlntHye7F31zA2URZMbH8M3saAZ/xR9QoGN/L21bxEGfXdWmFdNkqPpRdxFT7nmNe12e9/uA==}
+    peerDependencies:
+      vite: '*'
+    peerDependenciesMeta:
+      vite:
+        optional: true
+    dependencies:
+      debug: 4.3.4
+      globrex: 0.1.2
+      tsconfck: 3.0.3(typescript@5.4.2)
+      vite: 5.1.6
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+    dev: true
 
   /vite@5.1.6:
     resolution: {integrity: sha512-yYIAZs9nVfRJ/AiOLCA91zzhjsHUgMjB+EigzFb6W2XTLO8JixBCKCjvhKZaye+NKYHCrkv3Oh50dH9EdLU2RA==}
