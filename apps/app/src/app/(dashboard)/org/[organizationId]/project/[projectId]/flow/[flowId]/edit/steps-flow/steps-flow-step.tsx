@@ -28,6 +28,7 @@ export const StepsFlowStep: FC<Props> = ({
 
   const fieldName = `steps.${index}` as const;
   const title = watch(`${fieldName}.title`);
+
   const handleClick = (): void => onSelect(index);
   const handleRemove = (): void => {
     if (selected) onSelect();

@@ -18,6 +18,7 @@ export const Branch: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove 
   const { control } = useStepsForm();
   const fieldName = `steps.${index}` as const;
   const { fields, insert, remove } = useFieldArray({ control, name: fieldName });
+
   const handleRemove = (i: number): void => {
     if (fields.length === 1) onRemove();
     else remove(i);
