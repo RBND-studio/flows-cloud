@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
-    <html className={`${MonaSans.variable}`} lang="en" suppressHydrationWarning>
+    <html className={MonaSans.variable} lang="en" suppressHydrationWarning>
       <head>
         {/* eslint-disable-next-line @next/next/no-sync-scripts -- needed for noflash script */}
         <script src="/noflash.min.js" />

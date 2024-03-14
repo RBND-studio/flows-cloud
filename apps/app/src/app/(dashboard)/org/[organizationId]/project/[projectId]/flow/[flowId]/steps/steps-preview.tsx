@@ -24,6 +24,7 @@ export const StepsPreview: FC<Props> = ({ steps }) => {
   const { data: template, isLoading: templateIsLoading } = useFetch("/css/template");
   const loading = projectIsLoading || varsIsLoading || templateIsLoading;
   const cssStyle = useMemo(
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is intentional here
     () => [project?.css_vars || vars, project?.css_template || template].join(""),
     [project?.css_template, project?.css_vars, template, vars],
   );

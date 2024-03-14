@@ -29,6 +29,7 @@ export const BlogPostPreview = ({ post }: Props): ReactElement => {
       {post.image ? (
         <Link href={`/blog/${post.slugAsParams}`}>
           <Image
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is better here
             alt={post.imageAlt || "Blog post cover image"}
             className={css({
               borderRadius: "radius12",

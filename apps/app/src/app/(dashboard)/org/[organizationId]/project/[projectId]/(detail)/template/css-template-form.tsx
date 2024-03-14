@@ -26,6 +26,7 @@ type FormValues = {
 };
 
 const createDefaultValues = ({ defaultTemplate, project }: Props): FormValues => ({
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is intentional here
   cssTemplate: project.css_template || defaultTemplate,
 });
 const createDefaultEnabled = (project: ProjectDetail): boolean => !!project.css_template;
