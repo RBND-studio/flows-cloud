@@ -1,2 +1,2 @@
-export const boxWidth = 120;
-export const boxGap = 8;
+export const boxWidth = 160;
+export const boxGap = 12;

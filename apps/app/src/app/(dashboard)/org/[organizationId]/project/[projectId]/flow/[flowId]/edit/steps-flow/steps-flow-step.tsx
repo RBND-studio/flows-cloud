@@ -1,8 +1,9 @@
 import { type FlowStep, type FlowSteps } from "@flows/js";
 import { css } from "@flows/styled-system/css";
-import { Box, Grid } from "@flows/styled-system/jsx";
+import { Box, Flex, Grid } from "@flows/styled-system/jsx";
+import { Comment16, Flows16, Hourglass16, Plus16 } from "icons";
 import type { FC } from "react";
-import { Button, Menu, MenuItem } from "ui";
+import { Button, Icon, Menu, MenuItem, Text } from "ui";
 
 import { useStepsForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
@@ -28,6 +29,12 @@ export const StepsFlowStep: FC<Props> = ({
 
   const fieldName = `steps.${index}` as const;
   const title = watch(`${fieldName}.title`);
+  const stepType =
+    "targetElement" in watch(fieldName)
+      ? "Tooltip"
+      : "title" in watch(fieldName)
+      ? "Modal"
+      : "Wait";
 
   const handleClick = (): void => onSelect(index);
   const handleRemove = (): void => {
@@ -35,25 +42,54 @@ export const StepsFlowStep: FC<Props> = ({
     onRemove();
   };
 
-  return (
-    <Box position="relative" _hover={{ "& .remove-button": { opacity: 1 } }}>
-      <Box
-        borderColor={selected ? "bg.primary" : undefined}
-        cardWrap="-"
-        cursor="pointer"
-        fastEaseInOut="border-color"
-        height="100px"
-        onClick={handleClick}
-        position="relative"
-        width="120px"
-      >
-        {title}
-      </Box>
+  const stepTypeIcon = {
+    Tooltip: Comment16,
+    Modal: Flows16,
+    Wait: Hourglass16,
+  };
 
+  return (
+    <Box _hover={{ "& .remove-button": { opacity: 1 } }} position="relative">
+      <Flex
+        _hover={{
+          borderColor: selected ? "border.primary" : "border.strong",
+          boxShadow: selected ? "focus" : "l2",
+        }}
+        backgroundColor="bg"
+        bor="1px"
+        borderColor={selected ? "border.primary" : "border"}
+        borderRadius="radius8"
+        boxShadow={selected ? "focus" : "l1"}
+        cursor="pointer"
+        fastEaseInOut="all"
+        flexDirection="column"
+        gap="space4"
+        height="80px"
+        justifyContent="center"
+        onClick={handleClick}
+        overflow="hidden"
+        p="space16"
+        position="relative"
+        width="160px"
+      >
+        <Flex alignItems="center" gap="space4">
+          <Icon icon={stepTypeIcon[stepType]} />
+          <Text variant="titleS">{stepType}</Text>
+        </Flex>
+        <Text
+          className={css({
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            width: "100%",
+            whiteSpace: "nowrap",
+          })}
+          color="subtle"
+          variant="bodyXs"
+        >
+          {title ? title : "TODO wait options #"}
+        </Text>
+      </Flex>
       <Button
-        onClick={handleRemove}
-        size="small"
-        variant="secondary"
         className={`${css({
           position: "absolute",
           top: "-14px",
@@ -62,6 +98,9 @@ export const StepsFlowStep: FC<Props> = ({
           zIndex: 1,
           _hover: { opacity: 1 },
         })} remove-button`}
+        onClick={handleRemove}
+        size="small"
+        variant="secondary"
       >
         X
       </Button>
@@ -77,19 +116,20 @@ const AddButton: FC<{ onAdd: (step: FlowStep) => void; variant: "top" | "bottom"
 }) => {
   return (
     <Grid
-      placeItems="center"
+      _hover={{ "& button": { opacity: 1 } }}
+      alignItems={variant === "top" ? "flex-start" : "flex-end"}
+      bottom={variant === "top" ? "100%" : undefined}
+      h="36px"
       left={0}
+      placeItems="center"
       position="absolute"
       right={0}
-      bottom={variant === "top" ? "100%" : undefined}
       top={variant === "bottom" ? "100%" : undefined}
-      h="50px"
-      _hover={{ "& button": { opacity: 1 } }}
     >
       <Menu
         trigger={
-          <Button className={css({ opacity: 0 })} size="small" variant="secondary">
-            +
+          <Button className={css({ opacity: 0 })} size="smallIcon" variant="secondary">
+            <Icon icon={Plus16} />
           </Button>
         }
       >

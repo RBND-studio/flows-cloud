@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const ConnectionArrow: FC<Props> = ({ lines, variant }) => {
-  const height = 100;
+  const height = 72;
   const width = (lines - 1) * (boxWidth + boxGap);
   const sidePadding = 4;
 
@@ -41,9 +41,11 @@ export const ConnectionArrow: FC<Props> = ({ lines, variant }) => {
           return (
             <LinkVertical
               data={{ source, target }}
+              end={variant === "fork" ? "arrowStart" : "arrowEnd"}
               fill="none"
               key={i}
               stroke={token("colors.border")}
+              strokeWidth={2}
             />
           );
         })}

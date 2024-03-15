@@ -1,8 +1,8 @@
 import type { FlowModalStep, FlowSteps, FlowTooltipStep, FlowWaitStep } from "@flows/js";
 import { Flex } from "@flows/styled-system/jsx";
-import { type FC, useMemo } from "react";
+import { type FC } from "react";
 import { t } from "translations";
-import { Select, Text } from "ui";
+import { Button, Text } from "ui";
 
 import { useStepsForm } from "../edit-constants";
 import { ModalStepForm } from "./modal-step-form";
@@ -30,7 +30,7 @@ export const STEP_DEFAULT = {
 };
 
 export const StepForm: FC<Props> = ({ index }) => {
-  const { watch, setValue } = useStepsForm();
+  const { watch } = useStepsForm();
   const stepKey = `steps.${index}` as const;
 
   const stepValue = watch(stepKey);
@@ -38,31 +38,18 @@ export const StepForm: FC<Props> = ({ index }) => {
   const stepType =
     "targetElement" in stepValue ? "tooltip" : "title" in stepValue ? "modal" : "wait";
 
-  const typeOptions = useMemo(
-    () =>
-      (["tooltip", "modal", "wait"] as const).map((value) => ({
-        value,
-        label: t.steps.stepType[value],
-      })),
-    [],
-  );
-
   return (
     <>
-      <Flex alignItems="center" gap="space8">
-        <Text variant="titleM">{t.steps.stepType[stepType]}</Text>
-        <Text color="subtle" variant="bodyS">
-          {index}
-        </Text>
-      </Flex>
-      <Flex mb="space12">
-        <Flex alignItems="center" flex={1} gap="space4">
-          <Select
-            onChange={(v) => setValue(stepKey, STEP_DEFAULT[v], { shouldDirty: true })}
-            options={typeOptions}
-            value={stepType}
-          />
+      <Flex gap="space16" justifyContent="space-between" mb="space12">
+        <Flex alignItems="center" gap="space8">
+          <Text variant="titleM">{t.steps.stepType[stepType]}</Text>
+          <Text color="subtle" variant="bodyS">
+            {index}
+          </Text>
         </Flex>
+        <Button size="small" variant="secondary">
+          Remove
+        </Button>
       </Flex>
 
       {stepType === "tooltip" && <TooltipStepForm index={index} />}

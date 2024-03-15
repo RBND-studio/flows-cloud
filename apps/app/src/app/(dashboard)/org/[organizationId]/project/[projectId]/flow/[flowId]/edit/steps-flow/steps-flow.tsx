@@ -42,11 +42,11 @@ export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep }) => {
             )}
             <StepsFlowStep
               index={i}
+              onAddAfter={(s) => insert(i + 1, s)}
+              onAddBefore={(s) => insert(i, s)}
               onRemove={() => remove(i)}
               onSelect={onSelectStep}
               selected={i === selectedStep}
-              onAddBefore={(s) => insert(i, s)}
-              onAddAfter={(s) => insert(i + 1, s)}
             />
           </Fragment>
         );

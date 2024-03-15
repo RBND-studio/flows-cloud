@@ -50,25 +50,38 @@ export const EditForm: FC<Props> = ({ flow }) => {
   return (
     <FormProvider {...methods}>
       <form
-        className={css({ display: "flex", flexDir: "column", h: "100vh" })}
+        className={css({
+          display: "flex",
+          flexDir: "column",
+          h: "100vh",
+        })}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Flex alignItems="center" borBottom="1px" p="space16">
-          <Box flex={1}>
-            <Text variant="titleM">{flow.name}</Text>
-          </Box>
-          <Button disabled={!formState.isDirty} loading={loading} type="submit">
-            Save changes
-          </Button>
-        </Flex>
-        <Grid flex={1} gap={0} gridTemplateColumns={2} overflow="hidden">
-          <Box borRight="1px" overflow="auto" px="space16" py="space48">
+        <Box borBottom="1px">
+          <Flex alignItems="center" margin="0 auto" maxWidth="1280px" p="space16">
+            <Box flex={1}>
+              <Text variant="titleM">{flow.name}</Text>
+            </Box>
+            <Button disabled={!formState.isDirty} loading={loading} type="submit">
+              Save changes
+            </Button>
+          </Flex>
+        </Box>
+        <Grid
+          flex={1}
+          gap={0}
+          gridTemplateColumns={2}
+          margin="0 auto"
+          maxWidth="1280px"
+          overflow="hidden"
+        >
+          <Box borLeft="1px" borRight="1px" overflow="auto" px="space16" py="space48">
             <StepsFlow onSelectStep={setSelectedStep} selectedStep={selectedStep} />
           </Box>
-          <Box overflow="auto">
+          <Box borRight="1px" overflow="auto">
             {selectedStep !== undefined ? (
               <>
-                <Box p="space16">
+                <Box bg="bg" p="space16">
                   <StepForm index={selectedStep} key={selectedStep} />
                 </Box>
                 <Separator />
