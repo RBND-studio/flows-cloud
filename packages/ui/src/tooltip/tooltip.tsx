@@ -43,15 +43,26 @@ type TooltipProps = {
   trigger: React.ReactNode;
   text: string;
   sideOffset?: number;
+  side?: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>["side"];
+  align?: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>["align"];
   className?: string;
 };
 
-export const Tooltip = ({ text, trigger, className }: TooltipProps): JSX.Element => {
+export const Tooltip = ({
+  text,
+  trigger,
+  align,
+  className,
+  side,
+  sideOffset,
+}: TooltipProps): JSX.Element => {
   return (
     <TooltipProvider>
       <TooltipRoot>
-        <TooltipTrigger>{trigger}</TooltipTrigger>
-        <TooltipContent className={className}>{text}</TooltipContent>
+        <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+        <TooltipContent align={align} className={className} side={side} sideOffset={sideOffset}>
+          {text}
+        </TooltipContent>
       </TooltipRoot>
     </TooltipProvider>
   );

@@ -116,10 +116,20 @@ export class UsersService {
     });
   }
 
-  async softDeleteUser({ auth }: { auth: Auth }): Promise<void> {
-    // TODO: Would be better to use a supabase method for this, also delete user sessions and log out in the frontend
+  async deleteUser({ auth }: { auth: Auth }): Promise<void> {
+    //Delete users identities
     await this.databaseService.db.execute(
-      sql`UPDATE auth.users SET deleted_at = now() WHERE id = ${auth.userId}`,
+      sql`DELETE FROM auth.identities WHERE user_id = ${auth.userId}`,
     );
+    //Delete users sessions
+    await this.databaseService.db.execute(
+      sql`DELETE FROM auth.sessions WHERE user_id = ${auth.userId}`,
+    );
+    //Delete users refresh tokens
+    await this.databaseService.db.execute(
+      sql`DELETE FROM auth.refresh_tokens WHERE user_id = ${auth.userId}`,
+    );
+    //Delete user from the database
+    await this.databaseService.db.execute(sql`DELETE FROM auth.users WHERE id = ${auth.userId}`);
   }
 }

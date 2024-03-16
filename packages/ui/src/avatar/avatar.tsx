@@ -21,6 +21,7 @@ export const Avatar = ({ src, fullName }: AvatarProps): JSX.Element => {
         height: "64px",
         borderRadius: "radius100",
         overflow: "hidden",
+        display: "block",
       })}
     >
       <AvatarPrimitive.AvatarImage className={css()} src={src} />
@@ -32,6 +33,7 @@ export const Avatar = ({ src, fullName }: AvatarProps): JSX.Element => {
           width: "100%",
           height: "100%",
           bg: "bg.chip",
+          color: "text",
         })}
       >
         {fallback}

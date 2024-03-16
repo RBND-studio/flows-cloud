@@ -37,6 +37,6 @@ export class UsersController {
 
   @Post("me/delete-account")
   deleteAccount(@Authorization() auth: Auth): Promise<void> {
-    return this.usersService.softDeleteUser({ auth });
+    return this.usersService.deleteUser({ auth });
   }
 }

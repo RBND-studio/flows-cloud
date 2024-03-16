@@ -1,5 +1,6 @@
 "use client";
 
+import { css } from "@flows/styled-system/css";
 import { useSend } from "hooks/use-send";
 import type { OrganizationPreview } from "lib/api";
 import { api } from "lib/api";
@@ -15,10 +16,7 @@ import {
   DialogTitle,
   Text,
   toast,
-  TooltipContent,
-  TooltipProvider,
-  TooltipRoot,
-  TooltipTrigger,
+  Tooltip,
 } from "ui";
 
 type Props = {
@@ -33,25 +31,31 @@ export const OrganizationLeaveDialog: FC<Props> = ({ organization }) => {
       api["POST /organizations/:organizationId/users/leave"](organization.id),
       { errorMessage: t.toasts.removeMemberFailed },
     );
-    if (res.error) return;
+    if (res.error) {
+      toast.error(res.error.message);
+      return;
+    }
     toast.success(t.toasts.memberRemoved);
     router.refresh();
   };
   return (
     <Dialog
       trigger={
-        <TooltipProvider>
-          <TooltipRoot>
-            <TooltipTrigger asChild>
-              <Button disabled={organization.members === 1} size="small" variant="secondary">
-                {t.actions.leave}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              {organization.members === 1 ? "You are the last member" : "Leave organization"}
-            </TooltipContent>
-          </TooltipRoot>
-        </TooltipProvider>
+        <Button
+          className={css({
+            _disabled: {
+              pointerEvents: "unset",
+            },
+          })}
+          disabled={organization.members === 1}
+          size="small"
+          variant="secondary"
+        >
+          <Tooltip
+            text={organization.members === 1 ? "You are the last member" : "Leave organization"}
+            trigger={<Text>{t.actions.leave}</Text>}
+          />
+        </Button>
       }
     >
       <DialogTitle>Leave organization</DialogTitle>
