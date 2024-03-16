@@ -8,8 +8,8 @@ type Props = {
 };
 
 export default async function FlowEditPage({ params }: Props): Promise<JSX.Element> {
-  const { flowId } = params;
+  const { flowId, organizationId } = params;
   const flow = await load(api["/flows/:flowId"](flowId));
 
-  return <EditForm flow={flow} />;
+  return <EditForm flow={flow} organizationId={organizationId} />;
 }
