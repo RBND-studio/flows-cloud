@@ -1,8 +1,9 @@
 import { css } from "@flows/styled-system/css";
 import { Flex, Grid } from "@flows/styled-system/jsx";
+import { Plus16 } from "icons";
 import { type FC } from "react";
 import { useFieldArray } from "react-hook-form";
-import { Button } from "ui";
+import { Button, Icon } from "ui";
 
 import { useStepsForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
@@ -21,7 +22,7 @@ export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep }) => {
   const { fields, remove, append } = useFieldArray({ control, name: fieldName });
 
   return (
-    <Flex gap={`space${boxGap}`} position="relative">
+    <Flex gap={`space${boxGap}`} position="relative" px="48px">
       {(fields as { id: string }[]).map((field, i) => (
         <Branch
           key={field.id}
@@ -33,19 +34,19 @@ export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep }) => {
       ))}
       <Grid
         position="absolute"
-        left="100%"
+        right={0}
         h="100%"
         placeItems="center"
-        w="64px"
+        w="48px"
         _hover={{ "& button": { opacity: 1 } }}
       >
         <Button
-          size="small"
+          size="smallIcon"
           variant="secondary"
           className={css({ opacity: "0" })}
-          onClick={() => append([[STEP_DEFAULT.tooltip]] as never[])}
+          onClick={() => append(STEP_DEFAULT.fork as never[])}
         >
-          +
+          <Icon icon={Plus16} />
         </Button>
       </Grid>
     </Flex>

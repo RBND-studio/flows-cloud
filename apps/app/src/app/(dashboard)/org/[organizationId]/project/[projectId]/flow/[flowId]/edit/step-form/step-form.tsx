@@ -2,7 +2,7 @@ import type { FlowModalStep, FlowSteps, FlowTooltipStep, FlowWaitStep } from "@f
 import { Flex } from "@flows/styled-system/jsx";
 import { type FC } from "react";
 import { t } from "translations";
-import { Button, Text } from "ui";
+import { Text } from "ui";
 
 import { useStepsForm } from "../edit-constants";
 import { ModalStepForm } from "./modal-step-form";
@@ -21,7 +21,7 @@ const DEFAULT_TOOLTIP: FlowTooltipStep = {
 };
 const DEFAULT_MODAL: FlowModalStep = { title: "Modal Title", body: "Lorem ipsum dolor sit.." };
 const DEFAULT_WAIT: FlowWaitStep = { wait: {} };
-const FORK_DEFAULT: FlowSteps[number] = [[]];
+const FORK_DEFAULT: FlowSteps[number] = [[DEFAULT_TOOLTIP]];
 export const STEP_DEFAULT = {
   tooltip: DEFAULT_TOOLTIP,
   modal: DEFAULT_MODAL,
@@ -47,9 +47,6 @@ export const StepForm: FC<Props> = ({ index }) => {
             {index}
           </Text>
         </Flex>
-        <Button size="small" variant="secondary">
-          Remove
-        </Button>
       </Flex>
 
       {stepType === "tooltip" && <TooltipStepForm index={index} />}

@@ -28,6 +28,7 @@ export const Branch: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove 
     <Flex alignItems="center" direction="column">
       {fields.map((field, i) => {
         const stepIndex = `${index}.${i}` as const;
+        const lastStep = i === fields.length - 1;
         return (
           <Fragment key={field.id}>
             {i !== 0 && <ConnectionArrow lines={1} variant="fork" />}
@@ -38,8 +39,9 @@ export const Branch: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove 
               onRemove={() => handleRemove(i)}
               onAddBefore={(s) => insert(i, s as FlowStep)}
               onAddAfter={(s) => insert(i + 1, s as FlowStep)}
+              lastStep={lastStep}
             />
-            {i === fields.length - 1 && <Box bg="border" flex={1} width="1px" />}
+            {lastStep ? <Box bg="border" flex={1} width="2px" /> : null}
           </Fragment>
         );
       })}

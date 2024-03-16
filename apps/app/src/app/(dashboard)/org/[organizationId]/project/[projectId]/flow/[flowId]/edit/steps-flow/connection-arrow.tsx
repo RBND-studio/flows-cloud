@@ -32,6 +32,8 @@ export const ConnectionArrow: FC<Props> = ({ lines, variant }) => {
     [items, width],
   );
 
+  if (!lines) return null;
+
   return (
     <svg height={height} width={width + sidePadding * 2}>
       <Group left={sidePadding}>

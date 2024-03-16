@@ -1,4 +1,4 @@
-import { type FlowStep, type FlowSteps } from "@flows/js";
+import { type FlowSteps } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { Comment16, Flows16, Hourglass16, Plus16 } from "icons";
@@ -15,6 +15,13 @@ type Props = {
   onRemove: () => void;
   onAddBefore: (step: FlowSteps[number]) => void;
   onAddAfter: (step: FlowSteps[number]) => void;
+  lastStep: boolean;
+};
+
+const stepTypeIcon = {
+  Tooltip: Comment16,
+  Modal: Flows16,
+  Wait: Hourglass16,
 };
 
 export const StepsFlowStep: FC<Props> = ({
@@ -24,17 +31,14 @@ export const StepsFlowStep: FC<Props> = ({
   onRemove,
   onAddAfter,
   onAddBefore,
+  lastStep,
 }) => {
   const { watch } = useStepsForm();
 
   const fieldName = `steps.${index}` as const;
-  const title = watch(`${fieldName}.title`);
-  const stepType =
-    "targetElement" in watch(fieldName)
-      ? "Tooltip"
-      : "title" in watch(fieldName)
-      ? "Modal"
-      : "Wait";
+  const step = watch(fieldName);
+  const title = "title" in step ? step.title : "TODO wait options #";
+  const stepType = "targetElement" in step ? "Tooltip" : "title" in step ? "Modal" : "Wait";
 
   const handleClick = (): void => onSelect(index);
   const handleRemove = (): void => {
@@ -42,11 +46,7 @@ export const StepsFlowStep: FC<Props> = ({
     onRemove();
   };
 
-  const stepTypeIcon = {
-    Tooltip: Comment16,
-    Modal: Flows16,
-    Wait: Hourglass16,
-  };
+  const rootStep = typeof index === "number";
 
   return (
     <Box _hover={{ "& .remove-button": { opacity: 1 } }} position="relative">
@@ -86,7 +86,7 @@ export const StepsFlowStep: FC<Props> = ({
           color="subtle"
           variant="bodyXs"
         >
-          {title ? title : "TODO wait options #"}
+          {title}
         </Text>
       </Flex>
       <Button
@@ -104,16 +104,19 @@ export const StepsFlowStep: FC<Props> = ({
       >
         X
       </Button>
-      <AddButton onAdd={onAddBefore} variant="top" />
-      <AddButton onAdd={onAddAfter} variant="bottom" />
+      <AddButton onAdd={onAddBefore} variant="top" allowFork={rootStep} />
+      {!(rootStep && lastStep) ? (
+        <AddButton onAdd={onAddAfter} variant="bottom" allowFork={rootStep} />
+      ) : null}
     </Box>
   );
 };
 
-const AddButton: FC<{ onAdd: (step: FlowStep) => void; variant: "top" | "bottom" }> = ({
-  onAdd,
-  variant,
-}) => {
+const AddButton: FC<{
+  onAdd: (step: FlowSteps[number]) => void;
+  variant: "top" | "bottom";
+  allowFork?: boolean;
+}> = ({ onAdd, variant, allowFork }) => {
   return (
     <Grid
       _hover={{ "& button": { opacity: 1 } }}
@@ -137,6 +140,7 @@ const AddButton: FC<{ onAdd: (step: FlowStep) => void; variant: "top" | "bottom"
           { label: "Tooltip", value: STEP_DEFAULT.tooltip },
           { label: "Modal", value: STEP_DEFAULT.modal },
           { label: "Wait", value: STEP_DEFAULT.wait },
+          ...(allowFork ? [{ label: "Fork", value: STEP_DEFAULT.fork }] : []),
         ].map((item) => (
           <MenuItem key={item.label} onClick={() => onAdd(item.value)}>
             {item.label}

@@ -39,6 +39,7 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
     const step = (
       typeof selectedStep === "string" ? selectedStep.split(".").map(Number) : [selectedStep]
     ).reduce((acc, index): unknown => acc[index], steps) as FlowStep;
+    target.style.display = "none";
 
     if (!("title" in step)) return;
     let renderEl: HTMLElement | undefined;
@@ -61,6 +62,7 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
         placement: step.placement,
       });
       renderEl = res.root;
+      target.style.display = "block";
     } else {
       const res = renderModalElement({ step, isFirstStep, isLastStep });
       renderEl = res.root;

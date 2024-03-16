@@ -75,9 +75,9 @@ export const EditForm: FC<Props> = ({ flow }) => {
           maxWidth="1280px"
           overflow="hidden"
         >
-          <Box borLeft="1px" borRight="1px" overflow="auto" px="space16" py="space48">
+          <Grid borLeft="1px" borRight="1px" overflow="auto">
             <StepsFlow onSelectStep={setSelectedStep} selectedStep={selectedStep} />
-          </Box>
+          </Grid>
           <Box borRight="1px" overflow="auto">
             {selectedStep !== undefined ? (
               <>
