@@ -9,7 +9,7 @@ import type { FlowDetail, UpdateFlow } from "lib/api";
 import { api } from "lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type FC, useState } from "react";
+import { type FC, useCallback, useRef, useState } from "react";
 import type { DefaultValues, SubmitHandler } from "react-hook-form";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
@@ -45,22 +45,32 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
   const backLink = routes.flow({ flowId: flow.id, organizationId, projectId: flow.project_id });
   const router = useRouter();
   const { loading, send } = useSend();
-  const onSubmit: SubmitHandler<StepsForm> = async (data) => {
-    const res = await send(
-      api["PATCH /flows/:flowId"](flow.id, { steps: data.steps as unknown as UpdateFlow["steps"] }),
-      { errorMessage: t.toasts.saveStepsFailed },
-    );
-    if (res.error) return;
-    reset(data, { keepValues: true });
-    router.refresh();
-    router.push(backLink);
-    toast.success(t.toasts.updateFlowSuccess);
-  };
+  const onSubmit: SubmitHandler<StepsForm> = useCallback(
+    async (data) => {
+      const res = await send(
+        api["PATCH /flows/:flowId"](flow.id, {
+          steps: data.steps as unknown as UpdateFlow["steps"],
+        }),
+        { errorMessage: t.toasts.saveStepsFailed },
+      );
+      if (res.error) return;
+      reset(data, { keepValues: true });
+      router.refresh();
+      router.push(backLink);
+      toast.success(t.toasts.updateFlowSuccess);
+    },
+    [backLink, flow.id, reset, router, send],
+  );
+  const formRef = useRef<HTMLFormElement>(null);
+  const handleSave = useCallback(async (): Promise<void> => {
+    if (!formState.isDirty) return;
+    return handleSubmit(onSubmit)();
+  }, [formState.isDirty, handleSubmit, onSubmit]);
 
-  //TODO: Save changes and publish changes buttons behavior is weird now. The publish button should save the changes before publishing so you don't publish old changes accidentally.
   return (
     <FormProvider {...methods}>
       <form
+        ref={formRef}
         className={css({
           display: "flex",
           flexDir: "column",
@@ -84,7 +94,11 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
               >
                 Save and close
               </Button>
-              <FlowPublishChangesDialog flow={flow} />
+              <FlowPublishChangesDialog
+                isDirty={formState.isDirty}
+                flow={flow}
+                onSave={handleSave}
+              />
               <Button variant="ghost" asChild>
                 <Link href={backLink}>
                   <Icon icon={Close16} />

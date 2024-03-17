@@ -52,6 +52,7 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
         isLastStep,
         target,
       });
+      target.style.display = "block";
       void updateTooltip({
         options: { flip: false, shift: false },
         target,
@@ -62,7 +63,6 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
         placement: step.placement,
       });
       renderEl = res.root;
-      target.style.display = "block";
     } else {
       const res = renderModalElement({ step, isFirstStep, isLastStep });
       renderEl = res.root;
@@ -81,11 +81,13 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
     <Box>
       <Box
         height="350px"
-        overflow="hidden"
         p="space16"
-        position="relative"
         ref={rootRef}
+        overflow="hidden"
         transform="translate3d(0,0,0)"
+        {...{
+          "& .flows-root": { pointerEvents: "none!" },
+        }}
       >
         <div
           className={css({

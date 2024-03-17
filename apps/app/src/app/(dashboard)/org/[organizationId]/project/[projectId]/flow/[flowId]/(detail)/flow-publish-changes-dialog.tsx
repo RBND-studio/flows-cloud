@@ -18,15 +18,18 @@ import {
 
 type Props = {
   flow: FlowDetail;
+  onSave?: () => Promise<void>;
+  isDirty?: boolean;
 };
 
-export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
+export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) => {
   const [open, setOpen] = useState(false);
   const [makeLiveOpen, setMakeLiveOpen] = useState(false);
 
   const { loading, send } = useSend();
   const router = useRouter();
   const handlePublish = async (): Promise<void> => {
+    await onSave?.();
     const res = await send(api["POST /flows/:flowId/publish"](flow.id), {
       errorMessage: t.toasts.publishFlowFailed,
     });
@@ -74,7 +77,8 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
     );
 
   const changesToPublish = !!flow.draftVersion && !!flow.draftVersion.steps.length;
-  if (!changesToPublish) return null;
+  const hidden = !isDirty && !changesToPublish;
+  if (hidden) return null;
 
   return (
     <Dialog onOpenChange={setOpen} open={open} trigger={<Button>Publish changes</Button>}>

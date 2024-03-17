@@ -14,13 +14,17 @@ type Props = {
   index: number;
   onSelectStep: (index?: number | `${number}.${number}.${number}`) => void;
   selectedStep?: number | `${number}.${number}.${number}`;
+  onRemove: () => void;
 };
 
-//TODO: You can't remove a fork now, we should remove it when the last branch is removed
-export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep }) => {
+export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove }) => {
   const { control } = useStepsForm();
   const fieldName = `steps.${index}` as const;
   const { fields, remove, append } = useFieldArray({ control, name: fieldName });
+  const handleRemove = (i: number): void => {
+    if (fields.length === 1) onRemove();
+    else remove(i);
+  };
 
   return (
     <Flex
@@ -31,7 +35,6 @@ export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep }) => {
         borderStyle: "dashed",
         borderColor: "border.strong",
         borderWidth: "2px",
-
         content: "''",
         position: "absolute",
         top: "50%",
@@ -50,7 +53,7 @@ export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep }) => {
           index={`${index}.${i}`}
           onSelectStep={onSelectStep}
           selectedStep={selectedStep}
-          onRemove={() => remove(i)}
+          onRemove={() => handleRemove(i)}
         />
       ))}
       <Grid

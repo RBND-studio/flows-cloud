@@ -1,4 +1,3 @@
-import { css } from "@flows/styled-system/css";
 import { Flex, Grid } from "@flows/styled-system/jsx";
 import { Plus16 } from "icons";
 import { type FC, Fragment } from "react";
@@ -30,7 +29,12 @@ export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray })
           return (
             <Fragment key={field.id}>
               {i !== 0 && <ConnectionArrow lines={step.length} variant="fork" />}
-              <Fork index={i} onSelectStep={onSelectStep} selectedStep={selectedStep} />
+              <Fork
+                index={i}
+                onSelectStep={onSelectStep}
+                selectedStep={selectedStep}
+                onRemove={() => remove(i)}
+              />
             </Fragment>
           );
         }
@@ -62,14 +66,7 @@ export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray })
       <Grid h="48px" w="100%" mt="36px" left={0} placeItems="center" right={0}>
         <Menu
           trigger={
-            <Button
-              className={css({
-                // opacity: 0
-              })}
-              size="small"
-              variant="secondary"
-              startIcon={<Plus16 />}
-            >
+            <Button size="small" variant="secondary" startIcon={<Plus16 />}>
               Add step
             </Button>
           }
