@@ -8,7 +8,7 @@ import { Button, Icon } from "ui";
 import { useStepsForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
 import { Branch } from "./branch";
-import { boxGap } from "./steps-flow.constants";
+import { boxConstants } from "./steps-flow.constants";
 
 type Props = {
   index: number;
@@ -28,9 +28,9 @@ export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove })
 
   return (
     <Flex
-      gap={`space${boxGap}`}
       position="relative"
       px="48px"
+      gap={boxConstants.gap}
       _after={{
         borderStyle: "dashed",
         borderColor: "border.strong",

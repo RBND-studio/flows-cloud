@@ -7,14 +7,17 @@ import { Button, Icon, Menu, MenuItem, Text } from "ui";
 
 import { useStepsForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
+import { boxConstants } from "./steps-flow.constants";
+
+type AddItem = FlowSteps[number] | FlowSteps;
 
 type Props = {
   index: number | `${number}.${number}.${number}`;
   onSelect: (index?: number | `${number}.${number}.${number}`) => void;
   selected: boolean;
   onRemove: () => void;
-  onAddBefore: (step: FlowSteps[number]) => void;
-  onAddAfter: (step: FlowSteps[number]) => void;
+  onAddBefore: (step: AddItem) => void;
+  onAddAfter: (step: AddItem) => void;
   lastStep: boolean;
 };
 
@@ -70,7 +73,7 @@ export const StepsFlowStep: FC<Props> = ({
         overflow="hidden"
         p="space16"
         position="relative"
-        width="160px"
+        width={boxConstants.width}
       >
         <Flex alignItems="center" gap="space4">
           <Icon icon={stepTypeIcon[stepType]} />
@@ -113,7 +116,7 @@ export const StepsFlowStep: FC<Props> = ({
 };
 
 const AddButton: FC<{
-  onAdd: (step: FlowSteps[number]) => void;
+  onAdd: (step: AddItem) => void;
   variant: "top" | "bottom";
   allowFork?: boolean;
 }> = ({ onAdd, variant, allowFork }) => {
@@ -140,7 +143,7 @@ const AddButton: FC<{
           { label: "Tooltip", value: STEP_DEFAULT.tooltip },
           { label: "Modal", value: STEP_DEFAULT.modal },
           { label: "Wait", value: STEP_DEFAULT.wait },
-          ...(allowFork ? [{ label: "Fork", value: STEP_DEFAULT.fork }] : []),
+          ...(allowFork ? [{ label: "Fork", value: [STEP_DEFAULT.fork] }] : []),
         ].map((item) => (
           <MenuItem key={item.label} onClick={() => onAdd(item.value)}>
             {item.label}

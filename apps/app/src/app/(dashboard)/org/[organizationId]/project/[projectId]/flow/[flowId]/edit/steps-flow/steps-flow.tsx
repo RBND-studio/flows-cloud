@@ -51,9 +51,8 @@ export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray })
             )}
             <StepsFlowStep
               index={i}
-              // insert method takes item or array of items. Since our item can be array we need to wrap it in another array.
-              onAddAfter={(s) => insert(i + 1, Array.isArray(s) ? [s] : s)}
-              onAddBefore={(s) => insert(i, Array.isArray(s) ? [s] : s)}
+              onAddAfter={(s) => insert(i + 1, s)}
+              onAddBefore={(s) => insert(i, s)}
               onSelect={onSelectStep}
               selected={i === selectedStep}
               lastStep={i === fields.length - 1}

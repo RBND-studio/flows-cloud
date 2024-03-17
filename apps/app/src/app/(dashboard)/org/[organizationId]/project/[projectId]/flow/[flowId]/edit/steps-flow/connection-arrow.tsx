@@ -4,7 +4,7 @@ import { scalePoint } from "@visx/scale";
 import { LinkVertical } from "@visx/shape";
 import { type FC, useMemo } from "react";
 
-import { boxGap, boxWidth } from "./steps-flow.constants";
+import { boxConstants } from "./steps-flow.constants";
 
 type Props = {
   lines: number;
@@ -13,7 +13,8 @@ type Props = {
 
 export const ConnectionArrow: FC<Props> = ({ lines, variant }) => {
   const height = 72;
-  const width = (lines - 1) * (boxWidth + boxGap);
+  const width =
+    (lines - 1) * (parseInt(boxConstants.width as string) + parseInt(boxConstants.gap as string));
   const sidePadding = 4;
 
   const items = useMemo(
