@@ -198,6 +198,13 @@ const button = cva({
         _hover: {
           backgroundColor: "bg.destructiveHover",
         },
+        _disabled: {
+          backgroundColor: "bg.subtle",
+          borderColor: "bg.subtle",
+          color: "text.subtle",
+          pointerEvents: "none",
+          boxShadow: "none",
+        },
       },
     },
     shadow: {

@@ -36,27 +36,37 @@ export const DeleteAccountDialog = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const { send, loading } = useSend();
 
-  const onSubmit: SubmitHandler<DeleteAccountForm> = async (data): Promise<void> => {
+  const onSubmit: SubmitHandler<DeleteAccountForm> = (data): void => {
     setIsLoading(true);
+    toast.promise(handleDeleteAccount(data), {
+      loading: "Deleting account...",
+      success: () => {
+        setIsLoading(false);
+        return "Account deleted";
+      },
+      error: (err: Error) => {
+        setIsLoading(false);
+        return err.message;
+      },
+    });
+  };
+
+  const handleDeleteAccount = async (data: DeleteAccountForm): Promise<void> => {
+    // eslint-disable-next-line no-promise-executor-return -- aaa
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    if (data.email !== auth?.user.email) {
+      throw new Error("Email does not match");
+    }
     if (organizations?.some((org) => org.members === 1)) {
-      toast.error(
+      throw new Error(
         "You're still a member of at least one organization. Leave all organizations first or delete the ones where you're the only member.",
       );
-      //TODO: uncomed after account welcome flow is resolved
-      //   setIsLoading(false);
-      //   return;
     }
-    if (data.email !== auth?.user.email) {
-      toast.error("Email does not match");
-      setIsLoading(false);
-      return;
-    }
-    await send(api["POST /me/delete-account"](), { errorMessage: "Failed to delete account" });
+    await send(api["DELETE /me"](), { errorMessage: "Failed to delete account" });
     // eslint-disable-next-line no-promise-executor-return -- aaa
     await new Promise((resolve) => setTimeout(resolve, 2000));
     logout();
-    toast.success("Account deleted");
-    setIsLoading(false);
   };
 
   const isDisabled =
@@ -99,7 +109,7 @@ export const DeleteAccountDialog = (): JSX.Element => {
         </DialogClose>
         <Button
           disabled={isDisabled}
-          //loading={isLoading}
+          loading={isLoading}
           onClick={handleSubmit(onSubmit)}
           size="small"
           type="submit"

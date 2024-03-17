@@ -1,10 +1,8 @@
 "use client";
 
-import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
 import { api } from "lib/api";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
@@ -37,9 +35,6 @@ export const OrganizationForm: FC = () => {
         <Button loading={loading} size="default" type="submit">
           Create organization
         </Button>
-        <Link className={css({ alignSelf: "center" })} href={routes.home}>
-          Skip
-        </Link>
       </Flex>
     </form>
   );

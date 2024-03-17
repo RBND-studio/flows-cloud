@@ -1,16 +1,32 @@
-import { css } from "@flows/styled-system/css";
-import { GitHub16, Google16 } from "icons";
-import { cookies } from "next/headers";
-import React from "react";
-import { createClient } from "supabase/server";
-import { Avatar, Text } from "ui";
+"use client";
 
-export const ConnectedAccounts = async (): Promise<JSX.Element> => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+import { css } from "@flows/styled-system/css";
+import type { User } from "@supabase/supabase-js";
+import { useFirstRender } from "hooks/use-first-render";
+import React, { useCallback, useEffect, useState } from "react";
+import { createClient } from "supabase/client";
+import { toast } from "ui";
+
+import { ConnectedAccount } from "./connected-account";
+
+export const ConnectedAccounts = (): JSX.Element => {
+  const supabase = createClient();
+  const firstRender = useFirstRender();
+  const [user, setUser] = useState<User | null>(null);
+
+  const getUser = useCallback(async (): Promise<User | null> => {
+    const {
+      data: { user: userData },
+    } = await supabase.auth.getUser();
+    return userData;
+  }, [supabase.auth]);
+
+  useEffect(() => {
+    if (!firstRender) return;
+    getUser()
+      .then(setUser)
+      .catch((e: Error) => toast.error(e.message));
+  }, [firstRender, getUser]);
 
   return (
     <div
@@ -33,30 +49,12 @@ export const ConnectedAccounts = async (): Promise<JSX.Element> => {
         {user?.identities
           ?.filter((i) => i.provider !== "email")
           ?.map((identity) => (
-            <li
-              className={css({
-                gap: "space16",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              })}
+            <ConnectedAccount
+              identity={identity}
               key={identity.id}
-            >
-              <Avatar
-                fullName={identity.identity_data?.name || "Unknown"}
-                src={identity.identity_data?.avatar_url}
-              />
-              {identity.provider === "google" ? (
-                <Google16 />
-              ) : identity.provider === "github" ? (
-                <GitHub16 />
-              ) : (
-                "Unknown"
-              )}
-              <Text>
-                {identity.provider} - {identity.identity_data?.email}
-              </Text>
-            </li>
+              onUnlink={() => getUser().then(setUser)}
+              user={user}
+            />
           ))}
       </ul>
     </div>

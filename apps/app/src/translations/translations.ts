@@ -12,6 +12,7 @@ export const t = {
   },
   settings: {
     theme: "Theme",
+    personal: "Personal settings",
   },
   toasts: {
     createOrgSuccess: "Organization created",
