@@ -55,9 +55,9 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
       );
       if (res.error) return;
       reset(data, { keepValues: true });
-      router.refresh();
-      router.push(backLink);
       toast.success(t.toasts.updateFlowSuccess);
+      router.push(backLink);
+      router.refresh();
     },
     [backLink, flow.id, reset, router, send],
   );
