@@ -1,8 +1,10 @@
 import type { FlowModalStep, FlowSteps, FlowTooltipStep, FlowWaitStep } from "@flows/js";
+import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { type FC } from "react";
+import { ChevronDown16 } from "icons";
+import { type FC, useMemo } from "react";
 import { t } from "translations";
-import { Text } from "ui";
+import { Icon, Menu, MenuItem, Text } from "ui";
 
 import { useStepsForm } from "../edit-constants";
 import { ModalStepForm } from "./modal-step-form";
@@ -30,7 +32,7 @@ export const STEP_DEFAULT = {
 };
 
 export const StepForm: FC<Props> = ({ index }) => {
-  const { watch } = useStepsForm();
+  const { watch, setValue } = useStepsForm();
   const stepKey = `steps.${index}` as const;
 
   const stepValue = watch(stepKey);
@@ -38,11 +40,48 @@ export const StepForm: FC<Props> = ({ index }) => {
   const stepType =
     "targetElement" in stepValue ? "tooltip" : "title" in stepValue ? "modal" : "wait";
 
+  const typeOptions = useMemo(
+    () =>
+      (["tooltip", "modal", "wait"] as const).map((value) => ({
+        value,
+        label: t.steps.stepType[value],
+      })),
+    [],
+  );
+
   return (
     <>
       <Flex gap="space16" justifyContent="space-between" mb="space12">
-        <Flex alignItems="center" gap="space8">
-          <Text variant="titleM">{t.steps.stepType[stepType]}</Text>
+        <Flex alignItems="center" gap="space16" ml="-space8">
+          <Menu
+            trigger={
+              <button
+                type="button"
+                className={css({
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "space4",
+                  py: "space4",
+                  px: "space8",
+                  borderRadius: "radius8",
+                  cursor: "pointer",
+                  _hover: { backgroundColor: "bg.hover" },
+                })}
+              >
+                <Text variant="titleM">{t.steps.stepType[stepType]}</Text>{" "}
+                <Icon icon={ChevronDown16} />
+              </button>
+            }
+          >
+            {typeOptions.map((option) => (
+              <MenuItem
+                key={option.value}
+                onClick={() => setValue(stepKey, STEP_DEFAULT[option.value])}
+              >
+                {option.label}
+              </MenuItem>
+            ))}
+          </Menu>
           <Text color="subtle" variant="bodyS">
             {index}
           </Text>

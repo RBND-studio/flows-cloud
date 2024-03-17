@@ -4,20 +4,22 @@ import type { FlowSteps } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
+import { Close16 } from "icons";
 import type { FlowDetail, UpdateFlow } from "lib/api";
 import { api } from "lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FC, useState } from "react";
 import type { DefaultValues, SubmitHandler } from "react-hook-form";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
-import { Button, Separator, Text, toast } from "ui";
+import { Button, Icon, Separator, Text, toast } from "ui";
 
 import { FlowPreviewDialog } from "../(detail)/flow-preview-dialog";
 import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialog";
 import type { StepsForm } from "./edit-constants";
+import { EditFormEmpty } from "./edit-form-empty";
 import { StepForm } from "./step-form";
 import { StepPreview } from "./step-preview";
 import { StepsFlow } from "./steps-flow";
@@ -37,7 +39,8 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
     defaultValues: createDefaultValues(flow),
     mode: "onChange",
   });
-  const { formState, reset, handleSubmit } = methods;
+  const { formState, reset, handleSubmit, control } = methods;
+  const fieldArray = useFieldArray({ control, name: "steps" });
 
   const backLink = routes.flow({ flowId: flow.id, organizationId, projectId: flow.project_id });
   const router = useRouter();
@@ -54,6 +57,7 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
     toast.success(t.toasts.updateFlowSuccess);
   };
 
+  //TODO: Save changes and publish changes buttons behavior is weird now. The publish button should save the changes before publishing so you don't publish old changes accidentally.
   return (
     <FormProvider {...methods}>
       <form
@@ -64,51 +68,69 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
         })}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Box borBottom="1px">
-          <Flex alignItems="center" margin="0 auto" maxWidth="1280px" p="space16">
+        <Box borBottom="1px" p="space16">
+          <Flex alignItems="center" margin="0 auto" maxWidth="1280px">
             <Box flex={1}>
               <Text variant="titleM">{flow.name}</Text>
             </Box>
 
-            <Flex alignItems="center" gap="space16">
+            <Flex alignItems="center" gap="space12">
               <FlowPreviewDialog flow={flow} />
-              <FlowPublishChangesDialog flow={flow} />
-              <Button disabled={!formState.isDirty} loading={loading} type="submit">
-                Save changes
+              <Button
+                disabled={!formState.isDirty}
+                loading={loading}
+                type="submit"
+                variant="secondary"
+              >
+                Save and close
               </Button>
+              <FlowPublishChangesDialog flow={flow} />
               <Button variant="ghost" asChild>
-                <Link href={backLink}>X</Link>
+                <Link href={backLink}>
+                  <Icon icon={Close16} />
+                </Link>
               </Button>
             </Flex>
           </Flex>
         </Box>
-        <Grid
-          flex={1}
-          gap={0}
-          gridTemplateColumns={2}
-          margin="0 auto"
-          maxWidth="1280px"
-          overflow="hidden"
-        >
-          <Grid borLeft="1px" borRight="1px" overflow="auto">
-            <StepsFlow onSelectStep={setSelectedStep} selectedStep={selectedStep} />
-          </Grid>
-          <Box borRight="1px" overflow="auto">
-            {selectedStep !== undefined ? (
-              <>
-                <Box bg="bg" p="space16">
-                  <StepForm index={selectedStep} key={selectedStep} />
+        {!fieldArray.fields.length ? (
+          <EditFormEmpty fieldArray={fieldArray} />
+        ) : (
+          <Grid
+            flex={1}
+            gap={0}
+            gridTemplateColumns={2}
+            margin="0 auto"
+            maxWidth="1280px"
+            overflow="hidden"
+            width="100%"
+          >
+            <Grid borLeft="1px" borRight="1px" overflow="auto">
+              <StepsFlow
+                onSelectStep={setSelectedStep}
+                selectedStep={selectedStep}
+                fieldArray={fieldArray}
+              />
+            </Grid>
+            <Box borRight="1px" overflow="auto">
+              {selectedStep !== undefined ? (
+                <>
+                  <Box bg="bg" p="space16">
+                    <StepForm index={selectedStep} key={selectedStep} />
+                  </Box>
+                  <Separator />
+                  <StepPreview selectedStep={selectedStep} />
+                </>
+              ) : (
+                <Box px="space24" py="space120">
+                  <Text color="muted" align="center">
+                    Select a step on the left to edit its properties.
+                  </Text>
                 </Box>
-                <Separator />
-                <StepPreview selectedStep={selectedStep} />
-              </>
-            ) : (
-              <Box p="space16">
-                <Text>Start by selecting a step on the left</Text>
-              </Box>
-            )}
-          </Box>
-        </Grid>
+              )}
+            </Box>
+          </Grid>
+        )}
       </form>
     </FormProvider>
   );

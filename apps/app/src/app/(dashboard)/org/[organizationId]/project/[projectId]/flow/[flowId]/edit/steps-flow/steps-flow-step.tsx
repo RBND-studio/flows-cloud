@@ -1,7 +1,7 @@
 import { type FlowSteps } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
-import { Comment16, Flows16, Hourglass16, Plus16 } from "icons";
+import { Close16, Comment16, Flows16, Hourglass16, Plus16 } from "icons";
 import type { FC } from "react";
 import { Button, Icon, Menu, MenuItem, Text } from "ui";
 
@@ -99,10 +99,10 @@ export const StepsFlowStep: FC<Props> = ({
           _hover: { opacity: 1 },
         })} remove-button`}
         onClick={handleRemove}
-        size="small"
+        size="smallIcon"
         variant="secondary"
       >
-        X
+        <Icon icon={Close16} />
       </Button>
       <AddButton onAdd={onAddBefore} variant="top" allowFork={rootStep} />
       {!(rootStep && lastStep) ? (

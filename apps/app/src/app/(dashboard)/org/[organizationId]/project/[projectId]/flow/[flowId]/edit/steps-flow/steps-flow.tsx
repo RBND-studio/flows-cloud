@@ -2,10 +2,10 @@ import { css } from "@flows/styled-system/css";
 import { Flex, Grid } from "@flows/styled-system/jsx";
 import { Plus16 } from "icons";
 import { type FC, Fragment } from "react";
-import { useFieldArray } from "react-hook-form";
-import { Button, Icon, Menu, MenuItem } from "ui";
+import { type UseFieldArrayReturn } from "react-hook-form";
+import { Button, Menu, MenuItem } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { type StepsForm, useStepsForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
 import { ConnectionArrow } from "./connection-arrow";
 import { Fork } from "./fork";
@@ -14,11 +14,12 @@ import { StepsFlowStep } from "./steps-flow-step";
 type Props = {
   selectedStep?: number | `${number}.${number}.${number}`;
   onSelectStep: (index: number | `${number}.${number}.${number}`) => void;
+  fieldArray: UseFieldArrayReturn<StepsForm, "steps">;
 };
 
-export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep }) => {
-  const { control, watch } = useStepsForm();
-  const { fields, insert, append, remove } = useFieldArray({ control, name: "steps" });
+export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray }) => {
+  const { watch } = useStepsForm();
+  const { fields, insert, append, remove } = fieldArray;
   const steps = watch("steps");
 
   return (
@@ -58,19 +59,18 @@ export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep }) => {
         );
       })}
 
-      <Grid
-        _hover={{ "& button": { opacity: 1 } }}
-        h="48px"
-        w="100%"
-        mt="36px"
-        left={0}
-        placeItems="center"
-        right={0}
-      >
+      <Grid h="48px" w="100%" mt="36px" left={0} placeItems="center" right={0}>
         <Menu
           trigger={
-            <Button className={css({ opacity: 0 })} size="smallIcon" variant="secondary">
-              <Icon icon={Plus16} />
+            <Button
+              className={css({
+                // opacity: 0
+              })}
+              size="small"
+              variant="secondary"
+              startIcon={<Plus16 />}
+            >
+              Add step
             </Button>
           }
         >

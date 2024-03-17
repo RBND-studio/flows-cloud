@@ -77,11 +77,7 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
   if (!changesToPublish) return null;
 
   return (
-    <Dialog
-      onOpenChange={setOpen}
-      open={open}
-      trigger={<Button variant="black">Publish changes</Button>}
-    >
+    <Dialog onOpenChange={setOpen} open={open} trigger={<Button>Publish changes</Button>}>
       <DialogTitle>Publish changes</DialogTitle>
       <DialogContent>
         <Text>Are you sure you want to publish flow changes?</Text>

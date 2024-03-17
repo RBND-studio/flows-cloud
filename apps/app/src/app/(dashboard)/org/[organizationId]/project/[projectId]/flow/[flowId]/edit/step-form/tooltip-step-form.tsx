@@ -39,53 +39,50 @@ export const TooltipStepForm: FC<Props> = ({ index }) => {
 
   return (
     <>
-      <Grid gap="space24" gridTemplateColumns="2fr 1fr" mb="space16">
-        <Box>
-          <Box>
-            <Input
-              {...register(`${stepKey}.title`)}
-              className={css({ mb: "space16" })}
-              defaultValue={initialValue.title}
-              description="HTML title of the tooltip"
-              label="Title"
-            />
-            <Input
-              {...register(`${stepKey}.body`)}
-              asChild
-              defaultValue={initialValue.body}
-              description="HTML content of the tooltip"
-              inputClassName={css({ height: "unset" })}
-              label="Body"
-            >
-              <textarea rows={5} />
-            </Input>
-          </Box>
-        </Box>
-
+      <Flex gap="space24" flexDirection="column" mb="space16">
         <Box>
           <Input
-            {...register(`${stepKey}.targetElement`)}
+            {...register(`${stepKey}.title`)}
             className={css({ mb: "space16" })}
-            defaultValue={initialValue.targetElement}
-            description="Element to attach tooltip to"
-            label="Target element"
-            placeholder=".element"
+            defaultValue={initialValue.title}
+            description="HTML title of the tooltip"
+            label="Title"
           />
-          <Controller
-            control={control}
-            name={`${stepKey}.placement`}
-            render={({ field }) => (
-              <Select
-                buttonSize="default"
-                className={css({ mb: "space16" })}
-                description="Placement of the tooltip relative to the element"
-                label="Tooltip placement"
-                onChange={field.onChange}
-                options={placementOptions}
-                value={field.value ?? "bottom"}
-              />
-            )}
-          />
+          <Input
+            {...register(`${stepKey}.body`)}
+            asChild
+            defaultValue={initialValue.body}
+            className={css({ mb: "space16" })}
+            description="HTML content of the tooltip"
+            inputClassName={css({ height: "unset!" })}
+            label="Body"
+          >
+            <textarea rows={5} />
+          </Input>
+
+          <Grid gap="space16" gridTemplateColumns="1fr 1fr" mb="space16">
+            <Input
+              {...register(`${stepKey}.targetElement`)}
+              defaultValue={initialValue.targetElement}
+              description="Element to attach tooltip to"
+              label="Target element"
+              placeholder=".element"
+            />
+            <Controller
+              control={control}
+              name={`${stepKey}.placement`}
+              render={({ field }) => (
+                <Select
+                  buttonSize="default"
+                  description="Placement of the tooltip relative to the element"
+                  label="Tooltip placement"
+                  onChange={field.onChange}
+                  options={placementOptions}
+                  value={field.value ?? "bottom"}
+                />
+              )}
+            />
+          </Grid>
           <Flex flexDirection="column" gap="space8">
             {(
               [
@@ -134,7 +131,7 @@ export const TooltipStepForm: FC<Props> = ({ index }) => {
             />
           </Flex>
         </Box>
-      </Grid>
+      </Flex>
 
       <Flex flexDirection="column" gap="space8">
         <StepFooter index={index} />

@@ -18,7 +18,7 @@ export const StepFooter: FC<Props> = ({ index }) => {
 
   return (
     <Accordion title="Footer">
-      <Grid gap="space24" gridTemplateColumns="1fr 1fr" mb="space16">
+      <Grid gap="space16" gridTemplateColumns="1fr 1fr" mb="space16">
         <Box>
           <Flex justifyContent="space-between" mb="space4">
             <Label htmlFor={`${stepKey}.prevText`}>Previous step button</Label>
@@ -63,7 +63,7 @@ export const StepFooter: FC<Props> = ({ index }) => {
           <Input
             {...register(`${stepKey}.nextLabel`)}
             defaultValue={value.nextLabel}
-            description="Replace default text of the next step button or finish button in case of the last step"
+            description="Replace default text of the next or finish button"
             disabled={value.hideNext}
             id={`${stepKey}.nextText`}
             placeholder="Continue or Finish"
@@ -77,11 +77,11 @@ export const StepFooter: FC<Props> = ({ index }) => {
           Add custom actions to the footer of the tooltip
         </Text>
       </Flex>
-      <Grid gap="space16" gridTemplateColumns="repeat(3, 1fr)">
+      <Flex gap="space16" flexDirection="column">
         <StepFooterActions index={index} placement="left" />
         <StepFooterActions index={index} placement="center" />
         <StepFooterActions index={index} placement="right" />
-      </Grid>
+      </Flex>
     </Accordion>
   );
 };

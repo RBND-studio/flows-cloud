@@ -74,8 +74,8 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
             {!flowIsCloud && <LocalChip />}
           </Flex>
           {flowIsCloud ? (
-            <Flex alignItems="center" gap="space16">
-              <Button asChild>
+            <Flex alignItems="center" gap="space12">
+              <Button variant="black" asChild>
                 <Link href={routes.flowEdit({ flowId, organizationId, projectId })}>Edit</Link>
               </Button>
               <FlowPublishChangesDialog flow={flow} />

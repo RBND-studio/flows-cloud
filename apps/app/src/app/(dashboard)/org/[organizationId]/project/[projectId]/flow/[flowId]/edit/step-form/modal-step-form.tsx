@@ -1,6 +1,6 @@
 import type { FlowModalStep } from "@flows/js";
 import { css } from "@flows/styled-system/css";
-import { Box, Flex, Grid } from "@flows/styled-system/jsx";
+import { Box, Flex } from "@flows/styled-system/jsx";
 import type { FC } from "react";
 import { Controller } from "react-hook-form";
 import { t } from "translations";
@@ -22,7 +22,7 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
 
   return (
     <>
-      <Grid gap="space24" gridTemplateColumns="3fr 1fr" mb="space16">
+      <Flex gap="space24" flexDirection="column" mb="space16">
         <Box>
           <Input
             {...register(`${stepKey}.title`)}
@@ -33,17 +33,16 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
           <Input
             {...register(`${stepKey}.body`)}
             asChild
-            className={css({ mb: "space16" })}
             defaultValue={initialValue.body}
             description="HTML content of the modal"
-            inputClassName={css({ height: "unset" })}
+            inputClassName={css({ height: "unset!" })}
             label="Body"
           >
             <textarea rows={5} />
           </Input>
         </Box>
 
-        <Flex flexDirection="column" gap="space8" mb="space16" mt="space24">
+        <Flex flexDirection="column" gap="space8">
           <Controller
             control={control}
             name={`${stepKey}.hideClose`}
@@ -82,7 +81,7 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
             )}
           />
         </Flex>
-      </Grid>
+      </Flex>
       <Flex flexDirection="column" gap="space8">
         <StepFooter index={index} />
 
