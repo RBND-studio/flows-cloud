@@ -1,7 +1,7 @@
 import { api } from "lib/api";
 import { load } from "lib/load";
 
-import { EditForm } from "./edit-form";
+import { FlowEditForm } from "./flow-edit-form";
 
 type Props = {
   params: { flowId: string; projectId: string; organizationId: string };
@@ -11,5 +11,5 @@ export default async function FlowEditPage({ params }: Props): Promise<JSX.Eleme
   const { flowId, organizationId } = params;
   const flow = await load(api["/flows/:flowId"](flowId));
 
-  return <EditForm flow={flow} organizationId={organizationId} />;
+  return <FlowEditForm flow={flow} organizationId={organizationId} />;
 }

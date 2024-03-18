@@ -4,7 +4,7 @@ import type { FC } from "react";
 import { Controller } from "react-hook-form";
 import { Accordion, Checkbox, Input, Label, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { StepFooterActions } from "./step-footer-actions";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const StepFooter: FC<Props> = ({ index }) => {
-  const { register, control, watch } = useStepsForm();
+  const { register, control, watch } = useFlowEditForm();
   const stepKey = `steps.${index}` as const;
   const value = watch(stepKey) as FlowTooltipStep | FlowModalStep;
 

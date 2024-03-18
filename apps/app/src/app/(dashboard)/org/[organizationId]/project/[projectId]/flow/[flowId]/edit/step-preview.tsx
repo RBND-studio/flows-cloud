@@ -6,7 +6,7 @@ import { useFetch } from "hooks/use-fetch";
 import { useParams } from "next/navigation";
 import { type FC, useEffect, useMemo, useRef } from "react";
 
-import { useStepsForm } from "./edit-constants";
+import { useFlowEditForm } from "./edit-constants";
 
 type Props = {
   selectedStep?: number | `${number}.${number}.${number}`;
@@ -26,7 +26,7 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
     [project?.css_template, project?.css_vars, template, vars],
   );
 
-  const { watch } = useStepsForm();
+  const { watch } = useFlowEditForm();
   const rootRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
 

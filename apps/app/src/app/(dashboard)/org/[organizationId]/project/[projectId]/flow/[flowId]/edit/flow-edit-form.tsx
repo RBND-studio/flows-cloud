@@ -2,8 +2,6 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
-import { FrequencyForm } from "app/(dashboard)/org/[organizationId]/project/[projectId]/flow/[flowId]/edit/frequency-form";
-import { LaunchForm } from "app/(dashboard)/org/[organizationId]/project/[projectId]/flow/[flowId]/edit/launch-form";
 import { useSend } from "hooks/use-send";
 import { Close16 } from "icons";
 import type { FlowDetail, UpdateFlow } from "lib/api";
@@ -19,13 +17,10 @@ import { Button, Icon, Separator, Text, toast } from "ui";
 
 import { FlowPreviewDialog } from "../(detail)/flow-preview-dialog";
 import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialog";
-import {
-  createDefaultValues,
-  type SelectedItem,
-  selectedItemIsStep,
-  type StepsForm,
-} from "./edit-constants";
+import { createDefaultValues, type IFlowEditForm, type SelectedItem } from "./edit-constants";
 import { EditFormEmpty } from "./edit-form-empty";
+import { FrequencyForm } from "./frequency-form";
+import { LaunchForm } from "./launch-form";
 import { StepForm } from "./step-form";
 import { StepPreview } from "./step-preview";
 import { StepsFlow } from "./steps-flow";
@@ -36,9 +31,9 @@ type Props = {
   organizationId: string;
 };
 
-export const EditForm: FC<Props> = ({ flow, organizationId }) => {
+export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
   const [selectedItem, setSelectedItem] = useState<SelectedItem>();
-  const methods = useForm<StepsForm>({
+  const methods = useForm<IFlowEditForm>({
     defaultValues: createDefaultValues(flow),
     mode: "onChange",
   });
@@ -48,7 +43,7 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
   const backLink = routes.flow({ flowId: flow.id, organizationId, projectId: flow.project_id });
   const router = useRouter();
   const { loading, send } = useSend();
-  const onSubmit: SubmitHandler<StepsForm> = useCallback(
+  const onSubmit: SubmitHandler<IFlowEditForm> = useCallback(
     async (data) => {
       const fixedUserProperties = data.userProperties
         .map((group) => group.filter((matcher) => !!matcher.key))
@@ -136,7 +131,13 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
             </Grid>
             <Box borRight="1px" overflow="auto">
               {selectedItem !== undefined ? (
-                selectedItemIsStep(selectedItem) ? (
+                selectedItem === "targeting" ? (
+                  <FlowTargetingForm />
+                ) : selectedItem === "frequency" ? (
+                  <FrequencyForm />
+                ) : selectedItem === "launch" ? (
+                  <LaunchForm />
+                ) : (
                   <>
                     <Box bg="bg" p="space16">
                       <StepForm index={selectedItem} key={selectedItem} />
@@ -144,12 +145,6 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
                     <Separator />
                     <StepPreview selectedStep={selectedItem} />
                   </>
-                ) : selectedItem === "targeting" ? (
-                  <FlowTargetingForm />
-                ) : selectedItem === "frequency" ? (
-                  <FrequencyForm />
-                ) : (
-                  <LaunchForm />
                 )
               ) : (
                 <Box px="space24" py="space120">

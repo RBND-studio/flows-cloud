@@ -6,7 +6,7 @@ import { type FC, useMemo } from "react";
 import { t } from "translations";
 import { Icon, Menu, MenuItem, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { ModalStepForm } from "./modal-step-form";
 import { TooltipStepForm } from "./tooltip-step-form";
 import { WaitStepForm } from "./wait-step-form";
@@ -32,7 +32,7 @@ export const STEP_DEFAULT = {
 };
 
 export const StepForm: FC<Props> = ({ index }) => {
-  const { watch, setValue } = useStepsForm();
+  const { watch, setValue } = useFlowEditForm();
   const stepKey = `steps.${index}` as const;
 
   const stepValue = watch(stepKey);

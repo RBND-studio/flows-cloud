@@ -8,11 +8,11 @@ import { useFieldArray } from "react-hook-form";
 import { t } from "translations";
 import { Button, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { FlowMatchGroup } from "./flow-match-group";
 
 export const FlowTargetingForm: FC = () => {
-  const { control } = useStepsForm();
+  const { control } = useFlowEditForm();
   const { fields, append, remove } = useFieldArray({ control, name: "userProperties" });
 
   return (

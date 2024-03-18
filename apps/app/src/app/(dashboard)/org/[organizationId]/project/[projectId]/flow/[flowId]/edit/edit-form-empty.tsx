@@ -9,11 +9,11 @@ import { type UseFieldArrayReturn } from "react-hook-form";
 import { links } from "shared";
 import { Button, Icon, Text } from "ui";
 
-import { type StepsForm } from "./edit-constants";
+import { type IFlowEditForm } from "./edit-constants";
 import { STEP_DEFAULT } from "./step-form";
 
 type Props = {
-  fieldArray: UseFieldArrayReturn<StepsForm, "steps">;
+  fieldArray: UseFieldArrayReturn<IFlowEditForm, "steps">;
 };
 
 export const EditFormEmpty: FC<Props> = ({ fieldArray }) => {

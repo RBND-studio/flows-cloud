@@ -6,7 +6,7 @@ import { Controller } from "react-hook-form";
 import { t } from "translations";
 import { Accordion, Checkbox, Input } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { StepFooter } from "./step-footer";
 import { StepWaitOptionList } from "./step-wait-option-list";
 
@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const ModalStepForm: FC<Props> = ({ index }) => {
-  const { getValues, register, control } = useStepsForm();
+  const { getValues, register, control } = useFlowEditForm();
   const stepKey = `steps.${index}` as const;
 
   const initialValue = getValues(stepKey) as FlowModalStep;

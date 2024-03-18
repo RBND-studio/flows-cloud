@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 import { t } from "translations";
 import { Button, Icon, Input, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { StepWaitChange } from "./step-wait-change";
 import { StepWaitForm } from "./step-wait-submit";
 
@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
-  const { setValue, register, watch, control } = useStepsForm();
+  const { setValue, register, watch, control } = useFlowEditForm();
   const value = watch(fieldName);
 
   const currentVariant = (() => {

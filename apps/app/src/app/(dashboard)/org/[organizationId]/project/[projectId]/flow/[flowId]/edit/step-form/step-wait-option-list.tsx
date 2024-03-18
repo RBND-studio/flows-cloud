@@ -5,7 +5,7 @@ import type { FC } from "react";
 import { useFieldArray } from "react-hook-form";
 import { Button, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { StepWaitOption } from "./step-wait-option";
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 const DEFAULT_WAIT_OPTION: WaitStepOptions = {};
 
 export const StepWaitOptionList: FC<Props> = ({ fieldName }: Props) => {
-  const { control } = useStepsForm();
+  const { control } = useFlowEditForm();
   const { append, remove, fields } = useFieldArray({
     name: fieldName,
     control,

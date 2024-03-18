@@ -5,7 +5,7 @@ import { type FC } from "react";
 import { useFieldArray } from "react-hook-form";
 import { Button, Icon } from "ui";
 
-import { type SelectedItem, useStepsForm } from "../edit-constants";
+import { type SelectedItem, useFlowEditForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
 import { Branch } from "./branch";
 import { boxConstants } from "./steps-flow.constants";
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove }) => {
-  const { control } = useStepsForm();
+  const { control } = useFlowEditForm();
   const fieldName = `steps.${index}` as const;
   const { fields, remove, append } = useFieldArray({ control, name: fieldName });
   const handleRemove = (i: number): void => {

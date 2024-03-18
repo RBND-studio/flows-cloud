@@ -5,7 +5,7 @@ import { type UseFieldArrayReturn } from "react-hook-form";
 import { t } from "translations";
 import { Button, Menu, MenuItem } from "ui";
 
-import { type SelectedItem, type StepsForm, useStepsForm } from "../edit-constants";
+import { type IFlowEditForm, type SelectedItem, useFlowEditForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
 import { ConnectionArrow } from "./connection-arrow";
 import { Fork } from "./fork";
@@ -14,11 +14,11 @@ import { StepsFlowStep } from "./steps-flow-step";
 type Props = {
   selectedItem?: SelectedItem;
   onSelectItem: (item?: SelectedItem) => void;
-  fieldArray: UseFieldArrayReturn<StepsForm, "steps">;
+  fieldArray: UseFieldArrayReturn<IFlowEditForm, "steps">;
 };
 
 export const StepsFlow: FC<Props> = ({ onSelectItem, selectedItem, fieldArray }) => {
-  const { watch } = useStepsForm();
+  const { watch } = useFlowEditForm();
   const { fields, insert, append, remove } = fieldArray;
   const steps = watch("steps");
 
