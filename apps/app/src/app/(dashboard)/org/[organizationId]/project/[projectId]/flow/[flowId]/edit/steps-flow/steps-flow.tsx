@@ -2,27 +2,47 @@ import { Flex, Grid } from "@flows/styled-system/jsx";
 import { Plus16 } from "icons";
 import { type FC, Fragment } from "react";
 import { type UseFieldArrayReturn } from "react-hook-form";
+import { t } from "translations";
 import { Button, Menu, MenuItem } from "ui";
 
-import { type StepsForm, useStepsForm } from "../edit-constants";
+import { type SelectedItem, type StepsForm, useStepsForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
 import { ConnectionArrow } from "./connection-arrow";
 import { Fork } from "./fork";
 import { StepsFlowStep } from "./steps-flow-step";
 
 type Props = {
-  selectedStep?: number | `${number}.${number}.${number}`;
-  onSelectStep: (index: number | `${number}.${number}.${number}`) => void;
+  selectedItem?: SelectedItem;
+  onSelectItem: (item?: SelectedItem) => void;
   fieldArray: UseFieldArrayReturn<StepsForm, "steps">;
 };
 
-export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray }) => {
+export const StepsFlow: FC<Props> = ({ onSelectItem, selectedItem, fieldArray }) => {
   const { watch } = useStepsForm();
   const { fields, insert, append, remove } = fieldArray;
   const steps = watch("steps");
 
   return (
-    <Flex alignItems="center" direction="column" px="space16" py="space48">
+    <Flex alignItems="center" direction="column" px="space16" pt="space32" pb="space48">
+      <Flex gap="space8" bor="1px" p="space12" borderRadius="radius8">
+        {(
+          [
+            { value: "frequency", label: t.frequency.frequency },
+            { value: "targeting", label: t.targeting.targeting },
+            { value: "launch", label: t.launch.launch },
+          ] as const
+        ).map((item) => (
+          <Button
+            key={item.value}
+            onClick={() => onSelectItem(item.value)}
+            variant={selectedItem === item.value ? "primary" : "secondary"}
+          >
+            {item.label}
+          </Button>
+        ))}
+      </Flex>
+      <ConnectionArrow lines={1} variant="fork" />
+
       {fields.map((field, i) => {
         const step = steps.at(i);
         if (Array.isArray(step)) {
@@ -31,8 +51,8 @@ export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray })
               {i !== 0 && <ConnectionArrow lines={step.length} variant="fork" />}
               <Fork
                 index={i}
-                onSelectStep={onSelectStep}
-                selectedStep={selectedStep}
+                onSelectStep={onSelectItem}
+                selectedStep={selectedItem}
                 onRemove={() => remove(i)}
               />
             </Fragment>
@@ -53,8 +73,8 @@ export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray })
               index={i}
               onAddAfter={(s) => insert(i + 1, s)}
               onAddBefore={(s) => insert(i, s)}
-              onSelect={onSelectStep}
-              selected={i === selectedStep}
+              onSelect={onSelectItem}
+              selected={i === selectedItem}
               lastStep={i === fields.length - 1}
               onRemove={() => remove(i)}
             />
