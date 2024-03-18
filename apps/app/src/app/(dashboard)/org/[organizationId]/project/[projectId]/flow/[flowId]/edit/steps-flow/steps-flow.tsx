@@ -2,13 +2,13 @@ import { Flex, Grid } from "@flows/styled-system/jsx";
 import { Plus16 } from "icons";
 import { type FC, Fragment } from "react";
 import { type UseFieldArrayReturn } from "react-hook-form";
-import { t } from "translations";
 import { Button, Menu, MenuItem } from "ui";
 
 import { type IFlowEditForm, type SelectedItem, useFlowEditForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
 import { ConnectionArrow } from "./connection-arrow";
 import { Fork } from "./fork";
+import { StartConditions } from "./start-conditions";
 import { StepsFlowStep } from "./steps-flow-step";
 
 type Props = {
@@ -24,25 +24,8 @@ export const StepsFlow: FC<Props> = ({ onSelectItem, selectedItem, fieldArray })
 
   return (
     <Flex alignItems="center" direction="column" px="space16" pt="space32" pb="space48">
-      <Flex gap="space8" bor="1px" p="space12" borderRadius="radius8">
-        {(
-          [
-            { value: "frequency", label: t.frequency.frequency },
-            { value: "targeting", label: t.targeting.targeting },
-            { value: "launch", label: t.launch.launch },
-          ] as const
-        ).map((item) => (
-          <Button
-            key={item.value}
-            onClick={() => onSelectItem(item.value)}
-            variant={selectedItem === item.value ? "primary" : "secondary"}
-          >
-            {item.label}
-          </Button>
-        ))}
-      </Flex>
+      <StartConditions onSelectItem={onSelectItem} selectedItem={selectedItem} />
       <ConnectionArrow lines={1} variant="fork" />
-
       {fields.map((field, i) => {
         const step = steps.at(i);
         if (Array.isArray(step)) {
@@ -81,7 +64,6 @@ export const StepsFlow: FC<Props> = ({ onSelectItem, selectedItem, fieldArray })
           </Fragment>
         );
       })}
-
       <Grid h="48px" w="100%" mt="36px" left={0} placeItems="center" right={0}>
         <Menu
           trigger={
