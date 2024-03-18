@@ -22,7 +22,7 @@ const DEFAULT_TOOLTIP: FlowTooltipStep = {
   overlay: true,
 };
 const DEFAULT_MODAL: FlowModalStep = { title: "Modal Title", body: "Lorem ipsum dolor sit.." };
-const DEFAULT_WAIT: FlowWaitStep = { wait: {} };
+const DEFAULT_WAIT: FlowWaitStep = { wait: [] };
 const FORK_DEFAULT: FlowSteps[number] = [[DEFAULT_TOOLTIP]];
 export const STEP_DEFAULT = {
   tooltip: DEFAULT_TOOLTIP,

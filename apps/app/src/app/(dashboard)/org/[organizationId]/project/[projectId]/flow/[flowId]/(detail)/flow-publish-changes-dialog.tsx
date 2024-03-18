@@ -77,11 +77,15 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) =
     );
 
   const changesToPublish = !!flow.draftVersion && !!flow.draftVersion.steps.length;
-  const hidden = !isDirty && !changesToPublish;
+  const hidden = isDirty === undefined && !changesToPublish;
   if (hidden) return null;
 
   return (
-    <Dialog onOpenChange={setOpen} open={open} trigger={<Button>Publish changes</Button>}>
+    <Dialog
+      onOpenChange={setOpen}
+      open={open}
+      trigger={<Button disabled={!isDirty}>Publish changes</Button>}
+    >
       <DialogTitle>Publish changes</DialogTitle>
       <DialogContent>
         <Text>Are you sure you want to publish flow changes?</Text>

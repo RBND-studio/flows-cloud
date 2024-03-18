@@ -3,6 +3,7 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { Close16, Comment16, Flows16, Hourglass16, Plus16 } from "icons";
 import type { FC } from "react";
+import { plural } from "translations";
 import { Button, Icon, Menu, MenuItem, Text } from "ui";
 
 import { useStepsForm } from "../edit-constants";
@@ -40,8 +41,19 @@ export const StepsFlowStep: FC<Props> = ({
 
   const fieldName = `steps.${index}` as const;
   const step = watch(fieldName);
-  const title = "title" in step ? step.title : "TODO wait options #";
-  const stepType = "targetElement" in step ? "Tooltip" : "title" in step ? "Modal" : "Wait";
+  const title = (() => {
+    if ("wait" in step) {
+      const waitCount = Array.isArray(step.wait) ? step.wait.length : 1;
+      return `${waitCount} ${plural(waitCount, "wait option", "wait options")}`;
+    }
+    if ("title" in step) return step.title;
+    return "";
+  })();
+  const stepType = (() => {
+    if ("targetElement" in step) return "Tooltip";
+    if ("title" in step) return "Modal";
+    return "Wait";
+  })();
 
   const handleClick = (): void => onSelect(index);
   const handleRemove = (): void => {
