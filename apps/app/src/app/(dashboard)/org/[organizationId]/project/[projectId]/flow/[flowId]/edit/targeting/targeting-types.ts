@@ -29,7 +29,3 @@ interface UserPropertyMatch {
 }
 
 export type MatchGroup = UserPropertyMatch[];
-
-export type TargetingForm = {
-  userProperties: MatchGroup[];
-};

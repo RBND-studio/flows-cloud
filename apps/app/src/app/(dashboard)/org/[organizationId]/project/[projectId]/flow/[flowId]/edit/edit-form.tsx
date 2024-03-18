@@ -1,8 +1,9 @@
 "use client";
 
-import type { FlowSteps } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
+import { FrequencyForm } from "app/(dashboard)/org/[organizationId]/project/[projectId]/flow/[flowId]/edit/frequency-form";
+import { LaunchForm } from "app/(dashboard)/org/[organizationId]/project/[projectId]/flow/[flowId]/edit/launch-form";
 import { useSend } from "hooks/use-send";
 import { Close16 } from "icons";
 import type { FlowDetail, UpdateFlow } from "lib/api";
@@ -10,7 +11,7 @@ import { api } from "lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FC, useCallback, useRef, useState } from "react";
-import type { DefaultValues, SubmitHandler } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
@@ -18,23 +19,25 @@ import { Button, Icon, Separator, Text, toast } from "ui";
 
 import { FlowPreviewDialog } from "../(detail)/flow-preview-dialog";
 import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialog";
-import type { StepsForm } from "./edit-constants";
+import {
+  createDefaultValues,
+  type SelectedItem,
+  selectedItemIsStep,
+  type StepsForm,
+} from "./edit-constants";
 import { EditFormEmpty } from "./edit-form-empty";
 import { StepForm } from "./step-form";
 import { StepPreview } from "./step-preview";
 import { StepsFlow } from "./steps-flow";
+import { FlowTargetingForm } from "./targeting";
 
 type Props = {
   flow: FlowDetail;
   organizationId: string;
 };
-const createDefaultValues = (flow: FlowDetail): DefaultValues<StepsForm> => ({
-  steps:
-    ((flow.draftVersion?.steps ?? flow.publishedVersion?.steps) as FlowSteps | undefined) ?? [],
-});
 
 export const EditForm: FC<Props> = ({ flow, organizationId }) => {
-  const [selectedStep, setSelectedStep] = useState<number | `${number}.${number}.${number}`>();
+  const [selectedItem, setSelectedItem] = useState<SelectedItem>();
   const methods = useForm<StepsForm>({
     defaultValues: createDefaultValues(flow),
     mode: "onChange",
@@ -47,9 +50,14 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
   const { loading, send } = useSend();
   const onSubmit: SubmitHandler<StepsForm> = useCallback(
     async (data) => {
+      const fixedUserProperties = data.userProperties
+        .map((group) => group.filter((matcher) => !!matcher.key))
+        .filter((group) => !!group.length);
       const res = await send(
         api["PATCH /flows/:flowId"](flow.id, {
+          ...data,
           steps: data.steps as unknown as UpdateFlow["steps"],
+          userProperties: fixedUserProperties,
         }),
         { errorMessage: t.toasts.saveStepsFailed },
       );
@@ -121,20 +129,28 @@ export const EditForm: FC<Props> = ({ flow, organizationId }) => {
           >
             <Grid borLeft="1px" borRight="1px" overflow="auto">
               <StepsFlow
-                onSelectStep={setSelectedStep}
-                selectedStep={selectedStep}
+                onSelectItem={setSelectedItem}
+                selectedItem={selectedItem}
                 fieldArray={fieldArray}
               />
             </Grid>
             <Box borRight="1px" overflow="auto">
-              {selectedStep !== undefined ? (
-                <>
-                  <Box bg="bg" p="space16">
-                    <StepForm index={selectedStep} key={selectedStep} />
-                  </Box>
-                  <Separator />
-                  <StepPreview selectedStep={selectedStep} />
-                </>
+              {selectedItem !== undefined ? (
+                selectedItemIsStep(selectedItem) ? (
+                  <>
+                    <Box bg="bg" p="space16">
+                      <StepForm index={selectedItem} key={selectedItem} />
+                    </Box>
+                    <Separator />
+                    <StepPreview selectedStep={selectedItem} />
+                  </>
+                ) : selectedItem === "targeting" ? (
+                  <FlowTargetingForm />
+                ) : selectedItem === "frequency" ? (
+                  <FrequencyForm />
+                ) : (
+                  <LaunchForm />
+                )
               ) : (
                 <Box px="space24" py="space120">
                   <Text color="muted" align="center">

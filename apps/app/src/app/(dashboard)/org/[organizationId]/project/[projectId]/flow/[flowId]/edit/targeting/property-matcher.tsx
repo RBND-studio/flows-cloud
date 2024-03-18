@@ -2,17 +2,15 @@ import { css } from "@flows/styled-system/css";
 import { Flex, Wrap } from "@flows/styled-system/jsx";
 import { Close16 } from "icons";
 import { type FC, useState } from "react";
-import type { Control } from "react-hook-form";
 import { useController } from "react-hook-form";
 import { Button, Icon, Input, Select, Text } from "ui";
 
+import { useStepsForm } from "../edit-constants";
 import { CompareValueInput } from "./compare-value-input";
 import { PrimitiveValueInput } from "./primitive-value-input";
 import { StringValueInput } from "./string-value-input";
-import type { TargetingForm } from "./targeting-types";
 
 type Props = {
-  control: Control<TargetingForm>;
   groupIndex: number;
   matcherIndex: number;
   onRemove: () => void;
@@ -38,7 +36,8 @@ const isCompareKey = (key: MatcherKey): key is "gt" | "gte" | "lt" | "lte" =>
 const isStringArrayKey = (key: MatcherKey): key is "contains" | "notContains" =>
   ["contains", "notContains"].includes(key);
 
-export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, control, onRemove }) => {
+export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, onRemove }) => {
+  const { control } = useStepsForm();
   const { field } = useController({
     control,
     name: `userProperties.${groupIndex}.${matcherIndex}`,
