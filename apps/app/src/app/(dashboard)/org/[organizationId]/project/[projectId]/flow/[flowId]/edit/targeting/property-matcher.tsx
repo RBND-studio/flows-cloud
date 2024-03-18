@@ -5,7 +5,7 @@ import { type FC, useState } from "react";
 import { useController } from "react-hook-form";
 import { Button, Icon, Input, Select, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { CompareValueInput } from "./compare-value-input";
 import { PrimitiveValueInput } from "./primitive-value-input";
 import { StringValueInput } from "./string-value-input";
@@ -37,7 +37,7 @@ const isStringArrayKey = (key: MatcherKey): key is "contains" | "notContains" =>
   ["contains", "notContains"].includes(key);
 
 export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, onRemove }) => {
-  const { control } = useStepsForm();
+  const { control } = useFlowEditForm();
   const { field } = useController({
     control,
     name: `userProperties.${groupIndex}.${matcherIndex}`,

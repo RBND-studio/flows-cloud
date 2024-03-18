@@ -6,10 +6,10 @@ import type { FC } from "react";
 import { t } from "translations";
 import { Input, Text } from "ui";
 
-import { useStepsForm } from "./edit-constants";
+import { useFlowEditForm } from "./edit-constants";
 
 export const LaunchForm: FC = () => {
-  const { register, formState } = useStepsForm();
+  const { register, formState } = useFlowEditForm();
 
   return (
     <Box p="space16">

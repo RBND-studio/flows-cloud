@@ -7,7 +7,7 @@ import { Controller, useFieldArray } from "react-hook-form";
 import { t } from "translations";
 import { Button, Checkbox, Icon, Input, Label, Select, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 
 type Placement = "left" | "center" | "right";
 
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const StepFooterActions: FC<Props> = ({ index, placement }) => {
-  const { control } = useStepsForm();
+  const { control } = useFlowEditForm();
   const fieldName = `steps.${index}.footerActions.${placement}` as const;
   const fieldArray = useFieldArray({ name: fieldName, control });
 
@@ -58,7 +58,7 @@ type OptionProps = {
 };
 
 const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
-  const { control, setValue, watch } = useStepsForm();
+  const { control, setValue, watch } = useFlowEditForm();
   const value = watch(fieldName);
 
   const currentVariant = (() => {

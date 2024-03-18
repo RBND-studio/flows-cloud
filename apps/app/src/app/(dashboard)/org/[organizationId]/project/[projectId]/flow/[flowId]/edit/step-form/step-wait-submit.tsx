@@ -5,7 +5,7 @@ import type { FC } from "react";
 import { useFieldArray } from "react-hook-form";
 import { Button, Icon, Input, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 
 type Props = {
   fieldName:
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const StepWaitForm: FC<Props> = ({ fieldName }) => {
-  const { register, control, getValues } = useStepsForm();
+  const { register, control, getValues } = useFlowEditForm();
   const initialValue = getValues(fieldName);
   const submitValueFieldArray = useFieldArray({ name: `${fieldName}.form.values`, control });
 
@@ -64,7 +64,7 @@ type SubmitValueProps = {
   index: number;
 };
 const SubmitValueForm: FC<SubmitValueProps> = ({ fieldName, index, onRemove }) => {
-  const { register, getValues } = useStepsForm();
+  const { register, getValues } = useFlowEditForm();
   const initialValue = getValues(fieldName);
 
   return (

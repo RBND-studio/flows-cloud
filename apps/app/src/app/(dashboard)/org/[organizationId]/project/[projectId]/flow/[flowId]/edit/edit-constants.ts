@@ -2,14 +2,14 @@ import type { FlowSteps } from "@flows/js";
 import { type FlowDetail, type UpdateFlow } from "lib/api";
 import { type DefaultValues, useFormContext } from "react-hook-form";
 
-import { type MatchGroup } from "./targeting/targeting-types";
+import { type MatchGroup } from "./targeting";
 
-export type StepsForm = Pick<UpdateFlow, "frequency" | "clickElement" | "location"> & {
+export type IFlowEditForm = Pick<UpdateFlow, "frequency" | "clickElement" | "location"> & {
   steps: FlowSteps;
   userProperties: MatchGroup[];
 };
 
-export const createDefaultValues = (flow: FlowDetail): DefaultValues<StepsForm> => {
+export const createDefaultValues = (flow: FlowDetail): DefaultValues<IFlowEditForm> => {
   const editVersion = flow.draftVersion ?? flow.publishedVersion;
   return {
     steps: (editVersion?.steps as FlowSteps | undefined) ?? [],
@@ -21,7 +21,7 @@ export const createDefaultValues = (flow: FlowDetail): DefaultValues<StepsForm> 
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- not needed
-export const useStepsForm = () => useFormContext<StepsForm>();
+export const useFlowEditForm = () => useFormContext<IFlowEditForm>();
 
 export type SelectedItem =
   | number
@@ -29,8 +29,3 @@ export type SelectedItem =
   | "targeting"
   | "launch"
   | "frequency";
-
-export const selectedItemIsStep = (
-  item: SelectedItem,
-): item is number | `${number}.${number}.${number}` =>
-  item !== "frequency" && item !== "targeting" && item !== "launch";

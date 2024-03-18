@@ -7,10 +7,10 @@ import { Controller } from "react-hook-form";
 import { t } from "translations";
 import { Select, Text } from "ui";
 
-import { useStepsForm } from "./edit-constants";
+import { useFlowEditForm } from "./edit-constants";
 
 export const FrequencyForm: FC = () => {
-  const { control } = useStepsForm();
+  const { control } = useFlowEditForm();
 
   return (
     <Flex flexDirection="column" gap="space12" padding="space16">

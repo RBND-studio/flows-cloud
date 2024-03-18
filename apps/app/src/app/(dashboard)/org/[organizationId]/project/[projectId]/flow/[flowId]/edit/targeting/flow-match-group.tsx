@@ -6,7 +6,7 @@ import { useFieldArray } from "react-hook-form";
 import { t } from "translations";
 import { Button, Icon, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { PropertyMatcher } from "./property-matcher";
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const FlowMatchGroup: FC<Props> = ({ index, onRemove }) => {
-  const { control } = useStepsForm();
+  const { control } = useFlowEditForm();
   const { fields, append, remove } = useFieldArray({ control, name: `userProperties.${index}` });
 
   return (
