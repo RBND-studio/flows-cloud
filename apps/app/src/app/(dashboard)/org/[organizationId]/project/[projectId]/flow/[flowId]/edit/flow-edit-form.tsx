@@ -102,7 +102,7 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
                 flow={flow}
                 onSave={handleSave}
               />
-              <Button variant="ghost" asChild>
+              <Button variant="ghost" size="icon" asChild>
                 <Link href={backLink}>
                   <Icon icon={Close16} />
                 </Link>
