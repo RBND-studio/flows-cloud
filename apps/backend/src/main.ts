@@ -8,7 +8,9 @@ import { AppModule } from "./app.module";
 import metadata from "./metadata";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
+    rawBody: true,
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({

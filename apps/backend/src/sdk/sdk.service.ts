@@ -1,6 +1,7 @@
+import { createUsageRecord } from "@lemonsqueezy/lemonsqueezy.js";
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import browserslist from "browserslist";
-import { events, flows, projects } from "db";
+import { events, flows, organizations, projects, subscriptions } from "db";
 import { and, arrayContains, desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { browserslistToTargets, transform } from "lightningcss";
 
@@ -200,16 +201,27 @@ export class SdkService {
     const projectId = event.projectId;
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    // const project = await this.databaseService.db.query.projects.findFirst({
-    //   where: eq(projects.id, projectId),
-    //   columns: {
-    //     organization_id: true
-    //   }
-    // })
-    // if (!project) throw new NotFoundException()
-
-    // const organizationId = project.organization_id
-    // TODO: Send usage record to Lemon Squeezy
+    // For startFlow event, we need to send usage record to LemonSqueezy if the organization has subscription
+    if (event.type === "startFlow") {
+      void this.databaseService.db
+        .select({ subscription_item_id: subscriptions.subscription_item_id })
+        .from(subscriptions)
+        .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id))
+        .leftJoin(projects, eq(projects.organization_id, organizations.id))
+        .where(eq(projects.id, projectId))
+        .then(async (subscriptionsResult) => {
+          const subscriptionItemId = subscriptionsResult.at(0)?.subscription_item_id;
+          if (subscriptionItemId === undefined) return;
+          const res = await createUsageRecord({
+            quantity: 1,
+            action: "increment",
+            subscriptionItemId,
+          });
+          if (res.error)
+            // eslint-disable-next-line no-console -- useful
+            console.error("Failed to create the usage record for the subscription", projectId);
+        });
+    }
 
     const flow = await (async () => {
       const existingFlow = await this.databaseService.db.query.flows.findFirst({

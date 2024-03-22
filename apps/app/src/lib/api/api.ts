@@ -8,6 +8,8 @@ type Schemas = components["schemas"];
 
 export type OrganizationPreview = Schemas["GetOrganizationsDto"];
 export type OrganizationDetail = Schemas["GetOrganizationDetailDto"];
+export type OrganizationSubscription = Schemas["GetOrganizationSubscriptionDto"];
+export type OrganizationInvoice = Schemas["GetOrganizationInvoiceDto"];
 export type InviteUser = Schemas["InviteUserDto"];
 export type OrganizationUsers = Schemas["GetOrganizationMembersDto"];
 export type OrganizationMember = components["schemas"]["OrganizationMemberDto"];
@@ -20,7 +22,7 @@ export type CreateProject = Schemas["CreateProjectDto"];
 export type FlowPreview = Schemas["GetFlowsDto"];
 export type FlowDetail = Schemas["GetFlowDetailDto"];
 export type FlowAnalyticsRequest =
-  Operations["FlowsControllers_getFlowAnalytics"]["parameters"]["query"];
+  Operations["FlowsController_getFlowAnalytics"]["parameters"]["query"];
 export type FlowAnalytics = Schemas["GetFlowAnalyticsDto"];
 export type FlowVersion = Schemas["GetFlowVersionsDto"];
 export type UpdateFlow = Schemas["UpdateFlowDto"];
@@ -36,6 +38,8 @@ export type Api = {
     [string, CreateOrganization]
   >;
   "/organizations/:organizationId": Endpoint<OrganizationDetail, [string]>;
+  "/organizations/:organizationId/subscriptions": Endpoint<OrganizationSubscription[], [string]>;
+  "/organizations/:organizationId/invoices": Endpoint<OrganizationInvoice[], [string]>;
   "/organizations/:organizationId/users": Endpoint<OrganizationUsers, [string]>;
   "POST /organizations/:organizationId/users": Endpoint<void, [string, InviteUser]>;
   "DELETE /invites/:inviteId": Endpoint<void, [string]>;
@@ -68,6 +72,10 @@ export const api: Api = {
   "PATCH /organizations/:organizationId": (organizationId, body) =>
     fetcher(`/organizations/${organizationId}`, { method: "PATCH", body }),
   "/organizations/:organizationId": (organizationId) => fetcher(`/organizations/${organizationId}`),
+  "/organizations/:organizationId/subscriptions": (organizationId) =>
+    fetcher(`/organizations/${organizationId}/subscriptions`),
+  "/organizations/:organizationId/invoices": (organizationId) =>
+    fetcher(`/organizations/${organizationId}/invoices`),
   "/organizations/:organizationId/users": (organizationId) =>
     fetcher(`/organizations/${organizationId}/users`),
   "POST /organizations/:organizationId/users": (organizationId, body) =>
