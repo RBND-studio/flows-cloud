@@ -141,6 +141,9 @@ importers:
       '@fastify/static':
         specifier: ^7.0.1
         version: 7.0.1
+      '@lemonsqueezy/lemonsqueezy.js':
+        specifier: ^2.2.0
+        version: 2.2.0
       '@nestjs/common':
         specifier: ^10.3.3
         version: 10.3.3(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.1)(rxjs@7.8.1)
@@ -4163,6 +4166,11 @@ packages:
     dependencies:
       jsbi: 4.3.0
       tslib: 2.6.2
+    dev: false
+
+  /@lemonsqueezy/lemonsqueezy.js@2.2.0:
+    resolution: {integrity: sha512-DsZTeowehSLTESUZ6xxoYPDhoE8BYepWsj3TCqibG7FvB8X1HERPXQlc6E/IeGj22SOfIM997b7GfFkeLWY8pA==}
+    engines: {node: '>=18'}
     dev: false
 
   /@ljharb/through@2.3.12:

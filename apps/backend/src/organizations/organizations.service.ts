@@ -4,18 +4,30 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { organizations, organizationsToUsers, subscriptions, userInvite } from "db";
-import { and, eq, gt, sql } from "drizzle-orm";
+import {
+  events,
+  flows,
+  invoices,
+  organizations,
+  organizationsToUsers,
+  projects,
+  subscriptions,
+  userInvite,
+} from "db";
+import { and, eq, gt, gte, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { EmailService } from "../email/email.service";
+import { getOrganizationUsage } from "../lib/organization";
 import type {
   CreateOrganizationDto,
   GetOrganizationDetailDto,
+  GetOrganizationInvoiceDto,
   GetOrganizationMembersDto,
   GetOrganizationsDto,
+  GetOrganizationSubscriptionDto,
   OrganizationMemberDto,
   UpdateOrganizationDto,
 } from "./organizations.dto";
@@ -67,12 +79,18 @@ export class OrganizationsService {
     });
     if (!org) throw new NotFoundException();
 
+    const usage = await getOrganizationUsage({
+      databaseService: this.databaseService,
+      organizationId,
+    });
+
     return {
       id: org.id,
       name: org.name,
       description: org.description,
       created_at: org.created_at,
       updated_at: org.updated_at,
+      usage,
     };
   }
 
@@ -82,7 +100,7 @@ export class OrganizationsService {
   }: {
     auth: Auth;
     data: CreateOrganizationDto;
-  }): Promise<GetOrganizationDetailDto> {
+  }): Promise<GetOrganizationsDto> {
     const orgs = await this.databaseService.db
       .insert(organizations)
       .values({
@@ -112,7 +130,7 @@ export class OrganizationsService {
     auth: Auth;
     data: UpdateOrganizationDto;
     organizationId: string;
-  }): Promise<GetOrganizationDetailDto> {
+  }): Promise<GetOrganizationsDto> {
     await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
 
     const updatedOrganizations = await this.databaseService.db
@@ -281,5 +299,55 @@ export class OrganizationsService {
       members: members.map(({ user }) => user as OrganizationMemberDto),
       pending_invites: invites,
     };
+  }
+
+  async getSubscriptions({
+    auth,
+    organizationId,
+  }: {
+    auth: Auth;
+    organizationId: string;
+  }): Promise<GetOrganizationSubscriptionDto[]> {
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
+
+    return this.databaseService.db.query.subscriptions.findMany({
+      where: eq(subscriptions.organization_id, organizationId),
+      columns: {
+        id: true,
+        name: true,
+        status_formatted: true,
+        email: true,
+        price: true,
+        renews_at: true,
+        ends_at: true,
+        is_paused: true,
+      },
+    });
+  }
+
+  async getInvoices({
+    auth,
+    organizationId,
+  }: {
+    auth: Auth;
+    organizationId: string;
+  }): Promise<GetOrganizationInvoiceDto[]> {
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
+
+    return this.databaseService.db.query.invoices.findMany({
+      where: eq(invoices.organization_id, organizationId),
+      columns: {
+        id: true,
+        status_formatted: true,
+        invoice_url: true,
+        created_at: true,
+        updated_at: true,
+        total_formatted: true,
+        subtotal_formatted: true,
+        discount_total_formatted: true,
+        tax_formatted: true,
+        refunded_at: true,
+      },
+    });
   }
 }
