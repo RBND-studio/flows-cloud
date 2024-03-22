@@ -31,6 +31,7 @@ export const MenuItem = forwardRef<HTMLElement, Props>(function MenuItem(
           cursor: disabled ? "default" : "pointer",
           width: "100%",
           fastEaseInOut: "all",
+          textStyle: "bodyS",
 
           "&:hover": {
             bg: disabled ? "transparent" : "bg.hover",

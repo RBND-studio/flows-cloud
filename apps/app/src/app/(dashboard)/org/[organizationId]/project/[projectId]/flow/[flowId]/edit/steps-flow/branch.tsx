@@ -3,19 +3,19 @@ import { Box, Flex } from "@flows/styled-system/jsx";
 import { type FC, Fragment } from "react";
 import { useFieldArray } from "react-hook-form";
 
-import { useStepsForm } from "../edit-constants";
+import { type SelectedItem, useFlowEditForm } from "../edit-constants";
 import { ConnectionArrow } from "./connection-arrow";
 import { StepsFlowStep } from "./steps-flow-step";
 
 type Props = {
   index: `${number}.${number}`;
-  onSelectStep: (index?: number | `${number}.${number}.${number}`) => void;
-  selectedStep?: number | `${number}.${number}.${number}`;
+  onSelectStep: (index?: SelectedItem) => void;
+  selectedStep?: SelectedItem;
   onRemove: () => void;
 };
 
 export const Branch: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove }) => {
-  const { control } = useStepsForm();
+  const { control } = useFlowEditForm();
   const fieldName = `steps.${index}` as const;
   const { fields, insert, remove } = useFieldArray({ control, name: fieldName });
 

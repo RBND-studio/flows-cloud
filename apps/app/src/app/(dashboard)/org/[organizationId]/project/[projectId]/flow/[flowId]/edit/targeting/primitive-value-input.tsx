@@ -1,4 +1,3 @@
-import { css } from "@flows/styled-system/css";
 import { type FC, Fragment, useEffect, useState } from "react";
 import { t } from "translations";
 import { Button, Input, Select, Text } from "ui";
@@ -40,7 +39,6 @@ export const PrimitiveValueInput: FC<Props> = ({ onChange, value }) => {
     <>
       <Select
         buttonSize="default"
-        className={css({ minWidth: "124px" })}
         onChange={handleDataTypeChange}
         options={primitiveValueOptions}
         value={dataType}

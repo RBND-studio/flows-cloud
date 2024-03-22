@@ -5,20 +5,20 @@ import { type FC } from "react";
 import { useFieldArray } from "react-hook-form";
 import { Button, Icon } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { type SelectedItem, useFlowEditForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
 import { Branch } from "./branch";
 import { boxConstants } from "./steps-flow.constants";
 
 type Props = {
   index: number;
-  onSelectStep: (index?: number | `${number}.${number}.${number}`) => void;
-  selectedStep?: number | `${number}.${number}.${number}`;
+  onSelectStep: (item: SelectedItem) => void;
+  selectedStep?: SelectedItem;
   onRemove: () => void;
 };
 
 export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove }) => {
-  const { control } = useStepsForm();
+  const { control } = useFlowEditForm();
   const fieldName = `steps.${index}` as const;
   const { fields, remove, append } = useFieldArray({ control, name: fieldName });
   const handleRemove = (i: number): void => {

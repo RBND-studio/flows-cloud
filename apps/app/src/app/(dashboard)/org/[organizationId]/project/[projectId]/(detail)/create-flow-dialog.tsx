@@ -41,7 +41,7 @@ export const CreateFlowDialog: FC<Props> = ({ projectId, organizationId, trigger
     });
     if (!res.data) return;
     toast.success(t.toasts.createFlowSuccess);
-    router.push(routes.flow({ flowId: res.data.id, projectId, organizationId }));
+    router.push(routes.flowEdit({ flowId: res.data.id, projectId, organizationId }));
   };
 
   return (

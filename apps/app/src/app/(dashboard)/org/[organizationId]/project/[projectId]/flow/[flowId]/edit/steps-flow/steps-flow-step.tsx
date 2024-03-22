@@ -6,7 +6,7 @@ import type { FC } from "react";
 import { plural } from "translations";
 import { Button, Icon, Menu, MenuItem, Text } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
 import { boxConstants } from "./steps-flow.constants";
 
@@ -37,7 +37,7 @@ export const StepsFlowStep: FC<Props> = ({
   onAddBefore,
   lastStep,
 }) => {
-  const { watch } = useStepsForm();
+  const { watch } = useFlowEditForm();
 
   const fieldName = `steps.${index}` as const;
   const step = watch(fieldName);
@@ -70,7 +70,7 @@ export const StepsFlowStep: FC<Props> = ({
           borderColor: selected ? "border.primary" : "border.strong",
           boxShadow: selected ? "focus" : "l2",
         }}
-        backgroundColor="bg"
+        backgroundColor="bg.card"
         bor="1px"
         borderColor={selected ? "border.primary" : "border"}
         borderRadius="radius8"

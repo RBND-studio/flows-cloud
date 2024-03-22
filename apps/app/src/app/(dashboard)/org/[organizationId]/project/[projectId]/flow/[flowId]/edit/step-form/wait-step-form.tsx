@@ -4,7 +4,7 @@ import type { FC } from "react";
 import { t } from "translations";
 import { Accordion, Input } from "ui";
 
-import { useStepsForm } from "../edit-constants";
+import { useFlowEditForm } from "../edit-constants";
 import { StepWaitOptionList } from "./step-wait-option-list";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const WaitStepForm: FC<Props> = ({ index }) => {
-  const { register, getValues } = useStepsForm();
+  const { register, getValues } = useFlowEditForm();
   const stepKey = `steps.${index}` as const;
 
   const initialValue = getValues(stepKey) as FlowWaitStep;

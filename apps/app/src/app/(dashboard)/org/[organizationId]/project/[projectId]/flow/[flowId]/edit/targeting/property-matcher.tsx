@@ -1,18 +1,15 @@
-import { css } from "@flows/styled-system/css";
 import { Flex, Wrap } from "@flows/styled-system/jsx";
 import { Close16 } from "icons";
 import { type FC, useState } from "react";
-import type { Control } from "react-hook-form";
 import { useController } from "react-hook-form";
 import { Button, Icon, Input, Select, Text } from "ui";
 
+import { useFlowEditForm } from "../edit-constants";
 import { CompareValueInput } from "./compare-value-input";
 import { PrimitiveValueInput } from "./primitive-value-input";
 import { StringValueInput } from "./string-value-input";
-import type { TargetingForm } from "./targeting-types";
 
 type Props = {
-  control: Control<TargetingForm>;
   groupIndex: number;
   matcherIndex: number;
   onRemove: () => void;
@@ -38,7 +35,8 @@ const isCompareKey = (key: MatcherKey): key is "gt" | "gte" | "lt" | "lte" =>
 const isStringArrayKey = (key: MatcherKey): key is "contains" | "notContains" =>
   ["contains", "notContains"].includes(key);
 
-export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, control, onRemove }) => {
+export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, onRemove }) => {
+  const { control } = useFlowEditForm();
   const { field } = useController({
     control,
     name: `userProperties.${groupIndex}.${matcherIndex}`,
@@ -55,7 +53,7 @@ export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, control, 
 
   return (
     <Flex alignItems="flex-start" gap="space8">
-      <Flex justifyContent="flex-end" minW="64px" mt="6px">
+      <Flex justifyContent="flex-end" minW="40px" mt="6px">
         <Text color="subtle">{title}</Text>
       </Flex>
       <Wrap alignItems="center" columnGap="space8" rowGap="space8">
@@ -67,7 +65,6 @@ export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, control, 
 
         <Select<MatcherKey>
           buttonSize="default"
-          className={css({ minWidth: "190px" })}
           onChange={setVariant}
           options={matcherOptions}
           value={variant}

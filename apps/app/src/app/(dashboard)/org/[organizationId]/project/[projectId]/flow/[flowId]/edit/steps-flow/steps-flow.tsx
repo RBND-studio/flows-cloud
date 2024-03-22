@@ -4,25 +4,28 @@ import { type FC, Fragment } from "react";
 import { type UseFieldArrayReturn } from "react-hook-form";
 import { Button, Menu, MenuItem } from "ui";
 
-import { type StepsForm, useStepsForm } from "../edit-constants";
+import { type IFlowEditForm, type SelectedItem, useFlowEditForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
 import { ConnectionArrow } from "./connection-arrow";
 import { Fork } from "./fork";
+import { StartConditions } from "./start-conditions";
 import { StepsFlowStep } from "./steps-flow-step";
 
 type Props = {
-  selectedStep?: number | `${number}.${number}.${number}`;
-  onSelectStep: (index: number | `${number}.${number}.${number}`) => void;
-  fieldArray: UseFieldArrayReturn<StepsForm, "steps">;
+  selectedItem?: SelectedItem;
+  onSelectItem: (item?: SelectedItem) => void;
+  fieldArray: UseFieldArrayReturn<IFlowEditForm, "steps">;
 };
 
-export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray }) => {
-  const { watch } = useStepsForm();
+export const StepsFlow: FC<Props> = ({ onSelectItem, selectedItem, fieldArray }) => {
+  const { watch } = useFlowEditForm();
   const { fields, insert, append, remove } = fieldArray;
   const steps = watch("steps");
 
   return (
-    <Flex alignItems="center" direction="column" px="space16" py="space48">
+    <Flex alignItems="center" direction="column" px="space16" pt="space24" pb="space48">
+      <StartConditions onSelectItem={onSelectItem} selectedItem={selectedItem} />
+      <ConnectionArrow lines={1} variant="fork" />
       {fields.map((field, i) => {
         const step = steps.at(i);
         if (Array.isArray(step)) {
@@ -31,8 +34,8 @@ export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray })
               {i !== 0 && <ConnectionArrow lines={step.length} variant="fork" />}
               <Fork
                 index={i}
-                onSelectStep={onSelectStep}
-                selectedStep={selectedStep}
+                onSelectStep={onSelectItem}
+                selectedStep={selectedItem}
                 onRemove={() => remove(i)}
               />
             </Fragment>
@@ -53,15 +56,14 @@ export const StepsFlow: FC<Props> = ({ onSelectStep, selectedStep, fieldArray })
               index={i}
               onAddAfter={(s) => insert(i + 1, s)}
               onAddBefore={(s) => insert(i, s)}
-              onSelect={onSelectStep}
-              selected={i === selectedStep}
+              onSelect={onSelectItem}
+              selected={i === selectedItem}
               lastStep={i === fields.length - 1}
               onRemove={() => remove(i)}
             />
           </Fragment>
         );
       })}
-
       <Grid h="48px" w="100%" mt="36px" left={0} placeItems="center" right={0}>
         <Menu
           trigger={
