@@ -50,13 +50,13 @@ const IconVariant = ({ variant }: { variant: Props["variant"] }): JSX.Element =>
   }
 };
 
-export const BetterCallout: FC<Props> = (props) => {
+export const BetterCallout: FC<Props> = ({ children, variant = "info" }) => {
   return (
-    <Box className={calloutWrapper({ variant: props.variant || "info" })}>
+    <Box className={calloutWrapper({ variant })}>
       <Box mt="6px">
-        <IconVariant variant={props.variant || "info"} />
+        <IconVariant variant={variant} />
       </Box>
-      <span>{props.children}</span>
+      <span>{children}</span>
     </Box>
   );
 };

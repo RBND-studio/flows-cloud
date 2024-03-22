@@ -42,8 +42,6 @@ export const routes = {
     `/org/${params.organizationId}/project/${params.projectId}/flow/${
       params.flowId
     }/analytics${createParams({ category: params.category })}`,
-  flowSteps: (params: { flowId: string; projectId: string; organizationId: string }) =>
-    `/org/${params.organizationId}/project/${params.projectId}/flow/${params.flowId}/steps`,
   flowVersions: (params: {
     flowId: string;
     projectId: string;
@@ -55,4 +53,6 @@ export const routes = {
     }`,
   flowSettings: (params: { flowId: string; projectId: string; organizationId: string }) =>
     `/org/${params.organizationId}/project/${params.projectId}/flow/${params.flowId}/settings`,
+  flowEdit: (params: { flowId: string; projectId: string; organizationId: string }) =>
+    `/org/${params.organizationId}/project/${params.projectId}/flow/${params.flowId}/edit`,
 };

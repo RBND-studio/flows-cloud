@@ -31,6 +31,7 @@ export const fetcher =
 
       if (!res.ok)
         throw new ApiError(
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is intentional here
           (resBody as undefined | { message: string })?.message || res.statusText,
           res,
         );

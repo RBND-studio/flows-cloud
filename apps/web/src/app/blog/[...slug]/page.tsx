@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
       type: "article",
       title: `${post.title} | Flows Blog`,
       description: post.description,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is better here
       images: post.image || "/og.png",
       locale: "en_US",
       url: `/blog/${params.slug.join("/")}`,
@@ -47,6 +48,7 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
     twitter: {
       title: `${post.title} | Flows Blog`,
       description: post.description,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is better here
       images: post.image || "/og.png",
     },
   };

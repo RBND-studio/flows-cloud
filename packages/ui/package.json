@@ -29,26 +29,23 @@
     "sonner": "^1.4.0"
   },
   "devDependencies": {
-    "@pandacss/dev": "0.32.0",
-    "@storybook/addon-essentials": "^7.6.17",
-    "@storybook/addon-interactions": "^7.6.17",
-    "@storybook/addon-links": "^7.6.17",
-    "@storybook/blocks": "^7.6.17",
-    "@storybook/cli": "^7.6.17",
-    "@storybook/react": "^7.6.17",
-    "@storybook/react-vite": "^7.6.17",
-    "@types/react": "^18.2.60",
+    "@pandacss/dev": "0.34.3",
+    "@storybook/addon-essentials": "^8.0.1",
+    "@storybook/addon-interactions": "^8.0.1",
+    "@storybook/addon-links": "^8.0.1",
+    "@storybook/blocks": "^8.0.1",
+    "@storybook/cli": "^8.0.1",
+    "@storybook/react": "^8.0.1",
+    "@storybook/react-vite": "^8.0.1",
+    "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint-config-custom": "workspace:*",
     "react": "^18.2.0",
-    "storybook": "^7.6.17",
-    "storybook-dark-mode": "^3.0.3",
+    "storybook": "^8.0.1",
     "tsconfig": "workspace:*",
-    "typescript": "5.3.3",
-    "vite": "^5.1.4"
-  },
-  "optionalDependencies": {
-    "@flows/styled-system": "link:node_modules/@flows/pandacss"
+    "typescript": "5.4.2",
+    "vite": "^5.1.6",
+    "vite-tsconfig-paths": "^4.3.2"
   }
 }

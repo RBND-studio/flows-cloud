@@ -17,7 +17,7 @@ export const MenuSection: FC<Props> = ({ children, bottomBorder, background, hea
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        backgroundColor: background || "bg",
+        backgroundColor: background ?? "bg",
 
         ...(header
           ? {

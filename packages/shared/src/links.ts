@@ -2,6 +2,7 @@ export const links = {
   twitter: "https://x.com/flows_sh",
   rbndGithub: "https://github.com/RBND-studio",
   docs: "https://flows.sh/docs",
+  docsStepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",
   status: "https://status.flows.sh",
   slack: "https://flows.sh/join-slack",
   support: "mailto:hello@flows.sh?subject=Support%20request",

@@ -24,11 +24,7 @@ export default async function DashboardLayout({ children }: Props): Promise<JSX.
         <Sidebar />
         <div
           className={css({
-            maxWidth: "1100px",
             flex: 1,
-            mx: "auto",
-            py: "space24",
-            px: "space32",
             minHeight: "100%",
             minWidth: "0",
           })}
