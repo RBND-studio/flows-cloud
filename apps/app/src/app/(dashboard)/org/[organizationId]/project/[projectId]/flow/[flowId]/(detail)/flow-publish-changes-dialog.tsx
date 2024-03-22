@@ -39,7 +39,6 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) =
     if (res.error) return;
     setOpen(false);
     toast.success(t.toasts.publishFlowSuccess);
-    router.refresh();
 
     if (flow.enabled_at === null) {
       // Timeout to create nice transition between dialogs
@@ -49,6 +48,8 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) =
     } else {
       router.push(pushRoute);
     }
+
+    router.refresh();
   };
 
   const handleMakeLive = async (): Promise<void> => {
