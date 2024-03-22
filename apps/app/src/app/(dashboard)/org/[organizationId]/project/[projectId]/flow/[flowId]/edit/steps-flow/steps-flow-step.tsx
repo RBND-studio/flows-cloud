@@ -42,11 +42,11 @@ export const StepsFlowStep: FC<Props> = ({
   const fieldName = `steps.${index}` as const;
   const step = watch(fieldName);
   const title = (() => {
+    if ("title" in step) return step.title;
     if ("wait" in step) {
       const waitCount = Array.isArray(step.wait) ? step.wait.length : 1;
       return `${waitCount} ${plural(waitCount, "wait option", "wait options")}`;
     }
-    if ("title" in step) return step.title;
     return "";
   })();
   const stepType = (() => {
