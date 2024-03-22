@@ -1,9 +1,10 @@
 import { useSend } from "hooks/use-send";
 import type { FlowDetail } from "lib/api";
 import { api } from "lib/api";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import type { FC } from "react";
 import { useState } from "react";
+import { routes } from "routes";
 import { t } from "translations";
 import {
   Button,
@@ -23,11 +24,13 @@ type Props = {
 };
 
 export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) => {
+  const { organizationId } = useParams<{ organizationId: string }>();
   const [open, setOpen] = useState(false);
   const [makeLiveOpen, setMakeLiveOpen] = useState(false);
 
   const { loading, send } = useSend();
   const router = useRouter();
+  const pushRoute = routes.flow({ flowId: flow.id, projectId: flow.project_id, organizationId });
   const handlePublish = async (): Promise<void> => {
     await onSave?.();
     const res = await send(api["POST /flows/:flowId/publish"](flow.id), {
@@ -37,11 +40,14 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) =
     setOpen(false);
     toast.success(t.toasts.publishFlowSuccess);
     router.refresh();
+
     if (flow.enabled_at === null) {
       // Timeout to create nice transition between dialogs
       setTimeout(() => {
         setMakeLiveOpen(true);
       }, 300);
+    } else {
+      router.push(pushRoute);
     }
   };
 
@@ -51,13 +57,19 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) =
     });
     if (res.error) return;
     toast.success(t.toasts.enableFlowSuccess);
+    router.push(pushRoute);
     router.refresh();
     setMakeLiveOpen(false);
   };
 
+  const handleMakeLiveOpenChange = (value: boolean): void => {
+    setMakeLiveOpen(value);
+    if (!value) router.push(pushRoute);
+  };
+
   if (makeLiveOpen)
     return (
-      <Dialog onOpenChange={setMakeLiveOpen} open={makeLiveOpen}>
+      <Dialog onOpenChange={handleMakeLiveOpenChange} open={makeLiveOpen}>
         <DialogTitle>Make live?</DialogTitle>
         <DialogContent>
           <Text>For the users to see your flow, you need to make it live first.</Text>

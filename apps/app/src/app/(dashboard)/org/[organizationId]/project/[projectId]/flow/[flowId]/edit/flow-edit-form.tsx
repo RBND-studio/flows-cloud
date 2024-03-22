@@ -44,7 +44,7 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
   const router = useRouter();
   const { loading, send } = useSend();
   const onSubmit: SubmitHandler<IFlowEditForm> = useCallback(
-    async (data) => {
+    async (data, event) => {
       const fixedUserProperties = data.userProperties
         .map((group) => group.filter((matcher) => !!matcher.key))
         .filter((group) => !!group.length);
@@ -59,7 +59,7 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
       if (res.error) return;
       reset(data, { keepValues: true });
       toast.success(t.toasts.updateFlowSuccess);
-      router.push(backLink);
+      if (event) router.push(backLink);
       router.refresh();
     },
     [backLink, flow.id, reset, router, send],
