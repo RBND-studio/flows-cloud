@@ -55,7 +55,6 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) =
     setMakeLiveOpen(false);
   };
 
-  // TODO: @opesicka make this nicer
   if (makeLiveOpen)
     return (
       <Dialog onOpenChange={setMakeLiveOpen} open={makeLiveOpen}>
@@ -84,11 +83,14 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) =
     <Dialog
       onOpenChange={setOpen}
       open={open}
-      trigger={<Button disabled={!isDirty}>Publish changes</Button>}
+      trigger={<Button disabled={isDirty === false}>Publish changes</Button>}
     >
       <DialogTitle>Publish changes</DialogTitle>
       <DialogContent>
-        <Text>Are you sure you want to publish flow changes?</Text>
+        <Text>
+          Are you sure you want to publish flow changes? If you are not ready, you can save them as
+          a draft by clicking the Save and close button.
+        </Text>
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>

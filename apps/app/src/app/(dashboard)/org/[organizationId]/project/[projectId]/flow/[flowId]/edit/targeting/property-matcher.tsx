@@ -1,4 +1,3 @@
-import { css } from "@flows/styled-system/css";
 import { Flex, Wrap } from "@flows/styled-system/jsx";
 import { Close16 } from "icons";
 import { type FC, useState } from "react";
@@ -54,7 +53,7 @@ export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, onRemove 
 
   return (
     <Flex alignItems="flex-start" gap="space8">
-      <Flex justifyContent="flex-end" minW="64px" mt="6px">
+      <Flex justifyContent="flex-end" minW="40px" mt="6px">
         <Text color="subtle">{title}</Text>
       </Flex>
       <Wrap alignItems="center" columnGap="space8" rowGap="space8">
@@ -66,7 +65,6 @@ export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, onRemove 
 
         <Select<MatcherKey>
           buttonSize="default"
-          className={css({ minWidth: "190px" })}
           onChange={setVariant}
           options={matcherOptions}
           value={variant}

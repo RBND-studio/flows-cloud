@@ -39,3 +39,4 @@ export * from "./src/spinner20";
 export * from "./src/stack16";
 export * from "./src/storage16";
 export * from "./src/versions16";
+export * from "./src/versions24";

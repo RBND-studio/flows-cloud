@@ -70,7 +70,7 @@ export const StepsFlowStep: FC<Props> = ({
           borderColor: selected ? "border.primary" : "border.strong",
           boxShadow: selected ? "focus" : "l2",
         }}
-        backgroundColor="bg"
+        backgroundColor="bg.card"
         bor="1px"
         borderColor={selected ? "border.primary" : "border"}
         borderRadius="radius8"

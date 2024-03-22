@@ -1,4 +1,4 @@
-import { Box, Flex } from "@flows/styled-system/jsx";
+import { Flex } from "@flows/styled-system/jsx";
 import { type FC } from "react";
 import { plural, t } from "translations";
 import { Text } from "ui";
@@ -28,10 +28,10 @@ export const StartConditions: FC<Props> = ({ onSelectItem, selectedItem }) => {
   const launchText = (() => {
     const location = watch("location");
     const clickElement = watch("clickElement");
-    if (location && clickElement) return "By visiting a page and clicking element";
+    if (location && clickElement) return "Page and click element";
     if (location) return "By visiting a page";
     if (clickElement) return "By clicking element";
-    return "Programatically";
+    return "From code";
   })();
 
   return (
@@ -45,22 +45,30 @@ export const StartConditions: FC<Props> = ({ onSelectItem, selectedItem }) => {
       ).map((item) => {
         const selected = selectedItem === item.value;
         return (
-          <Box
+          <Flex
             bor="1px"
-            p="space16"
+            p="space12"
             borderColor={selected ? "border.primary" : "border"}
             boxShadow={selected ? "focus" : "l1"}
+            justifyContent="center"
+            flexDirection="column"
             cursor="pointer"
             borderRadius="radius8"
             fastEaseInOut="all"
             key={item.value}
+            width="140px"
             onClick={() => onSelectItem(item.value)}
+            background="bg.card"
+            _hover={{
+              borderColor: selected ? "border.primary" : "border.strong",
+              boxShadow: selected ? "focus" : "l2",
+            }}
           >
             <Text variant="titleS">{item.label}</Text>
             <Text color="subtle" variant="bodyXs">
               {item.text}
             </Text>
-          </Box>
+          </Flex>
         );
       })}
     </Flex>

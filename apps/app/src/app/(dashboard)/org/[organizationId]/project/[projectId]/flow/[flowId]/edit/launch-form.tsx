@@ -20,7 +20,7 @@ export const LaunchForm: FC = () => {
 
       <Input
         {...register("location")}
-        className={css({ maxWidth: "400px", width: "100%", mb: "space16" })}
+        className={css({ width: "100%", mb: "space16" })}
         defaultValue={formState.defaultValues?.location}
         description={t.launch.location}
         label="Location"
@@ -28,7 +28,7 @@ export const LaunchForm: FC = () => {
       />
       <Input
         {...register("clickElement")}
-        className={css({ maxWidth: "400px", width: "100%", mb: "space16" })}
+        className={css({ width: "100%", mb: "space16" })}
         defaultValue={formState.defaultValues?.clickElement}
         description={t.launch.element}
         label="Click element"

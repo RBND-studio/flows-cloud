@@ -3,7 +3,7 @@
 import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
-import { Close16 } from "icons";
+import { Close16, Versions24 } from "icons";
 import type { FlowDetail, UpdateFlow } from "lib/api";
 import { api } from "lib/api";
 import Link from "next/link";
@@ -129,7 +129,7 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
                 fieldArray={fieldArray}
               />
             </Grid>
-            <Box borRight="1px" overflow="auto">
+            <Box borRight="1px" overflow="auto" bg="bg">
               {selectedItem !== undefined ? (
                 selectedItem === "targeting" ? (
                   <FlowTargetingForm />
@@ -147,11 +147,18 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
                   </>
                 )
               ) : (
-                <Box px="space24" py="space120">
+                <Flex
+                  flexDirection="column"
+                  gap="space24"
+                  px="space24"
+                  py="space120"
+                  alignItems="center"
+                >
+                  <Icon icon={Versions24} />
                   <Text color="muted" align="center">
                     Select a step on the left to edit its properties.
                   </Text>
-                </Box>
+                </Flex>
               )}
             </Box>
           </Grid>

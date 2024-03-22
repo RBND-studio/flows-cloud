@@ -1,4 +1,3 @@
-import { css } from "@flows/styled-system/css";
 import { formatDate, isIsoDate } from "lib/date";
 import { type FC, useEffect, useState } from "react";
 import { t } from "translations";
@@ -34,7 +33,6 @@ export const CompareValueInput: FC<Props> = ({ onChange, value }) => {
     <>
       <Select
         buttonSize="default"
-        className={css({ minWidth: "124px" })}
         onChange={(v) => setDataType(v)}
         options={compareValueOptions}
         value={dataType}

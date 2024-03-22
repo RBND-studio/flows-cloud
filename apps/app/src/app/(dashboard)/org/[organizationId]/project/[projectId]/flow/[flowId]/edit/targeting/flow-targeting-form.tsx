@@ -46,9 +46,11 @@ export const FlowTargetingForm: FC = () => {
           </Fragment>
         ))}
       </Box>
-      <Button onClick={() => append([[]])} startIcon={<Plus16 />} variant="secondary">
-        {t.targeting.addGroup}
-      </Button>
+      <Box mt="space16">
+        <Button onClick={() => append([[]])} startIcon={<Plus16 />} variant="secondary">
+          {t.targeting.addGroup}
+        </Button>
+      </Box>
     </Flex>
   );
 };

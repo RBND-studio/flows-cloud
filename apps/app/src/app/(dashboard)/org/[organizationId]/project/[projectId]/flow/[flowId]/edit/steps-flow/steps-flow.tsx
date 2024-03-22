@@ -23,7 +23,7 @@ export const StepsFlow: FC<Props> = ({ onSelectItem, selectedItem, fieldArray })
   const steps = watch("steps");
 
   return (
-    <Flex alignItems="center" direction="column" px="space16" pt="space32" pb="space48">
+    <Flex alignItems="center" direction="column" px="space16" pt="space24" pb="space48">
       <StartConditions onSelectItem={onSelectItem} selectedItem={selectedItem} />
       <ConnectionArrow lines={1} variant="fork" />
       {fields.map((field, i) => {

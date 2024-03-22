@@ -27,7 +27,7 @@ export const FlowMatchGroup: FC<Props> = ({ index, onRemove }) => {
       })}
       flexDirection="column"
       gap="space12"
-      padding="space16"
+      paddingY="space16"
     >
       <div className={css({ display: "flex", gap: "space8", alignItems: "center" })}>
         <Text variant="titleS">{t.targeting.group}</Text>

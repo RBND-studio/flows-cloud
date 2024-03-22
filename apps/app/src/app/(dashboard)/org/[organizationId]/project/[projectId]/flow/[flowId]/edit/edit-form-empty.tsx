@@ -78,6 +78,7 @@ export const EditFormEmpty: FC<Props> = ({ fieldArray }) => {
 
               fastEaseInOut: "all",
               cursor: "pointer",
+              background: "bg.card",
 
               _hover: {
                 boxShadow: "l1",
