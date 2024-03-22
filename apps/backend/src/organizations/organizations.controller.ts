@@ -4,8 +4,10 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { type Auth, Authorization } from "../auth";
 import type {
   GetOrganizationDetailDto,
+  GetOrganizationInvoiceDto,
   GetOrganizationMembersDto,
   GetOrganizationsDto,
+  GetOrganizationSubscriptionDto,
 } from "./organizations.dto";
 import { CreateOrganizationDto, InviteUserDto, UpdateOrganizationDto } from "./organizations.dto";
 import { OrganizationsService } from "./organizations.service";
@@ -33,7 +35,7 @@ export class OrganizationsController {
   createOrganization(
     @Authorization() auth: Auth,
     @Body() body: CreateOrganizationDto,
-  ): Promise<GetOrganizationDetailDto> {
+  ): Promise<GetOrganizationsDto> {
     return this.organizationsService.createOrganization({ auth, data: body });
   }
 
@@ -42,7 +44,7 @@ export class OrganizationsController {
     @Authorization() auth: Auth,
     @Param("organizationId") organizationId: string,
     @Body() body: UpdateOrganizationDto,
-  ): Promise<GetOrganizationDetailDto> {
+  ): Promise<GetOrganizationsDto> {
     return this.organizationsService.updateOrganization({ auth, organizationId, data: body });
   }
 
@@ -83,5 +85,21 @@ export class OrganizationsController {
     @Param("organizationId") organizationId: string,
   ): Promise<GetOrganizationMembersDto> {
     return this.organizationsService.getOrganizationMembers({ auth, organizationId });
+  }
+
+  @Get("organizations/:organizationId/subscriptions")
+  getSubscriptions(
+    @Authorization() auth: Auth,
+    @Param("organizationId") organizationId: string,
+  ): Promise<GetOrganizationSubscriptionDto[]> {
+    return this.organizationsService.getSubscriptions({ auth, organizationId });
+  }
+
+  @Get("organizations/:organizationId/invoices")
+  getInvoices(
+    @Authorization() auth: Auth,
+    @Param("organizationId") organizationId: string,
+  ): Promise<GetOrganizationInvoiceDto[]> {
+    return this.organizationsService.getInvoices({ auth, organizationId });
   }
 }

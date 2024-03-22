@@ -9,7 +9,9 @@ export class GetOrganizationsDto {
   updated_at: Date;
 }
 
-export class GetOrganizationDetailDto extends GetOrganizationsDto {}
+export class GetOrganizationDetailDto extends GetOrganizationsDto {
+  usage: number;
+}
 
 export class CreateOrganizationDto {
   @IsString()
@@ -37,4 +39,28 @@ export class OrganizationInviteDto {
 export class GetOrganizationMembersDto {
   members: OrganizationMemberDto[];
   pending_invites: OrganizationInviteDto[];
+}
+
+export class GetOrganizationSubscriptionDto {
+  id: string;
+  name: string;
+  status_formatted: string;
+  email: string;
+  price: string;
+  renews_at: Date;
+  ends_at?: Date | null;
+  is_paused: boolean;
+}
+
+export class GetOrganizationInvoiceDto {
+  id: string;
+  status_formatted: string;
+  invoice_url?: string | null;
+  created_at: Date;
+  updated_at: Date;
+  total_formatted: string;
+  subtotal_formatted: string;
+  discount_total_formatted: string;
+  tax_formatted: string;
+  refunded_at?: Date | null;
 }

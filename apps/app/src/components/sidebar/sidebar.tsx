@@ -2,7 +2,6 @@
 
 import { css, cx } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { SettingsMenu } from "components/sidebar/settings-menu";
 import { Flows16, Hat16, Paintbrush16, Settings16 } from "icons";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +13,8 @@ import { Icon, Text } from "ui";
 import { HelpMenu } from "./help-menu";
 import { Invites } from "./invites";
 import { ProjectsMenu } from "./projects-menu";
+import { SettingsMenu } from "./settings-menu";
+import { Usage } from "./usage";
 
 const NavSectionCss = css({
   display: "flex",
@@ -170,29 +171,7 @@ export const Sidebar: FC = () => {
             <Invites />
           </div>
           <div className={NavSectionCss}>
-            <div
-              className={css({
-                display: "flex",
-                flexDirection: "column",
-                gap: "2px",
-
-                backgroundColor: "bg.muted",
-                bor: "1px",
-                borderRadius: "radius8",
-
-                paddingY: "space8",
-                paddingX: "space8",
-
-                marginX: "space8",
-              })}
-            >
-              <Text variant="bodyXs" weight="600">
-                Enjoy flows for free in the beta!
-              </Text>
-              <Text color="muted" variant="bodyXs">
-                Pricing will be announced by the end of Q1 2024.
-              </Text>
-            </div>
+            <Usage />
           </div>
         </Flex>
       </div>

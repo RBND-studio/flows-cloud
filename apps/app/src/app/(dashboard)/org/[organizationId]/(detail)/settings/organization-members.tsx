@@ -20,7 +20,13 @@ type Props = {
 export const OrganizationMembers: FC<Props> = ({ users, org }) => {
   const { members, pending_invites } = users;
   return (
-    <Flex alignItems="flex-start" cardWrap="-" flexDirection="column" padding="space16">
+    <Flex
+      alignItems="flex-start"
+      cardWrap="-"
+      flexDirection="column"
+      padding="space16"
+      mb="space16"
+    >
       <Flex flexDirection="column" mb="space16">
         <Text variant="titleL">{t.organization.members.title}</Text>
         <Text color="muted">
