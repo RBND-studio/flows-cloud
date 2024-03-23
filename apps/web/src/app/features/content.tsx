@@ -39,7 +39,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>In-code.</span> Stabilize flows and avoid bottlenecks.
           </>
         ),
-        link: "/features/build#code",
+        link: "/features/build#in-code",
         icon: Code16,
       },
       {
@@ -181,7 +181,7 @@ export const featuresData: FeatureGridTypes[] = [
       {
         mainSlot: (
           <>
-            <span>Analytics integration.</span> Bring your own analytics tool.
+            <span>Analytics integration.</span> Bring your own analytics.
           </>
         ),
         link: "/features/analyze#analytics-integration",
@@ -200,7 +200,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Privacy fist.</span> We don&apos;t track your users.
           </>
         ),
-        link: "/features/modern-and-secure#privacy",
+        link: "/features/secure#privacy-first",
         icon: ShieldLock16,
       },
     ],

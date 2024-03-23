@@ -19,6 +19,7 @@ let db: MockDB;
 
 const emailService = {
   createContact: jest.fn(),
+  signedUp: jest.fn(),
 };
 const newsfeedService = {
   postMessage: jest.fn(),
@@ -87,6 +88,8 @@ describe("Get me", () => {
       role: "user",
     });
     expect(db.insert).toHaveBeenCalledWith(userMetadata);
+    expect(emailService.signedUp).toHaveBeenCalledWith({ email: "email" });
+    expect(newsfeedService.postMessage).toHaveBeenCalled();
   });
   it("should return invites", async () => {
     await expect(usersController.me({ userId: "userId" })).resolves.toEqual({

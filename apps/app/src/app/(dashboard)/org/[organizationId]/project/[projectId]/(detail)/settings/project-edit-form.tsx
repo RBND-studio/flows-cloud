@@ -90,5 +90,5 @@ export const ProjectEditForm: FC<Props> = ({ project }) => {
 
 const createDefaultValues = (project: ProjectDetail): FormData => ({
   name: project.name,
-  description: project.description || "",
+  description: project.description ?? "",
 });

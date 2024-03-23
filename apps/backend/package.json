@@ -36,7 +36,7 @@
     "drizzle-orm": "^0.29.4",
     "jsonwebtoken": "^9.0.2",
     "lightningcss": "^1.24.0",
-    "loops": "^0.2.1",
+    "loops": "^0.3.0",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",
     "slugify": "^1.6.6"
@@ -49,10 +49,10 @@
     "@types/cors": "^2.8.17",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.11.21",
+    "@types/node": "^20.11.29",
     "@types/supertest": "^6.0.2",
     "concurrently": "^8.2.2",
-    "dotenv": "^16.4.3",
+    "dotenv": "^16.4.5",
     "eslint-config-custom": "workspace:*",
     "jest": "^29.7.0",
     "source-map-support": "^0.5.21",
@@ -63,6 +63,6 @@
     "ts-node": "^10.9.2",
     "tsconfig": "workspace:*",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "5.3.3"
+    "typescript": "5.4.2"
   }
 }

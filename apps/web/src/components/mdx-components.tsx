@@ -10,6 +10,7 @@ import { CodeHighlight } from "ui/server";
 const mdxComponents = {
   Image: (props: HTMLProps<HTMLImageElement>) => (
     <Image
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is better here
       alt={props.alt || "Blog post cover image"}
       className={css({
         borderRadius: "radius12",

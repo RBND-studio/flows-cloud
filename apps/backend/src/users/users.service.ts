@@ -18,14 +18,25 @@ export class UsersService {
   ) {}
 
   async me({ auth }: { auth: Auth }): Promise<GetMeDto> {
-    let meta = await this.databaseService.db.query.userMetadata.findFirst({
-      where: eq(userMetadata.user_id, auth.userId),
-    });
-    if (!meta) {
+    const [user, metaResult] = await Promise.all([
+      this.databaseService.db.query.users.findFirst({
+        where: eq(users.id, auth.userId),
+      }),
+      this.databaseService.db.query.userMetadata.findFirst({
+        where: eq(userMetadata.user_id, auth.userId),
+      }),
+    ]);
+    if (!user) throw new NotFoundException();
+
+    let meta = metaResult;
+
+    const newUser = !meta;
+    if (newUser) {
       const newMeta = await this.databaseService.db
         .insert(userMetadata)
         .values({ user_id: auth.userId })
         .returning();
+      if (user.email) await this.emailService.signedUp({ email: user.email });
       await this.newsfeedService.postMessage({
         message: `🐼🤩 ${auth.email} signed up to Flows!`,
       });
@@ -33,11 +44,6 @@ export class UsersService {
       meta = newMeta.at(0);
     }
     if (!meta) throw new NotFoundException();
-
-    const user = await this.databaseService.db.query.users.findFirst({
-      where: eq(users.id, auth.userId),
-    });
-    if (!user) throw new NotFoundException();
 
     const invites = await (() => {
       if (!user.email) return [];

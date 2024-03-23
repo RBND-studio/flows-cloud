@@ -30,7 +30,7 @@ export const cardWrapper = cva({
   variants: {
     hover: {
       true: {
-        fastEaseInOut: "box-shadow background",
+        fastEaseInOut: "box-shadow, background",
         "&:hover": {
           boxShadow: "l2",
           background: "bg.subtleHover",

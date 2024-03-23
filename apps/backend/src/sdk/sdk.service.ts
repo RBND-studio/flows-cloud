@@ -29,7 +29,9 @@ export class SdkService {
     });
     if (!project) throw new NotFoundException();
 
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is intended here
     const css_vars = project.css_vars?.trim() || getDefaultCssMinVars(version);
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is intended here
     const css_template = project.css_template?.trim() || getDefaultCssMinTemplate(version);
     const css = (await Promise.all([css_vars, css_template])).join("\n");
 

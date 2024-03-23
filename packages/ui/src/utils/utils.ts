@@ -15,7 +15,7 @@ export const clipboard = {
     textArea.select();
 
     return new Promise((res, rej) => {
-      document.execCommand("copy") ? res() : rej();
+      document.execCommand("copy") ? res() : rej(new Error());
 
       textArea.remove();
 

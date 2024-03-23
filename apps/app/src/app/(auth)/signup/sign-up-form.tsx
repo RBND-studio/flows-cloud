@@ -25,8 +25,10 @@ export const SignUpForm: FC = () => {
 
     startTransition(async () => {
       const res = await signUp(formData);
-      if (res.error) toast.error(res.error.title, { description: res.error.description });
-      captchaRef.current?.reset();
+      if (res.error) {
+        toast.error(res.error.title, { description: res.error.description });
+        captchaRef.current?.reset();
+      }
     });
   };
 
@@ -110,9 +112,17 @@ export const SignUpForm: FC = () => {
         />
         <LoginMessage />
 
-        <Flex direction="column">
-          <Captcha action="signUp" />
-          <Button loading={isPending} name="sign-up" size="medium" type="submit">
+        <Flex alignItems="center" direction="column" gap="space16">
+          <Captcha action="signUp" ref={captchaRef} />
+          <Button
+            className={css({
+              width: "100%",
+            })}
+            loading={isPending}
+            name="sign-up"
+            size="medium"
+            type="submit"
+          >
             Sign up
           </Button>
         </Flex>

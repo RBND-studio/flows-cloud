@@ -24,7 +24,7 @@ export class EmailService {
     const loops = await this.loops();
     return loops.sendTransactionalEmail("clpxmw7h70012jo0pp0pe0hb5", email, {
       orgName: organizationName,
-      acceptUrl: `${process.env.BACKEND_APP_URL}`,
+      acceptUrl: process.env.BACKEND_APP_URL,
     });
   }
 
@@ -35,5 +35,10 @@ export class EmailService {
   }): Promise<ReturnType<LoopsClient["createContact"]>> {
     const loops = await this.loops();
     return loops.createContact(email);
+  }
+
+  async signedUp({ email }: { email: string }): Promise<ReturnType<LoopsClient["sendEvent"]>> {
+    const loops = await this.loops();
+    return loops.sendEvent({ email }, "signup");
   }
 }

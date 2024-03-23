@@ -5,6 +5,9 @@ export const routes = {
   authCallback: "/auth/callback",
   signUp: (params?: { message?: string }) => `/signup${createParams(params)}`,
   signupSuccess: ({ email }: { email: string }) => `/signup/success?email=${email}`,
+  resetPassword: `/reset-password`,
+  resetPasswordSuccess: ({ email }: { email: string }) => `/reset-password/success?email=${email}`,
+  resetPasswordNew: `/reset-password/new`,
   verifyError: ({ message }: { message: string }) => `/verify/error?message=${message}`,
 
   home: "/",
@@ -39,8 +42,6 @@ export const routes = {
     `/org/${params.organizationId}/project/${params.projectId}/flow/${
       params.flowId
     }/analytics${createParams({ category: params.category })}`,
-  flowSteps: (params: { flowId: string; projectId: string; organizationId: string }) =>
-    `/org/${params.organizationId}/project/${params.projectId}/flow/${params.flowId}/steps`,
   flowVersions: (params: {
     flowId: string;
     projectId: string;
@@ -52,4 +53,6 @@ export const routes = {
     }`,
   flowSettings: (params: { flowId: string; projectId: string; organizationId: string }) =>
     `/org/${params.organizationId}/project/${params.projectId}/flow/${params.flowId}/settings`,
+  flowEdit: (params: { flowId: string; projectId: string; organizationId: string }) =>
+    `/org/${params.organizationId}/project/${params.projectId}/flow/${params.flowId}/edit`,
 };

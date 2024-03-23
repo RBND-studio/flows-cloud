@@ -4,7 +4,8 @@
     "baseUrl": "src",
     "plugins": [{ "name": "next" }],
     "paths": {
-      "contentlayer/generated": ["../.contentlayer/generated"]
+      "contentlayer/generated": ["../.contentlayer/generated"],
+      "@flows/styled-system/*": ["../pandacss-generated/*"]
     }
   },
   "include": [

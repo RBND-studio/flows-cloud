@@ -9,11 +9,11 @@
     "db:generate": "drizzle-kit generate:pg"
   },
   "devDependencies": {
-    "dotenv": "^16.4.3",
+    "dotenv": "^16.4.5",
     "drizzle-kit": "^0.20.14",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "5.3.3"
+    "typescript": "5.4.2"
   },
   "dependencies": {
     "drizzle-orm": "^0.29.4",

@@ -13,8 +13,8 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@flows/js": "0.0.42",
-    "next": "14.1.0",
+    "@flows/js": "0.0.47",
+    "next": "14.1.3",
     "next-sitemap": "^4.2.3",
     "nextra": "^2.13.2",
     "nextra-theme-docs": "^2.13.4",
@@ -25,16 +25,13 @@
     "shared": "workspace:*"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "14.1.0",
-    "@pandacss/dev": "0.32.0",
-    "@types/node": "^20.11.21",
-    "@types/react": "^18.2.60",
+    "@next/eslint-plugin-next": "14.1.3",
+    "@pandacss/dev": "0.34.3",
+    "@types/node": "^20.11.29",
+    "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.19",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "5.3.3"
-  },
-  "optionalDependencies": {
-    "@flows/styled-system": "link:node_modules/@flows/pandacss"
+    "typescript": "5.4.2"
   }
 }
