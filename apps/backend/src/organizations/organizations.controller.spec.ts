@@ -50,10 +50,11 @@ beforeEach(async () => {
   organizationsController = moduleRef.get(OrganizationsController);
 });
 
+//TODO: Fix the test
 describe("Get organizations", () => {
   it("should return organizations", async () => {
     await expect(organizationsController.getOrganizations({ userId: "userId" })).resolves.toEqual([
-      { id: "org1" },
+      { organization: { id: "org1" } },
     ]);
   });
 });

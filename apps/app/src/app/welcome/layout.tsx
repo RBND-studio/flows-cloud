@@ -3,7 +3,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { Text } from "ui";
 
-import { LogoutButton } from "./logout-button";
+import { TopRightButtons } from "./top-right-buttons";
 import { WelcomeProviders } from "./welcome-providers";
 
 type Props = {
@@ -23,7 +23,7 @@ export default function WelcomeLayout({ children }: Props): JSX.Element {
             Flows
           </Text>
         </Flex>
-        <LogoutButton />
+        <TopRightButtons />
       </Grid>
     </WelcomeProviders>
   );

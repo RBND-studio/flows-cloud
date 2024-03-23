@@ -121,4 +121,32 @@ export class UsersService {
       message: `🤩 ${data.email} has joined the waitlist!`,
     });
   }
+
+  async deleteIdentity({ auth, providerId }: { auth: Auth; providerId: string }): Promise<void> {
+    const currentIdentity = await this.databaseService.db.execute(
+      sql`SELECT * FROM auth.identities WHERE user_id = ${auth.userId} AND provider_id = ${providerId}`,
+    );
+    if (currentIdentity.length === 0) throw new NotFoundException();
+
+    await this.databaseService.db.execute(
+      sql` DELETE FROM auth.identities WHERE user_id = ${auth.userId} AND provider_id = ${providerId}`,
+    );
+  }
+
+  async deleteUser({ auth }: { auth: Auth }): Promise<void> {
+    //Delete users identities
+    await this.databaseService.db.execute(
+      sql`DELETE FROM auth.identities WHERE user_id = ${auth.userId}`,
+    );
+    //Delete users sessions
+    await this.databaseService.db.execute(
+      sql`DELETE FROM auth.sessions WHERE user_id = ${auth.userId}`,
+    );
+    //Delete users refresh tokens
+    await this.databaseService.db.execute(
+      sql`DELETE FROM auth.refresh_tokens WHERE user_id = ${auth.userId}`,
+    );
+    //Delete user from the database
+    await this.databaseService.db.execute(sql`DELETE FROM auth.users WHERE id = ${auth.userId}`);
+  }
 }

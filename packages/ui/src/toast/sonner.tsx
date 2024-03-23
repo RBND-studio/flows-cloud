@@ -1,3 +1,5 @@
+"use client";
+
 import { css } from "@flows/styled-system/css";
 import type { FC } from "react";
 import { toast as sonnerToast, Toaster as SonnerToaster } from "sonner";
