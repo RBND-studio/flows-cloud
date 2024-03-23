@@ -94,6 +94,7 @@ const button = cva({
       _hover: {
         backgroundColor: "bg.subtle",
         borderColor: "bg.subtle",
+        color: "text.subtle",
       },
     },
   },
@@ -203,10 +204,13 @@ const button = cva({
         },
       },
       danger: {
-        color: "text",
-        backgroundColor: "bg.dangerSubtle",
+        color: "text.danger",
+        backgroundColor: "bg.muted",
+        borderColor: "border.strong",
         _hover: {
-          backgroundColor: "bg.destructiveHover",
+          backgroundColor: "bg.dangerHover",
+          color: "text.onPrimary",
+          borderColor: "bg.dangerHover",
         },
         _disabled: {
           backgroundColor: "bg.subtle",

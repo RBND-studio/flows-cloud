@@ -2,10 +2,13 @@
 import { css } from "@flows/styled-system/css";
 import type { User, UserIdentity } from "@supabase/supabase-js";
 import { useSend } from "hooks/use-send";
-import { GitHub16, Google16 } from "icons";
+import { GitHub16, Google16, Mail16 } from "icons";
 import { api } from "lib/api";
-import React, { useState } from "react";
-import { Avatar, Button, Text, Tooltip } from "ui";
+import { useState } from "react";
+import { t } from "translations";
+import { Button, Text, Tooltip } from "ui";
+
+import { PasswordChangeDialog } from "./password-change-dialog";
 
 type ConnectedAccountProps = {
   user: User;
@@ -30,11 +33,13 @@ export const ConnectedAccount = ({
     setIsLoading(false);
   };
 
-  const isDisabled = user.identities?.filter((i) => i.provider !== "email").length === 1;
+  //TODO: @pesickadavid email should be visible always and allow creating password even if the email identity doesn't exist
+
+  const isDisabled = user.identities?.length === 1;
   return (
     <li
       className={css({
-        gap: "space16",
+        gap: "space12",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -43,38 +48,38 @@ export const ConnectedAccount = ({
       })}
       key={identity.id}
     >
-      <Avatar
-        fullName={identity.identity_data?.name || "Unknown"}
-        src={identity.identity_data?.avatar_url}
-      />
       {identity.provider === "google" ? (
         <Google16 />
       ) : identity.provider === "github" ? (
         <GitHub16 />
       ) : (
-        "Unknown"
+        <Mail16 />
       )}
-      <Text>
-        {identity.provider} - {identity.identity_data?.email}
-      </Text>
-      <Button
-        className={css({
-          _disabled: {
-            pointerEvents: "unset",
-          },
-          ml: "auto",
-        })}
-        disabled={isDisabled}
-        loading={isLoading}
-        onClick={handleUnlink}
-        size="small"
-        variant="danger"
-      >
+      <Text>{identity.identity_data?.email}</Text>
+      {identity.provider !== "email" ? (
         <Tooltip
-          text={isDisabled ? "Cannot unlink the last identity" : "Unlink"}
-          trigger={<Text>Unlink</Text>}
+          text={isDisabled ? t.personal.connectedAccounts.lastProvider : ""}
+          trigger={
+            <Button
+              className={css({
+                _disabled: {
+                  pointerEvents: "unset",
+                },
+                ml: "auto",
+              })}
+              disabled={isDisabled}
+              loading={isLoading}
+              onClick={handleUnlink}
+              size="small"
+              variant="danger"
+            >
+              {t.actions.unlink}
+            </Button>
+          }
         />
-      </Button>
+      ) : (
+        <PasswordChangeDialog />
+      )}
     </li>
   );
 };

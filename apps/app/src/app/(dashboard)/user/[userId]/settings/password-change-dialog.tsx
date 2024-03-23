@@ -1,5 +1,6 @@
 "use client";
 
+import { css } from "@flows/styled-system/css";
 import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
@@ -47,12 +48,18 @@ export const PasswordChangeDialog = (): JSX.Element => {
   return (
     <Dialog
       trigger={
-        <Button size="small" variant="secondary">
-          Change password
+        <Button
+          size="small"
+          variant="secondary"
+          className={css({
+            ml: "auto",
+          })}
+        >
+          {t.personal.connectedAccounts.password}
         </Button>
       }
     >
-      <DialogTitle>Change password</DialogTitle>
+      <DialogTitle>{t.personal.connectedAccounts.password}</DialogTitle>
       <DialogContent>
         <form>
           <Input {...register("password")} label="New password" type="password" />
@@ -72,7 +79,7 @@ export const PasswordChangeDialog = (): JSX.Element => {
           type="submit"
           variant="primary"
         >
-          Submit
+          {t.actions.save}
         </Button>
       </DialogActions>
     </Dialog>

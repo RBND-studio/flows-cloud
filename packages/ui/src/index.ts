@@ -1,5 +1,4 @@
 export * from "./accordion";
-export * from "./avatar/avatar";
 export * from "./button";
 export * from "./checkbox";
 export * from "./description";

@@ -21,8 +21,8 @@ export const TopRightButtons: FC = () => {
         gap: "space8",
       })}
     >
-      <Button asChild disabled={!auth?.user.id} variant="black">
-        <Link href={routes.userSettings({ userId: auth?.user.id || "" })}>
+      <Button asChild disabled={!auth?.user.id} variant="secondary">
+        <Link href={routes.userSettings({ userId: auth?.user.id ?? "" })}>
           {t.settings.personal}
         </Link>
       </Button>

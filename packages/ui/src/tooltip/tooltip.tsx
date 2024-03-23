@@ -23,16 +23,18 @@ const TooltipContent = ({
         borderRadius: "radius8",
         py: "space8",
         px: "space12",
-        border: "1px solid",
         textStyle: "bodyS",
         display: "flex",
         gap: "space8",
-        backgroundColor: "bg",
-        color: "text",
+        backgroundColor: "bg.black",
+        color: "text.onBlack",
         borderColor: "border",
+        maxWidth: "280px",
+        boxShadow: "l2",
       }),
       className,
     )}
+    collisionPadding={16}
     sideOffset={sideOffset}
     {...props}
   />
@@ -46,6 +48,7 @@ type TooltipProps = {
   side?: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>["side"];
   align?: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>["align"];
   className?: string;
+  delayDuration?: number;
 };
 
 export const Tooltip = ({
@@ -55,14 +58,17 @@ export const Tooltip = ({
   className,
   side,
   sideOffset,
+  delayDuration = 320,
 }: TooltipProps): JSX.Element => {
   return (
     <TooltipProvider>
-      <TooltipRoot>
+      <TooltipRoot delayDuration={delayDuration}>
         <TooltipTrigger asChild>{trigger}</TooltipTrigger>
-        <TooltipContent align={align} className={className} side={side} sideOffset={sideOffset}>
-          {text}
-        </TooltipContent>
+        {text === "" ? null : (
+          <TooltipContent align={align} className={className} side={side} sideOffset={sideOffset}>
+            {text}
+          </TooltipContent>
+        )}
       </TooltipRoot>
     </TooltipProvider>
   );

@@ -26,6 +26,28 @@ type Props = {
 export const OrganizationLeaveDialog: FC<Props> = ({ organization }) => {
   const router = useRouter();
   const { send, loading } = useSend();
+
+  if (organization.members === 1) {
+    return (
+      <Tooltip
+        text={t.personal.organizations.leaveDialog.tooltip}
+        trigger={
+          <Button
+            className={css({
+              _disabled: {
+                pointerEvents: "unset",
+              },
+            })}
+            disabled
+            size="small"
+            variant="danger"
+          >
+            {t.actions.leave}
+          </Button>
+        }
+      />
+    );
+  }
   const handleDelete = async (): Promise<void> => {
     const res = await send(
       api["POST /organizations/:organizationId/users/leave"](organization.id),
@@ -41,35 +63,23 @@ export const OrganizationLeaveDialog: FC<Props> = ({ organization }) => {
   return (
     <Dialog
       trigger={
-        <Button
-          className={css({
-            _disabled: {
-              pointerEvents: "unset",
-            },
-          })}
-          disabled={organization.members === 1}
-          size="small"
-          variant="secondary"
-        >
-          <Tooltip
-            text={organization.members === 1 ? "You are the last member" : "Leave organization"}
-            trigger={<Text>{t.actions.leave}</Text>}
-          />
+        <Button size="small" variant="danger">
+          {t.actions.leave}
         </Button>
       }
     >
-      <DialogTitle>Leave organization</DialogTitle>
+      <DialogTitle>{t.personal.organizations.leaveDialog.title}</DialogTitle>
       <DialogContent>
         <Text>Are you sure you want to leave {organization.name}?</Text>
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
           <Button shadow="none" size="small" variant="secondary">
-            Close
+            {t.actions.close}
           </Button>
         </DialogClose>
         <Button loading={loading} onClick={handleDelete} size="small" variant="primary">
-          Leave
+          {t.actions.leave}
         </Button>
       </DialogActions>
     </Dialog>

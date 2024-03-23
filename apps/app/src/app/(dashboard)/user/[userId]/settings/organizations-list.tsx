@@ -1,26 +1,29 @@
 import { css } from "@flows/styled-system/css";
+import { Flex } from "@flows/styled-system/jsx";
 import { OrganizationLeaveDialog } from "app/(dashboard)/user/[userId]/settings/organization-leave-dialog";
+import { CreateOrganizationDialog } from "components/organizations";
+import { Organization16 } from "icons";
 import { api } from "lib/api";
 import { load } from "lib/load";
 import Link from "next/link";
-import React from "react";
 import { routes } from "routes";
-import { Button, Text } from "ui";
+import { plural, t } from "translations";
+import { Button, Icon, Text } from "ui";
 
 export const OrganizationsList = async (): Promise<JSX.Element> => {
   const organizations = await load(api["/organizations"]());
 
   return (
-    <div
-      className={css({
-        cardWrap: "-",
-        p: "space16",
-        display: "flex",
-        flexDirection: "column",
-        gap: "space16",
-        mb: "space16",
-      })}
-    >
+    <Flex cardWrap="-" p="space16" flexDirection="column">
+      <Flex justifyContent="space-between" mb="space16">
+        <Flex flexDirection="column">
+          <Text variant="titleL">{t.personal.organizations.title}</Text>
+          <Text color="muted">{t.personal.organizations.description}</Text>
+        </Flex>
+        <CreateOrganizationDialog
+          trigger={<Button variant="secondary">{t.actions.newOrg}</Button>}
+        />
+      </Flex>
       <ul
         className={css({
           gap: "space16",
@@ -31,7 +34,7 @@ export const OrganizationsList = async (): Promise<JSX.Element> => {
         {organizations.map((org) => (
           <li
             className={css({
-              gap: "space16",
+              gap: "space12",
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
@@ -40,27 +43,35 @@ export const OrganizationsList = async (): Promise<JSX.Element> => {
             })}
             key={org.id}
           >
-            <Text variant="bodyM">
-              {org.name} <br />
-              members: {org.members}
+            <Flex gap="space8" alignItems="center" maxWidth={240} width="100%">
+              <Icon icon={Organization16} />
+              <Text variant="titleS">{org.name}</Text>
+            </Flex>
+            <Text
+              className={css({
+                maxWidth: 240,
+                width: "100%",
+              })}
+              color="muted"
+            >
+              {plural(
+                org.members ?? 0,
+                t.personal.organizations.member,
+                t.personal.organizations.member_plural,
+              )}
             </Text>
 
-            <div
-              className={css({
-                gap: "space16",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              })}
-            >
+            <Flex gap="space8" alignItems="center">
               <Button asChild size="small" variant="secondary">
-                <Link href={routes.organizationSettings({ organizationId: org.id })}>Edit</Link>
+                <Link href={routes.organizationSettings({ organizationId: org.id })}>
+                  {t.actions.open}
+                </Link>
               </Button>
               <OrganizationLeaveDialog organization={org} />
-            </div>
+            </Flex>
           </li>
         ))}
       </ul>
-    </div>
+    </Flex>
   );
 };

@@ -51,7 +51,6 @@ export const SettingsMenu: FC = () => {
       ? [
           {
             label: "Personal settings",
-            // TODO: enable when user settings are implemented
             href: routes.userSettings({ userId: auth.user.id }),
           },
         ]
@@ -68,10 +67,18 @@ export const SettingsMenu: FC = () => {
             label: "Project settings",
           },
         ]),
-    {
-      label: "Organization settings",
-      href: routes.organizationSettings({ organizationId }),
-    },
+    ...(organizationId
+      ? [
+          {
+            label: "Organization settings",
+            href: routes.organizationSettings({ organizationId }),
+          },
+        ]
+      : [
+          {
+            label: "Organization settings",
+          },
+        ]),
   ];
 
   if (!auth) return <Trigger />;

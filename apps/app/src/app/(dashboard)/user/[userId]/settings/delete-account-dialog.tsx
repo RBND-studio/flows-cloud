@@ -8,6 +8,7 @@ import { api } from "lib/api";
 import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import { t } from "translations";
 import {
   Button,
   Dialog,
@@ -76,11 +77,11 @@ export const DeleteAccountDialog = (): JSX.Element => {
       maxWidth={600}
       trigger={
         <Button size="small" variant="danger">
-          Delete Account
+          {t.personal.deleteAccount.title}
         </Button>
       }
     >
-      <DialogTitle>Delete account</DialogTitle>
+      <DialogTitle> {t.personal.deleteAccount.title}</DialogTitle>
       <DialogContent>
         <form
           className={css({
@@ -89,10 +90,7 @@ export const DeleteAccountDialog = (): JSX.Element => {
             gap: "space32",
           })}
         >
-          <Text variant="bodyS">
-            Deleting your account removes all your data from Flows permanently. We&apos;ll be sad to
-            see you go. Do you wish to proceed?
-          </Text>
+          <Text variant="bodyS">{t.personal.deleteAccount.description}</Text>
           <Input
             {...register("email")}
             label={`Enter your email to confirm (${auth?.user.email})`}
@@ -104,7 +102,7 @@ export const DeleteAccountDialog = (): JSX.Element => {
       <DialogActions>
         <DialogClose asChild>
           <Button shadow="none" size="small" variant="secondary">
-            Don&apos;t delete
+            {t.personal.deleteAccount.cancel}
           </Button>
         </DialogClose>
         <Button
@@ -115,7 +113,7 @@ export const DeleteAccountDialog = (): JSX.Element => {
           type="submit"
           variant="danger"
         >
-          Delete account
+          {t.personal.deleteAccount.confirm}
         </Button>
       </DialogActions>
     </Dialog>

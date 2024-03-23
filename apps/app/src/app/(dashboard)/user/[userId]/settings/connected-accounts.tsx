@@ -1,11 +1,13 @@
 "use client";
 
 import { css } from "@flows/styled-system/css";
+import { Flex } from "@flows/styled-system/jsx";
 import type { User } from "@supabase/supabase-js";
 import { useFirstRender } from "hooks/use-first-render";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createClient } from "supabase/client";
-import { toast } from "ui";
+import { t } from "translations";
+import { Text, toast } from "ui";
 
 import { ConnectedAccount } from "./connected-account";
 
@@ -29,16 +31,11 @@ export const ConnectedAccounts = (): JSX.Element => {
   }, [firstRender, getUser]);
 
   return (
-    <div
-      className={css({
-        cardWrap: "-",
-        p: "space16",
-        display: "flex",
-        flexDirection: "column",
-        gap: "space16",
-        mb: "space16",
-      })}
-    >
+    <Flex cardWrap="-" flexDirection="column" mb="space16" p="space16">
+      <Flex flexDirection="column" mb="space16">
+        <Text variant="titleL">{t.personal.connectedAccounts.title}</Text>
+        <Text color="muted">{t.personal.connectedAccounts.description}</Text>
+      </Flex>
       <ul
         className={css({
           gap: "space16",
@@ -46,17 +43,15 @@ export const ConnectedAccounts = (): JSX.Element => {
           flexDirection: "column",
         })}
       >
-        {user?.identities
-          ?.filter((i) => i.provider !== "email")
-          ?.map((identity) => (
-            <ConnectedAccount
-              identity={identity}
-              key={identity.id}
-              onUnlink={() => getUser().then(setUser)}
-              user={user}
-            />
-          ))}
+        {user?.identities?.map((identity) => (
+          <ConnectedAccount
+            identity={identity}
+            key={identity.id}
+            onUnlink={() => getUser().then(setUser)}
+            user={user}
+          />
+        ))}
       </ul>
-    </div>
+    </Flex>
   );
 };

@@ -9,6 +9,8 @@ export const t = {
     delete: "Delete",
     copy: "Copy",
     leave: "Leave",
+    open: "Open",
+    unlink: "Unlink",
   },
   settings: {
     theme: "Theme",
@@ -215,6 +217,32 @@ export const t = {
       localFlowDescription:
         "Deleting local flow will not stop it from running until you remove it from your codebase. This action just removes the analytics and logs associated with the flow.",
       confirm: "Delete flow",
+    },
+  },
+  personal: {
+    connectedAccounts: {
+      title: "Connected accounts",
+      description: "These are the accounts you can use to login to your account.",
+      lastProvider: "This is the only way for you to login. To unlink it delete your account.",
+      password: "Change password",
+    },
+    deleteAccount: {
+      title: "Delete account",
+      description:
+        "Deleting your account removes all your data from Flows permanently. We'll be sad to see you go. Do you wish to proceed?",
+      confirm: "Delete account",
+      cancel: "Don't delete",
+    },
+    organizations: {
+      title: "Your organizations",
+      description: "You are a member of the following organizations.",
+      member: "{{count}} member",
+      member_plural: "{{count}} members",
+      leaveDialog: {
+        title: "Leave organization",
+        tooltip:
+          "You are the last member, to leave you need to transfer the ownership or delete the organization.",
+      },
     },
   },
 };
