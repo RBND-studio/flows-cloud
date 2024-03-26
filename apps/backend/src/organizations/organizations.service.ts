@@ -1,26 +1,19 @@
+import { cancelSubscription } from "@lemonsqueezy/lemonsqueezy.js";
 import {
   BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import {
-  events,
-  flows,
-  invoices,
-  organizations,
-  organizationsToUsers,
-  projects,
-  subscriptions,
-  userInvite,
-} from "db";
-import { and, eq, gt, gte, sql } from "drizzle-orm";
+import { invoices, organizations, organizationsToUsers, subscriptions, userInvite } from "db";
+import { and, eq, gt, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { EmailService } from "../email/email.service";
-import { getOrganizationUsage } from "../lib/organization";
+import { configureLemonSqueezy } from "../lib/lemon-squeezy";
+import { getOrganizationLimit, getOrganizationUsage } from "../lib/organization";
 import type {
   CreateOrganizationDto,
   GetOrganizationDetailDto,
@@ -83,6 +76,10 @@ export class OrganizationsService {
       databaseService: this.databaseService,
       organizationId,
     });
+    const limit = await getOrganizationLimit({
+      databaseService: this.databaseService,
+      organizationId,
+    });
 
     return {
       id: org.id,
@@ -91,6 +88,7 @@ export class OrganizationsService {
       created_at: org.created_at,
       updated_at: org.updated_at,
       usage,
+      limit,
     };
   }
 
@@ -137,6 +135,7 @@ export class OrganizationsService {
       .update(organizations)
       .set({
         name: data.name,
+        start_limit: data.start_limit,
         updated_at: new Date(),
       })
       .where(eq(organizations.id, organizationId))
@@ -315,14 +314,46 @@ export class OrganizationsService {
       columns: {
         id: true,
         name: true,
+        status: true,
         status_formatted: true,
         email: true,
         price: true,
+        created_at: true,
+        updated_at: true,
         renews_at: true,
         ends_at: true,
         is_paused: true,
       },
     });
+  }
+
+  async cancelSubscription({
+    auth,
+    subscriptionId,
+  }: {
+    auth: Auth;
+    subscriptionId: string;
+  }): Promise<void> {
+    const results = await this.databaseService.db
+      .select({
+        organization_id: organizations.id,
+        subscription_lemons_queezy_id: subscriptions.lemon_squeezy_id,
+      })
+      .from(subscriptions)
+      .where(eq(subscriptions.id, subscriptionId))
+      .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id));
+
+    const result = results.at(0);
+    if (!result?.organization_id) throw new NotFoundException();
+
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({
+      auth,
+      organizationId: result.organization_id,
+    });
+
+    configureLemonSqueezy();
+
+    await cancelSubscription(result.subscription_lemons_queezy_id);
   }
 
   async getInvoices({

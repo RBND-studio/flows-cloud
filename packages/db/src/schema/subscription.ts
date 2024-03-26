@@ -10,6 +10,8 @@ export const subscriptions = pgTable("subscription", {
   email: text("email").notNull(),
   status: text("status").notNull(),
   status_formatted: text("status_formatted").notNull(),
+  created_at: timestamp("created_at").notNull(),
+  updated_at: timestamp("updated_at").notNull(),
   renews_at: timestamp("renews_at").notNull(),
   ends_at: timestamp("ends_at"),
   trial_ends_at: timestamp("trial_ends_at"),

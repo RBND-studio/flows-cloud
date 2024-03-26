@@ -36,8 +36,7 @@ export class BillingService {
     if (!crypto.timingSafeEqual(digest, signature))
       throw new BadRequestException("Invalid signature");
 
-    if (!webhookHasMeta(data) || !webhookHasSubscriptionData(data))
-      throw new BadRequestException("Data invalid");
+    if (!webhookHasMeta(data)) throw new BadRequestException("Data invalid");
 
     const newWebhooks = await this.databaseService.db
       .insert(webhookEvents)
@@ -108,6 +107,8 @@ export class BillingService {
         email: attributes.user_email as string,
         status: attributes.status as string,
         status_formatted: attributes.status_formatted as string,
+        created_at: new Date(attributes.created_at as string),
+        updated_at: new Date(attributes.updated_at as string),
         renews_at: new Date(attributes.renews_at as string),
         ends_at: ends_at ? new Date(ends_at) : null,
         trial_ends_at: trial_ends_at ? new Date(trial_ends_at) : null,
