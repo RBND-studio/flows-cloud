@@ -14,6 +14,9 @@ type Props = {
 
 export const OrganizationSubscription = async ({ org }: Props): Promise<JSX.Element> => {
   const subscriptions = await load(api["/organizations/:organizationId/subscriptions"](org.id));
+  const hasActiveSubscription = subscriptions.some(
+    (subscription) => subscription.status === "active",
+  );
 
   return (
     <Flex direction="column" gap="space16" cardWrap="-" p="space16" mb="space16">
@@ -21,7 +24,7 @@ export const OrganizationSubscription = async ({ org }: Props): Promise<JSX.Elem
         <Box flex={1}>
           <Text variant="titleL">Subscription</Text>
         </Box>
-        <CheckoutButton organizationId={org.id} />
+        {!hasActiveSubscription && <CheckoutButton organizationId={org.id} />}
       </Flex>
 
       <OrganizationLimit organization={org} />
@@ -39,7 +42,7 @@ export const OrganizationSubscription = async ({ org }: Props): Promise<JSX.Elem
           <Text>Email: {subscription.email}</Text>
           <Text>Name: {subscription.name}</Text>
           {subscription.status === "active" ? (
-            <CancelSubscription subscriptionId={subscription.id} />
+            <CancelSubscription subscriptionId={subscription.id} organizationId={org.id} />
           ) : null}
         </Box>
       ))}
