@@ -75,6 +75,9 @@ export interface paths {
   "/organizations/{organizationId}/subscriptions": {
     get: operations["OrganizationsController_getSubscriptions"];
   };
+  "/subscriptions/{subscriptionId}/cancel": {
+    post: operations["OrganizationsController_cancelSubscription"];
+  };
   "/organizations/{organizationId}/invoices": {
     get: operations["OrganizationsController_getInvoices"];
   };
@@ -268,12 +271,14 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
       usage: number;
+      limit: number;
     };
     CreateOrganizationDto: {
       name: string;
     };
     UpdateOrganizationDto: {
       name?: string;
+      start_limit?: number;
     };
     InviteUserDto: {
       email: string;
@@ -295,9 +300,14 @@ export interface components {
     GetOrganizationSubscriptionDto: {
       id: string;
       name: string;
+      status: string;
       status_formatted: string;
       email: string;
       price: string;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
       /** Format: date-time */
       renews_at: string;
       /** Format: date-time */
@@ -800,6 +810,18 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["GetOrganizationSubscriptionDto"][];
         };
+      };
+    };
+  };
+  OrganizationsController_cancelSubscription: {
+    parameters: {
+      path: {
+        subscriptionId: string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
       };
     };
   };

@@ -8,6 +8,8 @@ import { browserslistToTargets, transform } from "lightningcss";
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
+import { configureLemonSqueezy } from "../lib/lemon-squeezy";
+import { getIsOrganizationLimitReachedByProject } from "../lib/organization";
 import { isLocalhost } from "../lib/origin";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
@@ -59,6 +61,12 @@ export class SdkService {
     userHash?: string;
   }): Promise<GetSdkFlowsDto[]> {
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
+
+    const limitReached = await getIsOrganizationLimitReachedByProject({
+      databaseService: this.databaseService,
+      projectId,
+    });
+    if (limitReached) return [];
 
     const dbFlows = await this.databaseService.db.query.flows.findMany({
       where: and(
@@ -131,6 +139,12 @@ export class SdkService {
     if (!flowId) throw new NotFoundException();
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
+    const limitReached = await getIsOrganizationLimitReachedByProject({
+      databaseService: this.databaseService,
+      projectId,
+    });
+    if (limitReached) throw new NotFoundException("Organization limit reached");
+
     const flow = await this.databaseService.db.query.flows.findFirst({
       where: and(
         eq(flows.project_id, projectId),
@@ -201,6 +215,16 @@ export class SdkService {
     const projectId = event.projectId;
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
+    const limitReached = await getIsOrganizationLimitReachedByProject({
+      databaseService: this.databaseService,
+      projectId,
+    });
+    const existingFlow = await this.databaseService.db.query.flows.findFirst({
+      where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
+    });
+    if (limitReached && (!existingFlow || existingFlow.flow_type === "local"))
+      throw new BadRequestException("Organization limit reached");
+
     // For startFlow event, we need to send usage record to LemonSqueezy if the organization has subscription
     if (event.type === "startFlow") {
       void this.databaseService.db
@@ -212,6 +236,7 @@ export class SdkService {
         .then(async (subscriptionsResult) => {
           const subscriptionItemId = subscriptionsResult.at(0)?.subscription_item_id;
           if (subscriptionItemId === undefined) return;
+          configureLemonSqueezy();
           const res = await createUsageRecord({
             quantity: 1,
             action: "increment",
@@ -224,9 +249,6 @@ export class SdkService {
     }
 
     const flow = await (async () => {
-      const existingFlow = await this.databaseService.db.query.flows.findFirst({
-        where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
-      });
       if (existingFlow) return existingFlow;
       const newFlows = await this.databaseService.db
         .insert(flows)

@@ -29,7 +29,7 @@ export default async function OrganizationSettingsPage({ params }: Props): Promi
       </Flex>
       <OrganizationEditForm org={org} />
       <OrganizationMembers org={org} users={users} />
-      <OrganizationSubscription organizationId={org.id} />
+      <OrganizationSubscription org={org} />
       <OrganizationInvoices organizationId={org.id} />
     </>
   );
