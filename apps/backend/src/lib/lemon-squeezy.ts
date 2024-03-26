@@ -38,6 +38,7 @@ export function webhookHasSubscriptionPaymentData(obj: unknown): obj is {
         invoice_url: string;
       };
     };
+    id: string;
   };
 } {
   return (

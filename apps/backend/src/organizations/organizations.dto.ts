@@ -1,5 +1,5 @@
 import { PartialType } from "@nestjs/swagger";
-import { IsEmail, IsString, MinLength } from "class-validator";
+import { IsEmail, IsNumber, IsString, MinLength } from "class-validator";
 
 export class GetOrganizationsDto {
   id: string;
@@ -11,6 +11,7 @@ export class GetOrganizationsDto {
 
 export class GetOrganizationDetailDto extends GetOrganizationsDto {
   usage: number;
+  limit: number;
 }
 
 export class CreateOrganizationDto {
@@ -19,7 +20,12 @@ export class CreateOrganizationDto {
   name: string;
 }
 
-export class UpdateOrganizationDto extends PartialType(CreateOrganizationDto) {}
+export class CompleteUpdateOrganizationDto extends CreateOrganizationDto {
+  @IsNumber()
+  start_limit: number;
+}
+
+export class UpdateOrganizationDto extends PartialType(CompleteUpdateOrganizationDto) {}
 
 export class InviteUserDto {
   @IsEmail()
@@ -44,9 +50,12 @@ export class GetOrganizationMembersDto {
 export class GetOrganizationSubscriptionDto {
   id: string;
   name: string;
+  status: string;
   status_formatted: string;
   email: string;
   price: string;
+  created_at: Date;
+  updated_at: Date;
   renews_at: Date;
   ends_at?: Date | null;
   is_paused: boolean;

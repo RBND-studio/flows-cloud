@@ -95,6 +95,14 @@ export class OrganizationsController {
     return this.organizationsService.getSubscriptions({ auth, organizationId });
   }
 
+  @Post("subscriptions/:subscriptionId/cancel")
+  cancelSubscription(
+    @Authorization() auth: Auth,
+    @Param("subscriptionId") subscriptionId: string,
+  ): Promise<void> {
+    return this.organizationsService.cancelSubscription({ auth, subscriptionId });
+  }
+
   @Get("organizations/:organizationId/invoices")
   getInvoices(
     @Authorization() auth: Auth,
