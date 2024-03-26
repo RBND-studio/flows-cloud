@@ -124,19 +124,37 @@ export const Footer = (): ReactElement => {
               })}
             >
               <Text asChild variant="bodyS" weight="700">
-                <a href={links.twitter} rel="noopener" target="_blank">
+                <a
+                  href={links.twitter}
+                  rel="noopener"
+                  target="_blank"
+                  className={css({ _hover: { textDecoration: "underline" } })}
+                >
                   Twitter
                 </a>
               </Text>
               <Text asChild variant="bodyS" weight="700">
-                <a href={links.rbndGithub} rel="noopener" target="_blank">
+                <a
+                  href={links.rbndGithub}
+                  rel="noopener"
+                  target="_blank"
+                  className={css({ _hover: { textDecoration: "underline" } })}
+                >
                   Github
                 </a>
               </Text>
             </div>
           </div>
           <Text color="subtle" variant="bodyS">
-            © 2024 RBND studios
+            © 2024{" "}
+            <a
+              target="_blank"
+              href={links.rbnd}
+              rel="noopener"
+              className={css({ fontWeight: "700", _hover: { textDecoration: "underline" } })}
+            >
+              RBND studio
+            </a>
           </Text>
         </div>
         <div

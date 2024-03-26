@@ -35,11 +35,7 @@ const CDNSnippet: FC<Props> = async ({ projectId }) => {
       <CodeHighlight className={css({ margin: "0!", width: "100%" })}>
         <pre>
           <code className="index.html">{`<script>
-  flows.init({
-    projectId: "${projectId}",
-    // Optionally define local flows. 
-    flows: [],
-  });
+  flows.init({ projectId: "${projectId}" });
 </script>`}</code>
         </pre>
       </CodeHighlight>
@@ -61,13 +57,43 @@ const NPMSnippet: FC<Props> = ({ projectId }) => {
         <pre>
           <code className="flows.js">{`import { init } from "@flows/js";
  
-init({
-  projectId: "${projectId}",
-  // Optionally define local flows.
-  flows: [],
-});`}</code>
+init({ projectId: "${projectId}" });`}</code>
         </pre>
       </CodeHighlight>
+    </Flex>
+  );
+};
+
+const ReactSnippet: FC<Props> = ({ projectId }) => {
+  return (
+    <Flex flexDirection="column" gap="space16">
+      <Text>First Install the Flows SDK library via a NPM package manager.</Text>
+      <CodeHighlight className={css({ margin: "0!" })} lineNumbers={false}>
+        <pre>
+          <code className="sh">npm i @flows/js</code>
+        </pre>
+      </CodeHighlight>
+      <Text>Create Flows component.</Text>
+      <CodeHighlight className={css({ margin: "0!" })}>
+        <pre>
+          <code className="flows.tsx">{`"use client";
+
+import { init } from "@flows/js"; 
+import { useEffect } from "react";
+
+export const Flows = () => {
+  useEffect(() => {
+    init({ projectId: "${projectId}" });
+  }, []);
+
+  return null;
+}`}</code>
+        </pre>
+      </CodeHighlight>
+      <Text>
+        Don&apos;t forget to render the component in your RootLayout.tsx (in case of NextJS) or
+        App.tsx (for most of the other frameworks).
+      </Text>
     </Flex>
   );
 };
@@ -94,12 +120,16 @@ export const InstallInstructions: FC<Props> = ({ projectId }) => {
           <TabsList>
             <TabsTrigger value="cdn">CDN</TabsTrigger>
             <TabsTrigger value="npm">NPM</TabsTrigger>
+            <TabsTrigger value="react">React</TabsTrigger>
           </TabsList>
           <TabsContent value="cdn">
             <CDNSnippet projectId={projectId} />
           </TabsContent>
           <TabsContent value="npm">
             <NPMSnippet projectId={projectId} />
+          </TabsContent>
+          <TabsContent value="react">
+            <ReactSnippet projectId={projectId} />
           </TabsContent>
         </Tabs>
       </Flex>

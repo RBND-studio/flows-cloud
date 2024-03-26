@@ -1,5 +1,6 @@
 export const links = {
   twitter: "https://x.com/flows_sh",
+  rbnd: "https://rbnd.studio",
   rbndGithub: "https://github.com/RBND-studio",
   docs: "https://flows.sh/docs",
   docsStepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",
