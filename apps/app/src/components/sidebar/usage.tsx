@@ -15,7 +15,7 @@ export const Usage: FC = () => {
 
   if (!organizationId || !data) return null;
 
-  const usage = data.usage;
+  const { usage, limit } = data;
 
   return (
     <div
@@ -37,10 +37,10 @@ export const Usage: FC = () => {
       <Text variant="titleS" className={css({ mb: "space4" })}>
         Usage:{" "}
         <Text as="span" color="muted">
-          {usage} / 1000
+          {usage} / {limit}
         </Text>
       </Text>
-      <Progress max={1000} value={usage} />
+      <Progress max={limit} value={usage} />
     </div>
   );
 };

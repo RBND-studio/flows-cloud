@@ -129,22 +129,30 @@ export class BillingService {
       }
 
       if (data.meta.event_name === "subscription_created") {
-        const usage = await getOrganizationUsage({
-          databaseService: this.databaseService,
-          organizationId: updateData.organization_id,
-        });
-        await createUsageRecord({
-          quantity: usage,
-          subscriptionItemId: updateData.subscription_item_id,
-          action: "increment",
+        // First we update the billing anchor
+        await updateSubscription(data.data.id, {
+          billingAnchor: 1,
+          disableProrations: true,
         }).then((res) => {
-          if (res.error)
-            processingError = `Failed to create the usage record for the subscription ${updateData.lemon_squeezy_id}.`;
-        });
-        await updateSubscription(data.data.id, { billingAnchor: 1 }).then((res) => {
           if (res.error)
             processingError = `Failed to update the subscription ${updateData.lemon_squeezy_id}.`;
         });
+        // Then we update usage
+        await getOrganizationUsage({
+          databaseService: this.databaseService,
+          organizationId: updateData.organization_id,
+        })
+          .then((usage) =>
+            createUsageRecord({
+              quantity: usage,
+              subscriptionItemId: updateData.subscription_item_id,
+              action: "increment",
+            }),
+          )
+          .then((res) => {
+            if (res.error)
+              processingError = `Failed to create the usage record for the subscription ${updateData.lemon_squeezy_id}.`;
+          });
       }
     }
 
