@@ -26,9 +26,40 @@ return <Pre hasCopyCode data-language="html" data-theme="default"><Code><span cl
 
 # Install Flows
 
-<Tabs items={["JS snippet (CDN)", "NPM package"]}>
+<Tabs items={["React","JS snippet (CDN)", "NPM package"]}>
 <Tabs.Tab>
- This is the simplest way to install Flows. It only takes a few minutes.
+
+Install the Flows SDK library via a NPM package manager.
+
+```sh npm2yarn
+npm i @flows/js
+```
+
+Create Flows component and initialize it with your project ID.
+
+```jsx
+"use client";
+
+import { init } from "@flows/js"; 
+import { useEffect } from "react";
+
+export const Flows = () => {
+  useEffect(() => {
+    init({
+      // Insert your Flows Cloud projectId
+      projectId: "xxxx"
+    });
+  }, []);
+
+  return null;
+}
+```
+
+Lastly don't forget to render the Flows component in the root of your application (`layout.tsx` or `App.tsx`)
+
+</Tabs.Tab>
+<Tabs.Tab>
+This is the simplest way to install Flows. It only takes a few minutes.
 
 Copy the snippet bellow and paste it within the `<head>` tag of your product - ideally right before the closing `</head>` tag.
 
@@ -40,9 +71,7 @@ When you're done, you can start using Flows by calling `flows.init()` anywhere i
 <script>
   flows.init({
     // Insert your Flows Cloud projectId
-    projectId: "xxxx",
-    // Optionally define local flows.
-    flows: [],
+    projectId: "xxxx"
   });
 </script>
 ```
@@ -65,9 +94,7 @@ import { init } from "@flows/js";
 
 init({
   // Insert your Flows Cloud projectId
-  projectId: "xxxx",
-  // Optionally define local flows.
-  flows: [],
+  projectId: "xxxx"
 });
 ```
 
@@ -75,6 +102,39 @@ Once the library is installed, you can start creating onboarding flows and launc
 
 </Tabs.Tab>
 </Tabs>
+
+## Verify installation
+
+You can verify installation by defining demo flow in your `init` function call. This flow will be started automatically when the Flows SDK is loaded.
+
+```js
+init({
+  // --- ADD THIS ---
+  flows: [
+    {
+      id: "hello-world",
+      // Makes the flow start automatically on any page
+      location: "/",
+      steps: [
+        {
+          title: "Hello, world!",
+          body: "This is a modal step, to show tooltip instead add <em>targetElement: '.my-element'</em> to this step.",
+          // Uncomment and replace with your element selector to show a tooltip instead of a modal
+          // targetElement: ".my-element",
+        },
+      ]
+    }
+  ]
+  // --- END OF DEMO FLOW ---
+
+  // Your projectId from previous step
+  projectId: "...",
+})
+```
+
+After you manage to sucessfully start the demo flow you should see new local flow inside your Flows Cloud project with one start event. If you don't see the flow, please check the browser console for any errors.
+
+![Hello world flow in the Cloud with 1 start event](/getting-started/hello-world.png)
 
 {/* ## Set up a proxy (optional) */}
 

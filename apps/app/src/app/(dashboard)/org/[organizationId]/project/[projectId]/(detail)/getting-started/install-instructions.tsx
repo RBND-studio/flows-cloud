@@ -91,8 +91,8 @@ export const Flows = () => {
         </pre>
       </CodeHighlight>
       <Text>
-        Don&apos;t forget to render the component in your RootLayout.tsx (in case of NextJS) or
-        App.tsx (for most of the other frameworks).
+        Don&apos;t forget to render the component in your layout.tsx (in case of NextJS) or App.tsx
+        (for most of the other frameworks).
       </Text>
     </Flex>
   );
@@ -115,21 +115,21 @@ export const InstallInstructions: FC<Props> = ({ projectId }) => {
             overflow: "hidden",
             width: "100%",
           })}
-          defaultValue="cdn"
+          defaultValue="react"
         >
           <TabsList>
-            <TabsTrigger value="cdn">CDN</TabsTrigger>
-            <TabsTrigger value="npm">NPM</TabsTrigger>
             <TabsTrigger value="react">React</TabsTrigger>
+            <TabsTrigger value="cdn">JS Snippet (CDN)</TabsTrigger>
+            <TabsTrigger value="npm">NPM package</TabsTrigger>
           </TabsList>
+          <TabsContent value="react">
+            <ReactSnippet projectId={projectId} />
+          </TabsContent>
           <TabsContent value="cdn">
             <CDNSnippet projectId={projectId} />
           </TabsContent>
           <TabsContent value="npm">
             <NPMSnippet projectId={projectId} />
-          </TabsContent>
-          <TabsContent value="react">
-            <ReactSnippet projectId={projectId} />
           </TabsContent>
         </Tabs>
       </Flex>

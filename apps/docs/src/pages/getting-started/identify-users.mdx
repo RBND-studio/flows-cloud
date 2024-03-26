@@ -1,0 +1,16 @@
+---
+title: Identify users
+description: Learn how to identify users in your application.
+---
+
+To identify users in the Flows just add the `userId` parameter to the `init` function. This will enable you to keep track of unique users that seen the the flow in the analytics.
+
+```js
+init({
+  // Unique identifier for the user
+  // Prefer database ID over email if you're concerned about privacy of your users
+  userId: "xxxx"
+
+  projectId: "...",
+})
+```
