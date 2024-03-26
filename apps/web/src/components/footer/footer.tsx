@@ -3,6 +3,7 @@ import { SmartLink } from "components/ui";
 import Image from "next/image";
 import type { ReactElement } from "react";
 import React from "react";
+import { routes } from "routes";
 import { links } from "shared";
 import { Text } from "ui";
 
@@ -23,7 +24,7 @@ const footerGroups: FooterGroup[] = [
     links: [
       {
         title: "Features",
-        href: "/features",
+        href: routes.features,
       },
       {
         title: "Demo",
@@ -37,7 +38,7 @@ const footerGroups: FooterGroup[] = [
     links: [
       {
         title: "Blog",
-        href: "/blog",
+        href: routes.blog,
       },
       {
         title: "Docs",
@@ -58,14 +59,9 @@ const footerGroups: FooterGroup[] = [
   {
     title: "Other",
     links: [
-      {
-        title: "Privacy",
-        href: "/privacy",
-      },
-      {
-        title: "Terms",
-        href: "/terms",
-      },
+      { title: "About", href: routes.about },
+      { title: "Privacy", href: routes.privacy },
+      { title: "Terms", href: routes.terms },
     ],
   },
 ];
