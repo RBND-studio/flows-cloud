@@ -1,8 +1,7 @@
 export const links = {
   twitter: "https://x.com/flows_sh",
+  rbnd: "https://rbnd.studio",
   rbndGithub: "https://github.com/RBND-studio",
-  docs: "https://flows.sh/docs",
-  docsStepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",
   status: "https://status.flows.sh",
   slack: "https://flows.sh/join-slack",
   support: "mailto:hello@flows.sh?subject=Support%20request",
@@ -11,4 +10,8 @@ export const links = {
   nextJsDemo: "https://nextjs.flows.sh/",
   privacy: "https://flows.sh/privacy",
   terms: "https://flows.sh/terms",
+  // docs
+  docs: "https://flows.sh/docs",
+  docsStepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",
+  docsVerifyInstallation: "https://flows.sh/docs/getting-started/install-flows#verify-installation",
 };

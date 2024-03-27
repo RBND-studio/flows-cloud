@@ -17,6 +17,7 @@ import {
   Storage16,
   Versions16,
 } from "icons";
+import { routes } from "routes";
 
 export const featuresData: FeatureGridTypes[] = [
   {
@@ -30,7 +31,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>No-code.</span> Build and deploy in minutes.
           </>
         ),
-        link: "/features/build#no-code",
+        link: `${routes.featuresBuild}#no-code`,
         icon: Cloud16,
       },
       {
@@ -39,7 +40,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>In-code.</span> Stabilize flows and avoid bottlenecks.
           </>
         ),
-        link: "/features/build#in-code",
+        link: `${routes.featuresBuild}#in-code`,
         icon: Code16,
       },
       {
@@ -48,7 +49,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Preview.</span> Test flows before you ship.
           </>
         ),
-        link: "/features/build#preview",
+        link: `${routes.featuresBuild}#preview`,
         icon: Eye16,
       },
     ],
@@ -64,7 +65,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Tooltip.</span> Point in the right direction.
           </>
         ),
-        link: "/features/flow-steps#tooltip",
+        link: `${routes.featuresFlowSteps}#tooltip`,
         icon: Comment16,
       },
       {
@@ -73,7 +74,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Modal.</span> Display larger amounts of content.
           </>
         ),
-        link: "/features/flow-steps#modal",
+        link: `${routes.featuresFlowSteps}#modal`,
         icon: Flows16,
       },
       {
@@ -82,7 +83,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Wait.</span> Give users time to complete an action.
           </>
         ),
-        link: "/features/flow-steps#wait",
+        link: `${routes.featuresFlowSteps}#wait`,
         icon: Hourglass16,
       },
       {
@@ -91,7 +92,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Branch.</span> Create conditional paths based on user input.
           </>
         ),
-        link: "/features/flow-steps#branch",
+        link: `${routes.featuresFlowSteps}#branch`,
         icon: Fork16,
       },
     ],
@@ -107,7 +108,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Speed as a priority.</span> Show flows instantly.
           </>
         ),
-        link: "/features/deliver#speed",
+        link: `${routes.featuresDeliver}#speed`,
         icon: Hourglass16,
       },
       {
@@ -123,7 +124,7 @@ export const featuresData: FeatureGridTypes[] = [
             </span>
           </>
         ),
-        link: "/features/deliver#size",
+        link: `${routes.featuresDeliver}#size`,
         icon: Storage16,
       },
       {
@@ -132,7 +133,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Frequency.</span> Show flows at the right time.
           </>
         ),
-        link: "/features/deliver#frequency",
+        link: `${routes.featuresDeliver}#frequency`,
         icon: Versions16,
       },
       {
@@ -141,7 +142,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Targeting.</span> Show flows to the right people.
           </>
         ),
-        link: "/features/deliver#targeting",
+        link: `${routes.featuresDeliver}#targeting`,
         icon: Filter16,
       },
       {
@@ -150,7 +151,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Launch action.</span> Trigger flows from anywhere.
           </>
         ),
-        link: "/features/deliver#launch-action",
+        link: `${routes.featuresDeliver}#launch-action`,
         icon: Send16,
       },
     ],
@@ -166,7 +167,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Flow insights.</span> Optimize for conversion.
           </>
         ),
-        link: "/features/analyze#flow-insights",
+        link: `${routes.featuresAnalyze}#flow-insights`,
         icon: Graph16,
       },
       {
@@ -175,7 +176,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Error tracking.</span> Spot issues and fix them.
           </>
         ),
-        link: "/features/analyze#error-tracking",
+        link: `${routes.featuresAnalyze}#error-tracking`,
         icon: Alert16,
       },
       {
@@ -184,7 +185,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Analytics integration.</span> Bring your own analytics.
           </>
         ),
-        link: "/features/analyze#analytics-integration",
+        link: `${routes.featuresAnalyze}#analytics-integration`,
         icon: Stack16,
       },
     ],
@@ -200,7 +201,7 @@ export const featuresData: FeatureGridTypes[] = [
             <span>Privacy fist.</span> We don&apos;t track your users.
           </>
         ),
-        link: "/features/secure#privacy-first",
+        link: `${routes.featuresSecure}#privacy-first`,
         icon: ShieldLock16,
       },
     ],

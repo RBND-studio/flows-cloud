@@ -3,6 +3,7 @@ import { SmartLink } from "components/ui";
 import Image from "next/image";
 import type { ReactElement } from "react";
 import React from "react";
+import { routes } from "routes";
 import { links } from "shared";
 import { Text } from "ui";
 
@@ -23,7 +24,7 @@ const footerGroups: FooterGroup[] = [
     links: [
       {
         title: "Features",
-        href: "/features",
+        href: routes.features,
       },
       {
         title: "Demo",
@@ -37,7 +38,7 @@ const footerGroups: FooterGroup[] = [
     links: [
       {
         title: "Blog",
-        href: "/blog",
+        href: routes.blog,
       },
       {
         title: "Docs",
@@ -58,14 +59,9 @@ const footerGroups: FooterGroup[] = [
   {
     title: "Other",
     links: [
-      {
-        title: "Privacy",
-        href: "/privacy",
-      },
-      {
-        title: "Terms",
-        href: "/terms",
-      },
+      { title: "About", href: routes.about },
+      { title: "Privacy", href: routes.privacy },
+      { title: "Terms", href: routes.terms },
     ],
   },
 ];
@@ -124,19 +120,37 @@ export const Footer = (): ReactElement => {
               })}
             >
               <Text asChild variant="bodyS" weight="700">
-                <a href={links.twitter} rel="noopener" target="_blank">
+                <a
+                  href={links.twitter}
+                  rel="noopener"
+                  target="_blank"
+                  className={css({ _hover: { textDecoration: "underline" } })}
+                >
                   Twitter
                 </a>
               </Text>
               <Text asChild variant="bodyS" weight="700">
-                <a href={links.rbndGithub} rel="noopener" target="_blank">
+                <a
+                  href={links.rbndGithub}
+                  rel="noopener"
+                  target="_blank"
+                  className={css({ _hover: { textDecoration: "underline" } })}
+                >
                   Github
                 </a>
               </Text>
             </div>
           </div>
           <Text color="subtle" variant="bodyS">
-            © 2024 RBND studios
+            © 2024{" "}
+            <a
+              target="_blank"
+              href={links.rbnd}
+              rel="noopener"
+              className={css({ fontWeight: "700", _hover: { textDecoration: "underline" } })}
+            >
+              RBND studio
+            </a>
           </Text>
         </div>
         <div
