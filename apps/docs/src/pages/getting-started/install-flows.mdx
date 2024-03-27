@@ -40,22 +40,22 @@ Create Flows component and initialize it with your project ID.
 ```jsx
 "use client";
 
-import { init } from "@flows/js"; 
+import { init } from "@flows/js";
 import { useEffect } from "react";
 
 export const Flows = () => {
   useEffect(() => {
     init({
       // Insert your Flows Cloud projectId
-      projectId: "xxxx"
+      projectId: "xxxx",
     });
   }, []);
 
   return null;
-}
+};
 ```
 
-Lastly don't forget to render the Flows component in the root of your application (`layout.tsx` or `App.tsx`)
+Lastly don't forget to render the Flows component in the root of your application (`layout.tsx` or `App.tsx`). When that's done, you can start creating onboarding flows and launching them in your product.
 
 </Tabs.Tab>
 <Tabs.Tab>
@@ -71,7 +71,7 @@ When you're done, you can start using Flows by calling `flows.init()` anywhere i
 <script>
   flows.init({
     // Insert your Flows Cloud projectId
-    projectId: "xxxx"
+    projectId: "xxxx",
   });
 </script>
 ```
@@ -94,7 +94,7 @@ import { init } from "@flows/js";
 
 init({
   // Insert your Flows Cloud projectId
-  projectId: "xxxx"
+  projectId: "xxxx",
 });
 ```
 
@@ -105,7 +105,9 @@ Once the library is installed, you can start creating onboarding flows and launc
 
 ## Verify installation
 
-You can verify installation by defining demo flow in your `init` function call. This flow will be started automatically when the Flows SDK is loaded.
+To verify that Flows is installed correctly, you can add a demo flow to your project. This can be done either in Flows Cloud or directly in your code. We'll show you how to do it in your code.
+
+Add the following code to your Flows `init` function. The demo flow will be started automatically when the Flows SDK is loaded on any page.
 
 ```js
 init({
@@ -132,13 +134,13 @@ init({
 })
 ```
 
-You should now see a modal when you open any page with Flows initialized. If it doesn't show up, please check the browser console for any errors.
+If everything is set up correctly, you should see a modal with the text "Hello, world!" when you open any page with Flows initialized. If it doesn't show up, please check the browser console for any errors.
 
 ![Demo flow modal step preview](/getting-started/modal-step.png)
 
-To verify connection with Flows Cloud, you should now see a `hello-world` flow inside your Flows Cloud project with one start event. If not, try checking the browser console.
+You should also see a new flow called `hello-world` in your Flows Cloud project. If you don't see it, try checking the browser console for any errors or make sure you are in the correct project.
 
-![Hello world flow in the Cloud with 1 start event](/getting-started/hello-world.png)
+![Hello world flow in the Cloud with 1 start event](/getting-started/cloud-demo-flow.png)
 
 {/* ## Set up a proxy (optional) */}
 

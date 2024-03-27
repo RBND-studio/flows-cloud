@@ -73,7 +73,7 @@ const ReactSnippet: FC<Props> = ({ projectId }) => {
           <code className="sh">npm i @flows/js</code>
         </pre>
       </CodeHighlight>
-      <Text>Create Flows component.</Text>
+      <Text>Create Flows component and initialize it with your project ID.</Text>
       <CodeHighlight className={css({ margin: "0!" })}>
         <pre>
           <code className="flows.tsx">{`"use client";
