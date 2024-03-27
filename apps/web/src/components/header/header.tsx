@@ -5,6 +5,7 @@ import { SignupClick } from "components/utils/signup-click";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactElement } from "react";
+import { routes } from "routes";
 import { links } from "shared";
 import { Button, Text } from "ui";
 
@@ -41,7 +42,7 @@ export const Header = (): ReactElement => {
               alignItems: "center",
               gap: "space8",
             })}
-            href="/"
+            href={routes.home}
           >
             <Image alt="Logo" height={28} priority src="/images/logo/logo.svg" width={28} />
             <Text variant="bodyM" weight="700">

@@ -70,7 +70,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if (!auth) return;
-    posthog.identify(auth.user.email);
+    posthog.identify(auth.user.email, { email: auth.user.email });
   }, [auth]);
 
   const value = useMemo(

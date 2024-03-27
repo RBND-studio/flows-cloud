@@ -59,35 +59,46 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
         <Text variant="titleL">{t.project.domains.domains}</Text>
         <Text color="muted">{t.project.domains.description}</Text>
       </Flex>
-      {fields.length > 0 && (
-        <Flex direction="column" gap="space8">
-          {fields.map((field, i) => {
-            return (
-              <Flex direction="column" gap="space4" key={field.id}>
-                <Flex gap="space8">
-                  <Input
-                    {...register(`domains.${i}.value`, {
-                      validate: (v) => {
-                        if (!isValidUrl(v)) return t.project.domains.invalidDomain;
-                      },
-                    })}
-                    className={css({ flex: 1 })}
-                    defaultValue={formState.defaultValues?.domains?.[i]?.value}
-                    placeholder="https://example.com"
-                    required
-                  />
-                  <Button onClick={() => remove(i)} variant="secondary">
-                    {t.actions.remove}
-                  </Button>
-                </Flex>
-                <Description color="danger">
-                  {formState.errors.domains?.[i]?.value?.message}
-                </Description>
-              </Flex>
-            );
-          })}
+
+      <Flex direction="column" gap="space8">
+        <Flex gap="space8">
+          <Input
+            className={css({ flex: 1 })}
+            description="Localhost is allowed by default"
+            disabled
+            value="http://localhost"
+          />
+          <Button disabled variant="secondary">
+            {t.actions.remove}
+          </Button>
         </Flex>
-      )}
+        {fields.map((field, i) => {
+          return (
+            <Flex direction="column" gap="space4" key={field.id}>
+              <Flex gap="space8">
+                <Input
+                  {...register(`domains.${i}.value`, {
+                    validate: (v) => {
+                      if (!isValidUrl(v)) return t.project.domains.invalidDomain;
+                    },
+                  })}
+                  className={css({ flex: 1 })}
+                  defaultValue={formState.defaultValues?.domains?.[i]?.value}
+                  placeholder="https://example.com"
+                  required
+                />
+                <Button onClick={() => remove(i)} variant="secondary">
+                  {t.actions.remove}
+                </Button>
+              </Flex>
+              <Description color="danger">
+                {formState.errors.domains?.[i]?.value?.message}
+              </Description>
+            </Flex>
+          );
+        })}
+      </Flex>
+
       <div>
         <Button
           onClick={() => append({ value: "" })}
