@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactElement } from "react";
 import React from "react";
+import { routes } from "routes";
 import { Text } from "ui";
 
 type Props = {
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export const BlogPostPreview = ({ post }: Props): ReactElement => {
+  const href = routes.blogPostDetail({ postId: post.slugAsParams });
+
   return (
     <li
       className={css({
@@ -27,7 +30,7 @@ export const BlogPostPreview = ({ post }: Props): ReactElement => {
       key={post.slug}
     >
       {post.image ? (
-        <Link href={`/blog/${post.slugAsParams}`}>
+        <Link href={href}>
           <Image
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is better here
             alt={post.imageAlt || "Blog post cover image"}
@@ -55,7 +58,7 @@ export const BlogPostPreview = ({ post }: Props): ReactElement => {
         })}
         variant="title2xl"
       >
-        <Link href={`/blog/${post.slugAsParams}`}>{post.title}</Link>
+        <Link href={href}>{post.title}</Link>
       </Text>
       <Text
         as="p"
@@ -82,7 +85,7 @@ export const BlogPostPreview = ({ post }: Props): ReactElement => {
             transition: "transform 120ms ease-out",
           },
         })}
-        href={`/blog/${post.slugAsParams}`}
+        href={href}
       >
         Read more
         <ArrowRight16 />

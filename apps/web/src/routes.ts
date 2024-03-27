@@ -1,9 +1,11 @@
 export const routes = {
   home: "/",
-  blog: "/blog",
   privacy: "/privacy",
   terms: "/terms",
   about: "/about",
+
+  blog: "/blog",
+  blogPostDetail: ({ postId }: { postId: string }) => `/blog/${postId}`,
 
   features: "/features",
   featuresBuild: "/features/build",
