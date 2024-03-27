@@ -54,8 +54,8 @@ importers:
         specifier: ^2.39.7
         version: 2.39.7
       '@visx/axis':
-        specifier: ^3.9.0
-        version: 3.9.0(react@18.2.0)
+        specifier: ^3.10.1
+        version: 3.10.1(react@18.2.0)
       '@visx/event':
         specifier: ^3.3.0
         version: 3.3.0
@@ -63,8 +63,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0(react@18.2.0)
       '@visx/responsive':
-        specifier: ^3.3.0
-        version: 3.3.0(react@18.2.0)
+        specifier: ^3.10.2
+        version: 3.10.2(react@18.2.0)
       '@visx/scale':
         specifier: ^3.5.0
         version: 3.5.0
@@ -7849,8 +7849,8 @@ packages:
       - vitest
     dev: true
 
-  /@visx/axis@3.9.0(react@18.2.0):
-    resolution: {integrity: sha512-tMLMJ086WB0dyLx8HeSyZ3qBNB13m2NUWA14V3VxtvG+Z+X651+3VstBhO2JUMoimzeRFTXtH7vUyG39f27IjQ==}
+  /@visx/axis@3.10.1(react@18.2.0):
+    resolution: {integrity: sha512-HBEDLcpZoJ16hFbkYu3S6mN5mbwlFmUWY5yN967X06RdIL4LmAG3gnZ7u4F9buA3LQo+trJXW78moN005odD4Q==}
     peerDependencies:
       react: ^16.3.0-0 || ^17.0.0-0 || ^18.0.0-0
     dependencies:
@@ -7907,8 +7907,8 @@ packages:
     resolution: {integrity: sha512-03eBBIJarkmX79WbeEGTUZwmS5/MUuabbiM9KfkGS9pETBTWkp1DZtEHZdp5z34x5TDQVLSi0rk1Plg3/8RtDg==}
     dev: false
 
-  /@visx/responsive@3.3.0(react@18.2.0):
-    resolution: {integrity: sha512-Y3Bgrh6cJ760lG6yXsxJRNCmYZAHKQqSmTG2qxJ8yImledieGEqI0ZizXJgFkxoBaZK5gSMvFsmFWKtf7a86kQ==}
+  /@visx/responsive@3.10.2(react@18.2.0):
+    resolution: {integrity: sha512-oDzFnLLpGpvTcFDoixVJX6iKOVzNJJW4dlAnsfgtxa/ibgMFZGoN4QL3NIzVlgg9s0fTDFCgQ+0FSMv1VvgKlQ==}
     peerDependencies:
       react: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
     dependencies:
