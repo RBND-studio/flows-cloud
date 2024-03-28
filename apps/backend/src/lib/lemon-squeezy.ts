@@ -1,8 +1,6 @@
 /**
  * Check if the value is an object.
  */
-import { lemonSqueezySetup } from "@lemonsqueezy/lemonsqueezy.js";
-
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
@@ -81,36 +79,4 @@ export function webhookHasSubscriptionData(obj: unknown): obj is {
     "first_subscription_item" in obj.data.attributes &&
     isObject(obj.data.attributes.first_subscription_item)
   );
-}
-
-/**
- * Ensures that required environment variables are set and sets up the Lemon
- * Squeezy JS SDK. Throws an error if any environment variables are missing or
- * if there's an error setting up the SDK.
- */
-export function configureLemonSqueezy(): void {
-  const requiredVars = [
-    "BACKEND_LEMONSQUEEZY_WEBHOOK_SECRET",
-    "BACKEND_LEMONSQUEEZY_API_KEY",
-    "BACKEND_LEMONSQUEEZY_STORE_ID",
-  ];
-
-  const missingVars = requiredVars.filter((varName) => !process.env[varName]);
-
-  if (missingVars.length > 0) {
-    throw new Error(
-      `Missing required LEMONSQUEEZY env variables: ${missingVars.join(
-        ", ",
-      )}. Please, set them in your .env file.`,
-    );
-  }
-
-  lemonSqueezySetup({
-    apiKey: process.env.BACKEND_LEMONSQUEEZY_API_KEY,
-    onError: (error) => {
-      // eslint-disable-next-line no-console -- allow logging
-      console.error(error);
-      throw new Error(`Lemon Squeezy API error: ${error.message}`);
-    },
-  });
 }

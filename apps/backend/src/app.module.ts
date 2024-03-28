@@ -12,7 +12,9 @@ import { DatabaseModule } from "./database/database.module";
 import { DbPermissionModule } from "./db-permission/db-permission.module";
 import { EmailModule } from "./email/email.module";
 import { FlowsModule } from "./flows/flows.module";
+import { LemonSqueezyModule } from "./lemon-squeezy/lemon-squeezy.module";
 import { NewsfeedModule } from "./newsfeed/newsfeed.module";
+import { OrganizationUsageModule } from "./organization-usage/organization-usage.module";
 import { OrganizationsModule } from "./organizations/organizations.module";
 import { ProjectsModule } from "./projects/projects.module";
 import { SdkModule } from "./sdk/sdk.module";
@@ -37,6 +39,8 @@ const publicRoutes: string[] = [
     ]),
     DatabaseModule,
     DbPermissionModule,
+    OrganizationUsageModule,
+    LemonSqueezyModule,
     EmailModule,
     NewsfeedModule,
     SdkModule,
