@@ -4,18 +4,22 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { organizations, organizationsToUsers, userInvite } from "db";
+import { invoices, organizations, organizationsToUsers, subscriptions, userInvite } from "db";
 import { and, eq, gt, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { EmailService } from "../email/email.service";
+import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
+import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import type {
   CreateOrganizationDto,
   GetOrganizationDetailDto,
+  GetOrganizationInvoiceDto,
   GetOrganizationMembersDto,
   GetOrganizationsDto,
+  GetOrganizationSubscriptionDto,
   OrganizationMemberDto,
   UpdateOrganizationDto,
 } from "./organizations.dto";
@@ -26,6 +30,8 @@ export class OrganizationsService {
     private databaseService: DatabaseService,
     private emailService: EmailService,
     private dbPermissionService: DbPermissionService,
+    private organizationUsageService: OrganizationUsageService,
+    private lemonSqueezyService: LemonSqueezyService,
   ) {}
 
   async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
@@ -67,12 +73,17 @@ export class OrganizationsService {
     });
     if (!org) throw new NotFoundException();
 
+    const usage = await this.organizationUsageService.getOrganizationUsage({ organizationId });
+    const limit = await this.organizationUsageService.getOrganizationLimit({ organizationId });
+
     return {
       id: org.id,
       name: org.name,
       description: org.description,
       created_at: org.created_at,
       updated_at: org.updated_at,
+      usage,
+      limit,
     };
   }
 
@@ -82,7 +93,7 @@ export class OrganizationsService {
   }: {
     auth: Auth;
     data: CreateOrganizationDto;
-  }): Promise<GetOrganizationDetailDto> {
+  }): Promise<GetOrganizationsDto> {
     const orgs = await this.databaseService.db
       .insert(organizations)
       .values({
@@ -112,13 +123,14 @@ export class OrganizationsService {
     auth: Auth;
     data: UpdateOrganizationDto;
     organizationId: string;
-  }): Promise<GetOrganizationDetailDto> {
+  }): Promise<GetOrganizationsDto> {
     await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
 
     const updatedOrganizations = await this.databaseService.db
       .update(organizations)
       .set({
         name: data.name,
+        start_limit: data.start_limit,
         updated_at: new Date(),
       })
       .where(eq(organizations.id, organizationId))
@@ -281,5 +293,87 @@ export class OrganizationsService {
       members: members.map(({ user }) => user as OrganizationMemberDto),
       pending_invites: invites,
     };
+  }
+
+  async getSubscriptions({
+    auth,
+    organizationId,
+  }: {
+    auth: Auth;
+    organizationId: string;
+  }): Promise<GetOrganizationSubscriptionDto[]> {
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
+
+    return this.databaseService.db.query.subscriptions.findMany({
+      where: eq(subscriptions.organization_id, organizationId),
+      columns: {
+        id: true,
+        name: true,
+        status: true,
+        status_formatted: true,
+        email: true,
+        price: true,
+        created_at: true,
+        updated_at: true,
+        renews_at: true,
+        ends_at: true,
+        is_paused: true,
+      },
+    });
+  }
+
+  async cancelSubscription({
+    auth,
+    subscriptionId,
+  }: {
+    auth: Auth;
+    subscriptionId: string;
+  }): Promise<void> {
+    const results = await this.databaseService.db
+      .select({
+        organization_id: organizations.id,
+        subscription_lemons_squeezy_id: subscriptions.lemon_squeezy_id,
+      })
+      .from(subscriptions)
+      .where(eq(subscriptions.id, subscriptionId))
+      .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id));
+
+    const result = results.at(0);
+    if (!result?.organization_id) throw new NotFoundException();
+
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({
+      auth,
+      organizationId: result.organization_id,
+    });
+
+    this.lemonSqueezyService.configureLemonSqueezy();
+
+    await this.lemonSqueezyService.cancelSubscription(result.subscription_lemons_squeezy_id);
+  }
+
+  async getInvoices({
+    auth,
+    organizationId,
+  }: {
+    auth: Auth;
+    organizationId: string;
+  }): Promise<GetOrganizationInvoiceDto[]> {
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
+
+    return this.databaseService.db.query.invoices.findMany({
+      where: eq(invoices.organization_id, organizationId),
+      columns: {
+        id: true,
+        status_formatted: true,
+        invoice_url: true,
+        created_at: true,
+        updated_at: true,
+        total_formatted: true,
+        subtotal_formatted: true,
+        discount_total_formatted: true,
+        tax_formatted: true,
+        refunded_at: true,
+      },
+    });
   }
 }

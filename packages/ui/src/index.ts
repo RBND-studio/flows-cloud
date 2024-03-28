@@ -8,6 +8,7 @@ export * from "./input";
 export * from "./label";
 export * from "./menu";
 export * from "./popover";
+export * from "./progress";
 export * from "./select";
 export * from "./separator";
 export * from "./skeleton";

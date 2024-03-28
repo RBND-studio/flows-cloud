@@ -27,22 +27,22 @@ export interface paths {
     delete: operations["SdkController_deleteEvent"];
   };
   "/projects/{projectId}/flows": {
-    get: operations["FlowsControllers_getFlows"];
-    post: operations["FlowsControllers_createFlow"];
+    get: operations["FlowsController_getFlows"];
+    post: operations["FlowsController_createFlow"];
   };
   "/flows/{flowId}": {
-    get: operations["FlowsControllers_getFlowDetail"];
-    delete: operations["FlowsControllers_deleteFlow"];
-    patch: operations["FlowsControllers_updateFlow"];
+    get: operations["FlowsController_getFlowDetail"];
+    delete: operations["FlowsController_deleteFlow"];
+    patch: operations["FlowsController_updateFlow"];
   };
   "/flows/{flowId}/publish": {
-    post: operations["FlowsControllers_publishFlow"];
+    post: operations["FlowsController_publishFlow"];
   };
   "/flows/{flowId}/versions": {
-    get: operations["FlowsControllers_getFlowVersions"];
+    get: operations["FlowsController_getFlowVersions"];
   };
   "/flows/{flowId}/analytics": {
-    get: operations["FlowsControllers_getFlowAnalytics"];
+    get: operations["FlowsController_getFlowAnalytics"];
   };
   "/organizations/{organizationId}/projects": {
     get: operations["ProjectsController_getProjects"];
@@ -72,6 +72,15 @@ export interface paths {
   "/invites/{inviteId}": {
     delete: operations["OrganizationsController_removeInvite"];
   };
+  "/organizations/{organizationId}/subscriptions": {
+    get: operations["OrganizationsController_getSubscriptions"];
+  };
+  "/subscriptions/{subscriptionId}/cancel": {
+    post: operations["OrganizationsController_cancelSubscription"];
+  };
+  "/organizations/{organizationId}/invoices": {
+    get: operations["OrganizationsController_getInvoices"];
+  };
   "/me": {
     get: operations["UsersController_me"];
   };
@@ -89,6 +98,9 @@ export interface paths {
   };
   "/css/template": {
     get: operations["CssController_getDefaultCssTemplate"];
+  };
+  "/webhooks/lemon-squeezy": {
+    post: operations["BillingController_handleLemonSqueezyWebhook"];
   };
 }
 
@@ -258,12 +270,15 @@ export interface components {
       created_at: string;
       /** Format: date-time */
       updated_at: string;
+      usage: number;
+      limit: number;
     };
     CreateOrganizationDto: {
       name: string;
     };
     UpdateOrganizationDto: {
       name?: string;
+      start_limit?: number;
     };
     InviteUserDto: {
       email: string;
@@ -281,6 +296,38 @@ export interface components {
     GetOrganizationMembersDto: {
       members: components["schemas"]["OrganizationMemberDto"][];
       pending_invites: components["schemas"]["OrganizationInviteDto"][];
+    };
+    GetOrganizationSubscriptionDto: {
+      id: string;
+      name: string;
+      status: string;
+      status_formatted: string;
+      email: string;
+      price: string;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      /** Format: date-time */
+      renews_at: string;
+      /** Format: date-time */
+      ends_at?: string | null;
+      is_paused: boolean;
+    };
+    GetOrganizationInvoiceDto: {
+      id: string;
+      status_formatted: string;
+      invoice_url?: string | null;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      total_formatted: string;
+      subtotal_formatted: string;
+      discount_total_formatted: string;
+      tax_formatted: string;
+      /** Format: date-time */
+      refunded_at?: string | null;
     };
     Invite: {
       id: string;
@@ -430,7 +477,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_getFlows: {
+  FlowsController_getFlows: {
     parameters: {
       path: {
         projectId: string;
@@ -444,7 +491,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_createFlow: {
+  FlowsController_createFlow: {
     parameters: {
       path: {
         projectId: string;
@@ -463,7 +510,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_getFlowDetail: {
+  FlowsController_getFlowDetail: {
     parameters: {
       path: {
         flowId: string;
@@ -477,7 +524,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_deleteFlow: {
+  FlowsController_deleteFlow: {
     parameters: {
       path: {
         flowId: string;
@@ -489,7 +536,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_updateFlow: {
+  FlowsController_updateFlow: {
     parameters: {
       path: {
         flowId: string;
@@ -506,7 +553,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_publishFlow: {
+  FlowsController_publishFlow: {
     parameters: {
       path: {
         flowId: string;
@@ -518,7 +565,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_getFlowVersions: {
+  FlowsController_getFlowVersions: {
     parameters: {
       path: {
         flowId: string;
@@ -532,7 +579,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_getFlowAnalytics: {
+  FlowsController_getFlowAnalytics: {
     parameters: {
       query?: {
         startDate?: string;
@@ -646,7 +693,7 @@ export interface operations {
     responses: {
       201: {
         content: {
-          "application/json": components["schemas"]["GetOrganizationDetailDto"];
+          "application/json": components["schemas"]["GetOrganizationsDto"];
         };
       };
     };
@@ -691,7 +738,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["GetOrganizationDetailDto"];
+          "application/json": components["schemas"]["GetOrganizationsDto"];
         };
       };
     };
@@ -749,6 +796,46 @@ export interface operations {
     responses: {
       200: {
         content: never;
+      };
+    };
+  };
+  OrganizationsController_getSubscriptions: {
+    parameters: {
+      path: {
+        organizationId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetOrganizationSubscriptionDto"][];
+        };
+      };
+    };
+  };
+  OrganizationsController_cancelSubscription: {
+    parameters: {
+      path: {
+        subscriptionId: string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  OrganizationsController_getInvoices: {
+    parameters: {
+      path: {
+        organizationId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetOrganizationInvoiceDto"][];
+        };
       };
     };
   };
@@ -814,6 +901,18 @@ export interface operations {
         content: {
           "application/json": string;
         };
+      };
+    };
+  };
+  BillingController_handleLemonSqueezyWebhook: {
+    parameters: {
+      header: {
+        "X-Signature": string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
       };
     };
   };

@@ -1,13 +1,15 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import browserslist from "browserslist";
-import { events, flows, projects } from "db";
+import { events, flows, organizations, projects, subscriptions } from "db";
 import { and, arrayContains, desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { browserslistToTargets, transform } from "lightningcss";
 
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
+import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
 import { isLocalhost } from "../lib/origin";
+import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
 @Injectable()
@@ -15,6 +17,8 @@ export class SdkService {
   constructor(
     private databaseService: DatabaseService,
     private dbPermissionService: DbPermissionService,
+    private organizationUsageService: OrganizationUsageService,
+    private lemonSqueezyService: LemonSqueezyService,
   ) {}
 
   async getCss({ projectId, version }: { projectId: string; version?: string }): Promise<string> {
@@ -58,6 +62,11 @@ export class SdkService {
     userHash?: string;
   }): Promise<GetSdkFlowsDto[]> {
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
+
+    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
+      { projectId },
+    );
+    if (limitReached) return [];
 
     const dbFlows = await this.databaseService.db.query.flows.findMany({
       where: and(
@@ -130,6 +139,11 @@ export class SdkService {
     if (!flowId) throw new NotFoundException();
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
+    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
+      { projectId },
+    );
+    if (limitReached) throw new NotFoundException("Organization limit reached");
+
     const flow = await this.databaseService.db.query.flows.findFirst({
       where: and(
         eq(flows.project_id, projectId),
@@ -200,10 +214,39 @@ export class SdkService {
     const projectId = event.projectId;
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
+    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
+      { projectId },
+    );
+    const existingFlow = await this.databaseService.db.query.flows.findFirst({
+      where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
+    });
+    if (limitReached && (!existingFlow || existingFlow.flow_type === "local"))
+      throw new BadRequestException("Organization limit reached");
+
+    // For startFlow event, we need to send usage record to LemonSqueezy if the organization has subscription
+    if (event.type === "startFlow") {
+      void this.databaseService.db
+        .select({ subscription_item_id: subscriptions.subscription_item_id })
+        .from(subscriptions)
+        .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id))
+        .leftJoin(projects, eq(projects.organization_id, organizations.id))
+        .where(and(eq(projects.id, projectId), eq(subscriptions.status, "active")))
+        .then(async (subscriptionsResult) => {
+          const subscriptionItemId = subscriptionsResult.at(0)?.subscription_item_id;
+          if (subscriptionItemId === undefined) return;
+          this.lemonSqueezyService.configureLemonSqueezy();
+          const res = await this.lemonSqueezyService.createUsageRecord({
+            quantity: 1,
+            action: "increment",
+            subscriptionItemId,
+          });
+          if (res.error)
+            // eslint-disable-next-line no-console -- useful
+            console.error("Failed to create the usage record for the subscription", projectId);
+        });
+    }
+
     const flow = await (async () => {
-      const existingFlow = await this.databaseService.db.query.flows.findFirst({
-        where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
-      });
       if (existingFlow) return existingFlow;
       const newFlows = await this.databaseService.db
         .insert(flows)
