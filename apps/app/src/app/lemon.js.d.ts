@@ -2,7 +2,7 @@ interface Window {
   createLemonSqueezy: () => void;
   LemonSqueezy: {
     /**
-     * Initialises Lemon.js on your page.
+     * Initializes Lemon.js on your page.
      * @param options - An object with a single property, eventHandler, which is a function that will be called when Lemon.js emits an event.
      */
     Setup: (options: { eventHandler: (event: { event: string }) => void }) => void;
