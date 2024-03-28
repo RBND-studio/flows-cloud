@@ -5,8 +5,15 @@ import { organizations, organizationsToUsers, userInvite } from "db";
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { EmailService } from "../email/email.service";
+import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import type { MockDB, MockDbPermissionService } from "../mocks";
 import { getMockDB, getMockDbPermissionService } from "../mocks";
+import { getMockLemonSqueezyService, type MockLemonSqueezyService } from "../mocks/lemon-squeezy";
+import {
+  getMockOrganizationUsageService,
+  type MockOrganizationUsageService,
+} from "../mocks/organization-usage";
+import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import { OrganizationsController } from "./organizations.controller";
 import { OrganizationsService } from "./organizations.service";
 
@@ -17,10 +24,14 @@ const emailService = {
 
 let dbPermissionService: MockDbPermissionService;
 let db: MockDB;
+let organizationUsageService: MockOrganizationUsageService;
+let lemonSqueezyService: MockLemonSqueezyService;
 
 beforeEach(async () => {
   db = getMockDB();
   dbPermissionService = getMockDbPermissionService();
+  organizationUsageService = getMockOrganizationUsageService();
+  lemonSqueezyService = getMockLemonSqueezyService();
 
   db.orderBy.mockResolvedValue([{ organization: { id: "org1" } }]);
   db.query.organizations.findFirst.mockResolvedValue({
@@ -35,15 +46,11 @@ beforeEach(async () => {
   })
 
     .useMocker((token) => {
-      if (token === DatabaseService) {
-        return { db };
-      }
-      if (token === EmailService) {
-        return emailService;
-      }
-      if (token === DbPermissionService) {
-        return dbPermissionService;
-      }
+      if (token === DatabaseService) return { db };
+      if (token === EmailService) return emailService;
+      if (token === DbPermissionService) return dbPermissionService;
+      if (token === OrganizationUsageService) return organizationUsageService;
+      if (token === LemonSqueezyService) return lemonSqueezyService;
     })
     .compile();
 

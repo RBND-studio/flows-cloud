@@ -1,4 +1,3 @@
-import { createUsageRecord } from "@lemonsqueezy/lemonsqueezy.js";
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import browserslist from "browserslist";
 import { events, flows, organizations, projects, subscriptions } from "db";
@@ -7,10 +6,10 @@ import { browserslistToTargets, transform } from "lightningcss";
 
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
+import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
-import { configureLemonSqueezy } from "../lib/lemon-squeezy";
-import { getIsOrganizationLimitReachedByProject } from "../lib/organization";
 import { isLocalhost } from "../lib/origin";
+import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
 @Injectable()
@@ -18,6 +17,8 @@ export class SdkService {
   constructor(
     private databaseService: DatabaseService,
     private dbPermissionService: DbPermissionService,
+    private organizationUsageService: OrganizationUsageService,
+    private lemonSqueezyService: LemonSqueezyService,
   ) {}
 
   async getCss({ projectId, version }: { projectId: string; version?: string }): Promise<string> {
@@ -62,10 +63,9 @@ export class SdkService {
   }): Promise<GetSdkFlowsDto[]> {
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    const limitReached = await getIsOrganizationLimitReachedByProject({
-      databaseService: this.databaseService,
-      projectId,
-    });
+    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
+      { projectId },
+    );
     if (limitReached) return [];
 
     const dbFlows = await this.databaseService.db.query.flows.findMany({
@@ -139,10 +139,9 @@ export class SdkService {
     if (!flowId) throw new NotFoundException();
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    const limitReached = await getIsOrganizationLimitReachedByProject({
-      databaseService: this.databaseService,
-      projectId,
-    });
+    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
+      { projectId },
+    );
     if (limitReached) throw new NotFoundException("Organization limit reached");
 
     const flow = await this.databaseService.db.query.flows.findFirst({
@@ -215,10 +214,9 @@ export class SdkService {
     const projectId = event.projectId;
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    const limitReached = await getIsOrganizationLimitReachedByProject({
-      databaseService: this.databaseService,
-      projectId,
-    });
+    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
+      { projectId },
+    );
     const existingFlow = await this.databaseService.db.query.flows.findFirst({
       where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
     });
@@ -236,8 +234,8 @@ export class SdkService {
         .then(async (subscriptionsResult) => {
           const subscriptionItemId = subscriptionsResult.at(0)?.subscription_item_id;
           if (subscriptionItemId === undefined) return;
-          configureLemonSqueezy();
-          const res = await createUsageRecord({
+          this.lemonSqueezyService.configureLemonSqueezy();
+          const res = await this.lemonSqueezyService.createUsageRecord({
             quantity: 1,
             action: "increment",
             subscriptionItemId,

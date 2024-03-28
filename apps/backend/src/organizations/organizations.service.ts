@@ -1,4 +1,3 @@
-import { cancelSubscription } from "@lemonsqueezy/lemonsqueezy.js";
 import {
   BadRequestException,
   ConflictException,
@@ -12,8 +11,8 @@ import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { EmailService } from "../email/email.service";
-import { configureLemonSqueezy } from "../lib/lemon-squeezy";
-import { getOrganizationLimit, getOrganizationUsage } from "../lib/organization";
+import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
+import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import type {
   CreateOrganizationDto,
   GetOrganizationDetailDto,
@@ -31,6 +30,8 @@ export class OrganizationsService {
     private databaseService: DatabaseService,
     private emailService: EmailService,
     private dbPermissionService: DbPermissionService,
+    private organizationUsageService: OrganizationUsageService,
+    private lemonSqueezyService: LemonSqueezyService,
   ) {}
 
   async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
@@ -72,14 +73,8 @@ export class OrganizationsService {
     });
     if (!org) throw new NotFoundException();
 
-    const usage = await getOrganizationUsage({
-      databaseService: this.databaseService,
-      organizationId,
-    });
-    const limit = await getOrganizationLimit({
-      databaseService: this.databaseService,
-      organizationId,
-    });
+    const usage = await this.organizationUsageService.getOrganizationUsage({ organizationId });
+    const limit = await this.organizationUsageService.getOrganizationLimit({ organizationId });
 
     return {
       id: org.id,
@@ -351,9 +346,9 @@ export class OrganizationsService {
       organizationId: result.organization_id,
     });
 
-    configureLemonSqueezy();
+    this.lemonSqueezyService.configureLemonSqueezy();
 
-    await cancelSubscription(result.subscription_lemons_squeezy_id);
+    await this.lemonSqueezyService.cancelSubscription(result.subscription_lemons_squeezy_id);
   }
 
   async getInvoices({
