@@ -132,16 +132,17 @@ export class BillingService {
       }
 
       if (data.meta.event_name === "subscription_created") {
+        // TODO: uncomment this when we get an update from Lemon Squeezy
         // First we update the billing anchor
-        await this.lemonSqueezyService
-          .updateSubscription(data.data.id, {
-            billingAnchor: 1,
-            disableProrations: true,
-          })
-          .then((res) => {
-            if (res.error)
-              processingError = `Failed to update the subscription ${updateData.lemon_squeezy_id}.`;
-          });
+        // await this.lemonSqueezyService
+        //   .updateSubscription(data.data.id, {
+        //     billingAnchor: 1,
+        //     disableProrations: true,
+        //   })
+        //   .then((res) => {
+        //     if (res.error)
+        //       processingError = `Failed to update the subscription ${updateData.lemon_squeezy_id}.`;
+        //   });
         // Then we update usage
         await this.organizationUsageService
           .getOrganizationUsage({ organizationId: updateData.organization_id })
