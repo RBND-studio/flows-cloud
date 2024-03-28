@@ -1,21 +1,18 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import type { FlowDetail } from "lib/api";
-import Link from "next/link";
 import type { FC } from "react";
-import { routes } from "routes";
-import { Button, Text } from "ui";
+import { Text } from "ui";
 
 import { Frequency } from "./frequency";
 import { Launch } from "./launch";
 import { Targeting } from "./targeting";
 
 type Props = {
-  params: { flowId: string; projectId: string; organizationId: string };
   flow: FlowDetail;
 };
 
-export const SetupSection: FC<Props> = ({ params, flow }) => {
+export const SetupSection: FC<Props> = ({ flow }) => {
   const flowIsLocal = flow.flow_type === "local";
 
   return (
@@ -30,9 +27,6 @@ export const SetupSection: FC<Props> = ({ params, flow }) => {
     >
       <Flex alignItems="flex-start" justifyContent="space-between" width="100%">
         <Text variant="titleL">Published setup</Text>
-        <Button asChild disabled={flowIsLocal} variant="secondary">
-          <Link href={routes.flowSettings(params)}>Edit</Link>
-        </Button>
       </Flex>
       <Flex direction="column" gap="space24">
         {flowIsLocal ? (
