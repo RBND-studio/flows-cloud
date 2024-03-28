@@ -337,7 +337,7 @@ export class OrganizationsService {
     const results = await this.databaseService.db
       .select({
         organization_id: organizations.id,
-        subscription_lemons_queezy_id: subscriptions.lemon_squeezy_id,
+        subscription_lemons_squeezy_id: subscriptions.lemon_squeezy_id,
       })
       .from(subscriptions)
       .where(eq(subscriptions.id, subscriptionId))
@@ -353,7 +353,7 @@ export class OrganizationsService {
 
     configureLemonSqueezy();
 
-    await cancelSubscription(result.subscription_lemons_queezy_id);
+    await cancelSubscription(result.subscription_lemons_squeezy_id);
   }
 
   async getInvoices({
