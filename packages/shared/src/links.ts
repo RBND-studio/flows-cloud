@@ -13,5 +13,6 @@ export const links = {
   // docs
   docs: "https://flows.sh/docs",
   docsStepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",
+  docsInstallFlows: "https://flows.sh/docs/getting-started/install-flows",
   docsVerifyInstallation: "https://flows.sh/docs/getting-started/install-flows#verify-installation",
 };
