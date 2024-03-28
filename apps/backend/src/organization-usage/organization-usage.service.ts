@@ -81,6 +81,7 @@ export class OrganizationUsageService {
       .groupBy(organizations.id, subscriptions.id);
 
     const result = results.at(0);
+    // TODO: think about this
     if (
       // eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- eslint is wrong here
       !result ||

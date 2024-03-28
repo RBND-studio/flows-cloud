@@ -27,7 +27,7 @@ export const OrganizationSubscription = async ({ org }: Props): Promise<JSX.Elem
         {!hasActiveSubscription && <CheckoutButton organizationId={org.id} />}
       </Flex>
 
-      <OrganizationLimit organization={org} />
+      {hasActiveSubscription ? <OrganizationLimit organization={org} /> : null}
 
       {!subscriptions.length && <Text>No subscriptions</Text>}
       {subscriptions.map((subscription) => (
