@@ -64,11 +64,11 @@ export const InviteForm: FC<Props> = ({ organizationId, projectId }) => {
                 <Input
                   {...register(`users.${i}.email`)}
                   className={css({
-                    width: "100%",
+                    flex: 1,
                   })}
                   type="email"
                 />
-                <Button onClick={() => remove(i)} variant="secondary">
+                <Button size="icon" shadow="none" onClick={() => remove(i)} variant="secondary">
                   <Icon icon={Close16} />
                 </Button>
               </Flex>

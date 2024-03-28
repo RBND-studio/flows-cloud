@@ -2,7 +2,7 @@
 
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { Comment16, Flows16, Fork16, Hourglass16 } from "icons";
+import { Comment16, Flows16, Hourglass16 } from "icons";
 import Link from "next/link";
 import { type FC } from "react";
 import { type UseFieldArrayReturn } from "react-hook-form";
@@ -59,12 +59,6 @@ export const EditFormEmpty: FC<Props> = ({ fieldArray }) => {
             icon: Hourglass16,
             value: STEP_DEFAULT.wait,
             description: "Wait for user to perform an action",
-          },
-          {
-            label: "Fork",
-            icon: Fork16,
-            value: [STEP_DEFAULT.fork],
-            description: "Create multiple paths",
           },
         ].map((item) => (
           <button

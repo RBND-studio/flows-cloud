@@ -1,11 +1,23 @@
+import { css } from "@flows/styled-system/css";
 import { useSend } from "hooks/use-send";
+import { Send16 } from "icons";
 import { api, type FlowDetail } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import { links } from "shared";
 import { t } from "translations";
-import { Button, Dialog, DialogActions, DialogClose, DialogContent, DialogTitle, Input } from "ui";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  Input,
+  Text,
+} from "ui";
 
 type Props = {
   flow: FlowDetail;
@@ -39,10 +51,33 @@ export const FlowPreviewDialog: FC<Props> = ({ flow }) => {
   };
 
   return (
-    <Dialog trigger={<Button variant="secondary">Preview</Button>}>
+    <Dialog
+      trigger={
+        <Button variant="secondary" startIcon={<Send16 />}>
+          Preview
+        </Button>
+      }
+    >
       <DialogTitle>Preview Flow</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
+          <Text
+            className={css({
+              mb: "space16",
+            })}
+          >
+            Enter the URL where you want to preview this flow. If nothing shows up, make sure that
+            you have{" "}
+            <a
+              className={css({ color: "text.primary", _hover: { textDecoration: "underline" } })}
+              href={links.docsInstallFlows}
+              target="_blank"
+              rel="noopener"
+            >
+              installed
+            </a>{" "}
+            Flows on the website.
+          </Text>
           <Input
             label="Start url"
             type="url"
