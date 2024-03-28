@@ -3,8 +3,15 @@ import { events, flows } from "db";
 
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
+import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import type { MockDB, MockDbPermissionService } from "../mocks";
 import { getMockDB, getMockDbPermissionService } from "../mocks";
+import { getMockLemonSqueezyService, type MockLemonSqueezyService } from "../mocks/lemon-squeezy";
+import {
+  getMockOrganizationUsageService,
+  type MockOrganizationUsageService,
+} from "../mocks/organization-usage";
+import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import { SdkController } from "./sdk.controller";
 import type { CreateEventDto } from "./sdk.dto";
 import { SdkService } from "./sdk.service";
@@ -12,10 +19,14 @@ import { SdkService } from "./sdk.service";
 let sdkController: SdkController;
 let dbPermissionService: MockDbPermissionService;
 let db: MockDB;
+let organizationUsageService: MockOrganizationUsageService;
+let lemonSqueezyService: MockLemonSqueezyService;
 
 beforeEach(async () => {
   db = getMockDB();
   dbPermissionService = getMockDbPermissionService();
+  organizationUsageService = getMockOrganizationUsageService();
+  lemonSqueezyService = getMockLemonSqueezyService();
 
   const moduleRef = await Test.createTestingModule({
     controllers: [SdkController],
@@ -23,12 +34,10 @@ beforeEach(async () => {
   })
 
     .useMocker((token) => {
-      if (token === DatabaseService) {
-        return { db };
-      }
-      if (token === DbPermissionService) {
-        return dbPermissionService;
-      }
+      if (token === DatabaseService) return { db };
+      if (token === DbPermissionService) return dbPermissionService;
+      if (token === OrganizationUsageService) return organizationUsageService;
+      if (token === LemonSqueezyService) return lemonSqueezyService;
     })
     .compile();
 
@@ -130,6 +139,8 @@ describe("Create event", () => {
   beforeEach(() => {
     db.query.flows.findFirst.mockReturnValue(flow);
     db.returning.mockResolvedValueOnce([{ id: "newEventId" }]);
+    db.where.mockResolvedValue([{ subscription_item_id: "subItemId" }]);
+    lemonSqueezyService.createUsageRecord.mockResolvedValue({});
   });
   it("should throw with not allowed origin", async () => {
     dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
@@ -158,6 +169,11 @@ describe("Create event", () => {
     });
     expect(db.insert).toHaveBeenCalledWith(events);
     expect(db.values).toHaveBeenCalled();
+    expect(lemonSqueezyService.createUsageRecord).toHaveBeenCalledWith({
+      quantity: 1,
+      subscriptionItemId: "subItemId",
+      action: "increment",
+    });
   });
 });
 

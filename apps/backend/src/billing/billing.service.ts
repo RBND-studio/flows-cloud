@@ -1,22 +1,25 @@
 import crypto from "node:crypto";
 
-import { createUsageRecord, getPrice, updateSubscription } from "@lemonsqueezy/lemonsqueezy.js";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { invoices, type NewInvoice, type NewSubscription, subscriptions, webhookEvents } from "db";
 import { eq } from "drizzle-orm";
 
 import { DatabaseService } from "../database/database.service";
+import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import {
-  configureLemonSqueezy,
   webhookHasMeta,
   webhookHasSubscriptionData,
   webhookHasSubscriptionPaymentData,
 } from "../lib/lemon-squeezy";
-import { getOrganizationUsage } from "../lib/organization";
+import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 
 @Injectable()
 export class BillingService {
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private organizationUsageService: OrganizationUsageService,
+    private lemonSqueezyService: LemonSqueezyService,
+  ) {}
 
   async handleLemonSqueezyWebhook({
     data,
@@ -52,7 +55,7 @@ export class BillingService {
 
     let processingError: string | null = null;
 
-    configureLemonSqueezy();
+    this.lemonSqueezyService.configureLemonSqueezy();
 
     if (data.meta.event_name.startsWith("subscription_payment_")) {
       if (!webhookHasSubscriptionPaymentData(data)) throw new BadRequestException("Data invalid");
@@ -87,7 +90,7 @@ export class BillingService {
       const attributes = data.data.attributes;
 
       const priceId = attributes.first_subscription_item.price_id;
-      const priceData = await getPrice(priceId);
+      const priceData = await this.lemonSqueezyService.getPrice(priceId);
       if (priceData.error) {
         processingError = `Failed to get the price data for the subscription ${data.data.id}.`;
       }
@@ -130,20 +133,20 @@ export class BillingService {
 
       if (data.meta.event_name === "subscription_created") {
         // First we update the billing anchor
-        await updateSubscription(data.data.id, {
-          billingAnchor: 1,
-          disableProrations: true,
-        }).then((res) => {
-          if (res.error)
-            processingError = `Failed to update the subscription ${updateData.lemon_squeezy_id}.`;
-        });
+        await this.lemonSqueezyService
+          .updateSubscription(data.data.id, {
+            billingAnchor: 1,
+            disableProrations: true,
+          })
+          .then((res) => {
+            if (res.error)
+              processingError = `Failed to update the subscription ${updateData.lemon_squeezy_id}.`;
+          });
         // Then we update usage
-        await getOrganizationUsage({
-          databaseService: this.databaseService,
-          organizationId: updateData.organization_id,
-        })
+        await this.organizationUsageService
+          .getOrganizationUsage({ organizationId: updateData.organization_id })
           .then((usage) =>
-            createUsageRecord({
+            this.lemonSqueezyService.createUsageRecord({
               quantity: usage,
               subscriptionItemId: updateData.subscription_item_id,
               action: "increment",
