@@ -21,8 +21,18 @@ type PasswordChangeForm = {
   password: string;
 };
 
-export const PasswordChangeDialog = (): JSX.Element => {
+type PasswordChangeDialogProps = {
+  hasPassword: boolean;
+  onPasswordChange: () => void;
+};
+
+export const PasswordChangeDialog = ({
+  hasPassword,
+  onPasswordChange,
+}: PasswordChangeDialogProps): JSX.Element | null => {
+  const [open, setOpen] = useState(false);
   const supabase = createClient();
+
   const { register, handleSubmit, formState, reset } = useForm<PasswordChangeForm>({
     defaultValues: {
       password: "",
@@ -37,16 +47,22 @@ export const PasswordChangeDialog = (): JSX.Element => {
 
     if (res.error) {
       toast.error(res.error.message);
+    } else {
+      toast.success(t.toasts.passwordUpdated);
     }
     reset({
       password: "",
     });
-    toast.success(t.toasts.updateOrgSuccess);
+
     setIsLoading(false);
+    onPasswordChange();
+    setOpen(false);
   };
 
   return (
     <Dialog
+      open={open}
+      onOpenChange={setOpen}
       trigger={
         <Button
           size="small"
@@ -55,13 +71,15 @@ export const PasswordChangeDialog = (): JSX.Element => {
             ml: "auto",
           })}
         >
-          {t.personal.connectedAccounts.password}
+          {hasPassword
+            ? t.personal.connectedAccounts.changePassword
+            : t.personal.connectedAccounts.createPassword}
         </Button>
       }
     >
-      <DialogTitle>{t.personal.connectedAccounts.password}</DialogTitle>
+      <DialogTitle>{t.personal.connectedAccounts.changePassword}</DialogTitle>
       <DialogContent>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Input {...register("password")} label="New password" type="password" />
         </form>
       </DialogContent>
@@ -74,7 +92,6 @@ export const PasswordChangeDialog = (): JSX.Element => {
         <Button
           disabled={!formState.isDirty}
           loading={isLoading}
-          onClick={handleSubmit(onSubmit)}
           size="small"
           type="submit"
           variant="primary"

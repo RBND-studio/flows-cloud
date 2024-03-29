@@ -2,7 +2,8 @@
 
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import type { User } from "@supabase/supabase-js";
+import type { User, UserIdentity } from "@supabase/supabase-js";
+import { useFetch } from "hooks/use-fetch";
 import { useFirstRender } from "hooks/use-first-render";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "supabase/client";
@@ -14,7 +15,8 @@ import { ConnectedAccount } from "./connected-account";
 export const ConnectedAccounts = (): JSX.Element => {
   const supabase = createClient();
   const firstRender = useFirstRender();
-  const [user, setUser] = useState<User | null>(null);
+  const [supabaseUser, setSupabaseUser] = useState<User | null>(null);
+  const { data: me } = useFetch("/me");
 
   const getUser = useCallback(async (): Promise<User | null> => {
     const {
@@ -26,9 +28,22 @@ export const ConnectedAccounts = (): JSX.Element => {
   useEffect(() => {
     if (!firstRender) return;
     getUser()
-      .then(setUser)
+      .then(setSupabaseUser)
       .catch((e: Error) => toast.error(e.message));
   }, [firstRender, getUser]);
+
+  const emailIdentity: UserIdentity = supabaseUser?.identities?.find(
+    (identity) => identity.provider === "email",
+  ) ?? {
+    provider: "email",
+    identity_data: { email: supabaseUser?.email },
+    id: "email",
+    identity_id: "email",
+    user_id: supabaseUser?.id ?? "email",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    last_sign_in_at: new Date().toISOString(),
+  };
 
   return (
     <Flex cardWrap="-" flexDirection="column" mb="space16" p="space16">
@@ -43,14 +58,21 @@ export const ConnectedAccounts = (): JSX.Element => {
           flexDirection: "column",
         })}
       >
-        {user?.identities?.map((identity) => (
-          <ConnectedAccount
-            identity={identity}
-            key={identity.id}
-            onUnlink={() => getUser().then(setUser)}
-            user={user}
-          />
-        ))}
+        {supabaseUser
+          ? [emailIdentity, ...(supabaseUser.identities ?? [])].map((identity) => (
+              <ConnectedAccount
+                identity={identity}
+                key={identity.id}
+                onUnlink={() =>
+                  getUser()
+                    .then(setSupabaseUser)
+                    .catch((e: Error) => toast.error(e.message))
+                }
+                user={supabaseUser}
+                hasPassword={!!me?.hasPassword}
+              />
+            ))
+          : null}
       </ul>
     </Flex>
   );

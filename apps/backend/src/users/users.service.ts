@@ -18,14 +18,25 @@ export class UsersService {
   ) {}
 
   async me({ auth }: { auth: Auth }): Promise<GetMeDto> {
-    const [user, metaResult] = await Promise.all([
-      this.databaseService.db.query.users.findFirst({
-        where: eq(users.id, auth.userId),
-      }),
+    const [usersResult, metaResult] = await Promise.all([
+      //   this.databaseService.db.query.users.findFirst({
+      //     where: eq(users.id, auth.userId),
+      //   }),
+
+      this.databaseService.db
+        .select({
+          id: users.id,
+          email: users.email,
+          has_password: sql<boolean>`case when encrypted_password <> '' then true else false end as e`,
+        })
+        .from(users)
+        .where(eq(users.id, auth.userId)),
       this.databaseService.db.query.userMetadata.findFirst({
         where: eq(userMetadata.user_id, auth.userId),
       }),
     ]);
+    if (usersResult.length === 0) throw new NotFoundException();
+    const user = usersResult.at(0);
     if (!user) throw new NotFoundException();
 
     let meta = metaResult;
@@ -62,6 +73,7 @@ export class UsersService {
         organizationName: invite.organization.name,
       })),
       role: meta.role,
+      hasPassword: user.has_password,
     };
   }
 
@@ -124,7 +136,7 @@ export class UsersService {
 
   async deleteIdentity({ auth, providerId }: { auth: Auth; providerId: string }): Promise<void> {
     const currentIdentity = await this.databaseService.db.execute(
-      sql`SELECT * FROM auth.identities WHERE user_id = ${auth.userId} AND provider_id = ${providerId}`,
+      sql`SELECT provider_id FROM auth.identities WHERE user_id = ${auth.userId} AND provider_id = ${providerId}`,
     );
     if (currentIdentity.length === 0) throw new NotFoundException();
 

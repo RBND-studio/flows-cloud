@@ -12,6 +12,7 @@ export class GetMeDto {
   pendingInvites: Invite[];
   @ApiProperty({ enum: UserRoleEnum })
   role: UserRole;
+  hasPassword: boolean;
 }
 
 export class AcceptInviteResponseDto {

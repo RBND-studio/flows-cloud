@@ -14,12 +14,14 @@ type ConnectedAccountProps = {
   user: User;
   identity: UserIdentity;
   onUnlink: () => void;
+  hasPassword: boolean;
 };
 
 export const ConnectedAccount = ({
   identity,
   user,
   onUnlink,
+  hasPassword,
 }: ConnectedAccountProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,9 +35,7 @@ export const ConnectedAccount = ({
     setIsLoading(false);
   };
 
-  //TODO: @pesickadavid email should be visible always and allow creating password even if the email identity doesn't exist
-
-  const isDisabled = user.identities?.length === 1;
+  const isDisabled = !hasPassword && user.identities?.length === 1;
   return (
     <li
       className={css({
@@ -78,7 +78,7 @@ export const ConnectedAccount = ({
           }
         />
       ) : (
-        <PasswordChangeDialog />
+        <PasswordChangeDialog hasPassword={hasPassword} onPasswordChange={onUnlink} />
       )}
     </li>
   );

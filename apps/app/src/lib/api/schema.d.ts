@@ -292,6 +292,7 @@ export interface components {
       /** @enum {string} */
       role: "admin" | "user";
       pendingInvites: components["schemas"]["Invite"][];
+      hasPassword: boolean;
     };
     AcceptInviteResponseDto: {
       organization_id: string;

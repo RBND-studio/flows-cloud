@@ -37,6 +37,7 @@ export const t = {
     publishFlowSuccess: "Flow published",
     enableFlowSuccess: "Flow is live",
     disableFlowSuccess: "Flow disabled",
+    passwordUpdated: "Password updated",
 
     sendInviteFailed: "Failed to send invite",
     createProjectFailed: "Failed to create project",
@@ -223,8 +224,10 @@ export const t = {
     connectedAccounts: {
       title: "Connected accounts",
       description: "These are the accounts you can use to login to your account.",
-      lastProvider: "This is the only way for you to login. To unlink it delete your account.",
-      password: "Change password",
+      lastProvider:
+        "This is the only way for you to login. To unlink it delete your account or create a password.",
+      changePassword: "Change password",
+      createPassword: "Create password",
     },
     deleteAccount: {
       title: "Delete account",
