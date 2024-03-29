@@ -16,7 +16,7 @@ export const ConnectedAccounts = (): JSX.Element => {
   const supabase = createClient();
   const firstRender = useFirstRender();
   const [supabaseUser, setSupabaseUser] = useState<User | null>(null);
-  const { data: me } = useFetch("/me");
+  const { data: me, mutate: refetchMe } = useFetch("/me");
 
   const getUser = useCallback(async (): Promise<User | null> => {
     const {
@@ -45,6 +45,11 @@ export const ConnectedAccounts = (): JSX.Element => {
     last_sign_in_at: new Date().toISOString(),
   };
 
+  const handleOnUnlink = async (): Promise<void> => {
+    setSupabaseUser(await getUser());
+    await refetchMe();
+  };
+
   return (
     <Flex cardWrap="-" flexDirection="column" mb="space16" p="space16">
       <Flex flexDirection="column" mb="space16">
@@ -63,11 +68,7 @@ export const ConnectedAccounts = (): JSX.Element => {
               <ConnectedAccount
                 identity={identity}
                 key={identity.id}
-                onUnlink={() =>
-                  getUser()
-                    .then(setSupabaseUser)
-                    .catch((e: Error) => toast.error(e.message))
-                }
+                onUnlink={handleOnUnlink}
                 user={supabaseUser}
                 hasPassword={!!me?.hasPassword}
               />

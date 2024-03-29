@@ -1,6 +1,8 @@
 "use client";
 
 import { css } from "@flows/styled-system/css";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PasswordSchema } from "lib/validation-schemas";
 import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
@@ -16,15 +18,14 @@ import {
   Input,
   toast,
 } from "ui";
-
-type PasswordChangeForm = {
-  password: string;
-};
+import { type z } from "zod";
 
 type PasswordChangeDialogProps = {
   hasPassword: boolean;
   onPasswordChange: () => void;
 };
+
+type PasswordChangeForm = z.infer<typeof PasswordSchema>;
 
 export const PasswordChangeDialog = ({
   hasPassword,
@@ -37,6 +38,8 @@ export const PasswordChangeDialog = ({
     defaultValues: {
       password: "",
     },
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- zodResolver is a function
+    resolver: zodResolver(PasswordSchema),
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -77,28 +80,36 @@ export const PasswordChangeDialog = ({
         </Button>
       }
     >
-      <DialogTitle>{t.personal.connectedAccounts.changePassword}</DialogTitle>
-      <DialogContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Input {...register("password")} label="New password" type="password" />
-        </form>
-      </DialogContent>
-      <DialogActions>
-        <DialogClose asChild>
-          <Button shadow="none" size="small" variant="secondary">
-            Close
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <DialogTitle>{t.personal.connectedAccounts.changePassword}</DialogTitle>
+        <DialogContent>
+          <Input
+            {...register("password")}
+            label="New password"
+            type="password"
+            description={formState.errors.password?.message ?? ""}
+            descriptionClassName={css({
+              color: "text.danger!",
+            })}
+          />
+        </DialogContent>
+        <DialogActions>
+          <DialogClose asChild>
+            <Button shadow="none" size="small" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+          <Button
+            disabled={!formState.isDirty}
+            loading={isLoading}
+            size="small"
+            type="submit"
+            variant="primary"
+          >
+            {t.actions.save}
           </Button>
-        </DialogClose>
-        <Button
-          disabled={!formState.isDirty}
-          loading={isLoading}
-          size="small"
-          type="submit"
-          variant="primary"
-        >
-          {t.actions.save}
-        </Button>
-      </DialogActions>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };
