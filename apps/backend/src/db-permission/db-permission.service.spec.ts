@@ -6,7 +6,6 @@ import { getMockDB } from "../mocks";
 import { DbPermissionService } from "./db-permission.service";
 
 let dbPermissionService: DbPermissionService;
-
 let db: MockDB;
 
 beforeEach(async () => {
