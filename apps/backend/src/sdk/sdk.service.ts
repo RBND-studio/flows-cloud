@@ -234,7 +234,6 @@ export class SdkService {
         .then(async (subscriptionsResult) => {
           const subscriptionItemId = subscriptionsResult.at(0)?.subscription_item_id;
           if (subscriptionItemId === undefined) return;
-          this.lemonSqueezyService.configureLemonSqueezy();
           const res = await this.lemonSqueezyService.createUsageRecord({
             quantity: 1,
             action: "increment",

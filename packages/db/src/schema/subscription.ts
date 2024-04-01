@@ -14,9 +14,10 @@ export const subscriptions = pgTable("subscription", {
   updated_at: timestamp("updated_at").notNull(),
   renews_at: timestamp("renews_at").notNull(),
   ends_at: timestamp("ends_at"),
+  price_tiers: jsonb("price_tiers")
+    .$type<{ last_unit: string; unit_price_decimal: string | null }[]>()
+    .notNull(),
   trial_ends_at: timestamp("trial_ends_at"),
-  price: text("price").notNull(),
-  is_usage_based: boolean("is_usage_based").notNull(),
   is_paused: boolean("is_paused").notNull(),
   subscription_item_id: integer("subscription_item_id").notNull(),
   organization_id: uuid("organization_id")

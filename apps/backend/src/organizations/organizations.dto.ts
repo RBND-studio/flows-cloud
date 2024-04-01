@@ -47,18 +47,23 @@ export class GetOrganizationMembersDto {
   pending_invites: OrganizationInviteDto[];
 }
 
+export class SubscriptionPriceTierDto {
+  last_unit: string;
+  unit_price_decimal: string | null;
+}
+
 export class GetOrganizationSubscriptionDto {
   id: string;
   name: string;
   status: string;
   status_formatted: string;
   email: string;
-  price: string;
   created_at: Date;
   updated_at: Date;
   renews_at: Date;
   ends_at?: Date | null;
   is_paused: boolean;
+  price_tiers: SubscriptionPriceTierDto[];
 }
 
 export class GetOrganizationInvoiceDto {

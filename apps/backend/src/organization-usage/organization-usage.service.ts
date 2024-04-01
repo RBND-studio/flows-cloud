@@ -11,10 +11,23 @@ export class OrganizationUsageService {
   constructor(private databaseService: DatabaseService) {}
 
   async getOrganizationUsage({ organizationId }: { organizationId: string }): Promise<number> {
+    const activeSubscription = await this.databaseService.db.query.subscriptions.findFirst({
+      columns: { renews_at: true },
+      where: and(
+        eq(subscriptions.organization_id, organizationId),
+        // Only active subscriptions make the organization paid
+        eq(subscriptions.status, "active"),
+      ),
+    });
+
+    const eventTimeCompareValue = activeSubscription
+      ? // With an active subscription, show usage from the current billing period
+        sql`${activeSubscription.renews_at} - interval '1 month'`
+      : // If there is no active subscription, show usage from the current calendar month
+        sql`DATE_TRUNC('month', CURRENT_DATE)`;
+
     const usage = await this.databaseService.db
-      .select({
-        count: sql<number>`cast(count(*) as int)`,
-      })
+      .select({ count: sql<number>`cast(count(*) as int)` })
       .from(events)
       .leftJoin(flows, eq(events.flow_id, flows.id))
       .leftJoin(projects, eq(flows.project_id, projects.id))
@@ -23,7 +36,7 @@ export class OrganizationUsageService {
         and(
           eq(organizations.id, organizationId),
           eq(events.event_type, "startFlow"),
-          gte(events.event_time, sql`DATE_TRUNC('month', CURRENT_DATE)`),
+          gte(events.event_time, eventTimeCompareValue),
         ),
       );
 
@@ -67,13 +80,18 @@ export class OrganizationUsageService {
       })
       .from(projects)
       .leftJoin(organizations, eq(projects.organization_id, organizations.id))
-      .leftJoin(subscriptions, eq(subscriptions.organization_id, organizations.id))
+      .leftJoin(
+        subscriptions,
+        and(
+          eq(subscriptions.organization_id, organizations.id),
+          eq(subscriptions.status, "active"),
+        ),
+      )
       .leftJoin(flows, eq(flows.project_id, projects.id))
       .leftJoin(events, eq(events.flow_id, flows.id))
       .where(
         and(
           eq(projects.id, projectId),
-          eq(subscriptions.status, "active"),
           eq(events.event_type, "startFlow"),
           gte(events.event_time, sql`DATE_TRUNC('month', CURRENT_DATE)`),
         ),
@@ -81,18 +99,10 @@ export class OrganizationUsageService {
       .groupBy(organizations.id, subscriptions.id);
 
     const result = results.at(0);
-    // TODO: think about this
-    if (
-      // eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- eslint is wrong here
-      !result ||
-      result.organization_id === null ||
-      result.start_limit === null ||
-      result.subscription_id === null
-    )
-      return true;
+    if (!result) return true;
 
     const limit = (() => {
-      if (result.subscription_id) return result.start_limit;
+      if (result.subscription_id && result.start_limit !== null) return result.start_limit;
       return FREE_LIMIT;
     })();
 
