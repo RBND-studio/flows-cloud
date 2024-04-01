@@ -11,13 +11,11 @@ import {
   webhookHasSubscriptionData,
   webhookHasSubscriptionPaymentData,
 } from "../lib/lemon-squeezy";
-import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 
 @Injectable()
 export class BillingService {
   constructor(
     private databaseService: DatabaseService,
-    private organizationUsageService: OrganizationUsageService,
     private lemonSqueezyService: LemonSqueezyService,
   ) {}
 
@@ -54,8 +52,6 @@ export class BillingService {
     if (!dbWebhook) throw new BadRequestException();
 
     let processingError: string | null = null;
-
-    this.lemonSqueezyService.configureLemonSqueezy();
 
     if (data.meta.event_name.startsWith("subscription_payment_")) {
       if (!webhookHasSubscriptionPaymentData(data)) throw new BadRequestException("Data invalid");
@@ -95,11 +91,6 @@ export class BillingService {
         processingError = `Failed to get the price data for the subscription ${data.data.id}.`;
       }
 
-      const isUsageBased = attributes.first_subscription_item.is_usage_based;
-      const price = isUsageBased
-        ? priceData.data?.data.attributes.unit_price_decimal
-        : priceData.data?.data.attributes.unit_price;
-
       const ends_at = attributes.ends_at as string | null;
       const trial_ends_at = attributes.trial_ends_at as string | null;
 
@@ -115,11 +106,14 @@ export class BillingService {
         renews_at: new Date(attributes.renews_at as string),
         ends_at: ends_at ? new Date(ends_at) : null,
         trial_ends_at: trial_ends_at ? new Date(trial_ends_at) : null,
-        price: price?.toString() ?? "",
         is_paused: false,
         subscription_item_id: attributes.first_subscription_item.id,
-        is_usage_based: attributes.first_subscription_item.is_usage_based,
         organization_id: data.meta.custom_data.organization_id,
+        price_tiers:
+          priceData.data?.data.attributes.tiers?.map((tier) => ({
+            last_unit: String(tier.last_unit),
+            unit_price_decimal: tier.unit_price_decimal,
+          })) ?? [],
       };
 
       try {
@@ -129,34 +123,6 @@ export class BillingService {
         });
       } catch (error) {
         processingError = `Failed to upsert Subscription #${updateData.lemon_squeezy_id} to the database.`;
-      }
-
-      if (data.meta.event_name === "subscription_created") {
-        // TODO: uncomment this when we get an update from Lemon Squeezy
-        // First we update the billing anchor
-        // await this.lemonSqueezyService
-        //   .updateSubscription(data.data.id, {
-        //     billingAnchor: 1,
-        //     disableProrations: true,
-        //   })
-        //   .then((res) => {
-        //     if (res.error)
-        //       processingError = `Failed to update the subscription ${updateData.lemon_squeezy_id}.`;
-        //   });
-        // Then we update usage
-        await this.organizationUsageService
-          .getOrganizationUsage({ organizationId: updateData.organization_id })
-          .then((usage) =>
-            this.lemonSqueezyService.createUsageRecord({
-              quantity: usage,
-              subscriptionItemId: updateData.subscription_item_id,
-              action: "increment",
-            }),
-          )
-          .then((res) => {
-            if (res.error)
-              processingError = `Failed to create the usage record for the subscription ${updateData.lemon_squeezy_id}.`;
-          });
       }
     }
 

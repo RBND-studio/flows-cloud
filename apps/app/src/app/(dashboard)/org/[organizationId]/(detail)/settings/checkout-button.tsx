@@ -2,9 +2,11 @@
 
 import { useAuth } from "auth/client";
 import { mutate } from "hooks/use-fetch";
+import { PRODUCTION } from "lib/constants";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { type FC, useState } from "react";
+import { productCheckoutLink, stageProductCheckoutLink } from "shared";
 import { Button } from "ui";
 
 type Props = {
@@ -16,7 +18,7 @@ export const CheckoutButton: FC<Props> = ({ organizationId }) => {
   const [initialized, setInitialized] = useState(false);
   const [waitingForWebhook, setWaitingForWebhook] = useState(false);
   const router = useRouter();
-  const checkoutBase = "https://flows-sh.lemonsqueezy.com/buy/7725e266-a4b6-46e7-accf-72c4b3ff5054";
+  const checkoutBase = PRODUCTION ? productCheckoutLink : stageProductCheckoutLink;
   const checkoutParameters = {
     embed: "1",
     "checkout[email]": auth?.user.email ?? "",

@@ -7,8 +7,14 @@ import {
   type UpdateSubscription,
   updateSubscription as updateSubscriptionLS,
 } from "@lemonsqueezy/lemonsqueezy.js";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class LemonSqueezyService {
+  constructor() {
+    this.configureLemonSqueezy();
+  }
+
   configureLemonSqueezy(): void {
     const requiredVars = [
       "BACKEND_LEMONSQUEEZY_WEBHOOK_SECRET",

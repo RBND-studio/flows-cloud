@@ -297,13 +297,16 @@ export interface components {
       members: components["schemas"]["OrganizationMemberDto"][];
       pending_invites: components["schemas"]["OrganizationInviteDto"][];
     };
+    SubscriptionPriceTierDto: {
+      last_unit: string;
+      unit_price_decimal: string | null;
+    };
     GetOrganizationSubscriptionDto: {
       id: string;
       name: string;
       status: string;
       status_formatted: string;
       email: string;
-      price: string;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
@@ -313,6 +316,7 @@ export interface components {
       /** Format: date-time */
       ends_at?: string | null;
       is_paused: boolean;
+      price_tiers: components["schemas"]["SubscriptionPriceTierDto"][];
     };
     GetOrganizationInvoiceDto: {
       id: string;

@@ -2,7 +2,6 @@ export type MockLemonSqueezyService = ReturnType<typeof getMockLemonSqueezyServi
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- needed for the inferred type
 export const getMockLemonSqueezyService = () => ({
-  configureLemonSqueezy: jest.fn(),
   createUsageRecord: jest.fn(),
   getPrice: jest.fn(),
   updateSubscription: jest.fn(),

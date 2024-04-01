@@ -73,8 +73,10 @@ export class OrganizationsService {
     });
     if (!org) throw new NotFoundException();
 
-    const usage = await this.organizationUsageService.getOrganizationUsage({ organizationId });
-    const limit = await this.organizationUsageService.getOrganizationLimit({ organizationId });
+    const [usage, limit] = await Promise.all([
+      this.organizationUsageService.getOrganizationUsage({ organizationId }),
+      this.organizationUsageService.getOrganizationLimit({ organizationId }),
+    ]);
 
     return {
       id: org.id,
@@ -312,12 +314,12 @@ export class OrganizationsService {
         status: true,
         status_formatted: true,
         email: true,
-        price: true,
         created_at: true,
         updated_at: true,
         renews_at: true,
         ends_at: true,
         is_paused: true,
+        price_tiers: true,
       },
     });
   }
@@ -345,8 +347,6 @@ export class OrganizationsService {
       auth,
       organizationId: result.organization_id,
     });
-
-    this.lemonSqueezyService.configureLemonSqueezy();
 
     await this.lemonSqueezyService.cancelSubscription(result.subscription_lemons_squeezy_id);
   }
