@@ -1,6 +1,7 @@
 "use client";
 
 import { css } from "@flows/styled-system/css";
+import { mutate } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
 import type { OrganizationPreview } from "lib/api";
 import { api } from "lib/api";
@@ -27,7 +28,7 @@ export const OrganizationLeaveDialog: FC<Props> = ({ organization }) => {
   const router = useRouter();
   const { send, loading } = useSend();
 
-  if (organization.members === 1) {
+  if (organization.members_count === 1) {
     return (
       <Tooltip
         text={t.personal.organizations.leaveDialog.tooltip}
@@ -54,10 +55,10 @@ export const OrganizationLeaveDialog: FC<Props> = ({ organization }) => {
       { errorMessage: t.toasts.removeMemberFailed },
     );
     if (res.error) {
-      toast.error(res.error.message);
       return;
     }
     toast.success(t.toasts.memberRemoved);
+    await mutate("/organizations");
     router.refresh();
   };
   return (

@@ -32,6 +32,7 @@ type Props = {
   disabled?: boolean;
   className?: string;
   id?: string;
+  error?: boolean;
 };
 
 export const Input = forwardRef<HTMLInputElement, Props>(function Input(
@@ -45,6 +46,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
     optional,
     asChild,
     description,
+    error,
     ...props
   },
   ref,
@@ -70,7 +72,10 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
         id={props.id ?? id}
       />
       {description !== undefined && (
-        <Description className={cx(css({ mt: "space4" }), descriptionClassName)}>
+        <Description
+          className={cx(css({ mt: "space4" }), descriptionClassName)}
+          color={error ? "danger" : "subtle"}
+        >
           {description}
         </Description>
       )}

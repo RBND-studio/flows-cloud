@@ -5,11 +5,9 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export function generateMetadata(): Metadata {
-  return {
-    title: `Personal settings | Flows`,
-  };
-}
+export const metadata: Metadata = {
+  title: `Personal settings | Flows`,
+};
 
 export default function OrganizationDetailLayout({ children }: Props): JSX.Element {
   return <Container>{children}</Container>;

@@ -55,7 +55,7 @@ export const OrganizationsList = async (): Promise<JSX.Element> => {
               color="muted"
             >
               {plural(
-                org.members ?? 0,
+                org.members_count ?? 0,
                 t.personal.organizations.member,
                 t.personal.organizations.member_plural,
               )}

@@ -27,7 +27,8 @@ export class UsersService {
         .select({
           id: users.id,
           email: users.email,
-          has_password: sql<boolean>`case when encrypted_password <> '' then true else false end as e`,
+          has_password:
+            sql<boolean>`case when encrypted_password <> '' then true else false end`.as("e"),
         })
         .from(users)
         .where(eq(users.id, auth.userId)),
@@ -35,7 +36,7 @@ export class UsersService {
         where: eq(userMetadata.user_id, auth.userId),
       }),
     ]);
-    if (usersResult.length === 0) throw new NotFoundException();
+
     const user = usersResult.at(0);
     if (!user) throw new NotFoundException();
 

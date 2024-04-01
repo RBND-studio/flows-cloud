@@ -38,7 +38,7 @@ export const t = {
     enableFlowSuccess: "Flow is live",
     disableFlowSuccess: "Flow disabled",
     passwordUpdated: "Password updated",
-
+    accountUnlinkFailed: "Failed to unlink account",
     sendInviteFailed: "Failed to send invite",
     createProjectFailed: "Failed to create project",
     createOrgFailed: "Failed to create organization",

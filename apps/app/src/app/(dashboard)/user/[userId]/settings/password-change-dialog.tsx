@@ -1,8 +1,8 @@
 "use client";
 
-import { css } from "@flows/styled-system/css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PasswordSchema } from "lib/validation-schemas";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
@@ -22,23 +22,21 @@ import { type z } from "zod";
 
 type PasswordChangeDialogProps = {
   hasPassword: boolean;
-  onPasswordChange: () => void;
 };
 
 type PasswordChangeForm = z.infer<typeof PasswordSchema>;
 
 export const PasswordChangeDialog = ({
   hasPassword,
-  onPasswordChange,
 }: PasswordChangeDialogProps): JSX.Element | null => {
   const [open, setOpen] = useState(false);
   const supabase = createClient();
+  const router = useRouter();
 
   const { register, handleSubmit, formState, reset } = useForm<PasswordChangeForm>({
     defaultValues: {
       password: "",
     },
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- zodResolver is a function
     resolver: zodResolver(PasswordSchema),
   });
 
@@ -53,13 +51,11 @@ export const PasswordChangeDialog = ({
     } else {
       toast.success(t.toasts.passwordUpdated);
     }
-    reset({
-      password: "",
-    });
+    reset();
 
     setIsLoading(false);
-    onPasswordChange();
     setOpen(false);
+    router.refresh();
   };
 
   return (
@@ -67,13 +63,7 @@ export const PasswordChangeDialog = ({
       open={open}
       onOpenChange={setOpen}
       trigger={
-        <Button
-          size="small"
-          variant="secondary"
-          className={css({
-            ml: "auto",
-          })}
-        >
+        <Button size="small" variant="secondary">
           {hasPassword
             ? t.personal.connectedAccounts.changePassword
             : t.personal.connectedAccounts.createPassword}
@@ -88,9 +78,7 @@ export const PasswordChangeDialog = ({
             label="New password"
             type="password"
             description={formState.errors.password?.message ?? ""}
-            descriptionClassName={css({
-              color: "text.danger!",
-            })}
+            error={!!formState.errors.password}
           />
         </DialogContent>
         <DialogActions>
@@ -99,13 +87,7 @@ export const PasswordChangeDialog = ({
               Close
             </Button>
           </DialogClose>
-          <Button
-            disabled={!formState.isDirty}
-            loading={isLoading}
-            size="small"
-            type="submit"
-            variant="primary"
-          >
+          <Button loading={isLoading} size="small" type="submit" variant="primary">
             {t.actions.save}
           </Button>
         </DialogActions>

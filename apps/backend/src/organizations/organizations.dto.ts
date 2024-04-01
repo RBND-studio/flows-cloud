@@ -7,7 +7,7 @@ export class GetOrganizationsDto {
   description: string | null;
   created_at: Date;
   updated_at: Date;
-  members?: number;
+  members_count?: number;
 }
 
 export class GetOrganizationDetailDto extends GetOrganizationsDto {}

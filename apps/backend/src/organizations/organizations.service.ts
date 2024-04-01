@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { organizations, organizationsToUsers, userInvite } from "db";
-import { and, eq, gt, sql } from "drizzle-orm";
+import { and, count, eq, gt, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
@@ -29,14 +29,6 @@ export class OrganizationsService {
   ) {}
 
   async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
-    const membersQuery = this.databaseService.db
-      .select({
-        organization_id: organizationsToUsers.organization_id,
-        count: sql<number>`cast(count(*) as int)`.as("count"),
-      })
-      .from(organizationsToUsers)
-      .groupBy(organizationsToUsers.organization_id)
-      .as("membersQuery");
     const orgs = await this.databaseService.db
       .select({
         id: organizations.id,
@@ -44,7 +36,7 @@ export class OrganizationsService {
         description: organizations.description,
         created_at: organizations.created_at,
         updated_at: organizations.updated_at,
-        members: membersQuery.count,
+        members_count: count(organizationsToUsers.user_id),
       })
       .from(organizations)
       .leftJoin(
@@ -54,8 +46,14 @@ export class OrganizationsService {
           eq(organizationsToUsers.user_id, auth.userId),
         ),
       )
-      .leftJoin(membersQuery, eq(organizations.id, membersQuery.organization_id))
       .where(eq(organizationsToUsers.user_id, auth.userId))
+      .groupBy(
+        organizations.id,
+        organizations.name,
+        organizations.description,
+        organizations.created_at,
+        organizations.updated_at,
+      )
       .orderBy(organizations.name);
 
     return orgs;

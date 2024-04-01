@@ -1,38 +1,21 @@
-"use client";
-
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import type { User, UserIdentity } from "@supabase/supabase-js";
-import { useFetch } from "hooks/use-fetch";
-import { useFirstRender } from "hooks/use-first-render";
-import { useCallback, useEffect, useState } from "react";
-import { createClient } from "supabase/client";
+import { api } from "lib/api";
+import { load } from "lib/load";
+import { cookies } from "next/headers";
+import { createClient } from "supabase/server";
 import { t } from "translations";
-import { Text, toast } from "ui";
+import { Text } from "ui";
 
-import { ConnectedAccount } from "./connected-account";
+import { ConnectedAccount, type ConnectedAccountUserIdentity } from "./connected-account";
 
-export const ConnectedAccounts = (): JSX.Element => {
-  const supabase = createClient();
-  const firstRender = useFirstRender();
-  const [supabaseUser, setSupabaseUser] = useState<User | null>(null);
-  const { data: me, mutate: refetchMe } = useFetch("/me");
+export const ConnectedAccounts = async (): Promise<JSX.Element> => {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const supabaseUser = (await supabase.auth.getUser()).data.user;
+  const me = await load(api["/me"]());
 
-  const getUser = useCallback(async (): Promise<User | null> => {
-    const {
-      data: { user: userData },
-    } = await supabase.auth.getUser();
-    return userData;
-  }, [supabase.auth]);
-
-  useEffect(() => {
-    if (!firstRender) return;
-    getUser()
-      .then(setSupabaseUser)
-      .catch((e: Error) => toast.error(e.message));
-  }, [firstRender, getUser]);
-
-  const emailIdentity: UserIdentity = supabaseUser?.identities?.find(
+  const emailIdentity: ConnectedAccountUserIdentity = supabaseUser?.identities?.find(
     (identity) => identity.provider === "email",
   ) ?? {
     provider: "email",
@@ -40,14 +23,6 @@ export const ConnectedAccounts = (): JSX.Element => {
     id: "email",
     identity_id: "email",
     user_id: supabaseUser?.id ?? "email",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    last_sign_in_at: new Date().toISOString(),
-  };
-
-  const handleOnUnlink = async (): Promise<void> => {
-    setSupabaseUser(await getUser());
-    await refetchMe();
   };
 
   return (
@@ -64,13 +39,15 @@ export const ConnectedAccounts = (): JSX.Element => {
         })}
       >
         {supabaseUser
-          ? [emailIdentity, ...(supabaseUser.identities ?? [])].map((identity) => (
+          ? [
+              emailIdentity,
+              ...(supabaseUser.identities?.filter((i) => i.provider !== "email") ?? []),
+            ].map((identity) => (
               <ConnectedAccount
                 identity={identity}
                 key={identity.id}
-                onUnlink={handleOnUnlink}
                 user={supabaseUser}
-                hasPassword={!!me?.hasPassword}
+                hasPassword={!!me.hasPassword}
               />
             ))
           : null}

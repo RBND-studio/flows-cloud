@@ -4,35 +4,35 @@ import type { User, UserIdentity } from "@supabase/supabase-js";
 import { useSend } from "hooks/use-send";
 import { GitHub16, Google16, Mail16 } from "icons";
 import { api } from "lib/api";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { t } from "translations";
 import { Button, Text, Tooltip } from "ui";
 
 import { PasswordChangeDialog } from "./password-change-dialog";
 
+export type ConnectedAccountUserIdentity = Omit<
+  UserIdentity,
+  "created_at" | "updated_at" | "last_sign_in_at"
+>;
+
 type ConnectedAccountProps = {
   user: User;
-  identity: UserIdentity;
-  onUnlink: () => void;
+  identity: ConnectedAccountUserIdentity;
   hasPassword: boolean;
 };
 
 export const ConnectedAccount = ({
   identity,
   user,
-  onUnlink,
   hasPassword,
 }: ConnectedAccountProps): JSX.Element => {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { send } = useSend();
+  const { send, loading, error } = useSend();
+  const router = useRouter();
   const handleUnlink = async (): Promise<void> => {
-    setIsLoading(true);
     await send(api["DELETE /me/identities/:providerId"](identity.id), {
-      errorMessage: "Failed to unlink account",
+      errorMessage: t.toasts.accountUnlinkFailed,
     });
-    onUnlink();
-    setIsLoading(false);
+    if (!error) router.refresh();
   };
 
   const isDisabled = !hasPassword && user.identities?.length === 1;
@@ -55,30 +55,32 @@ export const ConnectedAccount = ({
       ) : (
         <Mail16 />
       )}
-      <Text>{identity.identity_data?.email}</Text>
+      <Text
+        className={css({
+          mr: "auto",
+        })}
+      >
+        {identity.identity_data?.email}
+      </Text>
       {identity.provider !== "email" ? (
         <Tooltip
           text={isDisabled ? t.personal.connectedAccounts.lastProvider : ""}
           trigger={
-            <Button
-              className={css({
-                _disabled: {
-                  pointerEvents: "unset",
-                },
-                ml: "auto",
-              })}
-              disabled={isDisabled}
-              loading={isLoading}
-              onClick={handleUnlink}
-              size="small"
-              variant="danger"
-            >
-              {t.actions.unlink}
-            </Button>
+            <div>
+              <Button
+                disabled={isDisabled}
+                loading={loading}
+                onClick={handleUnlink}
+                size="small"
+                variant="danger"
+              >
+                {t.actions.unlink}
+              </Button>
+            </div>
           }
         />
       ) : (
-        <PasswordChangeDialog hasPassword={hasPassword} onPasswordChange={onUnlink} />
+        <PasswordChangeDialog hasPassword={hasPassword} />
       )}
     </li>
   );
