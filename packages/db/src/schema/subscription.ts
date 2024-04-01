@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { boolean, integer, jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { organizations } from "./organization";
@@ -35,3 +36,10 @@ export const webhookEvents = pgTable("webhook_event", {
 });
 
 export type NewSubscription = typeof subscriptions.$inferInsert;
+
+export const subscriptionOrganization = relations(subscriptions, ({ one }) => ({
+  organization: one(organizations, {
+    references: [organizations.id],
+    fields: [subscriptions.organization_id],
+  }),
+}));

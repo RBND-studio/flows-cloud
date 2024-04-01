@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { events, flows, organizations, projects, subscriptions } from "db";
 import { and, eq, gte, sql } from "drizzle-orm";
 
@@ -44,26 +44,24 @@ export class OrganizationUsageService {
   }
 
   async getOrganizationLimit({ organizationId }: { organizationId: string }): Promise<number> {
-    const orgResults = await this.databaseService.db
-      .select({
-        subscription_id: subscriptions.id,
-        start_limit: organizations.start_limit,
-      })
-      .from(organizations)
-      .leftJoin(subscriptions, eq(subscriptions.organization_id, organizations.id))
-      .where(
-        and(
-          eq(organizations.id, organizationId),
-          // Only active subscriptions make the organization paid
-          eq(subscriptions.status, "active"),
-        ),
-      );
+    const subscriptionResult = await this.databaseService.db.query.subscriptions.findFirst({
+      columns: {},
+      where: and(
+        eq(subscriptions.organization_id, organizationId),
+        eq(subscriptions.status, "active"),
+      ),
+      with: {
+        organization: {
+          columns: {
+            start_limit: true,
+          },
+        },
+      },
+    });
 
-    const orgResult = orgResults.at(0);
+    if (!subscriptionResult) return FREE_LIMIT;
 
-    if (orgResult?.subscription_id) return orgResult.start_limit;
-
-    return FREE_LIMIT;
+    return subscriptionResult.organization.start_limit;
   }
 
   async getIsOrganizationLimitReachedByProject({
@@ -71,41 +69,18 @@ export class OrganizationUsageService {
   }: {
     projectId: string;
   }): Promise<boolean> {
-    const results = await this.databaseService.db
-      .select({
-        organization_id: organizations.id,
-        subscription_id: subscriptions.id,
-        start_limit: organizations.start_limit,
-        event_count: sql<number>`cast(count(*) as int)`,
-      })
-      .from(projects)
-      .leftJoin(organizations, eq(projects.organization_id, organizations.id))
-      .leftJoin(
-        subscriptions,
-        and(
-          eq(subscriptions.organization_id, organizations.id),
-          eq(subscriptions.status, "active"),
-        ),
-      )
-      .leftJoin(flows, eq(flows.project_id, projects.id))
-      .leftJoin(events, eq(events.flow_id, flows.id))
-      .where(
-        and(
-          eq(projects.id, projectId),
-          eq(events.event_type, "startFlow"),
-          gte(events.event_time, sql`DATE_TRUNC('month', CURRENT_DATE)`),
-        ),
-      )
-      .groupBy(organizations.id, subscriptions.id);
+    const project = await this.databaseService.db.query.projects.findFirst({
+      where: eq(projects.id, projectId),
+      columns: { organization_id: true },
+    });
+    if (!project) throw new NotFoundException();
+    const organizationId = project.organization_id;
 
-    const result = results.at(0);
-    if (!result) return true;
+    const [limit, usage] = await Promise.all([
+      this.getOrganizationLimit({ organizationId }),
+      this.getOrganizationUsage({ organizationId }),
+    ]);
 
-    const limit = (() => {
-      if (result.subscription_id && result.start_limit !== null) return result.start_limit;
-      return FREE_LIMIT;
-    })();
-
-    return result.event_count >= limit;
+    return usage >= limit;
   }
 }
