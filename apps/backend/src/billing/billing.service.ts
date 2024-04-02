@@ -1,5 +1,3 @@
-import crypto from "node:crypto";
-
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { invoices, type NewInvoice, type NewSubscription, subscriptions, webhookEvents } from "db";
 import { eq } from "drizzle-orm";
@@ -11,6 +9,7 @@ import {
   webhookHasSubscriptionData,
   webhookHasSubscriptionPaymentData,
 } from "../lib/lemon-squeezy";
+import { verifyWebhookSignature } from "../lib/webhook-signature";
 
 @Injectable()
 export class BillingService {
@@ -22,7 +21,7 @@ export class BillingService {
   async handleLemonSqueezyWebhook({
     data,
     rawBody,
-    signature: signatureHeader,
+    signature,
   }: {
     data: unknown;
     rawBody?: Buffer;
@@ -30,12 +29,8 @@ export class BillingService {
   }): Promise<void> {
     if (!rawBody) throw new BadRequestException();
 
-    const hmac = crypto.createHmac("sha256", process.env.BACKEND_LEMONSQUEEZY_WEBHOOK_SECRET);
-    const digest = Buffer.from(hmac.update(rawBody).digest("hex"), "utf8");
-    const signature = Buffer.from(signatureHeader, "utf8");
-
-    if (!crypto.timingSafeEqual(digest, signature))
-      throw new BadRequestException("Invalid signature");
+    const { valid } = verifyWebhookSignature({ signature, rawBody });
+    if (!valid) throw new BadRequestException("Invalid signature");
 
     if (!webhookHasMeta(data)) throw new BadRequestException("Data invalid");
 

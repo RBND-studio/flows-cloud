@@ -73,10 +73,40 @@ export class OrganizationsService {
     });
     if (!org) throw new NotFoundException();
 
-    const [usage, limit] = await Promise.all([
+    const [usage, limit, subscription] = await Promise.all([
       this.organizationUsageService.getOrganizationUsage({ organizationId }),
       this.organizationUsageService.getOrganizationLimit({ organizationId }),
+      this.databaseService.db.query.subscriptions.findFirst({
+        columns: { price_tiers: true },
+        where: and(
+          eq(subscriptions.organization_id, organizationId),
+          eq(subscriptions.status, "active"),
+        ),
+      }),
     ]);
+
+    const estimated_price = (() => {
+      if (!subscription) return;
+
+      const calculatedPrice = subscription.price_tiers.reduce<{
+        estimatedPrice: number;
+        units: number;
+        prevTierLastUnit: number;
+      }>(
+        (acc, tier) => {
+          const tierLastUnit = tier.last_unit === "inf" ? Infinity : Number(tier.last_unit);
+          const currentTierUnits = Math.min(tierLastUnit - acc.prevTierLastUnit, acc.units);
+          const currentTierPrice = currentTierUnits * Number(tier.unit_price_decimal ?? "") * 0.01;
+          return {
+            estimatedPrice: acc.estimatedPrice + currentTierPrice,
+            units: acc.units - currentTierUnits,
+            prevTierLastUnit: tierLastUnit,
+          };
+        },
+        { estimatedPrice: 0, units: usage, prevTierLastUnit: 0 },
+      );
+      return calculatedPrice.estimatedPrice;
+    })();
 
     return {
       id: org.id,
@@ -86,6 +116,7 @@ export class OrganizationsService {
       updated_at: org.updated_at,
       usage,
       limit,
+      estimated_price,
     };
   }
 

@@ -31,6 +31,13 @@ export const getMockDB = () => ({
     userMetadata: {
       findFirst: jest.fn(),
     },
+    invoices: {
+      findMany: jest.fn(),
+    },
+    subscriptions: {
+      findMany: jest.fn(),
+      findFirst: jest.fn(),
+    },
   },
   select: jest.fn().mockReturnThis(),
   from: jest.fn().mockReturnThis(),
@@ -50,4 +57,5 @@ export const getMockDB = () => ({
   selectDistinct: jest.fn().mockReturnThis(),
   selectDistinctOn: jest.fn().mockReturnThis(),
   as: jest.fn().mockReturnThis(),
+  onConflictDoUpdate: jest.fn().mockReturnThis(),
 });
