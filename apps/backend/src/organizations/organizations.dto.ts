@@ -12,6 +12,7 @@ export class GetOrganizationsDto {
 export class GetOrganizationDetailDto extends GetOrganizationsDto {
   usage: number;
   limit: number;
+  estimated_price?: number;
 }
 
 export class CreateOrganizationDto {

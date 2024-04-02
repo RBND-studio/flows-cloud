@@ -44,7 +44,6 @@ beforeEach(async () => {
     controllers: [OrganizationsController],
     providers: [OrganizationsService],
   })
-
     .useMocker((token) => {
       if (token === DatabaseService) return { db };
       if (token === EmailService) return emailService;
@@ -66,6 +65,15 @@ describe("Get organizations", () => {
 });
 
 describe("Get organization detail", () => {
+  beforeEach(() => {
+    db.query.subscriptions.findFirst.mockResolvedValue({
+      price_tiers: [
+        { last_unit: "10", unit_price_decimal: "10" },
+        { last_unit: "inf", unit_price_decimal: "1" },
+      ],
+    });
+    organizationUsageService.getOrganizationUsage.mockResolvedValue(20);
+  });
   it("should throw without access", async () => {
     dbPermissionService.doesUserHaveAccessToOrganization.mockRejectedValue(new Error("forbidden"));
     await expect(
@@ -81,7 +89,7 @@ describe("Get organization detail", () => {
   it("should return organization", async () => {
     await expect(
       organizationsController.getOrganizationDetail({ userId: "userId" }, "org1"),
-    ).resolves.toEqual({ id: "org1", name: "org" });
+    ).resolves.toEqual({ id: "org1", name: "org", estimated_price: 1.1, usage: 20 });
   });
 });
 
@@ -270,5 +278,65 @@ describe("Get organization members", () => {
       members: [{ id: "userId", email: "email" }],
       pending_invites: [{ id: "inviteId", email: "email", expires_at: expect.any(Date) }],
     });
+  });
+});
+
+describe("Get Subscriptions", () => {
+  beforeEach(() => {
+    db.query.subscriptions.findMany.mockResolvedValue([{ id: "subId" }]);
+  });
+  it("should throw without access", async () => {
+    dbPermissionService.doesUserHaveAccessToOrganization.mockRejectedValue(new Error("forbidden"));
+    await expect(
+      organizationsController.getSubscriptions({ userId: "userId" }, "org1"),
+    ).rejects.toThrow("forbidden");
+  });
+  it("should return db results", async () => {
+    await expect(
+      organizationsController.getSubscriptions({ userId: "userId" }, "org1"),
+    ).resolves.toEqual([{ id: "subId" }]);
+  });
+});
+
+describe("Cancel Subscription", () => {
+  beforeEach(() => {
+    db.leftJoin.mockResolvedValue([
+      { organization_id: "org1", subscription_lemons_squeezy_id: "lemonId" },
+    ]);
+  });
+  it("should throw without organization", async () => {
+    db.leftJoin.mockResolvedValue([]);
+    await expect(
+      organizationsController.cancelSubscription({ userId: "userId" }, "org1"),
+    ).rejects.toThrow("Not Found");
+  });
+  it("should throw without access", async () => {
+    dbPermissionService.doesUserHaveAccessToOrganization.mockRejectedValue(new Error("forbidden"));
+    await expect(
+      organizationsController.cancelSubscription({ userId: "userId" }, "org1"),
+    ).rejects.toThrow("forbidden");
+  });
+  it("should call lemon squeezy", async () => {
+    await expect(
+      organizationsController.cancelSubscription({ userId: "userId" }, "org1"),
+    ).resolves.toBeUndefined();
+    expect(lemonSqueezyService.cancelSubscription).toHaveBeenCalledWith("lemonId");
+  });
+});
+
+describe("Get Invoices", () => {
+  beforeEach(() => {
+    db.query.invoices.findMany.mockResolvedValue([{ id: "invoiceId" }]);
+  });
+  it("should throw without access", async () => {
+    dbPermissionService.doesUserHaveAccessToOrganization.mockRejectedValue(new Error("forbidden"));
+    await expect(organizationsController.getInvoices({ userId: "userId" }, "org1")).rejects.toThrow(
+      "forbidden",
+    );
+  });
+  it("should return db results", async () => {
+    await expect(
+      organizationsController.getInvoices({ userId: "userId" }, "org1"),
+    ).resolves.toEqual([{ id: "invoiceId" }]);
   });
 });

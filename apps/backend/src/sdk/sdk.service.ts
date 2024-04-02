@@ -214,12 +214,13 @@ export class SdkService {
     const projectId = event.projectId;
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
-      { projectId },
-    );
-    const existingFlow = await this.databaseService.db.query.flows.findFirst({
-      where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
-    });
+    const [limitReached, existingFlow] = await Promise.all([
+      this.organizationUsageService.getIsOrganizationLimitReachedByProject({ projectId }),
+      this.databaseService.db.query.flows.findFirst({
+        columns: { flow_type: true, id: true },
+        where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
+      }),
+    ]);
     if (limitReached && (!existingFlow || existingFlow.flow_type === "local"))
       throw new BadRequestException("Organization limit reached");
 
@@ -256,7 +257,7 @@ export class SdkService {
           description: "",
           name: event.flowId,
         })
-        .returning();
+        .returning({ id: flows.id });
       const newFlow = newFlows.at(0);
       if (!newFlow) throw new BadRequestException("error creating flow");
       return newFlow;

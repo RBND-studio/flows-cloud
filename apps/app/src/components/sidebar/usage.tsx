@@ -15,7 +15,7 @@ export const Usage: FC = () => {
 
   if (!organizationId || !data) return null;
 
-  const { usage, limit } = data;
+  const { usage, limit, estimated_price } = data;
 
   return (
     <div
@@ -41,6 +41,7 @@ export const Usage: FC = () => {
         </Text>
       </Text>
       <Progress max={limit} value={usage} />
+      <Text>Price: ${estimated_price?.toFixed(2)}</Text>
     </div>
   );
 };

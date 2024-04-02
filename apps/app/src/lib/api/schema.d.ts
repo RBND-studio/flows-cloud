@@ -272,6 +272,7 @@ export interface components {
       updated_at: string;
       usage: number;
       limit: number;
+      estimated_price?: number;
     };
     CreateOrganizationDto: {
       name: string;
