@@ -10,12 +10,14 @@ import {
   webhookHasSubscriptionPaymentData,
 } from "../lib/lemon-squeezy";
 import { verifyWebhookSignature } from "../lib/webhook-signature";
+import { NewsfeedService } from "../newsfeed/newsfeed.service";
 
 @Injectable()
 export class BillingService {
   constructor(
     private databaseService: DatabaseService,
     private lemonSqueezyService: LemonSqueezyService,
+    private newsfeedService: NewsfeedService,
   ) {}
 
   async handleLemonSqueezyWebhook({
@@ -33,6 +35,21 @@ export class BillingService {
     if (!valid) throw new BadRequestException("Invalid signature");
 
     if (!webhookHasMeta(data)) throw new BadRequestException("Data invalid");
+
+    const organization_id = data.meta.custom_data.organization_id;
+
+    if (data.meta.event_name === "subscription_payment_failed")
+      void this.newsfeedService.postMessage({
+        message: `*Flows* Payment failed for org ${organization_id}`,
+      });
+    if (data.meta.event_name === "subscription_payment_succeeded")
+      void this.newsfeedService.postMessage({
+        message: `*Flows* Payment succeeded for org ${organization_id}`,
+      });
+    if (data.meta.event_name === "subscription_created")
+      void this.newsfeedService.postMessage({
+        message: `*Flows* New subscription from org ${organization_id}`,
+      });
 
     const newWebhooks = await this.databaseService.db
       .insert(webhookEvents)
@@ -69,7 +86,7 @@ export class BillingService {
         user_email: data.data.attributes.user_email as string,
         user_name: data.data.attributes.user_name as string,
         refunded_at: refunded_at ? new Date(refunded_at) : null,
-        organization_id: data.meta.custom_data.organization_id,
+        organization_id,
       };
 
       await this.databaseService.db
@@ -103,7 +120,7 @@ export class BillingService {
         trial_ends_at: trial_ends_at ? new Date(trial_ends_at) : null,
         is_paused: false,
         subscription_item_id: attributes.first_subscription_item.id,
-        organization_id: data.meta.custom_data.organization_id,
+        organization_id,
         price_tiers:
           priceData.data?.data.attributes.tiers?.map((tier) => ({
             last_unit: String(tier.last_unit),

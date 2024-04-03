@@ -6,7 +6,9 @@ import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { verifyWebhookSignature } from "../lib/webhook-signature";
 import { getMockDB, type MockDB } from "../mocks";
 import { getMockLemonSqueezyService, type MockLemonSqueezyService } from "../mocks/lemon-squeezy";
+import { getMockNewsfeedService, type MockNewsfeedService } from "../mocks/newsfeed-service";
 import { mockWebhooks } from "../mocks/webhooks";
+import { NewsfeedService } from "../newsfeed/newsfeed.service";
 import { BillingController } from "./billing.controller";
 import { BillingService } from "./billing.service";
 
@@ -18,10 +20,12 @@ let billingController: BillingController;
 
 let db: MockDB;
 let lemonSqueezyService: MockLemonSqueezyService;
+let newsfeedService: MockNewsfeedService;
 
 beforeEach(async () => {
   db = getMockDB();
   lemonSqueezyService = getMockLemonSqueezyService();
+  newsfeedService = getMockNewsfeedService();
 
   const moduleRef = await Test.createTestingModule({
     controllers: [BillingController],
@@ -30,6 +34,7 @@ beforeEach(async () => {
     .useMocker((token) => {
       if (token === DatabaseService) return { db };
       if (token === LemonSqueezyService) return lemonSqueezyService;
+      if (token === NewsfeedService) return newsfeedService;
     })
     .compile();
   billingController = moduleRef.get(BillingController);
