@@ -10,7 +10,7 @@ export const Usage: FC = () => {
   const { organizationId } = useParams<{ organizationId?: string }>();
   const { data } = useFetch(
     "/organizations/:organizationId",
-    organizationId ? [organizationId] : undefined,
+    organizationId ? [organizationId] : null,
   );
 
   if (!organizationId || !data) return null;
