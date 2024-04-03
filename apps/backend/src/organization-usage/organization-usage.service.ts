@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { events, flows, organizations, projects, subscriptions } from "db";
-import { and, eq, gte, sql } from "drizzle-orm";
+import { and, eq, gte, inArray, sql } from "drizzle-orm";
 
 import { DatabaseService } from "../database/database.service";
 
@@ -15,8 +15,7 @@ export class OrganizationUsageService {
       columns: { renews_at: true },
       where: and(
         eq(subscriptions.organization_id, organizationId),
-        // Only active subscriptions make the organization paid
-        eq(subscriptions.status, "active"),
+        inArray(subscriptions.status, ["active", "past_due"]),
       ),
     });
 
@@ -48,7 +47,7 @@ export class OrganizationUsageService {
       columns: {},
       where: and(
         eq(subscriptions.organization_id, organizationId),
-        eq(subscriptions.status, "active"),
+        inArray(subscriptions.status, ["active", "past_due"]),
       ),
       with: {
         organization: {

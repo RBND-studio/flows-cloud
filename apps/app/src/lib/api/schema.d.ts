@@ -72,9 +72,6 @@ export interface paths {
   "/invites/{inviteId}": {
     delete: operations["OrganizationsController_removeInvite"];
   };
-  "/organizations/{organizationId}/subscriptions": {
-    get: operations["OrganizationsController_getSubscriptions"];
-  };
   "/subscriptions/{subscriptionId}/cancel": {
     post: operations["OrganizationsController_cancelSubscription"];
   };
@@ -262,6 +259,27 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
     };
+    SubscriptionPriceTierDto: {
+      last_unit: string;
+      unit_price_decimal: string | null;
+    };
+    GetOrganizationSubscriptionDto: {
+      id: string;
+      name: string;
+      status: string;
+      status_formatted: string;
+      email: string;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      /** Format: date-time */
+      renews_at: string;
+      /** Format: date-time */
+      ends_at?: string | null;
+      is_paused: boolean;
+      price_tiers: components["schemas"]["SubscriptionPriceTierDto"][];
+    };
     GetOrganizationDetailDto: {
       id: string;
       name: string;
@@ -273,6 +291,7 @@ export interface components {
       usage: number;
       limit: number;
       estimated_price?: number;
+      subscription?: components["schemas"]["GetOrganizationSubscriptionDto"];
     };
     CreateOrganizationDto: {
       name: string;
@@ -297,27 +316,6 @@ export interface components {
     GetOrganizationMembersDto: {
       members: components["schemas"]["OrganizationMemberDto"][];
       pending_invites: components["schemas"]["OrganizationInviteDto"][];
-    };
-    SubscriptionPriceTierDto: {
-      last_unit: string;
-      unit_price_decimal: string | null;
-    };
-    GetOrganizationSubscriptionDto: {
-      id: string;
-      name: string;
-      status: string;
-      status_formatted: string;
-      email: string;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      /** Format: date-time */
-      renews_at: string;
-      /** Format: date-time */
-      ends_at?: string | null;
-      is_paused: boolean;
-      price_tiers: components["schemas"]["SubscriptionPriceTierDto"][];
     };
     GetOrganizationInvoiceDto: {
       id: string;
@@ -801,20 +799,6 @@ export interface operations {
     responses: {
       200: {
         content: never;
-      };
-    };
-  };
-  OrganizationsController_getSubscriptions: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetOrganizationSubscriptionDto"][];
-        };
       };
     };
   };

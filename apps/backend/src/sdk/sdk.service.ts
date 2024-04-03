@@ -231,7 +231,9 @@ export class SdkService {
         .from(subscriptions)
         .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id))
         .leftJoin(projects, eq(projects.organization_id, organizations.id))
-        .where(and(eq(projects.id, projectId), eq(subscriptions.status, "active")))
+        .where(
+          and(eq(projects.id, projectId), inArray(subscriptions.status, ["active", "past_due"])),
+        )
         .then(async (subscriptionsResult) => {
           const subscriptionItemId = subscriptionsResult.at(0)?.subscription_item_id;
           if (subscriptionItemId === undefined) return;

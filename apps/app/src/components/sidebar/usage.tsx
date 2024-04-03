@@ -2,9 +2,11 @@
 
 import { css } from "@flows/styled-system/css";
 import { useFetch } from "hooks/use-fetch";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { type FC } from "react";
-import { Progress, Text } from "ui";
+import { routes } from "routes";
+import { Button, Progress, Text } from "ui";
 
 export const Usage: FC = () => {
   const { organizationId } = useParams<{ organizationId?: string }>();
@@ -16,6 +18,7 @@ export const Usage: FC = () => {
   if (!organizationId || !data) return null;
 
   const { usage, limit, estimated_price } = data;
+  const paymentIssue = data.subscription?.status !== "active";
 
   return (
     <div
@@ -42,6 +45,14 @@ export const Usage: FC = () => {
       </Text>
       <Progress max={limit} value={usage} />
       <Text>Price: ${estimated_price?.toFixed(2)}</Text>
+      {paymentIssue ? (
+        <div>
+          <Text>There was an issue charging your card</Text>
+          <Button asChild size="small">
+            <Link href={routes.organizationSettings({ organizationId })}>Fix</Link>
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 };
