@@ -57,8 +57,8 @@ export const CancelSubscription: FC<Props> = ({ subscriptionId, organizationId }
           Are you sure you want to cancel your subscription?
         </Text>
         <Text>
-          Your usage limit will be reset immediately to free tier and you will be charged by amount
-          of current usage at the end of this month.
+          Your usage limit will be reset immediately to free tier and you will be charged based on
+          your current usage at the end of your billing period.
         </Text>
       </DialogContent>
       <DialogActions>

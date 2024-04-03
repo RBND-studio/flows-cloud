@@ -8,7 +8,6 @@ type Schemas = components["schemas"];
 
 export type OrganizationPreview = Schemas["GetOrganizationsDto"];
 export type OrganizationDetail = Schemas["GetOrganizationDetailDto"];
-export type OrganizationSubscription = Schemas["GetOrganizationSubscriptionDto"];
 export type OrganizationInvoice = Schemas["GetOrganizationInvoiceDto"];
 export type InviteUser = Schemas["InviteUserDto"];
 export type OrganizationUsers = Schemas["GetOrganizationMembersDto"];
@@ -39,7 +38,6 @@ export type Api = {
     [string, UpdateOrganization]
   >;
   "/organizations/:organizationId": Endpoint<OrganizationDetail, [string]>;
-  "/organizations/:organizationId/subscriptions": Endpoint<OrganizationSubscription[], [string]>;
   "/organizations/:organizationId/invoices": Endpoint<OrganizationInvoice[], [string]>;
   "/organizations/:organizationId/users": Endpoint<OrganizationUsers, [string]>;
   "POST /organizations/:organizationId/users": Endpoint<void, [string, InviteUser]>;
@@ -74,8 +72,6 @@ export const api: Api = {
   "PATCH /organizations/:organizationId": (organizationId, body) =>
     fetcher(`/organizations/${organizationId}`, { method: "PATCH", body }),
   "/organizations/:organizationId": (organizationId) => fetcher(`/organizations/${organizationId}`),
-  "/organizations/:organizationId/subscriptions": (organizationId) =>
-    fetcher(`/organizations/${organizationId}/subscriptions`),
   "/organizations/:organizationId/invoices": (organizationId) =>
     fetcher(`/organizations/${organizationId}/invoices`),
   "/organizations/:organizationId/users": (organizationId) =>

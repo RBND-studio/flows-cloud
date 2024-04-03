@@ -31,7 +31,7 @@ export const CheckoutButton: FC<Props> = ({ organizationId }) => {
     window.createLemonSqueezy();
     window.LemonSqueezy.Setup({
       eventHandler: (data) => {
-        if (data.event === "Checkout.Success") {
+        if (data.event === "Checkout.Success" || data.event === "PaymentMethodUpdate.Closed") {
           setWaitingForWebhook(true);
           setTimeout(() => {
             router.refresh();

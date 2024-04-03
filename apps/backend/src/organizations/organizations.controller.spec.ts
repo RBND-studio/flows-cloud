@@ -65,13 +65,15 @@ describe("Get organizations", () => {
 });
 
 describe("Get organization detail", () => {
+  const mockSubscription = {
+    status: "active",
+    price_tiers: [
+      { last_unit: "10", unit_price_decimal: "10" },
+      { last_unit: "inf", unit_price_decimal: "1" },
+    ],
+  };
   beforeEach(() => {
-    db.query.subscriptions.findFirst.mockResolvedValue({
-      price_tiers: [
-        { last_unit: "10", unit_price_decimal: "10" },
-        { last_unit: "inf", unit_price_decimal: "1" },
-      ],
-    });
+    db.query.subscriptions.findFirst.mockResolvedValue(mockSubscription);
     organizationUsageService.getOrganizationUsage.mockResolvedValue(20);
   });
   it("should throw without access", async () => {
@@ -89,7 +91,13 @@ describe("Get organization detail", () => {
   it("should return organization", async () => {
     await expect(
       organizationsController.getOrganizationDetail({ userId: "userId" }, "org1"),
-    ).resolves.toEqual({ id: "org1", name: "org", estimated_price: 1.1, usage: 20 });
+    ).resolves.toEqual({
+      id: "org1",
+      name: "org",
+      estimated_price: 1.1,
+      usage: 20,
+      subscription: mockSubscription,
+    });
   });
 });
 
@@ -278,23 +286,6 @@ describe("Get organization members", () => {
       members: [{ id: "userId", email: "email" }],
       pending_invites: [{ id: "inviteId", email: "email", expires_at: expect.any(Date) }],
     });
-  });
-});
-
-describe("Get Subscriptions", () => {
-  beforeEach(() => {
-    db.query.subscriptions.findMany.mockResolvedValue([{ id: "subId" }]);
-  });
-  it("should throw without access", async () => {
-    dbPermissionService.doesUserHaveAccessToOrganization.mockRejectedValue(new Error("forbidden"));
-    await expect(
-      organizationsController.getSubscriptions({ userId: "userId" }, "org1"),
-    ).rejects.toThrow("forbidden");
-  });
-  it("should return db results", async () => {
-    await expect(
-      organizationsController.getSubscriptions({ userId: "userId" }, "org1"),
-    ).resolves.toEqual([{ id: "subId" }]);
   });
 });
 

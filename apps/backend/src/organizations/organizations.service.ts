@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { invoices, organizations, organizationsToUsers, subscriptions, userInvite } from "db";
-import { and, eq, gt, sql } from "drizzle-orm";
+import { and, eq, gt, inArray, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
@@ -19,7 +19,6 @@ import type {
   GetOrganizationInvoiceDto,
   GetOrganizationMembersDto,
   GetOrganizationsDto,
-  GetOrganizationSubscriptionDto,
   OrganizationMemberDto,
   UpdateOrganizationDto,
 } from "./organizations.dto";
@@ -77,16 +76,28 @@ export class OrganizationsService {
       this.organizationUsageService.getOrganizationUsage({ organizationId }),
       this.organizationUsageService.getOrganizationLimit({ organizationId }),
       this.databaseService.db.query.subscriptions.findFirst({
-        columns: { price_tiers: true },
+        columns: {
+          id: true,
+          name: true,
+          status: true,
+          status_formatted: true,
+          email: true,
+          created_at: true,
+          updated_at: true,
+          renews_at: true,
+          ends_at: true,
+          is_paused: true,
+          price_tiers: true,
+        },
         where: and(
           eq(subscriptions.organization_id, organizationId),
-          eq(subscriptions.status, "active"),
+          inArray(subscriptions.status, ["active", "past_due", "unpaid"]),
         ),
       }),
     ]);
 
     const estimated_price = (() => {
-      if (!subscription) return;
+      if (!subscription || !["active", "past_due"].includes(subscription.status)) return;
 
       const calculatedPrice = subscription.price_tiers.reduce<{
         estimatedPrice: number;
@@ -117,6 +128,7 @@ export class OrganizationsService {
       usage,
       limit,
       estimated_price,
+      subscription,
     };
   }
 
@@ -326,33 +338,6 @@ export class OrganizationsService {
       members: members.map(({ user }) => user as OrganizationMemberDto),
       pending_invites: invites,
     };
-  }
-
-  async getSubscriptions({
-    auth,
-    organizationId,
-  }: {
-    auth: Auth;
-    organizationId: string;
-  }): Promise<GetOrganizationSubscriptionDto[]> {
-    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
-
-    return this.databaseService.db.query.subscriptions.findMany({
-      where: eq(subscriptions.organization_id, organizationId),
-      columns: {
-        id: true,
-        name: true,
-        status: true,
-        status_formatted: true,
-        email: true,
-        created_at: true,
-        updated_at: true,
-        renews_at: true,
-        ends_at: true,
-        is_paused: true,
-        price_tiers: true,
-      },
-    });
   }
 
   async cancelSubscription({
