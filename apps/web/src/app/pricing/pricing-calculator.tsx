@@ -3,11 +3,10 @@
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { cardWrapper, Section } from "components/ui";
+import { sum } from "lib/sum";
 import { type ReactElement, useState } from "react";
 import { formatNumberWithThousandSeparator, pricingTiers } from "shared";
 import { Slider, Text } from "ui";
-
-const sum = (arr: number[]): number => arr.reduce((acc, cur) => acc + cur, 0);
 
 const tier1amount = pricingTiers.tier1.flowsRange[1] - pricingTiers.tier1.flowsRange[0];
 const tier2amount = pricingTiers.tier2.flowsRange[1] - pricingTiers.tier2.flowsRange[0];
