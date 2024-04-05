@@ -530,22 +530,22 @@ importers:
         specifier: 0.34.3
         version: 0.34.3(typescript@5.4.2)
       '@storybook/addon-essentials':
-        specifier: ^8.0.1
+        specifier: ^8.0.5
         version: 8.0.5(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)
       '@storybook/addon-interactions':
-        specifier: ^8.0.1
+        specifier: ^8.0.5
         version: 8.0.5
       '@storybook/addon-links':
-        specifier: ^8.0.1
+        specifier: ^8.0.5
         version: 8.0.5(react@18.2.0)
       '@storybook/blocks':
-        specifier: ^8.0.1
+        specifier: ^8.0.5
         version: 8.0.5(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)
       '@storybook/cli':
-        specifier: ^8.0.1
+        specifier: ^8.0.5
         version: 8.0.5(react-dom@18.2.0)(react@18.2.0)
       '@storybook/react':
-        specifier: ^8.0.1
+        specifier: ^8.0.5
         version: 8.0.5(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)
       '@storybook/react-vite':
         specifier: ^8.0.5
@@ -563,7 +563,7 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config-custom
       storybook:
-        specifier: ^8.0.1
+        specifier: ^8.0.5
         version: 8.0.5(react-dom@18.2.0)(react@18.2.0)
       tsconfig:
         specifier: workspace:*
@@ -572,7 +572,7 @@ importers:
         specifier: 5.4.2
         version: 5.4.2
       vite:
-        specifier: ^5.1.7
+        specifier: ^5.2.8
         version: 5.2.8
       vite-tsconfig-paths:
         specifier: ^4.3.2
@@ -16681,7 +16681,7 @@ packages:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
       hosted-git-info: 2.8.9
-      resolve: 1.22.4
+      resolve: 1.22.8
       semver: 5.7.2
       validate-npm-package-license: 3.0.4
     dev: true
