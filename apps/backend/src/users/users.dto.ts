@@ -5,7 +5,7 @@ import { type UserRole, UserRoleEnum } from "db";
 export class Invite {
   id: string;
   expires_at: Date;
-  organizationName: string;
+  organization_name: string;
 }
 
 export class GetMeDto {
@@ -23,5 +23,5 @@ export class JoinWaitlistDto {
   @IsEmail()
   email: string;
   @IsString()
-  captchaToken: string;
+  captcha_token: string;
 }

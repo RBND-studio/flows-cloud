@@ -246,8 +246,8 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
       domains: string[];
-      css_vars?: string;
-      css_template?: string;
+      css_vars?: string | null;
+      css_template?: string | null;
     };
     CreateProjectDto: {
       name: string;
@@ -352,7 +352,7 @@ export interface components {
       id: string;
       /** Format: date-time */
       expires_at: string;
-      organizationName: string;
+      organization_name: string;
     };
     GetMeDto: {
       /** @enum {string} */
@@ -365,7 +365,7 @@ export interface components {
     };
     JoinWaitlistDto: {
       email: string;
-      captchaToken: string;
+      captcha_token: string;
     };
   };
   responses: never;

@@ -218,7 +218,7 @@ describe("Create flow", () => {
     db.returning.mockResolvedValue([]);
     await expect(
       flowsController.createFlow({ userId: "userId" }, "projectId", data),
-    ).rejects.toThrow("failed to create flow");
+    ).rejects.toThrow("Failed to create flow");
   });
   it("should create human_id with number if it exists", async () => {
     db.query.flows.findMany.mockResolvedValue([{ human_id: "newname" }]);

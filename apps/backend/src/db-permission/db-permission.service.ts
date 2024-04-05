@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { flows, organizations, organizationsToUsers, projects, subscriptions } from "db";
 import { and, arrayContains, eq } from "drizzle-orm";
 
@@ -145,8 +150,7 @@ export class DbPermissionService {
     projectId: string;
     requestOrigin: string;
   }): Promise<void> {
-    if (!projectId || !requestOrigin) throw new NotFoundException();
-    if (isLocalhost(requestOrigin)) return;
+    if (!projectId || !requestOrigin) throw new BadRequestException();
 
     const projectsWhere = isLocalhost(requestOrigin)
       ? eq(projects.id, projectId)
