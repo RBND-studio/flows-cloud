@@ -291,32 +291,30 @@ describe("Get organization members", () => {
 
 describe("Get Subscription", () => {
   beforeEach(() => {
-    db.leftJoin.mockResolvedValue([
-      { organization_id: "org1", subscription_lemons_squeezy_id: "lemonId" },
-    ]);
+    db.query.subscriptions.findFirst.mockResolvedValue({ lemon_squeezy_id: "lemonId" });
     lemonSqueezyService.getSubscription.mockResolvedValue({
       data: {
         data: { attributes: { urls: { customer_portal: "cs", update_payment_method: "upm" } } },
       },
     });
   });
-  it("should throw without organization", async () => {
-    db.leftJoin.mockResolvedValue([]);
-    await expect(
-      organizationsController.getSubscription({ userId: "userId" }, "org1"),
-    ).rejects.toThrow("Not Found");
-  });
   it("should throw without access", async () => {
-    dbPermissionService.doesUserHaveAccessToOrganization.mockRejectedValue(new Error("forbidden"));
+    dbPermissionService.doesUserHaveAccessToSubscription.mockRejectedValue(new Error("forbidden"));
     await expect(
       organizationsController.getSubscription({ userId: "userId" }, "org1"),
     ).rejects.toThrow("forbidden");
   });
-  it("should throw without subscription", async () => {
+  it("should throw without db subscription", async () => {
+    db.query.subscriptions.findFirst.mockResolvedValue(null);
+    await expect(
+      organizationsController.getSubscription({ userId: "userId" }, "org1"),
+    ).rejects.toThrow("Subscription not found");
+  });
+  it("should throw without ls subscription", async () => {
     lemonSqueezyService.getSubscription.mockResolvedValue({ data: null });
     await expect(
       organizationsController.getSubscription({ userId: "userId" }, "org1"),
-    ).rejects.toThrow("Failed to get subscription");
+    ).rejects.toThrow("Failed to load lemon squeezy subscription");
   });
   it("should return subscription", async () => {
     await expect(
@@ -328,21 +326,19 @@ describe("Get Subscription", () => {
 
 describe("Cancel Subscription", () => {
   beforeEach(() => {
-    db.leftJoin.mockResolvedValue([
-      { organization_id: "org1", subscription_lemons_squeezy_id: "lemonId" },
-    ]);
-  });
-  it("should throw without organization", async () => {
-    db.leftJoin.mockResolvedValue([]);
-    await expect(
-      organizationsController.cancelSubscription({ userId: "userId" }, "org1"),
-    ).rejects.toThrow("Not Found");
+    db.query.subscriptions.findFirst.mockResolvedValue({ lemon_squeezy_id: "lemonId" });
   });
   it("should throw without access", async () => {
-    dbPermissionService.doesUserHaveAccessToOrganization.mockRejectedValue(new Error("forbidden"));
+    dbPermissionService.doesUserHaveAccessToSubscription.mockRejectedValue(new Error("forbidden"));
     await expect(
       organizationsController.cancelSubscription({ userId: "userId" }, "org1"),
     ).rejects.toThrow("forbidden");
+  });
+  it("should throw without subscription", async () => {
+    db.query.subscriptions.findFirst.mockResolvedValue(null);
+    await expect(
+      organizationsController.cancelSubscription({ userId: "userId" }, "org1"),
+    ).rejects.toThrow("Subscription not found");
   });
   it("should call lemon squeezy", async () => {
     await expect(

@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
-import { flows, organizations, organizationsToUsers, projects } from "db";
+import { flows, organizations, organizationsToUsers, projects, subscriptions } from "db";
 import { and, arrayContains, eq } from "drizzle-orm";
 
 import type { Auth } from "../auth";
@@ -100,6 +100,38 @@ export class DbPermissionService {
     if (!complexQuery.length) throw new NotFoundException();
     const data = complexQuery[0];
     if (!data.projectId) throw new NotFoundException();
+    if (!data.organizationId) throw new NotFoundException();
+    if (!data.organizationToUser) throw new ForbiddenException();
+
+    return true;
+  }
+
+  async doesUserHaveAccessToSubscription({
+    auth,
+    subscriptionId,
+  }: {
+    auth: Auth;
+    subscriptionId: string;
+  }): Promise<boolean> {
+    const complexQuery = await this.databaseService.db
+      .select({
+        subscriptionId: subscriptions.id,
+        organizationId: organizations.id,
+        organizationToUser: organizationsToUsers,
+      })
+      .from(subscriptions)
+      .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id))
+      .leftJoin(
+        organizationsToUsers,
+        and(
+          eq(organizations.id, organizationsToUsers.organization_id),
+          eq(organizationsToUsers.user_id, auth.userId),
+        ),
+      )
+      .where(eq(subscriptions.id, subscriptionId));
+
+    if (!complexQuery.length) throw new NotFoundException();
+    const data = complexQuery[0];
     if (!data.organizationId) throw new NotFoundException();
     if (!data.organizationToUser) throw new ForbiddenException();
 

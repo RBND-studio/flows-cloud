@@ -349,28 +349,20 @@ export class OrganizationsService {
     auth: Auth;
     subscriptionId: string;
   }): Promise<GetSubscriptionDetailDto> {
-    const results = await this.databaseService.db
-      .select({
-        organization_id: organizations.id,
-        subscription_lemons_squeezy_id: subscriptions.lemon_squeezy_id,
-      })
-      .from(subscriptions)
-      .where(eq(subscriptions.id, subscriptionId))
-      .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id));
+    await this.dbPermissionService.doesUserHaveAccessToSubscription({ auth, subscriptionId });
 
-    const result = results.at(0);
-    if (!result?.organization_id) throw new NotFoundException();
-
-    await this.dbPermissionService.doesUserHaveAccessToOrganization({
-      auth,
-      organizationId: result.organization_id,
+    const result = await this.databaseService.db.query.subscriptions.findFirst({
+      where: eq(subscriptions.id, subscriptionId),
+      columns: { lemon_squeezy_id: true },
     });
+    if (!result) throw new InternalServerErrorException("Subscription not found");
 
     const { data: subscription } = await this.lemonSqueezyService.getSubscription(
-      result.subscription_lemons_squeezy_id,
+      result.lemon_squeezy_id,
     );
 
-    if (!subscription) throw new InternalServerErrorException("Failed to get subscription");
+    if (!subscription)
+      throw new InternalServerErrorException("Failed to load lemon squeezy subscription");
 
     return {
       customer_portal_url: subscription.data.attributes.urls.customer_portal,
@@ -385,24 +377,16 @@ export class OrganizationsService {
     auth: Auth;
     subscriptionId: string;
   }): Promise<void> {
-    const results = await this.databaseService.db
-      .select({
-        organization_id: organizations.id,
-        subscription_lemons_squeezy_id: subscriptions.lemon_squeezy_id,
-      })
-      .from(subscriptions)
-      .where(eq(subscriptions.id, subscriptionId))
-      .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id));
+    await this.dbPermissionService.doesUserHaveAccessToSubscription({ auth, subscriptionId });
 
-    const result = results.at(0);
-    if (!result?.organization_id) throw new NotFoundException();
-
-    await this.dbPermissionService.doesUserHaveAccessToOrganization({
-      auth,
-      organizationId: result.organization_id,
+    const result = await this.databaseService.db.query.subscriptions.findFirst({
+      where: eq(subscriptions.id, subscriptionId),
+      columns: { lemon_squeezy_id: true },
     });
 
-    await this.lemonSqueezyService.cancelSubscription(result.subscription_lemons_squeezy_id);
+    if (!result) throw new InternalServerErrorException("Subscription not found");
+
+    await this.lemonSqueezyService.cancelSubscription(result.lemon_squeezy_id);
   }
 
   async getInvoices({
