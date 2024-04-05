@@ -8,9 +8,6 @@ import { type ReactElement, useState } from "react";
 import { formatNumberWithThousandSeparator, pricingTiers } from "shared";
 import { Slider, Text } from "ui";
 
-const tier1amount = pricingTiers.tier1.flowsRange[1] - pricingTiers.tier1.flowsRange[0];
-const tier2amount = pricingTiers.tier2.flowsRange[1] - pricingTiers.tier2.flowsRange[0];
-
 export const PricingCalculator = (): ReactElement => {
   const [selectedValue, setSelectedValue] = useState(1000);
 
@@ -26,17 +23,15 @@ export const PricingCalculator = (): ReactElement => {
   };
 
   const estimatedCost = (() => {
-    let flowsToPrice = selectedValue - pricingTiers.free.flowsRange[1];
+    let flowsToPrice = selectedValue;
     let finalPrice = 0;
 
-    const addPrice = (price: number, amount: number): void => {
-      finalPrice += price * amount;
+    Object.values(pricingTiers).forEach((tier) => {
+      const tierAmount = tier.flowsRange[1] - tier.flowsRange[0];
+      const amount = Math.min(flowsToPrice, tierAmount);
+      finalPrice += tier.price * amount;
       flowsToPrice -= amount;
-    };
-
-    addPrice(pricingTiers.tier1.price, Math.min(flowsToPrice, tier1amount));
-    addPrice(pricingTiers.tier2.price, Math.min(flowsToPrice, tier2amount));
-    addPrice(pricingTiers.tier3.price, flowsToPrice);
+    });
 
     return finalPrice.toFixed(2);
   })();
