@@ -198,6 +198,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.1
+      shared:
+        specifier: workspace:*
+        version: link:../../packages/shared
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
