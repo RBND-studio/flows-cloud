@@ -40,6 +40,7 @@
     "loops": "^0.3.0",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",
+    "shared": "workspace:*",
     "slugify": "^1.6.6"
   },
   "devDependencies": {

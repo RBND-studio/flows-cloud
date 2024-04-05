@@ -17,8 +17,8 @@ export const Usage: FC = () => {
 
   if (!organizationId || !data) return null;
 
-  const { usage, limit, estimated_price } = data;
-  const paymentIssue = data.subscription?.status !== "active";
+  const { usage, limit, estimated_price, subscription } = data;
+  const paymentIssue = subscription && subscription.status !== "active";
 
   return (
     <div

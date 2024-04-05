@@ -1,10 +1,9 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { events, flows, organizations, projects, subscriptions } from "db";
 import { and, eq, gte, inArray, sql } from "drizzle-orm";
+import { FREE_LIMIT } from "shared";
 
 import { DatabaseService } from "../database/database.service";
-
-const FREE_LIMIT = 1000;
 
 @Injectable()
 export class OrganizationUsageService {
