@@ -20,4 +20,8 @@ export const menuItems: MenuItem[] = [
     title: "Docs",
     href: links.docs,
   },
+  {
+    title: "Pricing",
+    href: routes.pricing,
+  },
 ];
