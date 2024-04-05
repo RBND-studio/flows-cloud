@@ -58,8 +58,11 @@ export const DeleteAccountDialog = (): JSX.Element => {
         "You're still a member of at least one organization. Leave all organizations first or delete the ones where you're the only member.",
       );
     }
-    await send(api["DELETE /me"](), { errorMessage: "Failed to delete account" });
+    const { error } = await send(api["DELETE /me"](), { errorMessage: null });
 
+    if (error) {
+      throw error;
+    }
     logout();
   };
 

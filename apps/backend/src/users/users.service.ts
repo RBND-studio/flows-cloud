@@ -19,10 +19,6 @@ export class UsersService {
 
   async me({ auth }: { auth: Auth }): Promise<GetMeDto> {
     const [usersResult, metaResult] = await Promise.all([
-      //   this.databaseService.db.query.users.findFirst({
-      //     where: eq(users.id, auth.userId),
-      //   }),
-
       this.databaseService.db
         .select({
           id: users.id,
@@ -147,6 +143,14 @@ export class UsersService {
   }
 
   async deleteUser({ auth }: { auth: Auth }): Promise<void> {
+    const userOrganizations = await this.databaseService.db.query.organizationsToUsers.findMany({
+      where: eq(organizationsToUsers.user_id, auth.userId),
+    });
+
+    if (userOrganizations.length > 0) {
+      throw new BadRequestException("Cannot delete user if they are part of an organization");
+    }
+
     //Delete users identities
     await this.databaseService.db.execute(
       sql`DELETE FROM auth.identities WHERE user_id = ${auth.userId}`,

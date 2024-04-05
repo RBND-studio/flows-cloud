@@ -74,7 +74,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
       {description !== undefined && (
         <Description
           className={cx(css({ mt: "space4" }), descriptionClassName)}
-          color={error ? "danger" : "subtle"}
+          color={error ? "danger" : undefined}
         >
           {description}
         </Description>

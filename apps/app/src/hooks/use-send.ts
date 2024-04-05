@@ -22,12 +22,12 @@ export const useSend = () => {
 
       setLoading(true);
       setError(undefined);
-      return fn({ token: auth.token })
+      return fn({ token: auth.session.access_token })
         .then((data) => ({ data }))
         .catch((err: Error) => {
           setError(err);
 
-          toast.error(options.errorMessage, { description: err.message });
+          if (options.errorMessage) toast.error(options.errorMessage, { description: err.message });
           return { error: err };
         })
         .finally(() => {
