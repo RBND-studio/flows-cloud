@@ -9,6 +9,7 @@ type Schemas = components["schemas"];
 export type OrganizationPreview = Schemas["GetOrganizationsDto"];
 export type OrganizationDetail = Schemas["GetOrganizationDetailDto"];
 export type OrganizationInvoice = Schemas["GetOrganizationInvoiceDto"];
+export type SubscriptionDetail = Schemas["GetSubscriptionDetailDto"];
 export type InviteUser = Schemas["InviteUserDto"];
 export type OrganizationUsers = Schemas["GetOrganizationMembersDto"];
 export type OrganizationMember = components["schemas"]["OrganizationMemberDto"];
@@ -41,6 +42,7 @@ export type Api = {
   "/organizations/:organizationId/invoices": Endpoint<OrganizationInvoice[], [string]>;
   "/organizations/:organizationId/users": Endpoint<OrganizationUsers, [string]>;
   "POST /organizations/:organizationId/users": Endpoint<void, [string, InviteUser]>;
+  "/subscriptions/:subscriptionId": Endpoint<SubscriptionDetail, [string]>;
   "POST /subscriptions/:subscriptionId/cancel": Endpoint<void, [string]>;
   "DELETE /invites/:inviteId": Endpoint<void, [string]>;
   "DELETE /organizations/:organizationId/users/:userId": Endpoint<void, [string, string]>;
@@ -78,6 +80,7 @@ export const api: Api = {
     fetcher(`/organizations/${organizationId}/users`),
   "POST /organizations/:organizationId/users": (organizationId, body) =>
     fetcher(`/organizations/${organizationId}/users`, { method: "POST", body }),
+  "/subscriptions/:subscriptionId": (subscriptionId) => fetcher(`/subscriptions/${subscriptionId}`),
   "POST /subscriptions/:subscriptionId/cancel": (subscriptionId) =>
     fetcher(`/subscriptions/${subscriptionId}/cancel`, { method: "POST" }),
   "DELETE /invites/:inviteId": (inviteId) => fetcher(`/invites/${inviteId}`, { method: "DELETE" }),

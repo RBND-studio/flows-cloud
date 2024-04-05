@@ -289,6 +289,43 @@ describe("Get organization members", () => {
   });
 });
 
+describe("Get Subscription", () => {
+  beforeEach(() => {
+    db.leftJoin.mockResolvedValue([
+      { organization_id: "org1", subscription_lemons_squeezy_id: "lemonId" },
+    ]);
+    lemonSqueezyService.getSubscription.mockResolvedValue({
+      data: {
+        data: { attributes: { urls: { customer_portal: "cs", update_payment_method: "upm" } } },
+      },
+    });
+  });
+  it("should throw without organization", async () => {
+    db.leftJoin.mockResolvedValue([]);
+    await expect(
+      organizationsController.getSubscription({ userId: "userId" }, "org1"),
+    ).rejects.toThrow("Not Found");
+  });
+  it("should throw without access", async () => {
+    dbPermissionService.doesUserHaveAccessToOrganization.mockRejectedValue(new Error("forbidden"));
+    await expect(
+      organizationsController.getSubscription({ userId: "userId" }, "org1"),
+    ).rejects.toThrow("forbidden");
+  });
+  it("should throw without subscription", async () => {
+    lemonSqueezyService.getSubscription.mockResolvedValue({ data: null });
+    await expect(
+      organizationsController.getSubscription({ userId: "userId" }, "org1"),
+    ).rejects.toThrow("Failed to get subscription");
+  });
+  it("should return subscription", async () => {
+    await expect(
+      organizationsController.getSubscription({ userId: "userId" }, "org1"),
+    ).resolves.toEqual({ customer_portal_url: "cs", update_payment_method: "upm" });
+    expect(lemonSqueezyService.getSubscription).toHaveBeenCalledWith("lemonId");
+  });
+});
+
 describe("Cancel Subscription", () => {
   beforeEach(() => {
     db.leftJoin.mockResolvedValue([

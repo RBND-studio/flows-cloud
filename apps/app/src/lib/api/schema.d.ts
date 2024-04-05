@@ -72,6 +72,9 @@ export interface paths {
   "/invites/{inviteId}": {
     delete: operations["OrganizationsController_removeInvite"];
   };
+  "/subscriptions/{subscriptionId}": {
+    get: operations["OrganizationsController_getSubscription"];
+  };
   "/subscriptions/{subscriptionId}/cancel": {
     post: operations["OrganizationsController_cancelSubscription"];
   };
@@ -316,6 +319,10 @@ export interface components {
     GetOrganizationMembersDto: {
       members: components["schemas"]["OrganizationMemberDto"][];
       pending_invites: components["schemas"]["OrganizationInviteDto"][];
+    };
+    GetSubscriptionDetailDto: {
+      customer_portal_url: string;
+      update_payment_method: string;
     };
     GetOrganizationInvoiceDto: {
       id: string;
@@ -799,6 +806,20 @@ export interface operations {
     responses: {
       200: {
         content: never;
+      };
+    };
+  };
+  OrganizationsController_getSubscription: {
+    parameters: {
+      path: {
+        subscriptionId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetSubscriptionDetailDto"];
+        };
       };
     };
   };

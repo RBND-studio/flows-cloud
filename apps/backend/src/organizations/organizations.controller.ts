@@ -7,6 +7,7 @@ import type {
   GetOrganizationInvoiceDto,
   GetOrganizationMembersDto,
   GetOrganizationsDto,
+  GetSubscriptionDetailDto,
 } from "./organizations.dto";
 import { CreateOrganizationDto, InviteUserDto, UpdateOrganizationDto } from "./organizations.dto";
 import { OrganizationsService } from "./organizations.service";
@@ -84,6 +85,14 @@ export class OrganizationsController {
     @Param("organizationId") organizationId: string,
   ): Promise<GetOrganizationMembersDto> {
     return this.organizationsService.getOrganizationMembers({ auth, organizationId });
+  }
+
+  @Get("subscriptions/:subscriptionId")
+  getSubscription(
+    @Authorization() auth: Auth,
+    @Param("subscriptionId") subscriptionId: string,
+  ): Promise<GetSubscriptionDetailDto> {
+    return this.organizationsService.getSubscription({ auth, subscriptionId });
   }
 
   @Post("subscriptions/:subscriptionId/cancel")

@@ -63,6 +63,11 @@ export class GetOrganizationMembersDto {
   pending_invites: OrganizationInviteDto[];
 }
 
+export class GetSubscriptionDetailDto {
+  customer_portal_url: string;
+  update_payment_method: string;
+}
+
 export class SubscriptionPriceTierDto {
   last_unit: string;
   unit_price_decimal: string | null;

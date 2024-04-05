@@ -6,4 +6,5 @@ export const getMockLemonSqueezyService = () => ({
   getPrice: jest.fn(),
   updateSubscription: jest.fn(),
   cancelSubscription: jest.fn(),
+  getSubscription: jest.fn(),
 });

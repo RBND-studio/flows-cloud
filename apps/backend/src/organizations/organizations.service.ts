@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from "@nestjs/common";
 import { invoices, organizations, organizationsToUsers, subscriptions, userInvite } from "db";
@@ -19,6 +20,7 @@ import type {
   GetOrganizationInvoiceDto,
   GetOrganizationMembersDto,
   GetOrganizationsDto,
+  GetSubscriptionDetailDto,
   OrganizationMemberDto,
   UpdateOrganizationDto,
 } from "./organizations.dto";
@@ -337,6 +339,42 @@ export class OrganizationsService {
     return {
       members: members.map(({ user }) => user as OrganizationMemberDto),
       pending_invites: invites,
+    };
+  }
+
+  async getSubscription({
+    auth,
+    subscriptionId,
+  }: {
+    auth: Auth;
+    subscriptionId: string;
+  }): Promise<GetSubscriptionDetailDto> {
+    const results = await this.databaseService.db
+      .select({
+        organization_id: organizations.id,
+        subscription_lemons_squeezy_id: subscriptions.lemon_squeezy_id,
+      })
+      .from(subscriptions)
+      .where(eq(subscriptions.id, subscriptionId))
+      .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id));
+
+    const result = results.at(0);
+    if (!result?.organization_id) throw new NotFoundException();
+
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({
+      auth,
+      organizationId: result.organization_id,
+    });
+
+    const { data: subscription } = await this.lemonSqueezyService.getSubscription(
+      result.subscription_lemons_squeezy_id,
+    );
+
+    if (!subscription) throw new InternalServerErrorException("Failed to get subscription");
+
+    return {
+      customer_portal_url: subscription.data.attributes.urls.customer_portal,
+      update_payment_method: subscription.data.attributes.urls.update_payment_method,
     };
   }
 

@@ -2,6 +2,7 @@ import {
   cancelSubscription as cancelSubscriptionLS,
   createUsageRecord as createUsageRecordLS,
   getPrice as getPriceLS,
+  getSubscription as getSubscriptionLS,
   lemonSqueezySetup,
   type NewUsageRecord,
   type UpdateSubscription,
@@ -48,6 +49,10 @@ export class LemonSqueezyService {
 
   getPrice(priceId: number | string): ReturnType<typeof getPriceLS> {
     return getPriceLS(priceId);
+  }
+
+  getSubscription(subscriptionId: number | string): ReturnType<typeof getSubscriptionLS> {
+    return getSubscriptionLS(subscriptionId);
   }
 
   updateSubscription(
