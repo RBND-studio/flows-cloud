@@ -22,7 +22,7 @@ export const CheckoutButton: FC<Props> = ({ organizationId }) => {
   const checkoutParameters = {
     embed: "1",
     "checkout[email]": auth?.user.email ?? "",
-    "checkout[name]": auth?.user.name ?? "",
+    "checkout[name]": auth?.user.full_name ?? "",
     "checkout[custom][organization_id]": organizationId,
   };
   const checkoutUrl = `${checkoutBase}?${new URLSearchParams(checkoutParameters).toString()}`;

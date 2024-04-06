@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from "@nestjs/common";
 import browserslist from "browserslist";
 import { events, flows, organizations, projects, subscriptions } from "db";
 import { and, arrayContains, desc, eq, inArray, isNotNull } from "drizzle-orm";
@@ -242,9 +247,7 @@ export class SdkService {
             action: "increment",
             subscriptionItemId,
           });
-          if (res.error)
-            // eslint-disable-next-line no-console -- useful
-            console.error("Failed to create the usage record for the subscription", projectId);
+          if (res.error) throw new InternalServerErrorException("Failed to create usage record");
         });
     }
 
@@ -261,7 +264,7 @@ export class SdkService {
         })
         .returning({ id: flows.id });
       const newFlow = newFlows.at(0);
-      if (!newFlow) throw new BadRequestException("error creating flow");
+      if (!newFlow) throw new InternalServerErrorException("error creating flow");
       return newFlow;
     })();
 
