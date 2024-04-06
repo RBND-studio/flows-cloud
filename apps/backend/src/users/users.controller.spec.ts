@@ -48,7 +48,7 @@ afterEach(() => {
 describe("Get me", () => {
   beforeEach(() => {
     db.query.userMetadata.findFirst.mockResolvedValue({ userId: "userId", role: "user" });
-    db.query.users.findFirst.mockResolvedValue({ id: "userId", email: "email" });
+    db.where.mockResolvedValue([{ id: "userId", email: "email", has_password: false }]);
     db.query.userInvite.findMany.mockResolvedValue([
       { id: "inviteId", expires_at: new Date(), organization: { name: "orgName" } },
     ]);
@@ -60,13 +60,15 @@ describe("Get me", () => {
     expect(db.insert).toHaveBeenCalledWith(userMetadata);
   });
   it("should throw without user", async () => {
-    db.query.users.findFirst.mockResolvedValue(null);
+    db.where.mockResolvedValue([]);
     await expect(usersController.me({ userId: "userId" })).rejects.toThrow("Not Found");
   });
   it("should not return invites without email", async () => {
-    db.query.users.findFirst.mockResolvedValue({ id: "userId", email: null });
+    db.where.mockResolvedValue([{ id: "userId", email: null, has_password: false }]);
+    db.query.userMetadata.findFirst.mockResolvedValue({ userId: "userId", role: "user" });
     await expect(usersController.me({ userId: "userId" })).resolves.toEqual({
       pendingInvites: [],
+      hasPassword: false,
       role: "user",
     });
   });
@@ -77,6 +79,7 @@ describe("Get me", () => {
       pendingInvites: [
         { id: "inviteId", expires_at: expect.any(Date), organizationName: "orgName" },
       ],
+      hasPassword: false,
       role: "user",
     });
     expect(db.insert).toHaveBeenCalledWith(userMetadata);
@@ -88,6 +91,7 @@ describe("Get me", () => {
       pendingInvites: [
         { id: "inviteId", expires_at: expect.any(Date), organizationName: "orgName" },
       ],
+      hasPassword: false,
       role: "user",
     });
   });

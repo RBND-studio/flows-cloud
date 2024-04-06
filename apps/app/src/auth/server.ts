@@ -1,3 +1,4 @@
+import { mapSupabaseSession } from "auth/map-supabase-session";
 import { cookies } from "next/headers";
 import { createClient } from "supabase/server";
 
@@ -6,5 +7,5 @@ export const getAuth = async () => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const { data } = await supabase.auth.getSession();
-  return data.session;
+  return mapSupabaseSession(data.session);
 };

@@ -66,6 +66,9 @@ export interface paths {
     get: operations["OrganizationsController_getUsers"];
     post: operations["OrganizationsController_inviteUser"];
   };
+  "/organizations/{organizationId}/users/leave": {
+    post: operations["OrganizationsController_leaveOrganization"];
+  };
   "/organizations/{organizationId}/users/{userId}": {
     delete: operations["OrganizationsController_removeUser"];
   };
@@ -83,6 +86,7 @@ export interface paths {
   };
   "/me": {
     get: operations["UsersController_me"];
+    delete: operations["UsersController_deleteAccount"];
   };
   "/invites/{inviteId}/accept": {
     post: operations["UsersController_acceptInvite"];
@@ -92,6 +96,9 @@ export interface paths {
   };
   "/waitlist": {
     post: operations["UsersController_joinWaitlist"];
+  };
+  "/me/identities/{providerId}": {
+    delete: operations["UsersController_deleteIdentity"];
   };
   "/css/vars": {
     get: operations["CssController_getDefaultCssVars"];
@@ -261,6 +268,7 @@ export interface components {
       created_at: string;
       /** Format: date-time */
       updated_at: string;
+      members_count?: number;
     };
     SubscriptionPriceTierDto: {
       last_unit: string;
@@ -291,6 +299,7 @@ export interface components {
       created_at: string;
       /** Format: date-time */
       updated_at: string;
+      members_count?: number;
       usage: number;
       limit: number;
       estimated_price?: number;
@@ -349,6 +358,7 @@ export interface components {
       /** @enum {string} */
       role: "admin" | "user";
       pendingInvites: components["schemas"]["Invite"][];
+      hasPassword: boolean;
     };
     AcceptInviteResponseDto: {
       organization_id: string;
@@ -784,6 +794,18 @@ export interface operations {
       };
     };
   };
+  OrganizationsController_leaveOrganization: {
+    parameters: {
+      path: {
+        organizationId: string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
   OrganizationsController_removeUser: {
     parameters: {
       path: {
@@ -858,6 +880,13 @@ export interface operations {
       };
     };
   };
+  UsersController_deleteAccount: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
   UsersController_acceptInvite: {
     parameters: {
       path: {
@@ -892,6 +921,18 @@ export interface operations {
     };
     responses: {
       201: {
+        content: never;
+      };
+    };
+  };
+  UsersController_deleteIdentity: {
+    parameters: {
+      path: {
+        providerId: string;
+      };
+    };
+    responses: {
+      200: {
         content: never;
       };
     };

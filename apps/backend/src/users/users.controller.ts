@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { type Auth, Authorization } from "../auth";
@@ -33,5 +33,18 @@ export class UsersController {
   @Post("waitlist")
   joinWaitlist(@Body() body: JoinWaitlistDto): Promise<void> {
     return this.usersService.joinWaitlist({ data: body });
+  }
+
+  @Delete("me")
+  deleteAccount(@Authorization() auth: Auth): Promise<void> {
+    return this.usersService.deleteUser({ auth });
+  }
+
+  @Delete("me/identities/:providerId")
+  deleteIdentity(
+    @Authorization() auth: Auth,
+    @Param("providerId") providerId: string,
+  ): Promise<void> {
+    return this.usersService.deleteIdentity({ auth, providerId });
   }
 }
