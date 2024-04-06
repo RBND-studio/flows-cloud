@@ -55,7 +55,7 @@ export class SdkService {
       });
       return minified.code.toString();
     } catch {
-      this.logger.warn("Failed to transform CSS for project", projectId);
+      this.logger.error("Failed to transform CSS for project", projectId);
       return css;
     }
   }
