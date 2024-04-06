@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { organizations, organizationsToUsers, userInvite } from "db";
-import { and, eq, gt, sql } from "drizzle-orm";
+import { and, count, eq, gt, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
@@ -31,7 +31,12 @@ export class OrganizationsService {
   async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
     const orgs = await this.databaseService.db
       .select({
-        organization: organizations,
+        id: organizations.id,
+        name: organizations.name,
+        description: organizations.description,
+        created_at: organizations.created_at,
+        updated_at: organizations.updated_at,
+        members_count: count(organizationsToUsers.user_id),
       })
       .from(organizations)
       .leftJoin(
@@ -42,15 +47,16 @@ export class OrganizationsService {
         ),
       )
       .where(eq(organizationsToUsers.user_id, auth.userId))
+      .groupBy(
+        organizations.id,
+        organizations.name,
+        organizations.description,
+        organizations.created_at,
+        organizations.updated_at,
+      )
       .orderBy(organizations.name);
 
-    return orgs.map(({ organization }) => ({
-      id: organization.id,
-      name: organization.name,
-      description: organization.description,
-      created_at: organization.created_at,
-      updated_at: organization.updated_at,
-    }));
+    return orgs;
   }
 
   async getOrganizationDetail({
@@ -202,6 +208,32 @@ export class OrganizationsService {
     }
 
     await this.emailService.sendInvite({ email, organizationName: org.name });
+  }
+
+  async leaveOrganization({
+    auth,
+    organizationId,
+  }: {
+    auth: Auth;
+    organizationId: string;
+  }): Promise<void> {
+    await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
+
+    const amIAlone = await this.databaseService.db.query.organizationsToUsers.findMany({
+      where: eq(organizationsToUsers.organization_id, organizationId),
+    });
+
+    if (amIAlone.length === 1)
+      throw new BadRequestException("Cannot leave organization if you are the only member");
+
+    await this.databaseService.db
+      .delete(organizationsToUsers)
+      .where(
+        and(
+          eq(organizationsToUsers.organization_id, organizationId),
+          eq(organizationsToUsers.user_id, auth.userId),
+        ),
+      );
   }
 
   async removeUser({

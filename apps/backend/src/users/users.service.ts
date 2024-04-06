@@ -18,14 +18,22 @@ export class UsersService {
   ) {}
 
   async me({ auth }: { auth: Auth }): Promise<GetMeDto> {
-    const [user, metaResult] = await Promise.all([
-      this.databaseService.db.query.users.findFirst({
-        where: eq(users.id, auth.userId),
-      }),
+    const [usersResult, metaResult] = await Promise.all([
+      this.databaseService.db
+        .select({
+          id: users.id,
+          email: users.email,
+          has_password:
+            sql<boolean>`case when encrypted_password <> '' then true else false end`.as("e"),
+        })
+        .from(users)
+        .where(eq(users.id, auth.userId)),
       this.databaseService.db.query.userMetadata.findFirst({
         where: eq(userMetadata.user_id, auth.userId),
       }),
     ]);
+
+    const user = usersResult.at(0);
     if (!user) throw new NotFoundException();
 
     let meta = metaResult;
@@ -62,6 +70,7 @@ export class UsersService {
         organizationName: invite.organization.name,
       })),
       role: meta.role,
+      hasPassword: user.has_password,
     };
   }
 
@@ -120,5 +129,41 @@ export class UsersService {
     await this.newsfeedService.postMessage({
       message: `🤩 ${data.email} has joined the waitlist!`,
     });
+  }
+
+  async deleteIdentity({ auth, providerId }: { auth: Auth; providerId: string }): Promise<void> {
+    const currentIdentity = await this.databaseService.db.execute(
+      sql`SELECT provider_id FROM auth.identities WHERE user_id = ${auth.userId} AND provider_id = ${providerId}`,
+    );
+    if (currentIdentity.length === 0) throw new NotFoundException();
+
+    await this.databaseService.db.execute(
+      sql` DELETE FROM auth.identities WHERE user_id = ${auth.userId} AND provider_id = ${providerId}`,
+    );
+  }
+
+  async deleteUser({ auth }: { auth: Auth }): Promise<void> {
+    const userOrganizations = await this.databaseService.db.query.organizationsToUsers.findMany({
+      where: eq(organizationsToUsers.user_id, auth.userId),
+    });
+
+    if (userOrganizations.length > 0) {
+      throw new BadRequestException("Cannot delete user if they are part of an organization");
+    }
+
+    //Delete users identities
+    await this.databaseService.db.execute(
+      sql`DELETE FROM auth.identities WHERE user_id = ${auth.userId}`,
+    );
+    //Delete users sessions
+    await this.databaseService.db.execute(
+      sql`DELETE FROM auth.sessions WHERE user_id = ${auth.userId}`,
+    );
+    //Delete users refresh tokens
+    await this.databaseService.db.execute(
+      sql`DELETE FROM auth.refresh_tokens WHERE user_id = ${auth.userId}`,
+    );
+    //Delete user from the database
+    await this.databaseService.db.execute(sql`DELETE FROM auth.users WHERE id = ${auth.userId}`);
   }
 }

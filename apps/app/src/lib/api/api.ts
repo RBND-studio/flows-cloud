@@ -40,6 +40,7 @@ export type Api = {
   "POST /organizations/:organizationId/users": Endpoint<void, [string, InviteUser]>;
   "DELETE /invites/:inviteId": Endpoint<void, [string]>;
   "DELETE /organizations/:organizationId/users/:userId": Endpoint<void, [string, string]>;
+  "POST /organizations/:organizationId/users/leave": Endpoint<void, [string]>;
   "DELETE /organizations/:organizationId": Endpoint<void, [string]>;
   "/organizations/:organizationId/projects": Endpoint<ProjectPreview[], [string]>;
   "/projects/:projectId": Endpoint<ProjectDetail, [string]>;
@@ -55,6 +56,8 @@ export type Api = {
   "POST /projects/:projectId/flows": Endpoint<FlowPreview, [string, CreateFlow]>;
   "DELETE /flows/:flowId": Endpoint<void, [string]>;
   "/me": Endpoint<Me>;
+  "DELETE /me": Endpoint<void>;
+  "DELETE /me/identities/:providerId": Endpoint<void, [string]>;
   "POST /invites/:inviteId/accept": Endpoint<AcceptInviteResponse, [string]>;
   "POST /invites/:inviteId/decline": Endpoint<void, [string]>;
 
@@ -75,6 +78,8 @@ export const api: Api = {
   "DELETE /invites/:inviteId": (inviteId) => fetcher(`/invites/${inviteId}`, { method: "DELETE" }),
   "DELETE /organizations/:organizationId/users/:userId": (organizationId, userId) =>
     fetcher(`/organizations/${organizationId}/users/${userId}`, { method: "DELETE" }),
+  "POST /organizations/:organizationId/users/leave": (organizationId) =>
+    fetcher(`/organizations/${organizationId}/users/leave`, { method: "POST" }),
   "DELETE /organizations/:organizationId": (organizationId) =>
     fetcher(`/organizations/${organizationId}`, { method: "DELETE" }),
   "/organizations/:organizationId/projects": (organizationId) =>
@@ -98,6 +103,9 @@ export const api: Api = {
     fetcher(`/projects/${projectId}/flows`, { method: "POST", body }),
   "DELETE /flows/:flowId": (flowId) => fetcher(`/flows/${flowId}`, { method: "DELETE" }),
   "/me": () => fetcher("/me"),
+  "DELETE /me": () => fetcher("/me", { method: "DELETE" }),
+  "DELETE /me/identities/:providerId": (providerId) =>
+    fetcher(`/me/identities/${providerId}`, { method: "DELETE" }),
   "POST /invites/:inviteId/accept": (inviteId) =>
     fetcher(`/invites/${inviteId}/accept`, { method: "POST" }),
   "POST /invites/:inviteId/decline": (inviteId) =>

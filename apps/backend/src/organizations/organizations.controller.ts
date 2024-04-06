@@ -63,6 +63,14 @@ export class OrganizationsController {
     return this.organizationsService.inviteUser({ auth, organizationId, email: body.email });
   }
 
+  @Post("organizations/:organizationId/users/leave")
+  leaveOrganization(
+    @Authorization() auth: Auth,
+    @Param("organizationId") organizationId: string,
+  ): Promise<void> {
+    return this.organizationsService.leaveOrganization({ auth, organizationId });
+  }
+
   @Delete("organizations/:organizationId/users/:userId")
   removeUser(
     @Authorization() auth: Auth,
