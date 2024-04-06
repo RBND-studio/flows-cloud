@@ -6,6 +6,7 @@ import { useSend } from "hooks/use-send";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import { type FC, useState } from "react";
+import { formatNumberWithThousandSeparator, pricingTiers } from "shared";
 import { t } from "translations";
 import {
   Button,
@@ -61,8 +62,9 @@ export const CancelSubscription: FC<Props> = ({ subscriptionId, organizationId }
           Are you sure you want to cancel your subscription?
         </Text>
         <Text>
-          Your usage limit will be reset immediately to free tier and you will be charged based on
-          your current usage at the end of your billing period.
+          Your usage limit will be reset immediately to the free tier (
+          {formatNumberWithThousandSeparator(pricingTiers.free.flowsRange[1])}) and you will be
+          invoiced for the current usage at the end of the billing period.
         </Text>
       </DialogContent>
       <DialogActions>
@@ -71,7 +73,7 @@ export const CancelSubscription: FC<Props> = ({ subscriptionId, organizationId }
             Close
           </Button>
         </DialogClose>
-        <Button loading={loading} onClick={handleCancel} size="small" variant="primary">
+        <Button loading={loading} onClick={handleCancel} size="small" variant="danger">
           Cancel subscription
         </Button>
       </DialogActions>
