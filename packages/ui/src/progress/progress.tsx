@@ -20,7 +20,7 @@ export const Progress: FC<Props> = ({ max, value, className }) => {
         top={0}
         height="100%"
         maxW="100%"
-        bg="bg.primary"
+        bg="icon.info"
       />
     </Box>
   );
