@@ -1,59 +1,44 @@
-"use client";
-
 import { Flex } from "@flows/styled-system/jsx";
-import { mutate } from "hooks/use-fetch";
-import { useSend } from "hooks/use-send";
-import { api, type OrganizationDetail } from "lib/api";
-import { useRouter } from "next/navigation";
+import dayjs from "dayjs";
+import { type OrganizationDetail } from "lib/api";
+import { monthDayYear } from "lib/date";
 import { type FC } from "react";
-import { type SubmitHandler, useForm } from "react-hook-form";
-import { t } from "translations";
-import { Button, Input, toast } from "ui";
+import { formatNumberWithThousandSeparator, pricingTiers } from "shared";
+import { Text } from "ui";
+
+import { OrganizationLimitInput } from "./organization-limit-input";
 
 type Props = {
-  organization: OrganizationDetail;
+  org: OrganizationDetail;
 };
 
-type FormValues = {
-  start_limit: string;
-};
-
-export const OrganizationLimit: FC<Props> = ({ organization }) => {
-  const { register, formState, handleSubmit, reset } = useForm<FormValues>({
-    defaultValues: { start_limit: String(organization.limit) },
-  });
-
-  const { send, loading } = useSend();
-  const router = useRouter();
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const res = await send(
-      api["PATCH /organizations/:organizationId"](organization.id, {
-        start_limit: Number(data.start_limit),
-      }),
-      {
-        errorMessage: t.toasts.updateLimitFailed,
-      },
-    );
-    if (res.error) return;
-    toast.success(t.toasts.updateLimitSuccess);
-    router.refresh();
-    void mutate("/organizations/:organizationId", [organization.id]);
-    reset(data);
-  };
+export const OrganizationLimit: FC<Props> = ({ org }) => {
+  const subscription = org.subscription;
+  const hasActiveSubscription = !!subscription;
+  const renewal = subscription
+    ? subscription.renews_at
+    : new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex gap="space8" alignItems="flex-end">
-        <Input
-          label="Limit"
-          {...register("start_limit")}
-          type="number"
-          defaultValue={formState.defaultValues?.start_limit}
-        />
-        <Button loading={loading} disabled={!formState.isDirty} type="submit">
-          Save
-        </Button>
+    <Flex direction="column" cardWrap="-" p="space16" mb="space16">
+      <Flex gap="space16" justifyContent="space-between" mb="space16">
+        <Flex flexDirection="column">
+          <Text variant="titleL">Usage limit</Text>
+          <Text color="muted">
+            Limit resets on {monthDayYear(renewal)} ({dayjs(renewal).fromNow()}). Limit how many
+            flows can launch in a billing period to prevent unexpected charges. Note that sometimes
+            the limit can be exceed if there is a high volume of flows running at the same time.
+          </Text>
+        </Flex>
       </Flex>
-    </form>
+      {hasActiveSubscription ? (
+        <OrganizationLimitInput organization={org} />
+      ) : (
+        <Text color="muted">
+          {formatNumberWithThousandSeparator(pricingTiers.free.flowsRange[1])} free flows per month.
+          To increase your limit subscribe to a paid plan.
+        </Text>
+      )}
+    </Flex>
   );
 };

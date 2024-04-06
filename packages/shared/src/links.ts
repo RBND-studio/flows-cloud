@@ -10,6 +10,7 @@ export const links = {
   nextJsDemo: "https://nextjs.flows.sh/",
   privacy: "https://flows.sh/privacy",
   terms: "https://flows.sh/terms",
+  pricing: "https://flows.sh/pricing",
   // docs
   docs: "https://flows.sh/docs",
   docsStepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",

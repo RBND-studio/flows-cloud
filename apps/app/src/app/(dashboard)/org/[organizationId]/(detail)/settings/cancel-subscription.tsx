@@ -49,7 +49,12 @@ export const CancelSubscription: FC<Props> = ({ subscriptionId, organizationId }
     <Dialog
       onOpenChange={setOpen}
       open={open}
-      trigger={<Button loading={waitingForWebhook}>Cancel</Button>}
+      trigger={
+        //TODO: add danger variant when personal settings are merged
+        <Button variant="secondary" loading={waitingForWebhook}>
+          Cancel subscription
+        </Button>
+      }
     >
       <DialogTitle>Cancel subscription</DialogTitle>
       <DialogContent>

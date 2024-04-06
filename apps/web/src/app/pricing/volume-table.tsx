@@ -7,26 +7,24 @@ import { Text } from "ui";
 export const VolumeTable = (): ReactElement => {
   const pricing = [
     {
-      range: `First ${formatNumberWithThousandSeparator(
-        pricingTiers.free.flowsRange[1],
-      )} flows started`,
-      price: "Free",
+      range: `First ${formatNumberWithThousandSeparator(pricingTiers.free.flowsRange[1])} flows`,
+      price: "Free every month",
     },
     {
       range: `${formatNumberToK(pricingTiers.tier1.flowsRange[0])} - ${formatNumberToK(
         pricingTiers.tier1.flowsRange[1],
       )}`,
-      price: pricingTiers.tier1.price.toFixed(4),
+      price: `$${pricingTiers.tier1.price.toFixed(4)} per flow`,
     },
     {
       range: `${formatNumberToK(pricingTiers.tier2.flowsRange[0])} - ${formatNumberToK(
         pricingTiers.tier2.flowsRange[1],
       )}`,
-      price: pricingTiers.tier2.price.toFixed(4),
+      price: `$${pricingTiers.tier2.price.toFixed(4)} per flow`,
     },
     {
       range: `${formatNumberToK(pricingTiers.tier3.flowsRange[0])} +`,
-      price: pricingTiers.tier3.price.toFixed(4),
+      price: `$${pricingTiers.tier3.price.toFixed(4)} per flow`,
     },
   ];
 

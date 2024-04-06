@@ -6,7 +6,9 @@ import { Text } from "ui";
 import { OrganizationDeleteDialog } from "../../organization-delete-dialog";
 import { OrganizationEditForm } from "./organization-edit-form";
 import { OrganizationInvoices } from "./organization-invoices";
+import { OrganizationLimit } from "./organization-limit";
 import { OrganizationMembers } from "./organization-members";
+import { OrganizationPricing } from "./organization-pricing";
 import { OrganizationSubscription } from "./organization-subscription";
 
 type Props = {
@@ -30,6 +32,8 @@ export default async function OrganizationSettingsPage({ params }: Props): Promi
       <OrganizationEditForm org={org} />
       <OrganizationMembers org={org} users={users} />
       <OrganizationSubscription org={org} />
+      <OrganizationLimit org={org} />
+      {org.subscription ? <OrganizationPricing org={org} /> : null}
       <OrganizationInvoices organizationId={org.id} />
     </>
   );

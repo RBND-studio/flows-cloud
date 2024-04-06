@@ -14,7 +14,7 @@ import { HelpMenu } from "./help-menu";
 import { Invites } from "./invites";
 import { ProjectsMenu } from "./projects-menu";
 import { SettingsMenu } from "./settings-menu";
-import { Usage } from "./usage";
+import { UsageWidget } from "./usage-widget";
 
 const NavSectionCss = css({
   display: "flex",
@@ -171,7 +171,7 @@ export const Sidebar: FC = () => {
             <Invites />
           </div>
           <div className={NavSectionCss}>
-            <Usage />
+            <UsageWidget organizationId={organizationId} />
           </div>
         </Flex>
       </div>

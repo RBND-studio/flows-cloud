@@ -48,7 +48,7 @@ export const CheckoutButton: FC<Props> = ({ organizationId }) => {
     <>
       <Button disabled={!initialized} loading={waitingForWebhook} asChild>
         <a href={checkoutUrl} className="lemonsqueezy-button">
-          Buy Flows Subscription
+          Upgrade to Pay as you go
         </a>
       </Button>
       <Script src="https://assets.lemonsqueezy.com/lemon.js" defer onReady={handleScriptReady} />
