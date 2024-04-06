@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { type OrganizationDetail } from "lib/api";
 import { monthDayYear } from "lib/date";
 import { type FC } from "react";
-import { formatNumberWithThousandSeparator, pricingTiers } from "shared";
+import { formatNumberWithThousandSeparator, FREE_RENEWAL_DATE, pricingTiers } from "shared";
 import { Text } from "ui";
 
 import { OrganizationLimitInput } from "./organization-limit-input";
@@ -15,9 +15,7 @@ type Props = {
 export const OrganizationLimit: FC<Props> = ({ org }) => {
   const subscription = org.subscription;
   const hasActiveSubscription = !!subscription;
-  const renewal = subscription
-    ? subscription.renews_at
-    : new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString();
+  const renewal = subscription ? subscription.renews_at : FREE_RENEWAL_DATE;
 
   return (
     <Flex direction="column" cardWrap="-" p="space16" mb="space16">

@@ -5,7 +5,7 @@ import { type OrganizationDetail } from "lib/api";
 import { monthDayYear } from "lib/date";
 import Link from "next/link";
 import { type FC } from "react";
-import { links } from "shared";
+import { FREE_RENEWAL_DATE, links } from "shared";
 import { Button, Text } from "ui";
 
 import { CancelSubscription } from "./cancel-subscription";
@@ -20,9 +20,7 @@ export const OrganizationSubscription: FC<Props> = ({ org }) => {
   const subscription = org.subscription;
   const hasActiveSubscription = !!subscription;
   const estimate = org.estimated_price;
-  const renewal = subscription
-    ? subscription.renews_at
-    : new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString();
+  const renewal = subscription ? subscription.renews_at : FREE_RENEWAL_DATE;
 
   return (
     <Flex direction="column" cardWrap="-" p="space16" mb="space16" gap="space16">

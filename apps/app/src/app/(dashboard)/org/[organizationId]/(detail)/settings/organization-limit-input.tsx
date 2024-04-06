@@ -30,9 +30,7 @@ export const OrganizationLimitInput: FC<Props> = ({ organization }) => {
       api["PATCH /organizations/:organizationId"](organization.id, {
         start_limit: Number(data.start_limit),
       }),
-      {
-        errorMessage: t.toasts.updateLimitFailed,
-      },
+      { errorMessage: t.toasts.updateLimitFailed },
     );
     if (res.error) return;
     toast.success(t.toasts.updateLimitSuccess);

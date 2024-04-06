@@ -480,6 +480,10 @@ importers:
         version: 5.4.2
 
   packages/shared:
+    dependencies:
+      dayjs:
+        specifier: 1.11.10
+        version: 1.11.10
     devDependencies:
       eslint-config-custom:
         specifier: workspace:*

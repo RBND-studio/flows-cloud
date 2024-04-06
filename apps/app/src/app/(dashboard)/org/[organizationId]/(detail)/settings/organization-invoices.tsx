@@ -9,7 +9,6 @@ type Props = {
   organizationId: string;
 };
 
-//TODO: sort invoices by newest first
 export const OrganizationInvoices = async (props: Props): Promise<JSX.Element> => {
   const invoices = await load(api["/organizations/:organizationId/invoices"](props.organizationId));
 

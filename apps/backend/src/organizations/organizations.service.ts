@@ -6,7 +6,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { invoices, organizations, organizationsToUsers, subscriptions, userInvite } from "db";
-import { and, count, eq, gt, inArray, sql } from "drizzle-orm";
+import { and, count, desc, eq, gt, inArray, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
@@ -444,6 +444,7 @@ export class OrganizationsService {
         tax_formatted: true,
         refunded_at: true,
       },
+      orderBy: desc(invoices.created_at),
     });
   }
 }

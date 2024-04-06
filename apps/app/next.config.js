@@ -3,12 +3,11 @@ const path = require("node:path");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ["ui", "icons"],
+  transpilePackages: ["ui", "icons", "shared"],
   output: "standalone",
-  swcMinify: true,
   experimental: {
     outputFileTracingRoot: path.join(__dirname, "../../"),
-    optimizePackageImports: ["ui", "icons"],
+    optimizePackageImports: ["ui", "icons", "shared"],
   },
   images: {
     formats: ["image/avif", "image/webp"],
