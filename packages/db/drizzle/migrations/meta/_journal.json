@@ -225,6 +225,13 @@
       "when": 1711960886748,
       "tag": "0031_graceful_proudstar",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "5",
+      "when": 1712412219226,
+      "tag": "0032_glossy_santa_claus",
+      "breakpoints": true
     }
   ]
 }

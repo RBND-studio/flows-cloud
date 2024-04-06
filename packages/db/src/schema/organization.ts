@@ -10,6 +10,7 @@ export const organizations = pgTable("organization", {
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
   start_limit: integer("start_limit").notNull().default(100000),
+  free_start_limit: integer("free_start_limit"),
 });
 
 export const organizationsToUsers = pgTable("organization_to_user", {

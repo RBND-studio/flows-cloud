@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { events, flows, organizations, projects, subscriptions } from "db";
 import { and, eq, gte, inArray, sql } from "drizzle-orm";
 import { FREE_LIMIT } from "shared";
@@ -42,24 +42,28 @@ export class OrganizationUsageService {
   }
 
   async getOrganizationLimit({ organizationId }: { organizationId: string }): Promise<number> {
-    const subscriptionResult = await this.databaseService.db.query.subscriptions.findFirst({
-      columns: {},
-      where: and(
-        eq(subscriptions.organization_id, organizationId),
-        inArray(subscriptions.status, ["active", "past_due"]),
-      ),
-      with: {
-        organization: {
-          columns: {
-            start_limit: true,
-          },
-        },
-      },
-    });
+    const results = await this.databaseService.db
+      .select({
+        subscriptionId: subscriptions.id,
+        organizationStartLimit: organizations.start_limit,
+        organizationFreeStartLimit: organizations.free_start_limit,
+      })
+      .from(organizations)
+      .leftJoin(
+        subscriptions,
+        and(
+          eq(subscriptions.organization_id, organizations.id),
+          inArray(subscriptions.status, ["active", "past_due"]),
+        ),
+      )
+      .where(eq(organizations.id, organizationId));
 
-    if (!subscriptionResult) return FREE_LIMIT;
+    const result = results.at(0);
+    if (!result) throw new InternalServerErrorException();
 
-    return subscriptionResult.organization.start_limit;
+    if (result.subscriptionId) return result.organizationStartLimit;
+
+    return result.organizationFreeStartLimit ?? FREE_LIMIT;
   }
 
   async getIsOrganizationLimitReachedByProject({
