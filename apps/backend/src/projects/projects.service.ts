@@ -1,10 +1,5 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
-import { organizations, organizationsToUsers, projects } from "db";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { projects } from "db";
 import { asc, eq } from "drizzle-orm";
 
 import type { Auth } from "../auth";
@@ -33,7 +28,7 @@ export class ProjectsService {
   }): Promise<GetProjectsDto[]> {
     await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
 
-    const orgProjects = await this.databaseService.db.query.projects.findMany({
+    return this.databaseService.db.query.projects.findMany({
       where: eq(projects.organization_id, organizationId),
       orderBy: [asc(projects.name)],
       columns: {
@@ -45,15 +40,6 @@ export class ProjectsService {
         organization_id: true,
       },
     });
-
-    return orgProjects.map((project) => ({
-      id: project.id,
-      name: project.name,
-      description: project.description,
-      created_at: project.created_at,
-      updated_at: project.updated_at,
-      organization_id: project.organization_id,
-    }));
   }
 
   async getProjectDetail({
@@ -63,32 +49,26 @@ export class ProjectsService {
     auth: Auth;
     projectId: string;
   }): Promise<GetProjectDetailDto> {
+    await this.dbPermissionService.doesUserHaveAccessToProject({ auth, projectId });
+
     const project = await this.databaseService.db.query.projects.findFirst({
       where: eq(projects.id, projectId),
-    });
-    if (!project) throw new NotFoundException();
-    const org = await this.databaseService.db.query.organizations.findFirst({
-      where: eq(organizations.id, project.organization_id),
-      with: {
-        organizationsToUsers: {
-          where: eq(organizationsToUsers.user_id, auth.userId),
-        },
+      columns: {
+        id: true,
+        name: true,
+        description: true,
+        created_at: true,
+        updated_at: true,
+        organization_id: true,
+        domains: true,
+        css_vars: true,
+        css_template: true,
       },
     });
-    const userHasAccessToOrg = !!org?.organizationsToUsers.length;
-    if (!userHasAccessToOrg) throw new ForbiddenException();
 
-    return {
-      id: project.id,
-      name: project.name,
-      description: project.description,
-      created_at: project.created_at,
-      updated_at: project.updated_at,
-      organization_id: project.organization_id,
-      domains: project.domains,
-      css_vars: project.css_vars ?? undefined,
-      css_template: project.css_template ?? undefined,
-    };
+    if (!project) throw new InternalServerErrorException("Project not found");
+
+    return project;
   }
 
   async createProject({
@@ -111,7 +91,7 @@ export class ProjectsService {
       })
       .returning();
     const project = newProjects.at(0);
-    if (!project) throw new BadRequestException("Failed to create project");
+    if (!project) throw new InternalServerErrorException("Failed to create project");
 
     return {
       id: project.id,
@@ -145,21 +125,21 @@ export class ProjectsService {
         css_template: data.css_template?.trim(),
       })
       .where(eq(projects.id, projectId))
-      .returning();
+      .returning({
+        id: projects.id,
+        name: projects.name,
+        description: projects.description,
+        created_at: projects.created_at,
+        updated_at: projects.updated_at,
+        organization_id: projects.organization_id,
+        domains: projects.domains,
+        css_vars: projects.css_vars,
+        css_template: projects.css_template,
+      });
     const updatedProj = updatedProjects.at(0);
-    if (!updatedProj) throw new BadRequestException("Failed to update project");
+    if (!updatedProj) throw new InternalServerErrorException("Failed to update project");
 
-    return {
-      id: updatedProj.id,
-      name: updatedProj.name,
-      description: updatedProj.description,
-      created_at: updatedProj.created_at,
-      updated_at: updatedProj.updated_at,
-      organization_id: updatedProj.organization_id,
-      domains: updatedProj.domains,
-      css_vars: updatedProj.css_vars ?? undefined,
-      css_template: updatedProj.css_template ?? undefined,
-    };
+    return updatedProj;
   }
 
   async deleteProject({ auth, projectId }: { auth: Auth; projectId: string }): Promise<void> {

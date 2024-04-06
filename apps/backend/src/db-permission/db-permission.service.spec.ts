@@ -170,7 +170,7 @@ describe("isAllowedOrigin", () => {
         projectId: "",
         requestOrigin: "http://localhost",
       }),
-    ).rejects.toThrow("Not Found");
+    ).rejects.toThrow("Bad Request");
   });
   it("should throw without requestOrigin", async () => {
     await expect(
@@ -178,7 +178,7 @@ describe("isAllowedOrigin", () => {
         projectId: "projectId",
         requestOrigin: "",
       }),
-    ).rejects.toThrow("Not Found");
+    ).rejects.toThrow("Bad Request");
   });
   it("should pass with localhost", async () => {
     await expect(

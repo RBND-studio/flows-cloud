@@ -41,6 +41,7 @@ jobs:
           echo BACKEND_APP_URL=${{ secrets.BACKEND_APP_URL }} >> .env
           echo BACKEND_CAPTCHA_SECRET=${{ secrets.BACKEND_CAPTCHA_SECRET }} >> .env
           echo BACKEND_SLACK_WEBHOOK_URL=${{ secrets.BACKEND_SLACK_WEBHOOK_URL }} >> .env
+          echo BACKEND_SLACK_ISSUES_WEBHOOK_URL=${{ secrets.BACKEND_SLACK_ISSUES_WEBHOOK_URL }} >> .env
           echo BACKEND_LEMONSQUEEZY_WEBHOOK_SECRET=${{ secrets.BACKEND_LEMONSQUEEZY_WEBHOOK_SECRET }} >> .env
           echo BACKEND_LEMONSQUEEZY_API_KEY=${{ secrets.BACKEND_LEMONSQUEEZY_API_KEY }} >> .env
           echo BACKEND_LEMONSQUEEZY_STORE_ID=${{ secrets.BACKEND_LEMONSQUEEZY_STORE_ID }} >> .env

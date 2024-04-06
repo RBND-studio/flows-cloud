@@ -31,7 +31,7 @@ export const Invites: FC = () => {
       key={invite.id}
     >
       <Text>
-        You&apos;ve been invited to join <strong>{invite.organizationName}</strong>
+        You&apos;ve been invited to join <strong>{invite.organization_name}</strong>
       </Text>
       <Button loading={accepting} onClick={() => handleAccept(invite.id)} size="small">
         Accept

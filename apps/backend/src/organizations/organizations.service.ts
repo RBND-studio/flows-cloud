@@ -149,23 +149,21 @@ export class OrganizationsService {
   }): Promise<GetOrganizationsDto> {
     const orgs = await this.databaseService.db
       .insert(organizations)
-      .values({
-        name: data.name,
-      })
-      .returning();
+      .values({ name: data.name })
+      .returning({
+        id: organizations.id,
+        name: organizations.name,
+        description: organizations.description,
+        created_at: organizations.created_at,
+        updated_at: organizations.updated_at,
+      });
     const org = orgs.at(0);
-    if (!org) throw new BadRequestException("Failed to create organization");
+    if (!org) throw new InternalServerErrorException("Failed to create organization");
     await this.databaseService.db.insert(organizationsToUsers).values({
       organization_id: org.id,
       user_id: auth.userId,
     });
-    return {
-      id: org.id,
-      name: org.name,
-      description: org.description,
-      created_at: org.created_at,
-      updated_at: org.updated_at,
-    };
+    return org;
   }
 
   async updateOrganization({
@@ -187,17 +185,17 @@ export class OrganizationsService {
         updated_at: new Date(),
       })
       .where(eq(organizations.id, organizationId))
-      .returning();
+      .returning({
+        id: organizations.id,
+        name: organizations.name,
+        description: organizations.description,
+        created_at: organizations.created_at,
+        updated_at: organizations.updated_at,
+      });
     const updatedOrg = updatedOrganizations.at(0);
-    if (!updatedOrg) throw new BadRequestException("Failed to update organization");
+    if (!updatedOrg) throw new InternalServerErrorException("Failed to update organization");
 
-    return {
-      id: updatedOrg.id,
-      name: updatedOrg.name,
-      description: updatedOrg.description,
-      created_at: updatedOrg.created_at,
-      updated_at: updatedOrg.updated_at,
-    };
+    return updatedOrg;
   }
 
   async deleteOrganization({
@@ -225,20 +223,10 @@ export class OrganizationsService {
 
     const org = await this.databaseService.db.query.organizations.findFirst({
       where: eq(organizations.id, organizationId),
-      with: {
-        organizationsToUsers: {
-          with: {
-            user: {
-              columns: {
-                email: true,
-              },
-            },
-          },
-        },
-      },
+      with: { organizationsToUsers: { with: { user: { columns: { email: true } } } } },
       columns: { name: true },
     });
-    if (!org) throw new NotFoundException();
+    if (!org) throw new InternalServerErrorException();
 
     const userAlreadyInOrg = org.organizationsToUsers.some(
       (orgToUser) => orgToUser.user.email === email,
@@ -254,16 +242,11 @@ export class OrganizationsService {
     });
 
     if (!existingInvite) {
-      const invites = await this.databaseService.db
-        .insert(userInvite)
-        .values({
-          email,
-          organization_id: organizationId,
-          expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
-        })
-        .returning();
-      const invite = invites.at(0);
-      if (!invite) throw new BadRequestException("Failed to create invite");
+      await this.databaseService.db.insert(userInvite).values({
+        email,
+        organization_id: organizationId,
+        expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
+      });
     }
 
     await this.emailService.sendInvite({ email, organizationName: org.name });

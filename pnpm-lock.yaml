@@ -189,6 +189,9 @@ importers:
       drizzle-orm:
         specifier: ^0.29.4
         version: 0.29.4(postgres@3.4.3)
+      fastify:
+        specifier: ^4.26.2
+        version: 4.26.2
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2

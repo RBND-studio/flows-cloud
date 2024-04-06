@@ -13,6 +13,7 @@ import { DbPermissionModule } from "./db-permission/db-permission.module";
 import { EmailModule } from "./email/email.module";
 import { FlowsModule } from "./flows/flows.module";
 import { LemonSqueezyModule } from "./lemon-squeezy/lemon-squeezy.module";
+import { LoggerMiddleware } from "./middleware/logger-middleware";
 import { NewsfeedModule } from "./newsfeed/newsfeed.module";
 import { OrganizationUsageModule } from "./organization-usage/organization-usage.module";
 import { OrganizationsModule } from "./organizations/organizations.module";
@@ -75,8 +76,8 @@ export class AppModule implements NestModule {
         }),
       )
       .exclude(...publicRoutes)
-      .forRoutes("(.*)");
-
+      .forRoutes("*");
     consumer.apply(cors()).forRoutes(...publicRoutes);
+    consumer.apply(LoggerMiddleware).forRoutes("*");
   }
 }

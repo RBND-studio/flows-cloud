@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from "@nestjs/common";
 import { organizationsToUsers, userInvite, userMetadata, users } from "db";
 import { and, eq, gt, sql } from "drizzle-orm";
 
@@ -32,9 +37,8 @@ export class UsersService {
         where: eq(userMetadata.user_id, auth.userId),
       }),
     ]);
-
     const user = usersResult.at(0);
-    if (!user) throw new NotFoundException();
+    if (!user) throw new InternalServerErrorException();
 
     let meta = metaResult;
 
@@ -51,7 +55,7 @@ export class UsersService {
 
       meta = newMeta.at(0);
     }
-    if (!meta) throw new NotFoundException();
+    if (!meta) throw new InternalServerErrorException();
 
     const invites = await (() => {
       if (!user.email) return [];
@@ -67,7 +71,7 @@ export class UsersService {
       pendingInvites: invites.map((invite) => ({
         id: invite.id,
         expires_at: invite.expires_at,
-        organizationName: invite.organization.name,
+        organization_name: invite.organization.name,
       })),
       role: meta.role,
       hasPassword: user.has_password,
@@ -85,7 +89,7 @@ export class UsersService {
     const user = await this.databaseService.db.query.users.findFirst({
       where: eq(users.id, auth.userId),
     });
-    if (!user) throw new NotFoundException();
+    if (!user) throw new InternalServerErrorException();
 
     if (invite.expires_at < new Date()) throw new BadRequestException("Invite expired");
 
@@ -120,11 +124,11 @@ export class UsersService {
   }
 
   async joinWaitlist({ data }: { data: JoinWaitlistDto }): Promise<void> {
-    const verifyResult = await verifyCaptcha(data.captchaToken);
+    const verifyResult = await verifyCaptcha(data.captcha_token);
     if (!verifyResult?.success) throw new BadRequestException("Invalid captcha");
 
     const res = await this.emailService.createContact({ email: data.email });
-    if (!res.success) throw new BadRequestException(res.message);
+    if (!res.success) throw new InternalServerErrorException(res.message);
 
     await this.newsfeedService.postMessage({
       message: `🤩 ${data.email} has joined the waitlist!`,
