@@ -22,9 +22,7 @@ export const TopRightButtons: FC = () => {
       })}
     >
       <Button asChild disabled={!auth?.user.id} variant="secondary">
-        <Link href={routes.userSettings({ userId: auth?.user.id ?? "" })}>
-          {t.settings.personal}
-        </Link>
+        <Link href={routes.userSettings()}>{t.settings.personal}</Link>
       </Button>
       <Button loading={processingLogout} onClick={logout} variant="secondary">
         {t.actions.logout}

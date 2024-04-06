@@ -1,6 +1,5 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { OrganizationLeaveDialog } from "app/(dashboard)/user/[userId]/settings/organization-leave-dialog";
 import { CreateOrganizationDialog } from "components/organizations";
 import { Organization16 } from "icons";
 import { api } from "lib/api";
@@ -9,6 +8,8 @@ import Link from "next/link";
 import { routes } from "routes";
 import { plural, t } from "translations";
 import { Button, Icon, Text } from "ui";
+
+import { OrganizationLeaveDialog } from "./organization-leave-dialog";
 
 export const OrganizationsList = async (): Promise<JSX.Element> => {
   const organizations = await load(api["/organizations"]());

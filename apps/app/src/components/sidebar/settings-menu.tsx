@@ -51,7 +51,7 @@ export const SettingsMenu: FC = () => {
       ? [
           {
             label: "Personal settings",
-            href: routes.userSettings({ userId: auth.user.id }),
+            href: routes.userSettings(),
           },
         ]
       : []),
