@@ -6,6 +6,7 @@ import request from "supertest";
 
 import { AppModule } from "../src/app.module";
 import { DatabaseService } from "../src/database/database.service";
+import { LemonSqueezyService } from "../src/lemon-squeezy/lemon-squeezy.service";
 
 jest.mock("@nestjs/throttler", (): unknown => ({
   ...jest.requireActual("@nestjs/throttler"),
@@ -20,6 +21,8 @@ describe("AppController (e2e)", () => {
       imports: [AppModule],
     })
       .overrideProvider(DatabaseService)
+      .useValue({})
+      .overrideProvider(LemonSqueezyService)
       .useValue({})
       .compile();
 

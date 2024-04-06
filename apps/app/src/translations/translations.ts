@@ -64,6 +64,10 @@ export const t = {
     createFlowFailed: "Failed to create flow",
     deleteOrgFailed: "Failed to delete organization",
     removeMemberFailed: "Failed to remove member",
+    updateLimitFailed: "Failed to update limit",
+    updateLimitSuccess: "Limit updated",
+    cancelSubscriptionFailed: "Failed to cancel subscription",
+    cancelSubscriptionSuccess: "Subscription cancelled",
   },
   steps: {
     stepType: {

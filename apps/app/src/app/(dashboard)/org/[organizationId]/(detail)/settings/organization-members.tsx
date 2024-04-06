@@ -20,7 +20,13 @@ type Props = {
 export const OrganizationMembers: FC<Props> = ({ users, org }) => {
   const { members, pending_invites } = users;
   return (
-    <Flex alignItems="flex-start" cardWrap="-" flexDirection="column" padding="space16">
+    <Flex
+      alignItems="flex-start"
+      cardWrap="-"
+      flexDirection="column"
+      padding="space16"
+      mb="space16"
+    >
       <Flex flexDirection="column" mb="space16">
         <Text variant="titleL">{t.organization.members.title}</Text>
         <Text color="muted">
@@ -41,20 +47,24 @@ export const OrganizationMembers: FC<Props> = ({ users, org }) => {
         ))}
       </Flex>
 
-      <Text className={css({ mb: "space8" })} variant="titleS">
-        Pending invites
-      </Text>
-      {/* TODO: @opesicka make this nicer */}
-      <Flex direction="column" gap="space12" mb="space16">
-        {pending_invites.map((invite) => (
-          <Flex alignItems="center" gap="space8" key={invite.id}>
-            <Text>{invite.email}</Text>
-            <Text>Expires {timeFromNow(invite.expires_at)}</Text>
-            <InviteResend email={invite.email} organizationId={org.id} />
-            <InviteDelete inviteId={invite.id} />
+      {pending_invites.length ? (
+        <>
+          <Text className={css({ mb: "space8" })} variant="titleS">
+            Pending invites
+          </Text>
+          {/* TODO: @opesicka make this nicer */}
+          <Flex direction="column" gap="space12" mb="space16">
+            {pending_invites.map((invite) => (
+              <Flex alignItems="center" gap="space8" key={invite.id}>
+                <Text>{invite.email}</Text>
+                <Text>Expires {timeFromNow(invite.expires_at)}</Text>
+                <InviteResend email={invite.email} organizationId={org.id} />
+                <InviteDelete inviteId={invite.id} />
+              </Flex>
+            ))}
           </Flex>
-        ))}
-      </Flex>
+        </>
+      ) : null}
 
       <InviteDialog organizationId={org.id} />
     </Flex>

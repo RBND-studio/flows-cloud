@@ -7,6 +7,9 @@ declare global {
       BACKEND_APP_URL: string;
       BACKEND_CAPTCHA_SECRET: string;
       BACKEND_SLACK_WEBHOOK_URL: string;
+      BACKEND_LEMONSQUEEZY_WEBHOOK_SECRET: string;
+      BACKEND_LEMONSQUEEZY_API_KEY: string;
+      BACKEND_LEMONSQUEEZY_STORE_ID: string;
     }
   }
 }

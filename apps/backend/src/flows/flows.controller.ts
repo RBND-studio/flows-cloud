@@ -14,7 +14,7 @@ import { FlowsService } from "./flows.service";
 @ApiTags("flows")
 @ApiBearerAuth()
 @Controller()
-export class FlowsControllers {
+export class FlowsController {
   constructor(private flowsService: FlowsService) {}
 
   @Get("projects/:projectId/flows")

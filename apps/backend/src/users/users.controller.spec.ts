@@ -6,6 +6,7 @@ import { EmailService } from "../email/email.service";
 import { verifyCaptcha } from "../lib/captcha";
 import type { MockDB } from "../mocks";
 import { getMockDB } from "../mocks";
+import { getMockNewsfeedService, type MockNewsfeedService } from "../mocks/newsfeed-service";
 import { NewsfeedService } from "../newsfeed/newsfeed.service";
 import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
@@ -16,36 +17,27 @@ jest.mock("../lib/captcha", () => ({
 
 let usersController: UsersController;
 let db: MockDB;
+let newsfeedService: MockNewsfeedService;
 
 const emailService = {
   createContact: jest.fn(),
   signedUp: jest.fn(),
 };
-const newsfeedService = {
-  postMessage: jest.fn(),
-};
 
 beforeEach(async () => {
   db = getMockDB();
+  newsfeedService = getMockNewsfeedService();
 
   const moduleRef = await Test.createTestingModule({
     controllers: [UsersController],
     providers: [UsersService],
   })
-
     .useMocker((token) => {
-      if (token === DatabaseService) {
-        return { db };
-      }
-      if (token === EmailService) {
-        return emailService;
-      }
-      if (token === NewsfeedService) {
-        return newsfeedService;
-      }
+      if (token === DatabaseService) return { db };
+      if (token === EmailService) return emailService;
+      if (token === NewsfeedService) return newsfeedService;
     })
     .compile();
-
   usersController = moduleRef.get(UsersController);
 });
 

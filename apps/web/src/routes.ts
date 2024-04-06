@@ -3,6 +3,7 @@ export const routes = {
   privacy: "/privacy",
   terms: "/terms",
   about: "/about",
+  pricing: "/pricing",
 
   blog: "/blog",
   blogPostDetail: ({ postId }: { postId: string }) => `/blog/${postId}`,

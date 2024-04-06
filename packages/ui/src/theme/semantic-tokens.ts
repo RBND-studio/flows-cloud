@@ -58,6 +58,7 @@ export const semanticTokens = defineSemanticTokens({
       },
       danger: { value: { base: "{colors.danger.400}", _dark: "{colors.danger-dark.400}" } },
       dangerSubtle: { value: { base: "{colors.danger.300}", _dark: "{colors.danger-dark.700}" } },
+      white: { value: { base: "{colors.neutral.0}", _dark: "{colors.neutral.900}" } },
     },
     icon: {
       DEFAULT: { value: { base: "{colors.neutral.650}", _dark: "{colors.neutral.300}" } },
