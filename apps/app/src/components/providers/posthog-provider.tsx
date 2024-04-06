@@ -1,11 +1,11 @@
 "use client";
 
-import { POSTHOG_KEY } from "lib/constants";
+import { POSTHOG_KEY, PRODUCTION } from "lib/constants";
 import { posthog } from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import type { FC, ReactNode } from "react";
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && PRODUCTION) {
   posthog.init(POSTHOG_KEY, {
     api_host: "https://app.posthog.com",
   });

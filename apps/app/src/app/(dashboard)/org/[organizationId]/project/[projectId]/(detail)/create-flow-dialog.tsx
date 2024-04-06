@@ -49,7 +49,7 @@ export const CreateFlowDialog: FC<Props> = ({ projectId, organizationId, trigger
       <DialogTitle>Create Flow</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <Input {...register("name")} label="Name" />
+          <Input {...register("name")} required label="Name" />
         </DialogContent>
         <DialogActions>
           <DialogClose asChild>

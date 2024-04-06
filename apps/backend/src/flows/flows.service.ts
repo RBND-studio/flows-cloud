@@ -325,7 +325,7 @@ export class FlowsService {
     });
     if (!flow) throw new NotFoundException();
 
-    if (!flow.draft_version_id) throw new BadRequestException("No draft version found");
+    if (!flow.draft_version_id) return;
 
     const updateVersionQuery = this.databaseService.db
       .update(flowVersions)

@@ -33,6 +33,7 @@ type Props = {
   className?: string;
   id?: string;
   error?: boolean;
+  readOnly?: boolean;
 };
 
 export const Input = forwardRef<HTMLInputElement, Props>(function Input(

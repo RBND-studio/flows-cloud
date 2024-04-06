@@ -15,6 +15,7 @@ import {
   Storage16,
   Versions16,
 } from "icons";
+import { routes } from "routes";
 
 type Feature = {
   title: string;
@@ -33,112 +34,112 @@ export type SidebarData = SidebarSection[];
 export const sidebarData: SidebarData = [
   {
     title: "Build",
-    link: "/features/build",
+    link: routes.featuresBuild,
     features: [
       {
         title: "No-code",
         icon: Cloud16,
-        link: "/features/build#no-code",
+        link: `${routes.featuresBuild}#no-code`,
       },
       {
         title: "In-code",
         icon: Code16,
-        link: "/features/build#in-code",
+        link: `${routes.featuresBuild}#in-code`,
       },
       {
         title: "Preview",
         icon: Eye16,
-        link: "/features/build#preview",
+        link: `${routes.featuresBuild}#preview`,
       },
     ],
   },
   {
     title: "Flow steps",
-    link: "/features/flow-steps",
+    link: routes.featuresFlowSteps,
     features: [
       {
         title: "Tooltip",
         icon: Comment16,
-        link: "/features/flow-steps#tooltip",
+        link: `${routes.featuresFlowSteps}#tooltip`,
       },
       {
         title: "Modal",
         icon: Flows16,
-        link: "/features/flow-steps#modal",
+        link: `${routes.featuresFlowSteps}#modal`,
       },
       {
         title: "Wait",
         icon: Hourglass16,
-        link: "/features/flow-steps#wait",
+        link: `${routes.featuresFlowSteps}#wait`,
       },
       {
         title: "Branch",
         icon: Fork16,
-        link: "/features/flow-steps#branch",
+        link: `${routes.featuresFlowSteps}#branch`,
       },
     ],
   },
   {
     title: "Deliver",
-    link: "/features/deliver",
+    link: routes.featuresDeliver,
     features: [
       {
         title: "Speed as a priority",
         icon: Hourglass16,
-        link: "/features/deliver#speed",
+        link: `${routes.featuresDeliver}#speed`,
       },
       {
         title: "Tiny size",
         icon: Storage16,
-        link: "/features/deliver#size",
+        link: `${routes.featuresDeliver}#size`,
       },
       {
         title: "Frequency",
         icon: Versions16,
-        link: "/features/deliver#frequency",
+        link: `${routes.featuresDeliver}#frequency`,
       },
       {
         title: "Targeting",
         icon: Filter16,
-        link: "/features/deliver#targeting",
+        link: `${routes.featuresDeliver}#targeting`,
       },
       {
         title: "Launch action",
         icon: Send16,
-        link: "/features/deliver#launch-action",
+        link: `${routes.featuresDeliver}#launch-action`,
       },
     ],
   },
 
   {
     title: "Analyze",
-    link: "/features/analyze",
+    link: routes.featuresAnalyze,
     features: [
       {
         title: "Flow insights",
         icon: Graph16,
-        link: "/features/analyze#flow-insights",
+        link: `${routes.featuresAnalyze}#flow-insights`,
       },
       {
         title: "Error tracking",
         icon: Alert16,
-        link: "/features/analyze#error-tracking",
+        link: `${routes.featuresAnalyze}#error-tracking`,
       },
       {
         title: "Analytics integration",
         icon: Stack16,
-        link: "/features/analyze#analytics-integration",
+        link: `${routes.featuresAnalyze}#analytics-integration`,
       },
     ],
   },
   {
     title: "Modern and secure",
-    link: "/features/secure",
+    link: routes.featuresSecure,
     features: [
       {
         title: "Privacy first",
         icon: ShieldLock16,
-        link: "/features/secure#privacy-first",
+        link: `${routes.featuresSecure}#privacy-first`,
       },
     ],
   },
