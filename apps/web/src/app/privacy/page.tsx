@@ -38,6 +38,7 @@ const Page = (): ReactElement => {
           consent that we will collect, use and share your information as described in this Privacy
           Policy.
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           What this Privacy Policy Covers
         </Text>
@@ -49,6 +50,7 @@ const Page = (): ReactElement => {
           rules or regulations. This Privacy Policy does not cover the practices of companies we
           don’t own or control or people we don’t manage.
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           As a visitor to flows.sh website
         </Text>
@@ -71,6 +73,7 @@ const Page = (): ReactElement => {
           </a>
           .
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           As a user of Flows Cloud (app.flows.sh)
         </Text>
@@ -89,6 +92,7 @@ const Page = (): ReactElement => {
           We use a select number of trusted third parties to help us provide the service. We only
           share information with them that is required for the services they provide.
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           Sharing your information
         </Text>
@@ -122,8 +126,7 @@ const Page = (): ReactElement => {
           for full details.
         </Text>
         <Text className={paragraphCss} variant="bodyM">
-          We use Cloudflare for a global CDN, DNS, DDoS, and Captcha protection. See the details in
-          the{" "}
+          We use Cloudflare for a global CDN, DNS, DDoS, and Captcha protection. See the{" "}
           <a
             href="https://www.cloudflare.com/privacypolicy/"
             rel="noopener noreferrer"
@@ -133,6 +136,14 @@ const Page = (): ReactElement => {
           </a>{" "}
           for full details.
         </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          We use Lemon Squeezy as a merchang in the middle for our payment processing. See the{" "}
+          <a href="https://www.lemonsqueezy.com/privacy/" rel="noopener noreferrer" target="_blank">
+            Lemon Squeezy privacy policy
+          </a>{" "}
+          for full details.
+        </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           Retention of data
         </Text>
@@ -161,7 +172,7 @@ const Page = (): ReactElement => {
           your information.
         </Text>
         <Text className={paragraphCss} variant="bodyM">
-          Last updated: March 6, 2024
+          Last updated: April 6, 2024
         </Text>
       </Section>
     </>

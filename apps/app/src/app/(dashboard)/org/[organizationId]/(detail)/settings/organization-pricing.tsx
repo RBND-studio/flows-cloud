@@ -45,7 +45,7 @@ export const OrganizationPricing: FC<Props> = ({ org }) => {
           <Text variant="titleL">Pricing</Text>
           <Text color="muted">
             Your current pricing tiers. The final price is calculated based on the number of flows
-            you start.
+            you start durring the billing period.
           </Text>
         </Flex>
       </Flex>
