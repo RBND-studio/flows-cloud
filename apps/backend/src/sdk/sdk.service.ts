@@ -222,15 +222,16 @@ export class SdkService {
     const projectId = event.projectId;
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    const [limitReached, existingFlow] = await Promise.all([
-      this.organizationUsageService.getIsOrganizationLimitReachedByProject({ projectId }),
-      this.databaseService.db.query.flows.findFirst({
-        columns: { flow_type: true, id: true },
-        where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
-      }),
-    ]);
-    if (limitReached && (!existingFlow || existingFlow.flow_type === "local"))
-      throw new BadRequestException("Organization limit reached");
+    const existingFlow = await this.databaseService.db.query.flows.findFirst({
+      columns: { flow_type: true, id: true },
+      where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
+    });
+
+    if (!existingFlow || existingFlow.flow_type === "local") {
+      const limitReached =
+        await this.organizationUsageService.getIsOrganizationLimitReachedByProject({ projectId });
+      if (limitReached) throw new BadRequestException("Organization limit reached");
+    }
 
     // For startFlow event, we need to send usage record to LemonSqueezy if the organization has subscription
     if (event.type === "startFlow") {
@@ -303,18 +304,17 @@ export class SdkService {
   }): Promise<void> {
     const results = await this.databaseService.db
       .select({
-        projectId: projects.id,
+        projectId: flows.project_id,
         eventId: events.id,
         eventTime: events.event_time,
         eventType: events.event_type,
       })
       .from(events)
       .leftJoin(flows, eq(events.flow_id, flows.id))
-      .leftJoin(projects, eq(flows.project_id, projects.id))
       .where(eq(events.id, requestEventId));
 
     const result = results.at(0);
-    if (!result) throw new NotFoundException();
+    if (!result?.eventId) throw new NotFoundException();
     const { projectId } = result;
     if (!projectId) throw new InternalServerErrorException();
 
