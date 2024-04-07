@@ -3,16 +3,21 @@
   "getting-started": "Getting started",
   "creating-flows": "Create flows",
   "step-types": "Step types",
-  "-": {
+  "-0": {
+    "title": "",
+    "type": "separator"
+  },
+  "billing": "Billing",
+  "-1": {
     "title": "",
     "type": "separator"
   },
   "sdk": "SDK",
-  "--": {
+  "-2": {
     "title": "",
     "type": "separator"
   },
-  "---": {
+  "-3": {
     "title": "Links",
     "type": "separator"
   },

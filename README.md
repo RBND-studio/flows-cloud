@@ -7,15 +7,22 @@
   <img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed/RBND-studio/flows-cloud"/>
 </p>
 
-# Flows Cloud: the next generation tool for onboarding flows and product tours.
+## Flows Cloud: The new standard for building user onboarding
 
-Flows are in the early stages of development. We are currently working on the first version of the product. The expected launch date is somewhere in **Q1 2024**. If you are interested in using Flows, please [sign up for the waitlist](https://flows.sh/).
+Flows lets you build any onboarding you want. Guide users, increase feature adoption, and improve revenue.
 
 - Create flows with a WYSIWYG editor or define them in your codebase
 - With Flows Cloud you can create and update flows on the fly without having to redeploy your app
 - Automatically track the performance of your flows
 - Use advanced step types like wait, conditional, call a function, and AI decision
 - Customize anything with CSS and JS
+- Connect to external analytics tools to get the full picture of your user's journey
+
+With its flexible approach, Flows unlocks the potential of your product by providing the tools to build seamless onboarding experiences for your users. It is the tool of choice for modern SaaS companies.
+
+## Get started for free
+
+The fastest and most reliable way to get started with Flows is signing up for free to [Flows Cloud](https://app.flows.sh/signup). Your first 1,000 flows started are free every month, after which you pay based on usage. See our [pricing](https://flows.sh/pricing) for more details.
 
 ## Contributing
 

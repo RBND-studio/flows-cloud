@@ -7,4 +7,15 @@ description: With fork step you can create conditional paths in your flow based 
 
 With fork step you can create conditional paths in your flow based on user input or any other condition.
 
+In the demo bellow, after clicking the `Continue` button in the modal, the flow will be forked based on the button clicked (A or B).
+
 <Demo variant="fork" />
+
+## Targeting branches
+
+For a flow to continue to a branch you need to create a way for the user to get there. This can be done by multiple ways:
+
+- Wait step that has a target branch step
+- Button in the [footer](/step-types/shared-properties/footer-properties) actions with a target branch set
+
+The target branch field is a number that corresponds to the branch number in the fork step. The first branch is 0, the second is 1, and so on. In the visual step editor you can count the branches from left to right.
