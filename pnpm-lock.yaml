@@ -90,8 +90,8 @@ importers:
         specifier: 14.1.4
         version: 14.1.4(@opentelemetry/api@1.6.0)(react-dom@18.2.0)(react@18.2.0)
       posthog-js:
-        specifier: ^1.108.0
-        version: 1.108.0
+        specifier: ^1.120.2
+        version: 1.120.2
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -17462,8 +17462,8 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /posthog-js@1.108.0:
-    resolution: {integrity: sha512-BTQC5qWafdy2n4HpibkPPjZO/24YzxRokynMJ3avftUVIKSqFkU2dFeAA4ij0j43uFzAcRIacdwRdeXERd4WAA==}
+  /posthog-js@1.120.2:
+    resolution: {integrity: sha512-19LehjKgcmOzdj5OOicyzCXdxN4SVMX2IC1FvQR9gozxxxxhh6lCwWoe3y955S2KRLRP/8BjQ3zmMezV1ZCSQQ==}
     dependencies:
       fflate: 0.4.8
       preact: 10.19.5
