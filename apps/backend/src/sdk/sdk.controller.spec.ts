@@ -46,7 +46,10 @@ beforeEach(async () => {
 
 describe("Get css", () => {
   beforeEach(() => {
-    db.query.projects.findFirst.mockReturnValue({ css_vars: "vars", css_template: "template" });
+    db.query.projects.findFirst.mockReturnValue({
+      css_vars: "body { color: red; }",
+      css_template: "body { color: blue; }",
+    });
   });
   it("should throw without projectId", async () => {
     await expect(sdkController.getCss("", "latest")).rejects.toThrow("Not Found");
@@ -56,7 +59,7 @@ describe("Get css", () => {
     await expect(sdkController.getCss("projectId", "latest")).rejects.toThrow("Not Found");
   });
   it("should return css", async () => {
-    await expect(sdkController.getCss("projectId", "latest")).resolves.toEqual("vars\ntemplate");
+    await expect(sdkController.getCss("projectId", "latest")).resolves.toEqual("body{color:#00f}");
   });
 });
 
@@ -133,7 +136,7 @@ describe("Create event", () => {
     userHash: "d",
     flowHash: "e",
     stepHash: "f",
-    projectId: "g",
+    projectId: "882b69bd-d73e-454d-8042-44d0720c6ea4",
     sdkVersion: "0.0.0",
     location: "/",
     type: "startFlow",
@@ -148,6 +151,11 @@ describe("Create event", () => {
     db.where.mockResolvedValue([{ subscription_item_id: "subItemId" }]);
     lemonSqueezyService.createUsageRecord.mockResolvedValue({});
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(false);
+  });
+  it("should throw with non uuid projectId", async () => {
+    await expect(
+      sdkController.createEvent("origin", { ...createEventDto, projectId: "my-id" }),
+    ).rejects.toThrow("Bad Request");
   });
   it("should throw with not allowed origin", async () => {
     dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
