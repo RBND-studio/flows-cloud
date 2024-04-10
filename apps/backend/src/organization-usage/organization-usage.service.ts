@@ -29,10 +29,9 @@ export class OrganizationUsageService {
       .from(events)
       .leftJoin(flows, eq(events.flow_id, flows.id))
       .leftJoin(projects, eq(flows.project_id, projects.id))
-      .leftJoin(organizations, eq(projects.organization_id, organizations.id))
       .where(
         and(
-          eq(organizations.id, organizationId),
+          eq(projects.organization_id, organizationId),
           eq(events.event_type, "startFlow"),
           gte(events.event_time, eventTimeCompareValue),
         ),
