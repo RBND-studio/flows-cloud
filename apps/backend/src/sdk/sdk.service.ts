@@ -14,6 +14,7 @@ import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
+import { isUUID } from "../lib/uuid";
 import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
@@ -220,6 +221,8 @@ export class SdkService {
     requestOrigin: string;
   }): Promise<CreateEventResponseDto> {
     const projectId = event.projectId;
+    if (!(await isUUID(projectId))) throw new BadRequestException();
+
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
     const existingFlow = await this.databaseService.db.query.flows.findFirst({
