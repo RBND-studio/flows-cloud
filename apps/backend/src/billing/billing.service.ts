@@ -42,13 +42,26 @@ export class BillingService {
       void this.newsfeedService.postMessage({
         message: `*Flows* Payment failed for org ${organization_id}`,
       });
-    if (data.meta.event_name === "subscription_payment_succeeded")
+    if (
+      data.meta.event_name === "subscription_payment_succeeded" &&
+      webhookHasSubscriptionPaymentData(data)
+    )
       void this.newsfeedService.postMessage({
-        message: `*Flows* Payment succeeded for org ${organization_id}`,
+        message: `*Flows* Payment succeeded for org ${organization_id} ${
+          data.data.attributes.total_formatted as string
+        }`,
       });
     if (data.meta.event_name === "subscription_created")
       void this.newsfeedService.postMessage({
         message: `*Flows* New subscription from org ${organization_id}`,
+      });
+    if (
+      data.meta.event_name === "subscription_updated" &&
+      webhookHasSubscriptionData(data) &&
+      data.data.attributes.status === "canceled"
+    )
+      void this.newsfeedService.postMessage({
+        message: `*Flows* Subscription canceled for org ${organization_id}`,
       });
 
     const newWebhooks = await this.databaseService.db
