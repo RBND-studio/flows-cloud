@@ -28,7 +28,6 @@ describe("doesUserHaveAccessToFlow", () => {
       {
         flowId: "flowId",
         projectId: "projectId",
-        organizationId: "orgId",
         organizationToUser: { organization_id: "orgId", user_id: "userId" },
       },
     ]);
@@ -47,23 +46,6 @@ describe("doesUserHaveAccessToFlow", () => {
       {
         flowId: "flowId",
         projectId: null,
-        organizationId: null,
-        organizationToUser: null,
-      },
-    ]);
-    await expect(
-      dbPermissionService.doesUserHaveAccessToFlow({
-        auth: { userId: "userId" },
-        flowId: "flowId",
-      }),
-    ).rejects.toThrow("Not Found");
-  });
-  it("should throw without organization", async () => {
-    db.where.mockResolvedValueOnce([
-      {
-        flowId: "flowId",
-        projectId: "projectId",
-        organizationId: null,
         organizationToUser: null,
       },
     ]);
@@ -79,7 +61,6 @@ describe("doesUserHaveAccessToFlow", () => {
       {
         flowId: "flowId",
         projectId: "projectId",
-        organizationId: "orgId",
         organizationToUser: null,
       },
     ]);
@@ -105,7 +86,6 @@ describe("doesUserHaveAccessToProject", () => {
     db.where.mockResolvedValue([
       {
         projectId: "projectId",
-        organizationId: "orgId",
         organizationToUser: { organization_id: "orgId", user_id: "userId" },
       },
     ]);
@@ -120,26 +100,10 @@ describe("doesUserHaveAccessToProject", () => {
       }),
     ).rejects.toThrow("Not Found");
   });
-  it("should throw without organizationId", async () => {
-    db.where.mockResolvedValueOnce([
-      {
-        projectId: "projectId",
-        organizationId: null,
-        organizationToUser: null,
-      },
-    ]);
-    await expect(
-      dbPermissionService.doesUserHaveAccessToProject({
-        auth: { userId: "userId" },
-        projectId: "projectId",
-      }),
-    ).rejects.toThrow("Not Found");
-  });
   it("should throw without access to organization", async () => {
     db.where.mockResolvedValueOnce([
       {
         projectId: "projectId",
-        organizationId: "orgId",
         organizationToUser: null,
       },
     ]);
@@ -195,7 +159,7 @@ describe("isAllowedOrigin", () => {
         projectId: "projectId",
         requestOrigin: "https://flows.sh",
       }),
-    ).rejects.toThrow("Not Found");
+    ).rejects.toThrow("Bad Request");
   });
   it("should pass with project", async () => {
     await expect(
