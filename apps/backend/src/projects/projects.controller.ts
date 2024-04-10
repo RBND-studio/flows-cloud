@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { type Auth, Authorization } from "../auth";
+import { UUIDParam } from "../lib/uuid";
 import type { GetProjectDetailDto, GetProjectsDto } from "./projects.dto";
 import { CreateProjectDto, UpdateProjectDto } from "./projects.dto";
 import { ProjectsService } from "./projects.service";
@@ -15,7 +16,7 @@ export class ProjectsController {
   @Get("organizations/:organizationId/projects")
   getProjects(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
+    @UUIDParam("organizationId") organizationId: string,
   ): Promise<GetProjectsDto[]> {
     return this.projectsService.getProjects({ auth, organizationId });
   }
@@ -23,7 +24,7 @@ export class ProjectsController {
   @Get("projects/:projectId")
   getProjectDetail(
     @Authorization() auth: Auth,
-    @Param("projectId") projectId: string,
+    @UUIDParam("projectId") projectId: string,
   ): Promise<GetProjectDetailDto> {
     return this.projectsService.getProjectDetail({ auth, projectId });
   }
@@ -31,7 +32,7 @@ export class ProjectsController {
   @Post("organizations/:organizationId/projects")
   createProject(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
+    @UUIDParam("organizationId") organizationId: string,
     @Body() body: CreateProjectDto,
   ): Promise<GetProjectsDto> {
     return this.projectsService.createProject({ auth, organizationId, data: body });
@@ -40,14 +41,17 @@ export class ProjectsController {
   @Patch("projects/:projectId")
   updateProject(
     @Authorization() auth: Auth,
-    @Param("projectId") projectId: string,
+    @UUIDParam("projectId") projectId: string,
     @Body() body: UpdateProjectDto,
   ): Promise<GetProjectDetailDto> {
     return this.projectsService.updateProject({ auth, projectId, data: body });
   }
 
   @Delete("projects/:projectId")
-  deleteProject(@Authorization() auth: Auth, @Param("projectId") projectId: string): Promise<void> {
+  deleteProject(
+    @Authorization() auth: Auth,
+    @UUIDParam("projectId") projectId: string,
+  ): Promise<void> {
     return this.projectsService.deleteProject({ auth, projectId });
   }
 }

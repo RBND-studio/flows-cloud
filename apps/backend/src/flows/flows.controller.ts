@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Post, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 
 import { type Auth, Authorization } from "../auth";
+import { UUIDParam } from "../lib/uuid";
 import type {
   GetFlowAnalyticsDto,
   GetFlowDetailDto,
@@ -20,7 +21,7 @@ export class FlowsController {
   @Get("projects/:projectId/flows")
   getFlows(
     @Authorization() auth: Auth,
-    @Param("projectId") projectId: string,
+    @UUIDParam("projectId") projectId: string,
   ): Promise<GetFlowsDto[]> {
     return this.flowsService.getFlows({ auth, projectId });
   }
@@ -28,7 +29,7 @@ export class FlowsController {
   @Get("flows/:flowId")
   getFlowDetail(
     @Authorization() auth: Auth,
-    @Param("flowId") flowId: string,
+    @UUIDParam("flowId") flowId: string,
   ): Promise<GetFlowDetailDto> {
     return this.flowsService.getFlowDetail({ auth, flowId });
   }
@@ -36,35 +37,35 @@ export class FlowsController {
   @Patch("flows/:flowId")
   async updateFlow(
     @Authorization() auth: Auth,
-    @Param("flowId") flowId: string,
+    @UUIDParam("flowId") flowId: string,
     @Body() body: UpdateFlowDto,
   ): Promise<void> {
     await this.flowsService.updateFlow({ auth, flowId, data: body });
   }
 
   @Post("flows/:flowId/publish")
-  publishFlow(@Authorization() auth: Auth, @Param("flowId") flowId: string): Promise<void> {
+  publishFlow(@Authorization() auth: Auth, @UUIDParam("flowId") flowId: string): Promise<void> {
     return this.flowsService.publishFlow({ auth, flowId });
   }
 
   @Post("projects/:projectId/flows")
   createFlow(
     @Authorization() auth: Auth,
-    @Param("projectId") projectId: string,
+    @UUIDParam("projectId") projectId: string,
     @Body() body: CreateFlowDto,
   ): Promise<GetFlowsDto> {
     return this.flowsService.createFlow({ auth, projectId, data: body });
   }
 
   @Delete("flows/:flowId")
-  deleteFlow(@Authorization() auth: Auth, @Param("flowId") flowId: string): Promise<void> {
+  deleteFlow(@Authorization() auth: Auth, @UUIDParam("flowId") flowId: string): Promise<void> {
     return this.flowsService.deleteFlow({ auth, flowId });
   }
 
   @Get("flows/:flowId/versions")
   getFlowVersions(
     @Authorization() auth: Auth,
-    @Param("flowId") flowId: string,
+    @UUIDParam("flowId") flowId: string,
   ): Promise<GetFlowVersionsDto[]> {
     return this.flowsService.getFlowVersions({ auth, flowId });
   }
@@ -74,7 +75,7 @@ export class FlowsController {
   @ApiQuery({ name: "endDate", required: false })
   getFlowAnalytics(
     @Authorization() auth: Auth,
-    @Param("flowId") flowId: string,
+    @UUIDParam("flowId") flowId: string,
     @Query("startDate") startDate?: Date,
     @Query("endDate") endDate?: Date,
   ): Promise<GetFlowAnalyticsDto> {

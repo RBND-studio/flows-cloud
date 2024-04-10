@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { flows, organizations, organizationsToUsers, projects, subscriptions } from "db";
+import { flows, organizationsToUsers, projects, subscriptions } from "db";
 import { and, arrayContains, eq } from "drizzle-orm";
 
 import type { Auth } from "../auth";
@@ -87,7 +87,7 @@ export class DbPermissionService {
       .leftJoin(
         organizationsToUsers,
         and(
-          eq(organizations.id, organizationsToUsers.organization_id),
+          eq(projects.organization_id, organizationsToUsers.organization_id),
           eq(organizationsToUsers.user_id, auth.userId),
         ),
       )
