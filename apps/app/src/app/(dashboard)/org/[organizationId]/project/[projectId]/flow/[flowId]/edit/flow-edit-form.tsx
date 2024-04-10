@@ -59,7 +59,8 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
       if (res.error) return;
       reset(data, { keepValues: true });
       toast.success(t.toasts.updateFlowSuccess);
-      if (event) router.push(backLink);
+      const calledProgramatically = !event;
+      if (!calledProgramatically) router.push(backLink);
       router.refresh();
     },
     [backLink, flow.id, reset, router, send],
