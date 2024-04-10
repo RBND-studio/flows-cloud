@@ -7,9 +7,10 @@ export const links = {
   support: "mailto:hello@flows.sh?subject=Support%20request",
   signUp: "https://app.flows.sh/signup",
   logIn: "https://app.flows.sh/login",
-  nextJsDemo: "https://nextjs.flows.sh/",
+  nextJsDemo: "https://nextjs.flows.sh",
   privacy: "https://flows.sh/privacy",
   terms: "https://flows.sh/terms",
+  pricing: "https://flows.sh/pricing",
   // docs
   docs: "https://flows.sh/docs",
   docsStepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",

@@ -5,13 +5,14 @@ import { type UserRole, UserRoleEnum } from "db";
 export class Invite {
   id: string;
   expires_at: Date;
-  organizationName: string;
+  organization_name: string;
 }
 
 export class GetMeDto {
   pendingInvites: Invite[];
   @ApiProperty({ enum: UserRoleEnum })
   role: UserRole;
+  hasPassword: boolean;
 }
 
 export class AcceptInviteResponseDto {
@@ -22,5 +23,5 @@ export class JoinWaitlistDto {
   @IsEmail()
   email: string;
   @IsString()
-  captchaToken: string;
+  captcha_token: string;
 }

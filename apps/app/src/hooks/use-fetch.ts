@@ -16,7 +16,7 @@ export const useFetch = <
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- not needed
 ) => {
   const { auth } = useAuth();
-  const token = auth?.token;
+  const token = auth?.session.access_token;
 
   const _key = useMemo((): null | [Key, ...Args] => {
     if (!key) return null;

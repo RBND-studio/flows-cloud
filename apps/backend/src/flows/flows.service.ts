@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from "@nestjs/common";
 import dayjs from "dayjs";
 import type { EventType } from "db";
 import { events, flows, flowVersions } from "db";
@@ -294,7 +299,7 @@ export class FlowsService {
     })();
     const currentDraftVersionId = currentDrafts === null ? null : currentDrafts?.at(0)?.id;
     if (changedFromDraft && currentDraftVersionId === undefined)
-      throw new BadRequestException("Failed to update data");
+      throw new InternalServerErrorException("Failed to update data");
 
     const enabled_at = (() => {
       if (data.enabled === undefined) return undefined;
@@ -325,7 +330,7 @@ export class FlowsService {
     });
     if (!flow) throw new NotFoundException();
 
-    if (!flow.draft_version_id) return;
+    if (!flow.draft_version_id) throw new BadRequestException();
 
     const updateVersionQuery = this.databaseService.db
       .update(flowVersions)
@@ -369,37 +374,32 @@ export class FlowsService {
       human_id = `${human_id_base}_${String(i).padStart(2, "0")}`;
     }
 
-    let flow: typeof flows.$inferSelect;
-
-    try {
-      const newFlows = await this.databaseService.db
-        .insert(flows)
-        .values({
-          name: data.name,
-          description: "",
-          project_id: projectId,
-          flow_type: "cloud",
-          human_id,
-        })
-        .returning();
-      const newFlow = newFlows.at(0);
-      if (!newFlow) throw new Error("failed to create flow");
-      flow = newFlow;
-    } catch (e) {
-      throw new BadRequestException((e as Error).message);
-    }
+    const newFlows = await this.databaseService.db
+      .insert(flows)
+      .values({
+        name: data.name,
+        description: "",
+        project_id: projectId,
+        flow_type: "cloud",
+        human_id,
+      })
+      .returning({
+        id: flows.id,
+        name: flows.name,
+        description: flows.description,
+        created_at: flows.created_at,
+        updated_at: flows.updated_at,
+        enabled_at: flows.enabled_at,
+        project_id: flows.project_id,
+        flow_type: flows.flow_type,
+        human_id: flows.human_id,
+        preview_url: flows.preview_url,
+      });
+    const flow = newFlows.at(0);
+    if (!flow) throw new InternalServerErrorException("Failed to create flow");
 
     return {
-      id: flow.id,
-      name: flow.name,
-      description: flow.description,
-      created_at: flow.created_at,
-      updated_at: flow.updated_at,
-      enabled_at: flow.enabled_at,
-      project_id: flow.project_id,
-      flow_type: flow.flow_type,
-      human_id: flow.human_id,
-      preview_url: flow.preview_url,
+      ...flow,
       start_count: 0,
     };
   }
@@ -419,16 +419,15 @@ export class FlowsService {
   }): Promise<GetFlowVersionsDto[]> {
     await this.dbPermissionService.doesUserHaveAccessToFlow({ auth, flowId });
 
-    const versions = await this.databaseService.db.query.flowVersions.findMany({
+    return this.databaseService.db.query.flowVersions.findMany({
       where: eq(flowVersions.flow_id, flowId),
       orderBy: [desc(flowVersions.created_at)],
+      columns: {
+        id: true,
+        created_at: true,
+        data: true,
+        frequency: true,
+      },
     });
-
-    return versions.map((version) => ({
-      id: version.id,
-      created_at: version.created_at,
-      data: version.data,
-      frequency: version.frequency,
-    }));
   }
 }

@@ -5,6 +5,9 @@
   "scripts": {
     "tsc": "tsc"
   },
+  "dependencies": {
+    "dayjs": "1.11.10"
+  },
   "devDependencies": {
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",

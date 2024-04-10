@@ -14,10 +14,9 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["ui", "icons", "shared"],
   output: "standalone",
-  swcMinify: true,
   experimental: {
     outputFileTracingRoot: path.join(__dirname, "../../"),
-    optimizePackageImports: ["ui", "icons"],
+    optimizePackageImports: ["ui", "icons", "shared"],
   },
   images: {
     formats: ["image/webp"],

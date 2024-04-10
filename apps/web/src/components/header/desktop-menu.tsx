@@ -19,8 +19,8 @@ export const DesktopMenu = (): ReactElement => {
         <li
           className={css({
             display: "inline-block",
-            mx: "space12",
-            sm: {
+            mx: "space16",
+            md: {
               mx: "space24",
             },
           })}

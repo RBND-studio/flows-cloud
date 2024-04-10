@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 
-import { FlowsControllers } from "./flows.controller";
+import { FlowsController } from "./flows.controller";
 import { FlowsService } from "./flows.service";
 
 @Module({
-  controllers: [FlowsControllers],
+  controllers: [FlowsController],
   providers: [FlowsService],
 })
 export class FlowsModule {}

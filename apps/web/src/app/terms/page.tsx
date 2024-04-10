@@ -1,7 +1,8 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { headingCss, paragraphCss, Section } from "components/ui";
+import { headingCss, paragraphCss, Section, SmartLink } from "components/ui";
 import type { ReactElement } from "react";
+import { routes } from "routes";
 import { links } from "shared";
 import { Text } from "ui";
 
@@ -49,6 +50,7 @@ const Page = (): ReactElement => {
           right or provision of the Terms of Service; in doing so, we are not waiving that right or
           provision. These terms do contain a limitation of our liability.
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           Account terms
         </Text>
@@ -73,6 +75,48 @@ const Page = (): ReactElement => {
           You must be a human. Accounts registered by bots or other automated methods are not
           permitted.
         </Text>
+
+        <Text as="h2" className={headingCss} variant="titleXl">
+          Payment, refunds, upgrading and downgrading terms
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          For our free plan, we explain the terms on our{" "}
+          <SmartLink href={routes.pricing}>pricing page</SmartLink>. We do not ask you for your
+          credit card and — just like for customers who pay for our services — we do not sell your
+          data.
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          If you are upgrading from a free plan to a paid plan, your billing cycle starts on the day
+          of upgrade, and we will charge you at the end of the billing period for the usage you
+          generate each billing period.
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          Paying customers are billed automatically via credit card or PayPal depending on their
+          preference.
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          You will never be charged extra. There are no surprise fees and your card will never be
+          charged unexpectedly.
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          You can upgrade or downgrade at any time within your account settings. Downgrading your
+          plan may cause the loss of features or capacity of your account. Flows does not accept any
+          liability for such loss.
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          Our payment process is conducted by our payment processor Lemon Squeezy. Lemon Squeezy
+          provides customer service inquiries and handles returns. All fees are inclusive of all
+          taxes, levies, or duties imposed by taxing authorities. Lemon Squeezy will collect those
+          taxes on behalf of taxing authority and remit those taxes to taxing authorities. See the{" "}
+          <a href="https://www.lemonsqueezy.com/terms" rel="noopener noreferrer" target="_blank">
+            Lemon Squeezy’s Terms of Use
+          </a>{" "}
+          for details.
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          Fees paid hereunder are non-refundable.
+        </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           Cancellation and termination
         </Text>
@@ -92,6 +136,7 @@ const Page = (): ReactElement => {
           any service customer, company employee or officer may result in immediate account
           termination.
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           Modifications to the service and prices
         </Text>
@@ -110,6 +155,7 @@ const Page = (): ReactElement => {
           Flows shall not be liable to you or to any third-party for any modification, price change,
           suspension or discontinuance of the service.
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           Content ownership, copyright and trademark
         </Text>
@@ -133,6 +179,7 @@ const Page = (): ReactElement => {
           the service, use of the service, or access to the service without the express written
           permission by the company.
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           Privacy and security of your data
         </Text>
@@ -158,6 +205,7 @@ const Page = (): ReactElement => {
           information (PII). PII is information that could be used on its own to directly identify,
           contact, or precisely locate an individual.
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           General conditions
         </Text>
@@ -194,6 +242,7 @@ const Page = (): ReactElement => {
           </a>
           .
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           Liability
         </Text>
@@ -230,6 +279,7 @@ const Page = (): ReactElement => {
           Any ambiguities in the interpretation of these Terms of Service shall not be construed
           against the drafting party.
         </Text>
+
         <Text as="h2" className={headingCss} variant="titleXl">
           Contact us
         </Text>
@@ -238,7 +288,7 @@ const Page = (): ReactElement => {
           <a href={links.support}>hello@flows.sh</a>.
         </Text>
         <Text className={paragraphCss} variant="bodyM">
-          Last updated: March 6, 2024
+          Last updated: April 6, 2024
         </Text>
       </Section>
     </>

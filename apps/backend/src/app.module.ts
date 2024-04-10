@@ -6,12 +6,16 @@ import { minutes, ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import cors from "cors";
 
 import { AppController } from "./app.controller";
+import { BillingModule } from "./billing/billing.module";
 import { CssModule } from "./css/css.module";
 import { DatabaseModule } from "./database/database.module";
 import { DbPermissionModule } from "./db-permission/db-permission.module";
 import { EmailModule } from "./email/email.module";
 import { FlowsModule } from "./flows/flows.module";
+import { LemonSqueezyModule } from "./lemon-squeezy/lemon-squeezy.module";
+import { LoggerMiddleware } from "./middleware/logger-middleware";
 import { NewsfeedModule } from "./newsfeed/newsfeed.module";
+import { OrganizationUsageModule } from "./organization-usage/organization-usage.module";
 import { OrganizationsModule } from "./organizations/organizations.module";
 import { ProjectsModule } from "./projects/projects.module";
 import { SdkModule } from "./sdk/sdk.module";
@@ -36,6 +40,8 @@ const publicRoutes: string[] = [
     ]),
     DatabaseModule,
     DbPermissionModule,
+    OrganizationUsageModule,
+    LemonSqueezyModule,
     EmailModule,
     NewsfeedModule,
     SdkModule,
@@ -44,6 +50,7 @@ const publicRoutes: string[] = [
     OrganizationsModule,
     UsersModule,
     CssModule,
+    BillingModule,
   ],
   controllers: [AppController],
   providers: [
@@ -69,8 +76,8 @@ export class AppModule implements NestModule {
         }),
       )
       .exclude(...publicRoutes)
-      .forRoutes("(.*)");
-
+      .forRoutes("*");
     consumer.apply(cors()).forRoutes(...publicRoutes);
+    consumer.apply(LoggerMiddleware).forRoutes("*");
   }
 }

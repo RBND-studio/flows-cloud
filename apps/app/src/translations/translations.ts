@@ -8,9 +8,13 @@ export const t = {
     close: "Close",
     delete: "Delete",
     copy: "Copy",
+    leave: "Leave",
+    open: "Open",
+    unlink: "Unlink",
   },
   settings: {
     theme: "Theme",
+    personal: "Personal settings",
   },
   toasts: {
     createOrgSuccess: "Organization created",
@@ -33,7 +37,8 @@ export const t = {
     publishFlowSuccess: "Flow published",
     enableFlowSuccess: "Flow is live",
     disableFlowSuccess: "Flow disabled",
-
+    passwordUpdated: "Password updated",
+    accountUnlinkFailed: "Failed to unlink account",
     sendInviteFailed: "Failed to send invite",
     createProjectFailed: "Failed to create project",
     createOrgFailed: "Failed to create organization",
@@ -59,6 +64,10 @@ export const t = {
     createFlowFailed: "Failed to create flow",
     deleteOrgFailed: "Failed to delete organization",
     removeMemberFailed: "Failed to remove member",
+    updateLimitFailed: "Failed to update limit",
+    updateLimitSuccess: "Limit updated",
+    cancelSubscriptionFailed: "Failed to cancel subscription",
+    cancelSubscriptionSuccess: "Subscription cancelled",
   },
   steps: {
     stepType: {
@@ -213,6 +222,34 @@ export const t = {
       localFlowDescription:
         "Deleting local flow will not stop it from running until you remove it from your codebase. This action just removes the analytics and logs associated with the flow.",
       confirm: "Delete flow",
+    },
+  },
+  personal: {
+    connectedAccounts: {
+      title: "Connected accounts",
+      description: "These are the accounts you can use to login to your account.",
+      lastProvider:
+        "This is the only way for you to login. To unlink it delete your account or create a password.",
+      changePassword: "Change password",
+      createPassword: "Create password",
+    },
+    deleteAccount: {
+      title: "Delete account",
+      description:
+        "Deleting your account removes all your data from Flows permanently. We'll be sad to see you go. Do you wish to proceed?",
+      confirm: "Delete account",
+      cancel: "Don't delete",
+    },
+    organizations: {
+      title: "Your organizations",
+      description: "You are a member of the following organizations.",
+      member: "{{count}} member",
+      member_plural: "{{count}} members",
+      leaveDialog: {
+        title: "Leave organization",
+        tooltip:
+          "You are the last member, to leave you need to transfer the ownership or delete the organization.",
+      },
     },
   },
 };

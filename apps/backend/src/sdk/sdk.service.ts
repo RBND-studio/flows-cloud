@@ -1,20 +1,31 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from "@nestjs/common";
 import browserslist from "browserslist";
-import { events, flows, projects } from "db";
-import { and, arrayContains, desc, eq, inArray, isNotNull } from "drizzle-orm";
+import { events, flows, organizations, projects, subscriptions } from "db";
+import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { browserslistToTargets, transform } from "lightningcss";
 
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
+import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
-import { isLocalhost } from "../lib/origin";
+import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
 @Injectable()
 export class SdkService {
+  private readonly logger = new Logger(SdkService.name);
+
   constructor(
     private databaseService: DatabaseService,
     private dbPermissionService: DbPermissionService,
+    private organizationUsageService: OrganizationUsageService,
+    private lemonSqueezyService: LemonSqueezyService,
   ) {}
 
   async getCss({ projectId, version }: { projectId: string; version?: string }): Promise<string> {
@@ -44,6 +55,7 @@ export class SdkService {
       });
       return minified.code.toString();
     } catch {
+      this.logger.error("Failed to transform CSS for project", projectId);
       return css;
     }
   }
@@ -58,6 +70,11 @@ export class SdkService {
     userHash?: string;
   }): Promise<GetSdkFlowsDto[]> {
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
+
+    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
+      { projectId },
+    );
+    if (limitReached) return [];
 
     const dbFlows = await this.databaseService.db.query.flows.findMany({
       where: and(
@@ -130,6 +147,11 @@ export class SdkService {
     if (!flowId) throw new NotFoundException();
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
+    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
+      { projectId },
+    );
+    if (limitReached) throw new BadRequestException("Organization limit reached");
+
     const flow = await this.databaseService.db.query.flows.findFirst({
       where: and(
         eq(flows.project_id, projectId),
@@ -139,7 +161,7 @@ export class SdkService {
       ),
       with: { publishedVersion: true },
     });
-    if (!flow?.publishedVersion) throw new NotFoundException();
+    if (!flow?.publishedVersion) throw new BadRequestException();
     const data = flow.publishedVersion.data;
     return {
       id: flow.human_id,
@@ -177,7 +199,7 @@ export class SdkService {
     if (!flow) throw new NotFoundException();
 
     const version = flow.draftVersion ?? flow.publishedVersion;
-    if (!version) throw new NotFoundException();
+    if (!version) throw new BadRequestException();
 
     const data = version.data;
     return {
@@ -200,10 +222,40 @@ export class SdkService {
     const projectId = event.projectId;
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
+    const existingFlow = await this.databaseService.db.query.flows.findFirst({
+      columns: { flow_type: true, id: true },
+      where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
+    });
+
+    if (!existingFlow || existingFlow.flow_type === "local") {
+      const limitReached =
+        await this.organizationUsageService.getIsOrganizationLimitReachedByProject({ projectId });
+      if (limitReached) throw new BadRequestException("Organization limit reached");
+    }
+
+    // For startFlow event, we need to send usage record to LemonSqueezy if the organization has subscription
+    if (event.type === "startFlow") {
+      void this.databaseService.db
+        .select({ subscription_item_id: subscriptions.subscription_item_id })
+        .from(subscriptions)
+        .leftJoin(organizations, eq(subscriptions.organization_id, organizations.id))
+        .leftJoin(projects, eq(projects.organization_id, organizations.id))
+        .where(
+          and(eq(projects.id, projectId), inArray(subscriptions.status, ["active", "past_due"])),
+        )
+        .then(async (subscriptionsResult) => {
+          const subscriptionItemId = subscriptionsResult.at(0)?.subscription_item_id;
+          if (subscriptionItemId === undefined) return;
+          const res = await this.lemonSqueezyService.createUsageRecord({
+            quantity: 1,
+            action: "increment",
+            subscriptionItemId,
+          });
+          if (res.error) throw new InternalServerErrorException("Failed to create usage record");
+        });
+    }
+
     const flow = await (async () => {
-      const existingFlow = await this.databaseService.db.query.flows.findFirst({
-        where: and(eq(flows.project_id, projectId), eq(flows.human_id, event.flowId)),
-      });
       if (existingFlow) return existingFlow;
       const newFlows = await this.databaseService.db
         .insert(flows)
@@ -214,9 +266,9 @@ export class SdkService {
           description: "",
           name: event.flowId,
         })
-        .returning();
+        .returning({ id: flows.id });
       const newFlow = newFlows.at(0);
-      if (!newFlow) throw new BadRequestException("error creating flow");
+      if (!newFlow) throw new InternalServerErrorException("error creating flow");
       return newFlow;
     })();
 
@@ -239,39 +291,39 @@ export class SdkService {
       .returning({ id: events.id });
 
     const createdEvent = createdEvents.at(0);
-    if (!createdEvent) throw new BadRequestException("error saving event");
+    if (!createdEvent) throw new InternalServerErrorException("error saving event");
     return createdEvent;
   }
 
   async deleteEvent({
-    eventId,
+    eventId: requestEventId,
     requestOrigin,
   }: {
     requestOrigin: string;
     eventId: string;
   }): Promise<void> {
-    if (!requestOrigin || !eventId) throw new NotFoundException();
-
-    const projectsWhere = isLocalhost(requestOrigin)
-      ? eq(flows.project_id, projects.id)
-      : and(eq(flows.project_id, projects.id), arrayContains(projects.domains, [requestOrigin]));
-
-    const query = await this.databaseService.db
-      .select({ projectId: projects.id, flowId: flows.id, event: events })
+    const results = await this.databaseService.db
+      .select({
+        projectId: flows.project_id,
+        eventId: events.id,
+        eventTime: events.event_time,
+        eventType: events.event_type,
+      })
       .from(events)
       .leftJoin(flows, eq(events.flow_id, flows.id))
-      .leftJoin(projects, projectsWhere)
-      .where(eq(events.id, eventId));
-    const data = query.at(0);
+      .where(eq(events.id, requestEventId));
 
-    if (!data) throw new NotFoundException();
-    const { event, flowId, projectId } = data;
-    if (!flowId || !projectId) throw new NotFoundException();
+    const result = results.at(0);
+    if (!result?.eventId) throw new NotFoundException();
+    const { projectId } = result;
+    if (!projectId) throw new InternalServerErrorException();
 
-    const eventIsMoreThen15MinutesOld = event.event_time < new Date(Date.now() - 15 * 60 * 1000);
-    if (event.event_type !== "tooltipError" || eventIsMoreThen15MinutesOld)
-      throw new NotFoundException();
+    await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    await this.databaseService.db.delete(events).where(eq(events.id, eventId));
+    const eventIsMoreThen15MinutesOld = result.eventTime < new Date(Date.now() - 15 * 60 * 1000);
+    if (result.eventType !== "tooltipError" || eventIsMoreThen15MinutesOld)
+      throw new BadRequestException();
+
+    await this.databaseService.db.delete(events).where(eq(events.id, result.eventId));
   }
 }

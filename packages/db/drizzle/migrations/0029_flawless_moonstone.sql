@@ -1,0 +1,1 @@
+ALTER TABLE "organization" ADD COLUMN "start_limit" integer DEFAULT 100000 NOT NULL;

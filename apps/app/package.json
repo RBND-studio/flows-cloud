@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@flows/js": "0.0.47",
+    "@hookform/resolvers": "^3.3.4",
     "@marsidev/react-turnstile": "^0.5.3",
     "@monaco-editor/react": "^4.6.0",
     "@radix-ui/react-slot": "^1.0.2",
@@ -31,16 +32,17 @@
     "@visx/tooltip": "^3.3.0",
     "dayjs": "^1.11.10",
     "icons": "workspace:*",
-    "monaco-editor": "^0.44.0",
+    "monaco-editor": "^0.47.0",
     "next": "14.1.4",
-    "posthog-js": "^1.108.0",
+    "posthog-js": "^1.120.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.1",
     "shared": "workspace:*",
     "sharp": "^0.33.2",
     "swr": "^2.2.4",
-    "ui": "workspace:*"
+    "ui": "workspace:*",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "14.1.4",

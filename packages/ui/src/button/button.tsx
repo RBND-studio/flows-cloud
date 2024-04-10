@@ -90,6 +90,12 @@ const button = cva({
     border: "1px solid transparent",
     _disabled: {
       pointerEvents: "none",
+      cursor: "default",
+      _hover: {
+        backgroundColor: "bg.subtle",
+        borderColor: "bg.subtle",
+        color: "text.subtle",
+      },
     },
   },
   variants: {
@@ -195,6 +201,23 @@ const button = cva({
         _hover: {
           backgroundColor: "bg.hover",
           shadow: "none",
+        },
+      },
+      danger: {
+        color: "text.danger",
+        backgroundColor: "bg.muted",
+        borderColor: "border.strong",
+        _hover: {
+          backgroundColor: "bg.dangerHover",
+          color: "text.onPrimary",
+          borderColor: "bg.dangerHover",
+        },
+        _disabled: {
+          backgroundColor: "bg.subtle",
+          borderColor: "bg.subtle",
+          color: "text.subtle",
+          pointerEvents: "none",
+          boxShadow: "none",
         },
       },
     },

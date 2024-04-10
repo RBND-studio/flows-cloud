@@ -6,6 +6,7 @@ import { EmailService } from "../email/email.service";
 import { verifyCaptcha } from "../lib/captcha";
 import type { MockDB } from "../mocks";
 import { getMockDB } from "../mocks";
+import { getMockNewsfeedService, type MockNewsfeedService } from "../mocks/newsfeed-service";
 import { NewsfeedService } from "../newsfeed/newsfeed.service";
 import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
@@ -16,36 +17,27 @@ jest.mock("../lib/captcha", () => ({
 
 let usersController: UsersController;
 let db: MockDB;
+let newsfeedService: MockNewsfeedService;
 
 const emailService = {
   createContact: jest.fn(),
   signedUp: jest.fn(),
 };
-const newsfeedService = {
-  postMessage: jest.fn(),
-};
 
 beforeEach(async () => {
   db = getMockDB();
+  newsfeedService = getMockNewsfeedService();
 
   const moduleRef = await Test.createTestingModule({
     controllers: [UsersController],
     providers: [UsersService],
   })
-
     .useMocker((token) => {
-      if (token === DatabaseService) {
-        return { db };
-      }
-      if (token === EmailService) {
-        return emailService;
-      }
-      if (token === NewsfeedService) {
-        return newsfeedService;
-      }
+      if (token === DatabaseService) return { db };
+      if (token === EmailService) return emailService;
+      if (token === NewsfeedService) return newsfeedService;
     })
     .compile();
-
   usersController = moduleRef.get(UsersController);
 });
 
@@ -56,7 +48,7 @@ afterEach(() => {
 describe("Get me", () => {
   beforeEach(() => {
     db.query.userMetadata.findFirst.mockResolvedValue({ userId: "userId", role: "user" });
-    db.query.users.findFirst.mockResolvedValue({ id: "userId", email: "email" });
+    db.where.mockResolvedValue([{ id: "userId", email: "email", has_password: false }]);
     db.query.userInvite.findMany.mockResolvedValue([
       { id: "inviteId", expires_at: new Date(), organization: { name: "orgName" } },
     ]);
@@ -64,17 +56,19 @@ describe("Get me", () => {
   it("should throw without metadata", async () => {
     db.query.userMetadata.findFirst.mockResolvedValue(null);
     db.returning.mockResolvedValue([]);
-    await expect(usersController.me({ userId: "userId" })).rejects.toThrow("Not Found");
+    await expect(usersController.me({ userId: "userId" })).rejects.toThrow("Internal Server Error");
     expect(db.insert).toHaveBeenCalledWith(userMetadata);
   });
   it("should throw without user", async () => {
-    db.query.users.findFirst.mockResolvedValue(null);
-    await expect(usersController.me({ userId: "userId" })).rejects.toThrow("Not Found");
+    db.where.mockResolvedValue([]);
+    await expect(usersController.me({ userId: "userId" })).rejects.toThrow("Internal Server Error");
   });
   it("should not return invites without email", async () => {
-    db.query.users.findFirst.mockResolvedValue({ id: "userId", email: null });
+    db.where.mockResolvedValue([{ id: "userId", email: null, has_password: false }]);
+    db.query.userMetadata.findFirst.mockResolvedValue({ userId: "userId", role: "user" });
     await expect(usersController.me({ userId: "userId" })).resolves.toEqual({
       pendingInvites: [],
+      hasPassword: false,
       role: "user",
     });
   });
@@ -83,8 +77,9 @@ describe("Get me", () => {
     db.returning.mockResolvedValue([{ userId: "userId", role: "user" }]);
     await expect(usersController.me({ userId: "userId" })).resolves.toEqual({
       pendingInvites: [
-        { id: "inviteId", expires_at: expect.any(Date), organizationName: "orgName" },
+        { id: "inviteId", expires_at: expect.any(Date), organization_name: "orgName" },
       ],
+      hasPassword: false,
       role: "user",
     });
     expect(db.insert).toHaveBeenCalledWith(userMetadata);
@@ -94,8 +89,9 @@ describe("Get me", () => {
   it("should return invites", async () => {
     await expect(usersController.me({ userId: "userId" })).resolves.toEqual({
       pendingInvites: [
-        { id: "inviteId", expires_at: expect.any(Date), organizationName: "orgName" },
+        { id: "inviteId", expires_at: expect.any(Date), organization_name: "orgName" },
       ],
+      hasPassword: false,
       role: "user",
     });
   });
@@ -120,7 +116,7 @@ describe("Accept invite", () => {
   it("should throw without user", async () => {
     db.query.users.findFirst.mockResolvedValue(null);
     await expect(usersController.acceptInvite({ userId: "userId" }, "inviteId")).rejects.toThrow(
-      "Not Found",
+      "Internal Server Error",
     );
   });
   it("should throw with expired invite", async () => {
@@ -185,19 +181,19 @@ describe("Join waitlist", () => {
   it("should throw with invalid captcha", async () => {
     (verifyCaptcha as jest.Mock).mockResolvedValue({ success: false });
     await expect(
-      usersController.joinWaitlist({ captchaToken: "cap", email: "mail@examplec.com" }),
+      usersController.joinWaitlist({ captcha_token: "cap", email: "mail@examplec.com" }),
     ).rejects.toThrow("Invalid captcha");
   });
   it("should throw with createContact success", async () => {
     emailService.createContact.mockResolvedValue({ success: false, message: "message" });
     await expect(
-      usersController.joinWaitlist({ captchaToken: "cap", email: "mail@examplec.com" }),
+      usersController.joinWaitlist({ captcha_token: "cap", email: "mail@examplec.com" }),
     ).rejects.toThrow("message");
     expect(emailService.createContact).toHaveBeenCalledWith({ email: "mail@examplec.com" });
   });
   it("should call postMessage", async () => {
     await expect(
-      usersController.joinWaitlist({ captchaToken: "cap", email: "mail@examplec.com" }),
+      usersController.joinWaitlist({ captcha_token: "cap", email: "mail@examplec.com" }),
     ).resolves.toBeUndefined();
     expect(newsfeedService.postMessage).toHaveBeenCalled();
   });

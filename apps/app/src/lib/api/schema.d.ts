@@ -27,22 +27,22 @@ export interface paths {
     delete: operations["SdkController_deleteEvent"];
   };
   "/projects/{projectId}/flows": {
-    get: operations["FlowsControllers_getFlows"];
-    post: operations["FlowsControllers_createFlow"];
+    get: operations["FlowsController_getFlows"];
+    post: operations["FlowsController_createFlow"];
   };
   "/flows/{flowId}": {
-    get: operations["FlowsControllers_getFlowDetail"];
-    delete: operations["FlowsControllers_deleteFlow"];
-    patch: operations["FlowsControllers_updateFlow"];
+    get: operations["FlowsController_getFlowDetail"];
+    delete: operations["FlowsController_deleteFlow"];
+    patch: operations["FlowsController_updateFlow"];
   };
   "/flows/{flowId}/publish": {
-    post: operations["FlowsControllers_publishFlow"];
+    post: operations["FlowsController_publishFlow"];
   };
   "/flows/{flowId}/versions": {
-    get: operations["FlowsControllers_getFlowVersions"];
+    get: operations["FlowsController_getFlowVersions"];
   };
   "/flows/{flowId}/analytics": {
-    get: operations["FlowsControllers_getFlowAnalytics"];
+    get: operations["FlowsController_getFlowAnalytics"];
   };
   "/organizations/{organizationId}/projects": {
     get: operations["ProjectsController_getProjects"];
@@ -66,14 +66,27 @@ export interface paths {
     get: operations["OrganizationsController_getUsers"];
     post: operations["OrganizationsController_inviteUser"];
   };
+  "/organizations/{organizationId}/users/leave": {
+    post: operations["OrganizationsController_leaveOrganization"];
+  };
   "/organizations/{organizationId}/users/{userId}": {
     delete: operations["OrganizationsController_removeUser"];
   };
   "/invites/{inviteId}": {
     delete: operations["OrganizationsController_removeInvite"];
   };
+  "/subscriptions/{subscriptionId}": {
+    get: operations["OrganizationsController_getSubscription"];
+  };
+  "/subscriptions/{subscriptionId}/cancel": {
+    post: operations["OrganizationsController_cancelSubscription"];
+  };
+  "/organizations/{organizationId}/invoices": {
+    get: operations["OrganizationsController_getInvoices"];
+  };
   "/me": {
     get: operations["UsersController_me"];
+    delete: operations["UsersController_deleteAccount"];
   };
   "/invites/{inviteId}/accept": {
     post: operations["UsersController_acceptInvite"];
@@ -84,11 +97,17 @@ export interface paths {
   "/waitlist": {
     post: operations["UsersController_joinWaitlist"];
   };
+  "/me/identities/{providerId}": {
+    delete: operations["UsersController_deleteIdentity"];
+  };
   "/css/vars": {
     get: operations["CssController_getDefaultCssVars"];
   };
   "/css/template": {
     get: operations["CssController_getDefaultCssTemplate"];
+  };
+  "/webhooks/lemon-squeezy": {
+    post: operations["BillingController_handleLemonSqueezyWebhook"];
   };
 }
 
@@ -227,8 +246,8 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
       domains: string[];
-      css_vars?: string;
-      css_template?: string;
+      css_vars?: string | null;
+      css_template?: string | null;
     };
     CreateProjectDto: {
       name: string;
@@ -249,6 +268,28 @@ export interface components {
       created_at: string;
       /** Format: date-time */
       updated_at: string;
+      members_count?: number;
+    };
+    SubscriptionPriceTierDto: {
+      last_unit: string;
+      unit_price_decimal: string | null;
+    };
+    GetOrganizationSubscriptionDto: {
+      id: string;
+      name: string;
+      status: string;
+      status_formatted: string;
+      email: string;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      /** Format: date-time */
+      renews_at: string;
+      /** Format: date-time */
+      ends_at?: string | null;
+      is_paused: boolean;
+      price_tiers: components["schemas"]["SubscriptionPriceTierDto"][];
     };
     GetOrganizationDetailDto: {
       id: string;
@@ -258,12 +299,18 @@ export interface components {
       created_at: string;
       /** Format: date-time */
       updated_at: string;
+      members_count?: number;
+      usage: number;
+      limit: number;
+      estimated_price?: number;
+      subscription?: components["schemas"]["GetOrganizationSubscriptionDto"];
     };
     CreateOrganizationDto: {
       name: string;
     };
     UpdateOrganizationDto: {
       name?: string;
+      start_limit?: number;
     };
     InviteUserDto: {
       email: string;
@@ -282,23 +329,43 @@ export interface components {
       members: components["schemas"]["OrganizationMemberDto"][];
       pending_invites: components["schemas"]["OrganizationInviteDto"][];
     };
+    GetSubscriptionDetailDto: {
+      customer_portal_url: string;
+      update_payment_method: string;
+    };
+    GetOrganizationInvoiceDto: {
+      id: string;
+      status_formatted: string;
+      invoice_url?: string | null;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      total_formatted: string;
+      subtotal_formatted: string;
+      discount_total_formatted: string;
+      tax_formatted: string;
+      /** Format: date-time */
+      refunded_at?: string | null;
+    };
     Invite: {
       id: string;
       /** Format: date-time */
       expires_at: string;
-      organizationName: string;
+      organization_name: string;
     };
     GetMeDto: {
       /** @enum {string} */
       role: "admin" | "user";
       pendingInvites: components["schemas"]["Invite"][];
+      hasPassword: boolean;
     };
     AcceptInviteResponseDto: {
       organization_id: string;
     };
     JoinWaitlistDto: {
       email: string;
-      captchaToken: string;
+      captcha_token: string;
     };
   };
   responses: never;
@@ -430,7 +497,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_getFlows: {
+  FlowsController_getFlows: {
     parameters: {
       path: {
         projectId: string;
@@ -444,7 +511,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_createFlow: {
+  FlowsController_createFlow: {
     parameters: {
       path: {
         projectId: string;
@@ -463,7 +530,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_getFlowDetail: {
+  FlowsController_getFlowDetail: {
     parameters: {
       path: {
         flowId: string;
@@ -477,7 +544,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_deleteFlow: {
+  FlowsController_deleteFlow: {
     parameters: {
       path: {
         flowId: string;
@@ -489,7 +556,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_updateFlow: {
+  FlowsController_updateFlow: {
     parameters: {
       path: {
         flowId: string;
@@ -506,7 +573,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_publishFlow: {
+  FlowsController_publishFlow: {
     parameters: {
       path: {
         flowId: string;
@@ -518,7 +585,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_getFlowVersions: {
+  FlowsController_getFlowVersions: {
     parameters: {
       path: {
         flowId: string;
@@ -532,7 +599,7 @@ export interface operations {
       };
     };
   };
-  FlowsControllers_getFlowAnalytics: {
+  FlowsController_getFlowAnalytics: {
     parameters: {
       query?: {
         startDate?: string;
@@ -646,7 +713,7 @@ export interface operations {
     responses: {
       201: {
         content: {
-          "application/json": components["schemas"]["GetOrganizationDetailDto"];
+          "application/json": components["schemas"]["GetOrganizationsDto"];
         };
       };
     };
@@ -691,7 +758,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["GetOrganizationDetailDto"];
+          "application/json": components["schemas"]["GetOrganizationsDto"];
         };
       };
     };
@@ -727,6 +794,18 @@ export interface operations {
       };
     };
   };
+  OrganizationsController_leaveOrganization: {
+    parameters: {
+      path: {
+        organizationId: string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
   OrganizationsController_removeUser: {
     parameters: {
       path: {
@@ -752,12 +831,59 @@ export interface operations {
       };
     };
   };
+  OrganizationsController_getSubscription: {
+    parameters: {
+      path: {
+        subscriptionId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetSubscriptionDetailDto"];
+        };
+      };
+    };
+  };
+  OrganizationsController_cancelSubscription: {
+    parameters: {
+      path: {
+        subscriptionId: string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  OrganizationsController_getInvoices: {
+    parameters: {
+      path: {
+        organizationId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetOrganizationInvoiceDto"][];
+        };
+      };
+    };
+  };
   UsersController_me: {
     responses: {
       200: {
         content: {
           "application/json": components["schemas"]["GetMeDto"];
         };
+      };
+    };
+  };
+  UsersController_deleteAccount: {
+    responses: {
+      200: {
+        content: never;
       };
     };
   };
@@ -799,6 +925,18 @@ export interface operations {
       };
     };
   };
+  UsersController_deleteIdentity: {
+    parameters: {
+      path: {
+        providerId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
   CssController_getDefaultCssVars: {
     responses: {
       200: {
@@ -814,6 +952,18 @@ export interface operations {
         content: {
           "application/json": string;
         };
+      };
+    };
+  };
+  BillingController_handleLemonSqueezyWebhook: {
+    parameters: {
+      header: {
+        "X-Signature": string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
       };
     };
   };

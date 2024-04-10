@@ -31,6 +31,10 @@ const footerGroups: FooterGroup[] = [
         href: links.nextJsDemo,
         target: "_blank",
       },
+      {
+        title: "Pricing",
+        href: routes.pricing,
+      },
     ],
   },
   {

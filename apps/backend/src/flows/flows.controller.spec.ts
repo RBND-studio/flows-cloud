@@ -5,11 +5,11 @@ import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import type { MockDB, MockDbPermissionService } from "../mocks";
 import { getMockDB, getMockDbPermissionService } from "../mocks";
-import { FlowsControllers } from "./flows.controller";
+import { FlowsController } from "./flows.controller";
 import type { UpdateFlowDto } from "./flows.dto";
 import { FlowsService } from "./flows.service";
 
-let flowsController: FlowsControllers;
+let flowsController: FlowsController;
 
 jest.mock("drizzle-orm/pg-core", (): unknown => ({
   ...jest.requireActual("drizzle-orm/pg-core"),
@@ -28,7 +28,7 @@ beforeEach(async () => {
   dbPermissionService = getMockDbPermissionService();
 
   const moduleRef = await Test.createTestingModule({
-    controllers: [FlowsControllers],
+    controllers: [FlowsController],
     providers: [FlowsService],
   })
     .useMocker((token) => {
@@ -40,7 +40,7 @@ beforeEach(async () => {
       }
     })
     .compile();
-  flowsController = moduleRef.get(FlowsControllers);
+  flowsController = moduleRef.get(FlowsController);
 });
 
 describe("Get flows", () => {
@@ -218,7 +218,7 @@ describe("Create flow", () => {
     db.returning.mockResolvedValue([]);
     await expect(
       flowsController.createFlow({ userId: "userId" }, "projectId", data),
-    ).rejects.toThrow("failed to create flow");
+    ).rejects.toThrow("Failed to create flow");
   });
   it("should create human_id with number if it exists", async () => {
     db.query.flows.findMany.mockResolvedValue([{ human_id: "newname" }]);

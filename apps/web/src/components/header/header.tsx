@@ -35,7 +35,14 @@ export const Header = (): ReactElement => {
           gap: "space8",
         })}
       >
-        <Flex flex={1} gap="space8" maxW="150px">
+        <Flex
+          flex={1}
+          mdDown={{
+            flex: "unset",
+          }}
+          gap="space8"
+          maxW="150px"
+        >
           <Link
             className={css({
               display: "inline-flex",

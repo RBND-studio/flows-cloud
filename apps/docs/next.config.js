@@ -10,12 +10,12 @@ const withNextra = require("nextra")({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ["ui"],
+  transpilePackages: ["ui", "icons", "shared"],
   output: "standalone",
   swcMinify: true,
   experimental: {
     outputFileTracingRoot: path.join(__dirname, "../../"),
-    optimizePackageImports: ["ui"],
+    optimizePackageImports: ["ui", "icons", "shared"],
   },
   basePath: "/docs",
   i18n: {

@@ -10,7 +10,8 @@
     },
     "baseUrl": "./",
     "paths": {
-      "db": ["../../packages/db/index.ts"]
+      "db": ["../../packages/db/index.ts"],
+      "shared": ["../../packages/shared/index.ts"]
     }
   },
   "minify": false

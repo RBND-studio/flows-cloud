@@ -12,8 +12,8 @@ export class GetProjectsDto {
 
 export class GetProjectDetailDto extends GetProjectsDto {
   domains: string[];
-  css_vars?: string;
-  css_template?: string;
+  css_vars?: string | null;
+  css_template?: string | null;
 }
 
 export class CreateProjectDto {
