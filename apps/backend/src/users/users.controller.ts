@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { type Auth, Authorization } from "../auth";
+import { UUIDParam } from "../lib/uuid";
 import type { AcceptInviteResponseDto, GetMeDto } from "./users.dto";
 import { JoinWaitlistDto } from "./users.dto";
 import { UsersService } from "./users.service";
@@ -20,13 +21,16 @@ export class UsersController {
   @Post("invites/:inviteId/accept")
   acceptInvite(
     @Authorization() auth: Auth,
-    @Param("inviteId") inviteId: string,
+    @UUIDParam("inviteId") inviteId: string,
   ): Promise<AcceptInviteResponseDto> {
     return this.usersService.acceptInvite({ auth, inviteId });
   }
 
   @Post("invites/:inviteId/decline")
-  declineInvite(@Authorization() auth: Auth, @Param("inviteId") inviteId: string): Promise<void> {
+  declineInvite(
+    @Authorization() auth: Auth,
+    @UUIDParam("inviteId") inviteId: string,
+  ): Promise<void> {
     return this.usersService.declineInvite({ auth, inviteId });
   }
 
@@ -43,7 +47,7 @@ export class UsersController {
   @Delete("me/identities/:providerId")
   deleteIdentity(
     @Authorization() auth: Auth,
-    @Param("providerId") providerId: string,
+    @UUIDParam("providerId") providerId: string,
   ): Promise<void> {
     return this.usersService.deleteIdentity({ auth, providerId });
   }

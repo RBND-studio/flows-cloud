@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Post } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { type Auth, Authorization } from "../auth";
+import { UUIDParam } from "../lib/uuid";
 import type {
   GetOrganizationDetailDto,
   GetOrganizationInvoiceDto,
@@ -26,7 +27,7 @@ export class OrganizationsController {
   @Get("organizations/:organizationId")
   getOrganizationDetail(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
+    @UUIDParam("organizationId") organizationId: string,
   ): Promise<GetOrganizationDetailDto> {
     return this.organizationsService.getOrganizationDetail({ auth, organizationId });
   }
@@ -42,7 +43,7 @@ export class OrganizationsController {
   @Patch("organizations/:organizationId")
   updateOrganization(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
+    @UUIDParam("organizationId") organizationId: string,
     @Body() body: UpdateOrganizationDto,
   ): Promise<GetOrganizationsDto> {
     return this.organizationsService.updateOrganization({ auth, organizationId, data: body });
@@ -51,7 +52,7 @@ export class OrganizationsController {
   @Delete("organizations/:organizationId")
   deleteOrganization(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
+    @UUIDParam("organizationId") organizationId: string,
   ): Promise<void> {
     return this.organizationsService.deleteOrganization({ auth, organizationId });
   }
@@ -59,7 +60,7 @@ export class OrganizationsController {
   @Post("organizations/:organizationId/users")
   inviteUser(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
+    @UUIDParam("organizationId") organizationId: string,
     @Body() body: InviteUserDto,
   ): Promise<void> {
     return this.organizationsService.inviteUser({ auth, organizationId, email: body.email });
@@ -68,7 +69,7 @@ export class OrganizationsController {
   @Post("organizations/:organizationId/users/leave")
   leaveOrganization(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
+    @UUIDParam("organizationId") organizationId: string,
   ): Promise<void> {
     return this.organizationsService.leaveOrganization({ auth, organizationId });
   }
@@ -76,21 +77,24 @@ export class OrganizationsController {
   @Delete("organizations/:organizationId/users/:userId")
   removeUser(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
-    @Param("userId") userId: string,
+    @UUIDParam("organizationId") organizationId: string,
+    @UUIDParam("userId") userId: string,
   ): Promise<void> {
     return this.organizationsService.removeUser({ auth, organizationId, userId });
   }
 
   @Delete("/invites/:inviteId")
-  removeInvite(@Authorization() auth: Auth, @Param("inviteId") inviteId: string): Promise<void> {
+  removeInvite(
+    @Authorization() auth: Auth,
+    @UUIDParam("inviteId") inviteId: string,
+  ): Promise<void> {
     return this.organizationsService.deleteInvite({ auth, inviteId });
   }
 
   @Get("organizations/:organizationId/users")
   getUsers(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
+    @UUIDParam("organizationId") organizationId: string,
   ): Promise<GetOrganizationMembersDto> {
     return this.organizationsService.getOrganizationMembers({ auth, organizationId });
   }
@@ -98,7 +102,7 @@ export class OrganizationsController {
   @Get("subscriptions/:subscriptionId")
   getSubscription(
     @Authorization() auth: Auth,
-    @Param("subscriptionId") subscriptionId: string,
+    @UUIDParam("subscriptionId") subscriptionId: string,
   ): Promise<GetSubscriptionDetailDto> {
     return this.organizationsService.getSubscription({ auth, subscriptionId });
   }
@@ -106,7 +110,7 @@ export class OrganizationsController {
   @Post("subscriptions/:subscriptionId/cancel")
   cancelSubscription(
     @Authorization() auth: Auth,
-    @Param("subscriptionId") subscriptionId: string,
+    @UUIDParam("subscriptionId") subscriptionId: string,
   ): Promise<void> {
     return this.organizationsService.cancelSubscription({ auth, subscriptionId });
   }
@@ -114,7 +118,7 @@ export class OrganizationsController {
   @Get("organizations/:organizationId/invoices")
   getInvoices(
     @Authorization() auth: Auth,
-    @Param("organizationId") organizationId: string,
+    @UUIDParam("organizationId") organizationId: string,
   ): Promise<GetOrganizationInvoiceDto[]> {
     return this.organizationsService.getInvoices({ auth, organizationId });
   }
