@@ -45,6 +45,7 @@ export const Dialog: FC<Props> = ({ open, onOpenChange, trigger, children, maxWi
           })}
         />
         <RadixDialog.Content
+          onSubmit={(e) => e.stopPropagation()}
           className={css({
             backgroundColor: "bg",
             // TODO: come up with a systematic way for dialog widths

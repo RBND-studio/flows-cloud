@@ -82,6 +82,7 @@ export const FlowPreviewDialog: FC<Props> = ({ flow }) => {
             label="Start url"
             type="url"
             {...register("url")}
+            required
             placeholder="https://example.com/about"
           />
         </DialogContent>
