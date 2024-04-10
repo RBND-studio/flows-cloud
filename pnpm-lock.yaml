@@ -564,8 +564,8 @@ importers:
         specifier: ^8.0.5
         version: 8.0.5
       '@storybook/addon-links':
-        specifier: ^8.0.5
-        version: 8.0.5(react@18.2.0)
+        specifier: ^8.0.6
+        version: 8.0.6(react@18.2.0)
       '@storybook/blocks':
         specifier: ^8.0.5
         version: 8.0.5(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)
@@ -6548,8 +6548,8 @@ packages:
       - vitest
     dev: true
 
-  /@storybook/addon-links@8.0.5(react@18.2.0):
-    resolution: {integrity: sha512-B5EAs0+LxgYH59GSVVAfgW8rAzGUmzdAAR3XJKbTXp3/d9e27uXwpLVYhi/VQHKLIsshDQRbc0s109APHs/SjQ==}
+  /@storybook/addon-links@8.0.6(react@18.2.0):
+    resolution: {integrity: sha512-1UBNhQdwm17fXmuUKIsgvT6YenMbaGIYdr/9ApKmIMTKKO+emQ7APlsTbvasutcOkCd57rC1KZRfAHQpgU9wDQ==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     peerDependenciesMeta:
