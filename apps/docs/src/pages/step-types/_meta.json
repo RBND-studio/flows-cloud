@@ -2,5 +2,6 @@
   "tooltip": "Tooltip",
   "modal": "Modal",
   "wait": "Wait",
-  "fork": "Fork"
+  "fork": "Fork",
+  "shared-properties": "Shared properties"
 }
