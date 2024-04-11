@@ -9,8 +9,9 @@ Wait properties can be customized in these step types:
 
 - [Tooltip](/step-types/tooltip)
 - [Modal](/step-types/modal)
+- [Wait](/step-types/wait)
 
-The wait section allows you to wait for user interaction in the tooltip or modal before proceeding to the next step in the flow. To begin add a wait option to the step by clicking the `Add wait option` button in the `Wait` section.
+The wait section allows you to wait for user interaction in the tooltip or modal before proceeding to the next step in the flow. To begin add a wait option to the step by clicking the `Add wait option` button in the `Wait` section. You can add multiple wait options where each option can we completed independently.
 
 ## Location
 
@@ -29,8 +30,8 @@ For the Click option, you can specify the CSS selector of the element that the u
 
 ### Input change
 
-In the Input change option, you can specify multiple CSS selector of input fields that the user should change the value of. Optionally you can also specify the value that the input field should have.
+In the Input change option, you can specify multiple CSS selector of input fields that the user should change the value of. Wait will be triggered when user presses key and all inputs match the specified value.
 
 ### Form submit
 
-For the Form submit option, you can specify the CSS selector of the form that the user should submit. Optionally you can specify the CSS selector of input fields that the user should change the value of before submitting the form and the value that the input field should have.
+For the Form submit option, you can specify the CSS selector of the form that the user should submit. Optionally you can specify the CSS selector of input fields that should be checked for specified value when the form is submitted.

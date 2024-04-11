@@ -21,7 +21,12 @@ Main content of the tooltip used to provide more information about the step. Sup
 
 ### Target element
 
-CSS selector of the element that the tooltip should point to. The tooltip will be positioned next to this element and will follow it as it moves. If the target element is not found, the tooltip will not be shown and will wait for the element to appear for up to X minutes, after that the flow will fail and tooltip error will be tracked in the analytics.
+CSS selector of the element that the tooltip should point to. The tooltip will be positioned next to this element and will follow it as it moves. If the target element is not found, the tooltip will not be shown and will wait for the element to appear until one of the following happens:
+
+- User navigates to different page without target element showing up
+- User refreshes or re-enters the page after 15 minutes of inactivity
+
+After that the flow will fail and tooltip error will be tracked in the analytics.
 
 Example: `#my-button` or `.my-class`
 
