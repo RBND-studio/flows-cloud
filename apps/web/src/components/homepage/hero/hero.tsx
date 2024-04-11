@@ -102,7 +102,6 @@ export const Hero = (): ReactElement => {
           })}
           fetchPriority="high"
           height={2160}
-          placeholder="blur"
           sizes="100wv"
           srcDark={heroDarkImg}
           srcLight={heroLightImg}
@@ -127,7 +126,6 @@ export const Hero = (): ReactElement => {
           })}
           fetchPriority="high"
           height={471}
-          placeholder="blur"
           sizes="100wv"
           srcDark={heroMobileDarkImg}
           srcLight={heroMobileLightImg}
