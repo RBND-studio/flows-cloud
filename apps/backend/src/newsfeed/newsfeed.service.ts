@@ -15,8 +15,4 @@ export class NewsfeedService {
   async postMessage({ message }: { message: string }): Promise<Response> {
     return this.fetchSlackWebhook({ message, url: process.env.BACKEND_SLACK_WEBHOOK_URL });
   }
-
-  async postIssue({ message }: { message: string }): Promise<Response> {
-    return this.fetchSlackWebhook({ message, url: process.env.BACKEND_SLACK_ISSUES_WEBHOOK_URL });
-  }
 }
