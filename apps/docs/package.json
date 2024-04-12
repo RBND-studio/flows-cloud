@@ -13,10 +13,10 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@flows/js": "0.0.47",
+    "@flows/js": "0.0.48",
     "next": "14.1.4",
     "next-sitemap": "^4.2.3",
-    "nextra": "^2.13.2",
+    "nextra": "^2.13.4",
     "nextra-theme-docs": "^2.13.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "14.1.4",
-    "@pandacss/dev": "0.34.3",
+    "@pandacss/dev": "0.37.2",
     "@types/node": "^20.11.29",
     "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.22",

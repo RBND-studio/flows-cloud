@@ -15,7 +15,7 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@flows/js": "0.0.47",
+    "@flows/js": "0.0.48",
     "@hookform/resolvers": "^3.3.4",
     "@marsidev/react-turnstile": "^0.5.3",
     "@monaco-editor/react": "^4.6.0",
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "14.1.4",
-    "@pandacss/dev": "0.34.3",
+    "@pandacss/dev": "0.37.2",
     "@types/node": "^20.11.29",
     "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.22",

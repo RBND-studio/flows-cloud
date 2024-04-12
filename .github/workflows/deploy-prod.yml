@@ -40,10 +40,10 @@ jobs:
           echo BACKEND_APP_URL=${{ secrets.BACKEND_APP_URL }} >> .env
           echo BACKEND_CAPTCHA_SECRET=${{ secrets.BACKEND_CAPTCHA_SECRET }} >> .env
           echo BACKEND_SLACK_WEBHOOK_URL=${{ secrets.BACKEND_SLACK_WEBHOOK_URL }} >> .env
-          echo BACKEND_SLACK_ISSUES_WEBHOOK_URL=${{ secrets.BACKEND_SLACK_ISSUES_WEBHOOK_URL }} >> .env
           echo BACKEND_LEMONSQUEEZY_WEBHOOK_SECRET=${{ secrets.BACKEND_LEMONSQUEEZY_WEBHOOK_SECRET }} >> .env
           echo BACKEND_LEMONSQUEEZY_API_KEY=${{ secrets.BACKEND_LEMONSQUEEZY_API_KEY }} >> .env
           echo BACKEND_LEMONSQUEEZY_STORE_ID=${{ secrets.BACKEND_LEMONSQUEEZY_STORE_ID }} >> .env
+          echo BACKEND_LOGTAIL_TOKEN=${{ secrets.BACKEND_LOGTAIL_TOKEN }} >> .env
         working-directory: "./prod-deploy/apps/backend"
       - run: docker build -t docker.flows.sh/app-frontend-prod:${{github.sha}} -f infrastructure/docker/next.Dockerfile --build-arg APP=app .
         working-directory: "./prod-deploy"
@@ -73,13 +73,13 @@ jobs:
       - run: docker pull docker.flows.sh/backend-prod:${{github.sha}}
       - run: docker stop flows-app-frontend-prod
       - run: docker rm flows-app-frontend-prod
-      - run: docker run -d --restart always -p 6001:3000 --network flows_supabase_bridge --name flows-app-frontend-prod docker.flows.sh/app-frontend-prod:${{github.sha}}
+      - run: docker run -d --restart always -p 6001:3000 --network flows_supabase_bridge -m 512m --name flows-app-frontend-prod docker.flows.sh/app-frontend-prod:${{github.sha}}
       - run: docker stop flows-web-frontend-prod
       - run: docker rm flows-web-frontend-prod
-      - run: docker run -d --restart always -p 6002:3000 --name flows-web-frontend-prod docker.flows.sh/web-frontend-prod:${{github.sha}}
+      - run: docker run -d --restart always -p 6002:3000 -m 512m --name flows-web-frontend-prod docker.flows.sh/web-frontend-prod:${{github.sha}}
       - run: docker stop flows-docs-frontend-prod
       - run: docker rm flows-docs-frontend-prod
-      - run: docker run -d --restart always -p 6003:3000 --name flows-docs-frontend-prod docker.flows.sh/docs-frontend-prod:${{github.sha}}
+      - run: docker run -d --restart always -p 6003:3000 -m 512m --name flows-docs-frontend-prod docker.flows.sh/docs-frontend-prod:${{github.sha}}
       - run: docker stop flows-backend-prod
       - run: docker rm flows-backend-prod
-      - run: docker run -d --restart always -p 6005:3005 --network flows_supabase_bridge --name flows-backend-prod docker.flows.sh/backend-prod:${{github.sha}}
+      - run: docker run -d --restart always -p 6005:3005 --network flows_supabase_bridge -m 512m --name flows-backend-prod docker.flows.sh/backend-prod:${{github.sha}}

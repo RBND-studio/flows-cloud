@@ -1,0 +1,38 @@
+---
+title: Footer properties
+description: Learn how to to customize the footer actions of the tooltip and modal steps
+---
+
+# Footer properties
+
+Footer properties can be customized in these step types:
+
+- [Tooltip](/step-types/tooltip)
+- [Modal](/step-types/modal)
+
+The footer section allows you to customize the footer actions. You can add buttons, and links to the footer to allow the user to interact with the tooltip in different ways.
+
+## Previous step button
+
+Allows you to change the previous step button text. By default, it is set to `Back`. You can also hide this button by enabling the `Hide button` option.
+
+## Next step button
+
+Allows you to change the next step button text. By default, it is set to `Continue` or `Finish` if it is the last step. You can also hide this button by enabling the `Hide button` option.
+
+When hiding the next step button, you need to provide a way for the user to continue the flow. You can do this by adding a custom action to the footer. Read below to learn how to do this.
+
+## Custom actions
+
+In this section you can add custom buttons and links to the footer. The actions can be added either to the left, center, or right side of the footer.
+
+### Custom action properties
+
+- **Text** - the label of the button
+- **Variant** - how the button should look like (primary or secondary)
+- **Action** - what should happen when the button is clicked. You can choose from the following options:
+  - **Link** - opens a new URL with option to open in new tab
+  - **Branch** - if the next step is a fork step, you can specify which branch should be opened when the button is clicked
+  - **Previous** - goes to the previous step
+  - **Next** - goes to the next step
+  - **Cancel** - cancels the flow

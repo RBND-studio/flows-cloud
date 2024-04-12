@@ -8,3 +8,51 @@ description: Modal is a card that appears in the center of the screen with a dar
 Modal is a card that appears in the center of the screen with a dark overlay. It is typically used to capture user attention or to provide more information.
 
 <Demo variant="modal" />
+
+## General properties
+
+### Title
+
+Bold text at the top of the tooltip used to introduce the step. Supports HTML.
+
+### Body
+
+Main content of the tooltip used to provide more information about the step. Supports HTML.
+
+### Hide close button
+
+If enabled, the close button will not be shown in the modal. This can be useful if you want to force the user to interact with the modal before continuing. Use this option with caution, as it can make the onboardings less user-friendly.
+
+### Overlay
+
+If enabled, the modal will be highlighted with a semi-transparent overlay. This can be useful to draw attention away from the rest of the page. You can change the color and opacity of the overlay in the Style template on the project level.
+
+Enabled by default.
+
+### Close on overlay click
+
+If enabled, the modal will be closed when the user clicks on the overlay and the flow will end. This gives the users quick way to dismiss the flow if they are not interested in it.
+
+Can be enabled only if the overlay is enabled.
+
+## Footer
+
+The footer properties allow you to customize the footer buttons of the modal.
+
+<SectionLink href="/step-types/shared-properties/footer-properties">
+  Learn more about the footer properties →
+</SectionLink>
+
+## Wait
+
+The wait properties allow you to control what should the modal wait for before continuing to the next step.
+
+<SectionLink href="/step-types/shared-properties/wait-properties">
+  Learn more about the wait properties →
+</SectionLink>
+
+## Advanced
+
+### Step ID
+
+Unique identifier of the step. This is optional but can be useful for programmatic control of the flow.

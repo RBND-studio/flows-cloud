@@ -9,88 +9,77 @@ Tooltip is the most basic step. It is a small card that appears next to an eleme
 
 <Demo variant="tooltip" />
 
-{/* ## Content
+## General properties
 
 ### Title
 
-Title of the tooltip. Supports HTML content. Can be customized with `.flows-title` class.
+Bold text at the top of the tooltip used to introduce the step. Supports HTML.
 
 ### Body
 
-Content of the tooltip. Supports HTML content. Can be customized with `.flows-body` class.
-
-## Target
+Main content of the tooltip used to provide more information about the step. Supports HTML.
 
 ### Target element
 
-Element that the tooltip points to.
+CSS selector of the element that the tooltip should point to. The tooltip will be positioned next to this element and will follow it as it moves. If the target element is not found, the tooltip will not be shown and will wait for the element to appear until one of the following happens:
 
-### Placement
+- User navigates to different page without target element showing up
+- User refreshes or re-enters the page after 15 minutes of inactivity
 
-On which side of the target element the tooltip should be placed. Supported values: `top`, `right`, `bottom`, `left`, `top-start`, `top-end`, `right-start`, `right-end`, `bottom-start`, `bottom-end`, `left-start`, `left-end`
+After that the flow will fail and tooltip error will be tracked in the analytics.
 
-### Overlay
+Example: `#my-button` or `.my-class`
 
-Highlights the target element with an overlay.
+We recommend using unique classes or IDs for the target element to avoid conflicts with other elements on the page. If you can't add classes try to use the most specific selector possible. To find the right selector you can use the browser's developer tools see this [guide](https://www.scrapingbee.com/tutorials/how-to-extract-css-selectors-using-chrome/) for more information on how to find the right CSS selector.
 
-### Close on overlay click
+### Tooltip placement
 
-Cancel the flow when the overlay is clicked. Only works when `overlay` is `true`.
+Position of the tooltip relative to the target element. The tooltip will try to position itself in the specified direction, but if there is not enough space it will automatically switch another direction. The tooltip will always try to stay in the viewport.
+
+Supported values: `top`, `right`, `bottom`, `left`, `top-start`, `top-end`, `right-start`, `right-end`, `bottom-start`, `bottom-end`, `left-start`, `left-end`
+
+### Hide close button
+
+If enabled, the close button will not be shown in the tooltip. This can be useful if you want to force the user to interact with the tooltip before continuing. Use this option with caution, as it can make the onboardings less user-friendly.
 
 ### Hide arrow
 
-Hide the arrow pointing to the target element.
+If enabled, the arrow pointing to the target element will not be shown.
 
-### Scroll element
+### Overlay
 
-The element to scroll to when the tooltip is shown.
+If enabled, the target element will be highlighted with a semi-transparent overlay. This can be useful to draw attention to the target element. You can change the color and opacity of the overlay in the Style template on the project level.
 
-## Buttons
+Enabled by default.
 
-### Hide close
+### Close on overlay click
 
-Hide the close button. Without the close button and overlay the user will not be able to close the tooltip
+If enabled, the tooltip will be closed when the user clicks on the overlay and the flow will end. This gives the users quick way to dismiss the flow if they are not interested in it.
 
-### Previous button
+Can be enabled only if the overlay is enabled.
 
-- Hide previous button
-- Previous button label
+## Footer
 
-### Next button
+The footer properties allow you to customize the footer buttons of the tooltip.
 
-- Hide next button
-  - Hide the next button. Watch out this option should be used with `footerActions` to provide a way to go to the next step or by controlling the flow programmatically with `nextStep()`. Otherwise the user will be stuck on the current step.
-- Next button label
-  - Text of the next and finish buttons.
+<SectionLink href="/step-types/shared-properties/footer-properties">
+  Learn more about the footer properties →
+</SectionLink>
 
-## Footer actions
+## Wait
 
-Customize the buttons show in the footer of the tooltip. You can add custom link, button to a target branch, or customize next and previous buttons.
+The wait properties allow you to control what should the tooltip wait for before continuing to the next step.
 
-```js
-const step = {
-  footerActions: {
-    left: [],
-    center: [],
-    right: [
-      {
-        label: "Flows",
-        href: "https://flows.sh",
-        external: true,
-      },
-      {
-        label: "Variant A",
-        targetBranch: 0,
-      },
-      {
-        label: "Continue",
-        next: true,
-      },
-      {
-        label: "Back",
-        back: true,
-      },
-    ],
-  },
-};
-``` */}
+<SectionLink href="/step-types/shared-properties/wait-properties">
+  Learn more about the wait properties →
+</SectionLink>
+
+## Advanced
+
+### Step ID
+
+Unique identifier of the step. This is optional but can be useful for programmatic control of the flow.
+
+### Scroll to element
+
+Enter CSS selector of the element that the page should scroll to before showing the tooltip. This can be useful if the target element is not in the viewport and you want to make sure it's visible before showing the tooltip.
