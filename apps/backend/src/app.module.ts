@@ -13,6 +13,7 @@ import { DbPermissionModule } from "./db-permission/db-permission.module";
 import { EmailModule } from "./email/email.module";
 import { FlowsModule } from "./flows/flows.module";
 import { LemonSqueezyModule } from "./lemon-squeezy/lemon-squeezy.module";
+import { LogtailModule } from "./logtail/logtail.module";
 import { LoggerMiddleware } from "./middleware/logger-middleware";
 import { NewsfeedModule } from "./newsfeed/newsfeed.module";
 import { OrganizationUsageModule } from "./organization-usage/organization-usage.module";
@@ -51,6 +52,7 @@ const publicRoutes: string[] = [
     UsersModule,
     CssModule,
     BillingModule,
+    LogtailModule,
   ],
   controllers: [AppController],
   providers: [

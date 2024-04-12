@@ -1,14 +1,13 @@
 import { Injectable, Logger, type NestMiddleware } from "@nestjs/common";
 import { type FastifyReply, type FastifyRequest } from "fastify";
 
-import { logtail } from "../lib/logtail";
-import { NewsfeedService } from "../newsfeed/newsfeed.service";
+import { LogtailService } from "../logtail/logtail.service";
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   private logger = new Logger("HTTP");
 
-  constructor(private newsfeedService: NewsfeedService) {}
+  constructor(private logtailService: LogtailService) {}
 
   use(req: FastifyRequest["raw"], res: FastifyReply["raw"], next: () => void): void {
     res.on("finish", () => {
@@ -21,7 +20,7 @@ export class LoggerMiddleware implements NestMiddleware {
       const logMessage = `${statusCode} ${method} ${url} ${contentLength} - ${userAgent} ${ip}`;
 
       if (statusCode >= 500) {
-        void logtail.error(logMessage, {
+        void this.logtailService.logtail?.error(logMessage, {
           status: statusCode,
           method,
           url,
@@ -31,7 +30,7 @@ export class LoggerMiddleware implements NestMiddleware {
         });
         return this.logger.error(logMessage);
       }
-      void logtail.info(logMessage, {
+      void this.logtailService.logtail?.info(logMessage, {
         status: statusCode,
         method,
         url,
