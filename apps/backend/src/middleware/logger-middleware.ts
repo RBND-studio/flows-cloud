@@ -1,6 +1,7 @@
 import { Injectable, Logger, type NestMiddleware } from "@nestjs/common";
 import { type FastifyReply, type FastifyRequest } from "fastify";
 
+import { logtail } from "../lib/logtail";
 import { NewsfeedService } from "../newsfeed/newsfeed.service";
 
 @Injectable()
@@ -20,9 +21,24 @@ export class LoggerMiddleware implements NestMiddleware {
       const logMessage = `${statusCode} ${method} ${url} ${contentLength} - ${userAgent} ${ip}`;
 
       if (statusCode >= 500) {
-        void this.newsfeedService.postIssue({ message: logMessage });
+        void logtail.error(logMessage, {
+          status: statusCode,
+          method,
+          url,
+          contentLength,
+          userAgent,
+          ip,
+        });
         return this.logger.error(logMessage);
       }
+      void logtail.info(logMessage, {
+        status: statusCode,
+        method,
+        url,
+        contentLength,
+        userAgent,
+        ip,
+      });
       return this.logger.log(logMessage);
     });
 

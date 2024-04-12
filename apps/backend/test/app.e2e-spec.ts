@@ -13,6 +13,8 @@ jest.mock("@nestjs/throttler", (): unknown => ({
   ThrottlerGuard: jest.fn(() => ({ canActivate: () => true })),
 }));
 
+jest.mock("../src/lib/logtail", () => ({ logtail: { info: jest.fn(), error: jest.fn() } }));
+
 describe("AppController (e2e)", () => {
   let app: NestFastifyApplication;
 
