@@ -6,7 +6,10 @@ const verifyVersion = (version: string): string => {
 };
 
 const getSdkFile = (version: string, path: string): Promise<string> =>
-  fetch(`https://unpkg.com/@flows/js@${verifyVersion(version)}${path}`).then((res) => res.text());
+  fetch(`https://unpkg.com/@flows/js@${verifyVersion(version)}${path}`).then((res) => {
+    if (!res.ok) throw new Error();
+    return res.text();
+  });
 
 export const getDefaultCssMinVars = (version = "latest"): Promise<string> =>
   getSdkFile(version, "/css.min/vars.css");
