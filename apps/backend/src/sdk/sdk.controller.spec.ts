@@ -152,11 +152,6 @@ describe("Create event", () => {
     lemonSqueezyService.createUsageRecord.mockResolvedValue({});
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(false);
   });
-  it("should throw with non uuid projectId", async () => {
-    await expect(
-      sdkController.createEvent("origin", { ...createEventDto, projectId: "my-id" }),
-    ).rejects.toThrow("Bad Request");
-  });
   it("should throw with not allowed origin", async () => {
     dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
     await expect(sdkController.createEvent("origin", createEventDto)).rejects.toThrow();
