@@ -32,7 +32,8 @@ export class DbPermissionService {
           eq(organizationsToUsers.organization_id, organizationId),
           eq(organizationsToUsers.user_id, auth.userId),
         ),
-      );
+      )
+      .limit(1);
 
     const data = results.at(0);
     if (!data?.organizationToUser) throw new ForbiddenException();
