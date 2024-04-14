@@ -1,4 +1,5 @@
 import { css } from "@flows/styled-system/css";
+import { Box, Flex } from "@flows/styled-system/jsx";
 import { SmartLink } from "components/ui";
 import Image from "next/image";
 import type { ReactElement } from "react";
@@ -34,6 +35,10 @@ const footerGroups: FooterGroup[] = [
       {
         title: "Pricing",
         href: routes.pricing,
+      },
+      {
+        title: "Changelog",
+        href: routes.changelog,
       },
     ],
   },
@@ -78,51 +83,30 @@ export const Footer = (): ReactElement => {
         paddingX: "space24",
       })}
     >
-      <div
-        className={css({
-          maxWidth: "960px",
-          mx: "auto",
-          py: "space40",
-          display: "flex",
-          flexDirection: "column",
-          gap: "space40",
-          flexDir: "column-reverse",
-          alignItems: "flex-start",
-          sm: {
-            flexDirection: "row",
-            justifyContent: "space-between",
-          },
-        })}
+      <Flex
+        flexDirection="column-reverse"
+        gap="space40"
+        alignItems="flex-start"
+        maxWidth="960px"
+        mx="auto"
+        py="space40"
+        sm={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
       >
-        <div>
-          <div
-            className={css({
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "space8",
-              marginBottom: "space24",
-            })}
-          >
+        <Box>
+          <Box display="inline-flex" alignItems="center" gap="space8" marginBottom="space24">
             <Image alt="Logo" height={24} src="/images/logo/logo.svg" width={24} />
             <Text variant="bodyM" weight="700">
               Flows
             </Text>
-          </div>
-          <div
-            className={css({
-              marginBottom: "space16",
-            })}
-          >
+          </Box>
+          <Box marginBottom="space16">
             <Text color="subtle" variant="bodyS">
               Follow us
             </Text>
-            <div
-              className={css({
-                display: "flex",
-                alignItems: "center",
-                gap: "space16",
-              })}
-            >
+            <Flex gap="space16" alignItems="center">
               <Text asChild variant="bodyS" weight="700">
                 <a
                   href={links.twitter}
@@ -143,8 +127,8 @@ export const Footer = (): ReactElement => {
                   Github
                 </a>
               </Text>
-            </div>
-          </div>
+            </Flex>
+          </Box>
           <Text color="subtle" variant="bodyS">
             © 2024{" "}
             <a
@@ -156,26 +140,29 @@ export const Footer = (): ReactElement => {
               RBND studio
             </a>
           </Text>
-        </div>
-        <div
-          className={css({
-            display: "flex",
+        </Box>
+        <Flex
+          flexDirection="row"
+          flexWrap="wrap"
+          alignItems="flex-start"
+          width="100%"
+          gap="0"
+          rowGap="space48"
+          sm={{
             gap: "space48",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            sm: {
-              flexDirection: "row",
-            },
-          })}
+            width: "auto",
+            flexDirection: "row",
+          }}
         >
           {footerGroups.map((group) => (
-            <div
-              className={css({
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-              })}
+            <Flex
+              flexDirection="column"
+              alignItems="flex-start"
               key={group.title}
+              width="50%"
+              sm={{
+                width: "auto",
+              }}
             >
               <Text className={css({ mb: "space4" })} color="subtle" variant="bodyS">
                 {group.title}
@@ -184,10 +171,14 @@ export const Footer = (): ReactElement => {
                 <Text
                   asChild
                   className={css({
-                    padding: "space4",
-                    mx: "-space4",
+                    padding: "space8 ",
+                    mx: "-space8 ",
                     "&:hover": {
                       textDecoration: "underline",
+                    },
+                    sm: {
+                      padding: "space4",
+                      mx: "-space4",
                     },
                   })}
                   key={link.href}
@@ -199,11 +190,11 @@ export const Footer = (): ReactElement => {
                   </SmartLink>
                 </Text>
               ))}
-            </div>
+            </Flex>
           ))}
           <ThemeSwitch />
-        </div>
-      </div>
+        </Flex>
+      </Flex>
     </footer>
   );
 };

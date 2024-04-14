@@ -6,7 +6,7 @@ import React from "react";
 import { Text } from "ui";
 
 export const metadata: Metadata = {
-  title: "Flows Blog",
+  title: "Blog - Flows",
 };
 
 const Page = (): ReactElement => {

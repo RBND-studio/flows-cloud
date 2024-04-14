@@ -15,7 +15,7 @@ interface PostProps {
   };
 }
 
-const getPostFromParams = (params: PostProps["params"]): Promise<Post | undefined> => {
+const getPostFromParams = (params: PostProps["params"]): Post | undefined => {
   const slug = params.slug.join("/");
   const postFromParams = allPosts.find((post) => post.slugAsParams === slug);
 
@@ -23,11 +23,11 @@ const getPostFromParams = (params: PostProps["params"]): Promise<Post | undefine
     null;
   }
 
-  return Promise.resolve(postFromParams);
+  return postFromParams;
 };
 
-export async function generateMetadata({ params }: PostProps): Promise<Metadata> {
-  const post = await getPostFromParams(params);
+export function generateMetadata({ params }: PostProps): Metadata {
+  const post = getPostFromParams(params);
 
   if (!post) {
     return {};
@@ -54,15 +54,14 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await -- required for nextjs
-export async function generateStaticParams(): Promise<PostProps["params"][]> {
+export function generateStaticParams(): PostProps["params"][] {
   return allPosts.map((post) => ({
     slug: post.slugAsParams.split("/"),
   }));
 }
 
-export default async function PostPage({ params }: PostProps): Promise<ReactElement> {
-  const post = await getPostFromParams(params);
+export default function PostPage({ params }: PostProps): ReactElement {
+  const post = getPostFromParams(params);
   const date = post ? new Date(post.date) : new Date();
 
   if (!post) {

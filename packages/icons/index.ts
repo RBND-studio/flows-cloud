@@ -1,4 +1,5 @@
 export * from "./src/alert16";
+export * from "./src/arrow-left16";
 export * from "./src/arrow-right16";
 export * from "./src/book16";
 export * from "./src/caret-down16";
