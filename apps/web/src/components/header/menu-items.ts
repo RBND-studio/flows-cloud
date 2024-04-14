@@ -21,6 +21,10 @@ export const menuItems: MenuItem[] = [
     href: links.docs,
   },
   {
+    title: "Changelog",
+    href: routes.changelog,
+  },
+  {
     title: "Pricing",
     href: routes.pricing,
   },

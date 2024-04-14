@@ -35,6 +35,10 @@ const footerGroups: FooterGroup[] = [
         title: "Pricing",
         href: routes.pricing,
       },
+      {
+        title: "Changelog",
+        href: routes.changelog,
+      },
     ],
   },
   {
