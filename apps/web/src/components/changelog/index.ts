@@ -1,1 +1,1 @@
-export * from "./changelog-render";
+export * from "./changelog-item";

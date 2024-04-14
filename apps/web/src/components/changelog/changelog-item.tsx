@@ -13,7 +13,7 @@ type Props = {
   detail?: boolean;
 };
 
-export const ChangelogRender = ({ release, detail }: Props): ReactElement => {
+export const ChangelogItem = ({ release, detail }: Props): ReactElement => {
   const href = routes.changelogReleaseDetail({ releaseId: release.slugAsParams });
   const date = new Date(release.date).toLocaleString("en-US", {
     day: "numeric",

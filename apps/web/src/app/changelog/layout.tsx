@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogLayout({ children }: Props): JSX.Element {
+export default function ChangelogLayout({ children }: Props): JSX.Element {
   return (
     <Section
       innerClassName={css({

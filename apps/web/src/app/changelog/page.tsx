@@ -1,4 +1,4 @@
-import { ChangelogRender } from "components/changelog";
+import { ChangelogItem } from "components/changelog";
 import { allReleases } from "contentlayer/generated";
 import type { ReactElement } from "react";
 
@@ -8,7 +8,7 @@ const Page = (): ReactElement => {
       {[...allReleases]
         .sort((a, b) => b.date.localeCompare(a.date))
         .map((release) => (
-          <ChangelogRender key={release.slug} release={release} />
+          <ChangelogItem key={release.slug} release={release} />
         ))}
     </>
   );

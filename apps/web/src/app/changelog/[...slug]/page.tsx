@@ -1,4 +1,4 @@
-import { ChangelogRender } from "components/changelog";
+import { ChangelogItem } from "components/changelog";
 import type { Release } from "contentlayer/generated";
 import { allReleases } from "contentlayer/generated";
 import type { Metadata } from "next";
@@ -11,7 +11,7 @@ interface ReleaseProps {
   };
 }
 
-const getReleaseFromParams = (params: ReleaseProps["params"]): Promise<Release | undefined> => {
+const getReleaseFromParams = (params: ReleaseProps["params"]): Release | undefined => {
   const slug = params.slug.join("/");
   const releaseFromParams = allReleases.find((release) => release.slugAsParams === slug);
 
@@ -19,11 +19,11 @@ const getReleaseFromParams = (params: ReleaseProps["params"]): Promise<Release |
     null;
   }
 
-  return Promise.resolve(releaseFromParams);
+  return releaseFromParams;
 };
 
-export async function generateMetadata({ params }: ReleaseProps): Promise<Metadata> {
-  const release = await getReleaseFromParams(params);
+export function generateMetadata({ params }: ReleaseProps): Metadata {
+  const release = getReleaseFromParams(params);
 
   if (!release) {
     return {};
@@ -34,19 +34,18 @@ export async function generateMetadata({ params }: ReleaseProps): Promise<Metada
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await -- required for nextjs
-export async function generateStaticParams(): Promise<ReleaseProps["params"][]> {
+export function generateStaticParams(): ReleaseProps["params"][] {
   return allReleases.map((release) => ({
     slug: release.slugAsParams.split("/"),
   }));
 }
 
-export default async function ReleasePage({ params }: ReleaseProps): Promise<ReactElement> {
-  const release = await getReleaseFromParams(params);
+export default function ReleasePage({ params }: ReleaseProps): ReactElement {
+  const release = getReleaseFromParams(params);
 
   if (!release) {
     notFound();
   }
 
-  return <ChangelogRender detail release={release} />;
+  return <ChangelogItem detail release={release} />;
 }
