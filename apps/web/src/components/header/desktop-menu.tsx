@@ -14,18 +14,15 @@ export const DesktopMenu = (): ReactElement => {
   const path = `/${pathName.split("/").slice(1, 2)[0]}`;
 
   return (
-    <ul className={css({ sm: { display: "unset" }, display: "none" })}>
+    <ul
+      className={css({
+        sm: { display: "flex", gap: "space40" },
+        mdDown: { gap: "space24" },
+        display: "none",
+      })}
+    >
       {menuItems.map((item) => (
-        <li
-          className={css({
-            display: "inline-block",
-            mx: "space16",
-            md: {
-              mx: "space24",
-            },
-          })}
-          key={item.title}
-        >
+        <li key={item.title}>
           <Text
             asChild
             className={css({
