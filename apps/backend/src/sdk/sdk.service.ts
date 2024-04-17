@@ -147,11 +147,6 @@ export class SdkService {
     if (!flowId) throw new NotFoundException();
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
-      { projectId },
-    );
-    if (limitReached) throw new BadRequestException("Organization limit reached");
-
     const flow = await this.databaseService.db.query.flows.findFirst({
       where: and(
         eq(flows.project_id, projectId),
@@ -161,7 +156,9 @@ export class SdkService {
       ),
       with: { publishedVersion: true },
     });
-    if (!flow?.publishedVersion) throw new BadRequestException();
+    if (!flow) throw new NotFoundException();
+    if (!flow.publishedVersion) throw new BadRequestException();
+
     const data = flow.publishedVersion.data;
     return {
       id: flow.human_id,

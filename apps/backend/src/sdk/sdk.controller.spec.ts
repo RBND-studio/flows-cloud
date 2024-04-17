@@ -276,16 +276,10 @@ describe("Get flow detail", () => {
       "Not Allowed",
     );
   });
-  it("should return no flows when limit is reached", async () => {
-    organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(true);
-    await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).rejects.toThrow(
-      "Organization limit reached",
-    );
-  });
   it("should throw without flow", async () => {
     db.query.flows.findFirst.mockReturnValue(null);
     await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).rejects.toThrow(
-      "Bad Request",
+      "Not Found",
     );
     expect(db.query.flows.findFirst).toHaveBeenCalled();
   });
