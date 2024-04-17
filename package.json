@@ -26,7 +26,7 @@
     "husky": "^9.0.11",
     "prettier": "^3.0.3",
     "tsconfig": "workspace:*",
-    "turbo": "^1.10.14"
+    "turbo": "^1.13.2"
   },
   "packageManager": "pnpm@8.7.5"
 }
