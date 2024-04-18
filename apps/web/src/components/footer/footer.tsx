@@ -54,6 +54,11 @@ const footerGroups: FooterGroup[] = [
         href: links.docs,
       },
       {
+        title: "Support",
+        href: links.support,
+        target: "_blank",
+      },
+      {
         title: "Github",
         href: links.rbndGithub,
         target: "_blank",
