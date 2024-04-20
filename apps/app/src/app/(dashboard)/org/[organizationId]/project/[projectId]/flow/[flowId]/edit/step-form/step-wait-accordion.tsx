@@ -17,7 +17,7 @@ export const StepWaitAccordion: FC<Props> = ({ fieldName }) => {
   return (
     <Accordion
       title={
-        <Flex gap="space8">
+        <Flex gap="space8" alignItems="center">
           <Text variant="titleM">Wait</Text> {optionCount ? <Badge>{optionCount}</Badge> : null}
         </Flex>
       }

@@ -21,20 +21,23 @@ const badge = cva({
   variants: {
     size: {
       default: {
-        px: "4px",
-        py: "2px",
-        minWidth: "24px",
+        px: "6px",
+        minWidth: "20px",
       },
     },
     color: {
-      primary: {
-        backgroundColor: "bg.primary",
-        color: "text.onPrimary",
+      default: {
+        bor: "1px",
+        borderColor: "border.strong",
+        background: "bg",
+        textStyle: "bodyS",
+        fontWeight: "600",
+        color: "text.muted",
       },
     },
   },
   defaultVariants: {
     size: "default",
-    color: "primary",
+    color: "default",
   },
 });

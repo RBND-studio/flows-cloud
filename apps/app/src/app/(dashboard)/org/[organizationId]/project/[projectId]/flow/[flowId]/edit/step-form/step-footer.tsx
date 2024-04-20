@@ -26,7 +26,7 @@ export const StepFooter: FC<Props> = ({ index }) => {
   return (
     <Accordion
       title={
-        <Flex gap="space8">
+        <Flex gap="space8" alignItems="center">
           <Text variant="titleM">Footer</Text> {optionCount ? <Badge>{optionCount}</Badge> : null}
         </Flex>
       }
