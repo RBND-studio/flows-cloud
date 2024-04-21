@@ -1,0 +1,51 @@
+---
+title: Flows 0.1
+description: Flows 0.1 is the first production-ready version of Flows. Here are the main features.
+date: "2024-04-21"
+author: "Ondrej Pesicka"
+image: /images/blog/first-release-cover.png
+imageAlt: Flows platform
+---
+
+Six months ago, we announced Flows, the next generation tool for creating onboarding flows and product tours. And last month, we silently launched the first production-ready version of Flows 0.1 to the public, just in time for the end of Q1 2024 as promised.
+
+## What is in Flows 0.1?
+
+In the first version of Flows, we focused on the features that we believe are essential for creating onboarding flows and product tours. Let's explore them.
+
+### Flows Editor
+
+The Flows Editor is the heart of Flows. It's where you create, edit, and manage your onboarding flows. It is designed to be intuitive and easy to use, so you can create your first flow in minutes.
+
+While we know the standard is an overlay WYSIWYG editor, we decided to go start with an in-app editor that gives you a preview of the step you're working on with an option to launch the preview in your app.
+
+### Flow steps
+
+These are the individual steps that make up the onboarding flow. Here is where we are different from other tools by offering more than just tooltips or modals. We introduced new concepts like wait and branching, here's what's available:
+
+- **[Tooltip](/features/flow-steps#tooltip):** The classic tooltip that points to an element on the page.
+- **[Modal](/features/flow-steps#modal):** A modal that can contain any content you want.
+- **[Wait](/features/flow-steps#wait):** A step that wait for your user to perform an action before continuing.
+- **[Branch](/features/flow-steps#branch):** Offers multiple flow pathways based on specified conditions.
+
+To see the steps in action, check out our [demo](https://nextjs.flows.sh/).
+
+### Flows SDK
+
+Flows wouldn't work without the script that loads the flows into your app. We've built the Flows SDK with two main goals in mind: performance and privacy.
+
+The SDK is designed to be lightweight and load only the necessary resources to display the flows. We also made sure that the SDK doesn't track any user data, so you can be sure that your users' privacy is protected.
+
+### Analytics
+
+For deeper insights into flow performance, we've integrated basic flow analytics. You can see how many users have seen a flow, how many have completed it, and how many have dropped off.
+
+While we're also tracking errors and individual steps, these features are not yet available in the platform.
+
+### Other features
+
+This is just a brief overview of the main features in Flows 0.1. To see all the features, check out our [features page](/features).
+
+## What's next?
+
+We're excited to see Flows 0.1 in the hands of our users. We will now turn our focus on marketing and getting feedback from our early adopters. This doesn't mean we won't be working on new features. We have a long list of features we want to add to Flows, and we're excited to share them with you in the coming months.
