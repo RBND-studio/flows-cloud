@@ -8,7 +8,7 @@ import { Accordion, Checkbox, Input } from "ui";
 
 import { useFlowEditForm } from "../edit-constants";
 import { StepFooter } from "./step-footer";
-import { StepWaitOptionList } from "./step-wait-option-list";
+import { StepWaitAccordion } from "./step-wait-accordion";
 
 type Props = {
   index: number | `${number}.${number}.${number}`;
@@ -85,9 +85,7 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
       <Flex flexDirection="column" gap="space8">
         <StepFooter index={index} />
 
-        <Accordion title="Wait">
-          <StepWaitOptionList fieldName={`${stepKey}.wait`} />
-        </Accordion>
+        <StepWaitAccordion fieldName={`${stepKey}.wait`} />
 
         <Accordion title="Advanced">
           <Input
