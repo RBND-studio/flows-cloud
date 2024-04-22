@@ -33,8 +33,8 @@ importers:
   apps/app:
     dependencies:
       '@flows/js':
-        specifier: 0.0.49
-        version: 0.0.49
+        specifier: 0.0.50
+        version: 0.0.50
       '@hookform/resolvers':
         specifier: ^3.3.4
         version: 3.3.4(react-hook-form@7.51.1(react@18.2.0))
@@ -287,8 +287,8 @@ importers:
   apps/docs:
     dependencies:
       '@flows/js':
-        specifier: 0.0.49
-        version: 0.0.49
+        specifier: 0.0.50
+        version: 0.0.50
       icons:
         specifier: workspace:*
         version: link:../../packages/icons
@@ -2093,8 +2093,8 @@ packages:
   '@floating-ui/utils@0.2.1':
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
 
-  '@flows/js@0.0.49':
-    resolution: {integrity: sha512-5wfzEWx+LvO1SJkU3By2rZ6lDBaRIedTyizq8/8kCq7gM4pyXzLOMJ0Q3Qt8LHE/RyUI06mhI58n1UZkaYh+KA==}
+  '@flows/js@0.0.50':
+    resolution: {integrity: sha512-ytYStAJU8WigcyrLX3mmXEZmvrYXPrKdQczFQZsmctdfvN4lvK/fkmGPHdE6+/vfDNf3v0ugKrYv7eYekgHgfA==}
 
   '@grpc/grpc-js@1.9.4':
     resolution: {integrity: sha512-oEnzYiDuEsBydZBtP84BkpduLsE1nSAO4KrhTLHRzNrIQE647fhchmosTQsJdCo8X9zBBt+l5+fNk+m/yCFJ/Q==}
@@ -11997,7 +11997,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.1': {}
 
-  '@flows/js@0.0.49':
+  '@flows/js@0.0.50':
     dependencies:
       '@floating-ui/dom': 1.6.3
       superstruct: 1.0.4
