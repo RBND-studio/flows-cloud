@@ -57,5 +57,5 @@ export class CreateEventDto {
 }
 
 export class CreateEventResponseDto {
-  id: string;
+  id?: string;
 }
