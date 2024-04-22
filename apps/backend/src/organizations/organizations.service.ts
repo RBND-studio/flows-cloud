@@ -102,7 +102,7 @@ export class OrganizationsService {
       }),
     ]);
 
-    if (!org) throw new NotFoundException();
+    if (!org) throw new InternalServerErrorException();
 
     const estimated_price = (() => {
       if (!subscription || !["active", "past_due"].includes(subscription.status)) return;
