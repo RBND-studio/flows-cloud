@@ -1,3 +1,5 @@
+import { retry } from "./retry";
+
 const verifyVersion = (version: string): string => {
   if (version === "latest") return version;
   const isSemVer = /^\d+\.\d+\.\d+$/.test(version);
@@ -6,10 +8,12 @@ const verifyVersion = (version: string): string => {
 };
 
 const getSdkFile = (version: string, path: string): Promise<string> =>
-  fetch(`https://unpkg.com/@flows/js@${verifyVersion(version)}${path}`).then((res) => {
-    if (!res.ok) throw new Error();
-    return res.text();
-  });
+  retry(() =>
+    fetch(`https://unpkg.com/@flows/js@${verifyVersion(version)}${path}`).then((res) => {
+      if (!res.ok) throw new Error();
+      return res.text();
+    }),
+  );
 
 export const getDefaultCssMinVars = (version = "latest"): Promise<string> =>
   getSdkFile(version, "/css.min/vars.css");
