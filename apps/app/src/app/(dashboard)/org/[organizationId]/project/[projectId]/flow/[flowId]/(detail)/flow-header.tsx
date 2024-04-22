@@ -3,7 +3,6 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { MenuItem } from "components/sidebar/menu-item";
-import { LocalChip } from "components/ui/local-chip";
 import { useSend } from "hooks/use-send";
 import { KebabHorizontal16 } from "icons";
 import { api, type FlowDetail } from "lib/api";
@@ -13,7 +12,7 @@ import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import { routes } from "routes";
 import { t } from "translations";
-import { Button, Icon, Menu, Switch, Text, toast } from "ui";
+import { Badge, Button, Icon, Menu, Switch, Text, toast } from "ui";
 
 import { FlowPreviewDialog } from "./flow-preview-dialog";
 import { FlowPublishChangesDialog } from "./flow-publish-changes-dialog";
@@ -71,7 +70,7 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
         <Flex justifyContent="space-between">
           <Flex alignItems="center" gap="space8">
             <Text variant="titleXl">{flow.name}</Text>
-            {!flowIsCloud && <LocalChip />}
+            {!flowIsCloud && <Badge>Local flow</Badge>}
           </Flex>
           {flowIsCloud ? (
             <Flex alignItems="center" gap="space12">

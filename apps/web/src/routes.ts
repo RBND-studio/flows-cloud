@@ -8,6 +8,9 @@ export const routes = {
   blog: "/blog",
   blogPostDetail: ({ postId }: { postId: string }) => `/blog/${postId}`,
 
+  changelog: "/changelog",
+  changelogReleaseDetail: ({ releaseId }: { releaseId: string }) => `/changelog/${releaseId}`,
+
   features: "/features",
   featuresBuild: "/features/build",
   featuresFlowSteps: "/features/flow-steps",

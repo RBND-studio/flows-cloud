@@ -6,7 +6,7 @@ import React from "react";
 import { Text } from "ui";
 
 export const metadata: Metadata = {
-  title: "Flows Blog",
+  title: "Blog - Flows",
 };
 
 const Page = (): ReactElement => {
@@ -16,9 +16,11 @@ const Page = (): ReactElement => {
         Blog
       </Text>
       <ul>
-        {allPosts.map((post) => (
-          <BlogPostPreview key={post.slug} post={post} />
-        ))}
+        {[...allPosts]
+          .sort((a, b) => b.date.localeCompare(a.date))
+          .map((post) => (
+            <BlogPostPreview key={post.slug} post={post} />
+          ))}
       </ul>
     </>
   );

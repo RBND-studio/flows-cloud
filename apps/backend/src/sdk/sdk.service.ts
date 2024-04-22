@@ -14,6 +14,7 @@ import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
+import { isLocalhost } from "../lib/origin";
 import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
@@ -147,11 +148,6 @@ export class SdkService {
     if (!flowId) throw new NotFoundException();
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
-      { projectId },
-    );
-    if (limitReached) throw new BadRequestException("Organization limit reached");
-
     const flow = await this.databaseService.db.query.flows.findFirst({
       where: and(
         eq(flows.project_id, projectId),
@@ -161,7 +157,9 @@ export class SdkService {
       ),
       with: { publishedVersion: true },
     });
-    if (!flow?.publishedVersion) throw new BadRequestException();
+    if (!flow) throw new NotFoundException();
+    if (!flow.publishedVersion) throw new BadRequestException();
+
     const data = flow.publishedVersion.data;
     return {
       id: flow.human_id,
@@ -219,6 +217,8 @@ export class SdkService {
     event: CreateEventDto;
     requestOrigin: string;
   }): Promise<CreateEventResponseDto> {
+    if (isLocalhost(requestOrigin)) return {};
+
     const projectId = event.projectId;
 
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
@@ -303,6 +303,8 @@ export class SdkService {
     requestOrigin: string;
     eventId: string;
   }): Promise<void> {
+    if (isLocalhost(requestOrigin)) return;
+
     const results = await this.databaseService.db
       .select({
         projectId: flows.project_id,
