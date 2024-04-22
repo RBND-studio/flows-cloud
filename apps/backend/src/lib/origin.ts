@@ -1,2 +1,4 @@
 export const isLocalhost = (origin: string): boolean =>
-  origin.startsWith("http://localhost") || origin.startsWith("https://localhost");
+  ["http://localhost", "https://localhost", "http://127.0.0.1", "https://127.0.0.1"].some((o) =>
+    origin.startsWith(o),
+  );

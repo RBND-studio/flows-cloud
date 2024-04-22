@@ -14,6 +14,7 @@ import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
+import { isLocalhost } from "../lib/origin";
 import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
@@ -216,6 +217,8 @@ export class SdkService {
     event: CreateEventDto;
     requestOrigin: string;
   }): Promise<CreateEventResponseDto> {
+    if (isLocalhost(requestOrigin)) return {};
+
     const projectId = event.projectId;
 
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
@@ -300,6 +303,8 @@ export class SdkService {
     requestOrigin: string;
     eventId: string;
   }): Promise<void> {
+    if (isLocalhost(requestOrigin)) return;
+
     const results = await this.databaseService.db
       .select({
         projectId: flows.project_id,
