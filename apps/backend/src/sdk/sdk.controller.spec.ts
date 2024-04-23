@@ -71,7 +71,7 @@ describe("Get flows", () => {
       name: "F1",
       publishedVersion: {
         frequency: "once",
-        data: { steps: [{}], clickElement: "e1" },
+        data: { steps: [{}] },
       },
     },
     {
@@ -80,7 +80,7 @@ describe("Get flows", () => {
       name: "F2",
       publishedVersion: {
         frequency: "every-time",
-        data: { steps: [{}, {}], clickElement: "e2" },
+        data: { steps: [{}, {}] },
       },
     },
   ];
@@ -104,14 +104,8 @@ describe("Get flows", () => {
   });
   it("should return flows", async () => {
     await expect(sdkController.getFlows("origin", "projId")).resolves.toEqual([
-      { id: "f1h", steps: [{}], clickElement: "e1", frequency: "once" },
-      {
-        id: "f2h",
-        steps: [{}],
-        clickElement: "e2",
-        frequency: "every-time",
-        _incompleteSteps: true,
-      },
+      { id: "f1h", steps: [{}], frequency: "once" },
+      { id: "f2h", steps: [{}], frequency: "every-time", _incompleteSteps: true },
     ]);
   });
   it("should not return flows if user already seen it", async () => {
@@ -120,7 +114,6 @@ describe("Get flows", () => {
       {
         id: "f2h",
         steps: [{}],
-        clickElement: "e2",
         frequency: "every-time",
         _incompleteSteps: true,
       },
@@ -215,7 +208,7 @@ describe("Get preview flow", () => {
       name: "F1",
       draftVersion: {
         frequency: "once",
-        data: { steps: [], clickElement: "e1" },
+        data: { steps: [] },
       },
     });
   });
@@ -246,7 +239,6 @@ describe("Get preview flow", () => {
     await expect(sdkController.getPreviewFlow("origin", "projectId", "flowId")).resolves.toEqual({
       id: "f1h",
       steps: [],
-      clickElement: "e1",
       frequency: "once",
     });
   });
@@ -260,7 +252,7 @@ describe("Get flow detail", () => {
       name: "F1",
       publishedVersion: {
         frequency: "once",
-        data: { steps: [], clickElement: "e1" },
+        data: { steps: [] },
       },
     });
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(false);
@@ -276,16 +268,10 @@ describe("Get flow detail", () => {
       "Not Allowed",
     );
   });
-  it("should return no flows when limit is reached", async () => {
-    organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(true);
-    await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).rejects.toThrow(
-      "Organization limit reached",
-    );
-  });
   it("should throw without flow", async () => {
     db.query.flows.findFirst.mockReturnValue(null);
     await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).rejects.toThrow(
-      "Bad Request",
+      "Not Found",
     );
     expect(db.query.flows.findFirst).toHaveBeenCalled();
   });
@@ -300,7 +286,6 @@ describe("Get flow detail", () => {
     await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).resolves.toEqual({
       id: "f1h",
       steps: [],
-      clickElement: "e1",
       frequency: "once",
     });
   });

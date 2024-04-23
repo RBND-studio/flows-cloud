@@ -14,7 +14,8 @@ import { StepWaitForm } from "./step-wait-submit";
 type Props = {
   fieldName:
     | `steps.${number}.wait.${number}`
-    | `steps.${number}.${number}.${number}.wait.${number}`;
+    | `steps.${number}.${number}.${number}.wait.${number}`
+    | `start.${number}`;
   onRemove: () => void;
   index: number;
 };
@@ -22,6 +23,8 @@ type Props = {
 export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
   const { setValue, register, watch, control } = useFlowEditForm();
   const value = watch(fieldName);
+
+  const isStart = fieldName.startsWith("start.");
 
   const currentVariant = (() => {
     if (value.form) return "submit";
@@ -51,10 +54,12 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
     if (newValue) setValue(fieldName, newValue, { shouldDirty: true });
   };
 
+  const title = isStart ? `Start option ${index + 1}` : `Wait option ${index + 1}`;
+
   return (
     <Box>
       <Flex align="center" justify="space-between" mb="space8">
-        <Text variant="titleS">Wait option {index + 1}</Text>
+        <Text variant="titleS">{title}</Text>
         <Button onClick={onRemove} size="small" variant="ghost">
           <Icon icon={Close16} />
         </Button>
@@ -93,22 +98,24 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
       {currentVariant === "change" && <StepWaitChange fieldName={fieldName} />}
       {currentVariant === "submit" && <StepWaitForm fieldName={fieldName} />}
 
-      <Controller
-        control={control}
-        name={`${fieldName}.targetBranch`}
-        render={({ field }) => (
-          <Input
-            className={css({ my: "space16" })}
-            description={t.steps.targetBranchDescription}
-            label={t.steps.targetBranchLabel}
-            onChange={(e) => field.onChange(Number(e.target.value))}
-            placeholder="0"
-            type="number"
-            value={field.value}
-          />
-        )}
-      />
-      <hr className={css({ borderColor: "border", mb: "space16", mx: "-space16" })} />
+      {!isStart && (
+        <Controller
+          control={control}
+          name={`${fieldName}.targetBranch`}
+          render={({ field }) => (
+            <Input
+              className={css({ mt: "space16" })}
+              description={t.steps.targetBranchDescription}
+              label={t.steps.targetBranchLabel}
+              onChange={(e) => field.onChange(Number(e.target.value))}
+              placeholder="0"
+              type="number"
+              value={field.value}
+            />
+          )}
+        />
+      )}
+      <hr className={css({ borderColor: "border", my: "space16", mx: "-space16" })} />
     </Box>
   );
 };

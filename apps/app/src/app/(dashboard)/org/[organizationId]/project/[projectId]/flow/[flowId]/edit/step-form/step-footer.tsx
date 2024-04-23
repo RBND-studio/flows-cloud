@@ -1,8 +1,9 @@
 import type { FlowModalStep, FlowTooltipStep } from "@flows/js";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
+import { sum } from "lib/sum";
 import type { FC } from "react";
 import { Controller } from "react-hook-form";
-import { Accordion, Checkbox, Input, Label, Text } from "ui";
+import { Accordion, Badge, Checkbox, Input, Label, Text } from "ui";
 
 import { useFlowEditForm } from "../edit-constants";
 import { StepFooterActions } from "./step-footer-actions";
@@ -16,8 +17,20 @@ export const StepFooter: FC<Props> = ({ index }) => {
   const stepKey = `steps.${index}` as const;
   const value = watch(stepKey) as FlowTooltipStep | FlowModalStep;
 
+  const optionCount = sum(
+    [value.footerActions?.center, value.footerActions?.left, value.footerActions?.right].map(
+      (items) => items?.length ?? 0,
+    ),
+  );
+
   return (
-    <Accordion title="Footer">
+    <Accordion
+      title={
+        <Flex gap="space8" alignItems="center">
+          <Text variant="titleM">Footer</Text> {optionCount ? <Badge>{optionCount}</Badge> : null}
+        </Flex>
+      }
+    >
       <Grid gap="space16" gridTemplateColumns="1fr 1fr" mb="space16">
         <Box>
           <Flex justifyContent="space-between" mb="space4">

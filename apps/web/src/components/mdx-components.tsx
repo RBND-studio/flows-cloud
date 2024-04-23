@@ -172,6 +172,7 @@ const mdxComponents = {
     return (
       <Link
         href={href}
+        target="_blank"
         {...rest}
         className={css({
           color: "text.primary",

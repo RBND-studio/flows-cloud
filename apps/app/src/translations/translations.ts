@@ -48,7 +48,6 @@ export const t = {
     declineInviteFailed: "Failed to decline invite",
     deleteInviteFailed: "Failed to delete invite",
     deleteInviteSuccess: "Invite deleted",
-    saveStepsFailed: "Failed to update steps",
     saveFlowFailed: "Failed to update flow",
     saveTargetingFailed: "Failed to update targeting",
     saveFrequencyFailed: "Failed to update frequency",

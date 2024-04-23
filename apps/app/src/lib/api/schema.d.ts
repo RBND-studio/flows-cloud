@@ -119,9 +119,8 @@ export interface components {
       /** @enum {string|null} */
       frequency?: "once" | "every-time" | null;
       id: string;
-      clickElement?: string;
+      start: Record<string, never>[];
       steps: Record<string, never>[];
-      location?: string;
       userProperties?: Record<string, never>;
       _incompleteSteps?: boolean;
     };
@@ -168,8 +167,7 @@ export interface components {
       /** @enum {string} */
       frequency: "once" | "every-time";
       userProperties: Record<string, never>[][];
-      clickElement?: string;
-      location?: string;
+      start: Record<string, never>[];
       steps: Record<string, never>[];
       /** Format: date-time */
       published_at?: string;
@@ -199,8 +197,7 @@ export interface components {
       description?: string;
       human_id?: string;
       enabled?: boolean;
-      clickElement?: string;
-      location?: string;
+      start?: Record<string, never>[];
       steps?: Record<string, never>[];
       /** @enum {string} */
       frequency?: "once" | "every-time";
@@ -484,11 +481,11 @@ export interface operations {
   };
   SdkController_deleteEvent: {
     parameters: {
+      query: {
+        eventId: string;
+      };
       header: {
         origin: string;
-      };
-      path: {
-        eventId: string;
       };
     };
     responses: {

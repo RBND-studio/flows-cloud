@@ -116,20 +116,23 @@ describe("Get flow analytics", () => {
 });
 
 describe("Update flow", () => {
+  const mockFlow = {
+    id: "flowId",
+    draftVersion: { data: { steps: [], userProperties: [], start: [{ location: "/old-loc" }] } },
+    publishedVersion: {
+      data: { steps: [], userProperties: [], start: [{ location: "/published-loc" }] },
+    },
+  };
   beforeEach(() => {
-    db.query.flows.findFirst.mockResolvedValue({
-      id: "flowId",
-      draftVersion: { data: { steps: [], userProperties: [], clickElement: "oldEl" } },
-      publishedVersion: { data: { steps: [], userProperties: [], clickElement: "publishedEl" } },
-    });
+    db.query.flows.findFirst.mockResolvedValue(mockFlow);
     db.returning.mockResolvedValue([{ id: "newVerId" }]);
   });
   const data: UpdateFlowDto = {
     name: "newName",
-    clickElement: "newEl",
     human_id: "new human id",
     enabled: true,
     description: "new description",
+    start: [{ location: "/new-loc" }],
   };
   it("should throw without access", async () => {
     dbPermissionService.doesUserHaveAccessToFlow.mockImplementationOnce(() => {
@@ -162,21 +165,16 @@ describe("Update flow", () => {
   it("should not create new version without changes", async () => {
     await expect(
       flowsController.updateFlow({ userId: "userId" }, "flowId", {
-        clickElement: "oldEl",
+        start: [{ location: "/old-loc" }],
       }),
     ).resolves.toBeUndefined();
     expect(db.insert).not.toHaveBeenCalled();
   });
   it("should delete draft version if it's the same as published", async () => {
-    db.query.flows.findFirst.mockResolvedValue({
-      id: "flowId",
-      draft_version_id: "draftVerId",
-      draftVersion: { data: { steps: [], userProperties: [], clickElement: "oldEl" } },
-      publishedVersion: { data: { steps: [], userProperties: [], clickElement: "publishedEl" } },
-    });
+    db.query.flows.findFirst.mockResolvedValue({ ...mockFlow, draft_version_id: "draftVerId" });
     await expect(
       flowsController.updateFlow({ userId: "userId" }, "flowId", {
-        clickElement: "publishedEl",
+        start: [{ location: "/published-loc" }],
       }),
     ).resolves.toBeUndefined();
     expect(db.insert).not.toHaveBeenCalled();

@@ -14,6 +14,7 @@ import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
+import { isLocalhost } from "../lib/origin";
 import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
 
@@ -126,8 +127,7 @@ export class SdkService {
         return {
           id: f.human_id,
           frequency: f.publishedVersion.frequency,
-          clickElement: f.publishedVersion.data.clickElement,
-          location: f.publishedVersion.data.location,
+          start: f.publishedVersion.data.start,
           userProperties: f.publishedVersion.data.userProperties,
           steps: steps.slice(0, 1),
           _incompleteSteps,
@@ -147,11 +147,6 @@ export class SdkService {
     if (!flowId) throw new NotFoundException();
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
-    const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
-      { projectId },
-    );
-    if (limitReached) throw new BadRequestException("Organization limit reached");
-
     const flow = await this.databaseService.db.query.flows.findFirst({
       where: and(
         eq(flows.project_id, projectId),
@@ -161,13 +156,14 @@ export class SdkService {
       ),
       with: { publishedVersion: true },
     });
-    if (!flow?.publishedVersion) throw new BadRequestException();
+    if (!flow) throw new NotFoundException();
+    if (!flow.publishedVersion) throw new BadRequestException();
+
     const data = flow.publishedVersion.data;
     return {
       id: flow.human_id,
       steps: data.steps,
-      clickElement: data.clickElement,
-      location: data.location,
+      start: data.start,
       userProperties: data.userProperties,
       frequency: flow.publishedVersion.frequency,
     };
@@ -205,8 +201,7 @@ export class SdkService {
     return {
       id: flow.human_id,
       steps: data.steps,
-      clickElement: data.clickElement,
-      location: data.location,
+      start: data.start,
       userProperties: data.userProperties,
       frequency: version.frequency,
     };
@@ -219,6 +214,8 @@ export class SdkService {
     event: CreateEventDto;
     requestOrigin: string;
   }): Promise<CreateEventResponseDto> {
+    if (isLocalhost(requestOrigin)) return {};
+
     const projectId = event.projectId;
 
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
@@ -303,6 +300,8 @@ export class SdkService {
     requestOrigin: string;
     eventId: string;
   }): Promise<void> {
+    if (isLocalhost(requestOrigin)) return;
+
     const results = await this.databaseService.db
       .select({
         projectId: flows.project_id,

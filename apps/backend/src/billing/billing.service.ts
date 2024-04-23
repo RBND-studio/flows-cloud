@@ -10,6 +10,7 @@ import {
   webhookHasSubscriptionPaymentData,
 } from "../lib/lemon-squeezy";
 import { verifyWebhookSignature } from "../lib/webhook-signature";
+import { LogtailService } from "../logtail/logtail.service";
 import { NewsfeedService } from "../newsfeed/newsfeed.service";
 
 @Injectable()
@@ -18,6 +19,7 @@ export class BillingService {
     private databaseService: DatabaseService,
     private lemonSqueezyService: LemonSqueezyService,
     private newsfeedService: NewsfeedService,
+    private logtailService: LogtailService,
   ) {}
 
   async handleLemonSqueezyWebhook({
@@ -150,6 +152,12 @@ export class BillingService {
         processingError = `Failed to upsert Subscription #${updateData.lemon_squeezy_id} to the database.`;
       }
     }
+
+    if (processingError)
+      void this.logtailService.logtail?.error("Failed to process Lemon Squeezy webhook", {
+        processingError,
+        id: webhookEvents.id,
+      });
 
     await this.databaseService.db
       .update(webhookEvents)

@@ -86,7 +86,7 @@ describe("Get organization detail", () => {
     db.query.organizations.findFirst.mockResolvedValue(null);
     await expect(
       organizationsController.getOrganizationDetail({ userId: "userId" }, "org1"),
-    ).rejects.toThrow("Not Found");
+    ).rejects.toThrow("Internal Server Error");
   });
   it("should return organization", async () => {
     await expect(

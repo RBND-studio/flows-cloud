@@ -10,7 +10,8 @@ import { useFlowEditForm } from "../edit-constants";
 type Props = {
   fieldName:
     | `steps.${number}.wait.${number}`
-    | `steps.${number}.${number}.${number}.wait.${number}`;
+    | `steps.${number}.${number}.${number}.wait.${number}`
+    | `start.${number}`;
 };
 
 export const StepWaitChange: FC<Props> = ({ fieldName }) => {
@@ -51,7 +52,8 @@ export const StepWaitChange: FC<Props> = ({ fieldName }) => {
 type ChangeProps = {
   fieldName:
     | `steps.${number}.wait.${number}.change.${number}`
-    | `steps.${number}.${number}.${number}.wait.${number}.change.${number}`;
+    | `steps.${number}.${number}.${number}.wait.${number}.change.${number}`
+    | `start.${number}.change.${number}`;
   onRemove: () => void;
   index: number;
 };

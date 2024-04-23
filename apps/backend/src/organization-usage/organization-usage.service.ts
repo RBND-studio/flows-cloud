@@ -10,19 +10,21 @@ export class OrganizationUsageService {
   constructor(private databaseService: DatabaseService) {}
 
   async getOrganizationUsage({ organizationId }: { organizationId: string }): Promise<number> {
-    const activeSubscription = await this.databaseService.db.query.subscriptions.findFirst({
-      columns: { renews_at: true },
-      where: and(
-        eq(subscriptions.organization_id, organizationId),
-        inArray(subscriptions.status, ["active", "past_due"]),
-      ),
-    });
+    const activeSubscriptionQuery = this.databaseService.db
+      .select({
+        renewsAt: sql<Date>`renews_at - interval '1 month' as renewsAt`,
+      })
+      .from(subscriptions)
+      .where(
+        and(
+          eq(subscriptions.organization_id, organizationId),
+          inArray(subscriptions.status, ["active", "past_due"]),
+        ),
+      );
 
-    const eventTimeCompareValue = activeSubscription
-      ? // With an active subscription, show usage from the current billing period
-        sql`${activeSubscription.renews_at} - interval '1 month'`
-      : // If there is no active subscription, show usage from the current calendar month
-        sql`DATE_TRUNC('month', CURRENT_DATE)`;
+    // With an active subscription, show usage from the current billing period
+    // If there is no active subscription, show usage from the current calendar month
+    const eventTimeCompareValue = sql`coalesce(${activeSubscriptionQuery}, DATE_TRUNC('month', CURRENT_DATE))`;
 
     const usage = await this.databaseService.db
       .select({ count: sql<number>`cast(count(*) as int)` })

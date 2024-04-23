@@ -75,12 +75,7 @@ export class OrganizationsService {
   }): Promise<GetOrganizationDetailDto> {
     await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
 
-    const org = await this.databaseService.db.query.organizations.findFirst({
-      where: eq(organizations.id, organizationId),
-    });
-    if (!org) throw new NotFoundException();
-
-    const [usage, limit, subscription] = await Promise.all([
+    const [usage, limit, subscription, org] = await Promise.all([
       this.organizationUsageService.getOrganizationUsage({ organizationId }),
       this.organizationUsageService.getOrganizationLimit({ organizationId }),
       this.databaseService.db.query.subscriptions.findFirst({
@@ -102,7 +97,12 @@ export class OrganizationsService {
           inArray(subscriptions.status, ["active", "past_due", "unpaid"]),
         ),
       }),
+      this.databaseService.db.query.organizations.findFirst({
+        where: eq(organizations.id, organizationId),
+      }),
     ]);
+
+    if (!org) throw new InternalServerErrorException();
 
     const estimated_price = (() => {
       if (!subscription || !["active", "past_due"].includes(subscription.status)) return;
