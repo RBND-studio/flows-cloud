@@ -1,6 +1,6 @@
 import { type WaitStepOptions } from "@flows/js";
 import { css } from "@flows/styled-system/css";
-import { Flex } from "@flows/styled-system/jsx";
+import { Flex, Wrap } from "@flows/styled-system/jsx";
 import type { FlowDetail } from "lib/api";
 import { type FC, Fragment } from "react";
 import { Text } from "ui";
@@ -17,9 +17,9 @@ export const Launch: FC<Props> = ({ flow }) => {
     start.every((opt) => !opt.location && !opt.change && !opt.form && !opt.clickElement);
 
   return (
-    <Flex alignItems="flex-start" direction="column" gap="space8">
+    <Flex direction="column" gap="space8">
       <Text variant="titleS">Launch</Text>
-      <Flex gap="space8" direction="column" alignItems="start">
+      <Wrap gap="space8" direction="column" alignItems="center">
         {!noOptions &&
           start.map((startOption, i) => {
             const location = startOption.location;
@@ -29,7 +29,7 @@ export const Launch: FC<Props> = ({ flow }) => {
                 key={i}
               >
                 {i !== 0 && <Text>or</Text>}
-                <Flex
+                <Wrap
                   alignItems="center"
                   gap="space4"
                   py="space4"
@@ -45,7 +45,7 @@ export const Launch: FC<Props> = ({ flow }) => {
                         className={css({
                           paddingY: "space4",
                           paddingX: "space8",
-                          backgroundColor: "bg.chip",
+                          backgroundColor: "bg",
                           bor: "1px",
                           borderRadius: "radius8",
                         })}
@@ -61,7 +61,7 @@ export const Launch: FC<Props> = ({ flow }) => {
                         className={css({
                           paddingY: "space4",
                           paddingX: "space8",
-                          backgroundColor: "bg.chip",
+                          backgroundColor: "bg",
                           bor: "1px",
                           borderRadius: "radius8",
                         })}
@@ -83,7 +83,7 @@ export const Launch: FC<Props> = ({ flow }) => {
                             className={css({
                               paddingY: "space4",
                               paddingX: "space8",
-                              backgroundColor: "bg.chip",
+                              backgroundColor: "bg",
                               bor: "1px",
                               borderRadius: "radius8",
                             })}
@@ -101,7 +101,7 @@ export const Launch: FC<Props> = ({ flow }) => {
                         className={css({
                           paddingY: "space4",
                           paddingX: "space8",
-                          backgroundColor: "bg.chip",
+                          backgroundColor: "bg",
                           bor: "1px",
                           borderRadius: "radius8",
                         })}
@@ -110,12 +110,12 @@ export const Launch: FC<Props> = ({ flow }) => {
                       </div>
                     </>
                   ) : null}
-                </Flex>
+                </Wrap>
               </Fragment>
             );
           })}
         {noOptions ? <Text color="subtle">Only manually</Text> : null}
-      </Flex>
+      </Wrap>
     </Flex>
   );
 };
