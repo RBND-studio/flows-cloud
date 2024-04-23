@@ -5,10 +5,10 @@ const dev = process.env.NODE_ENV !== "production";
 
 const cspHeader = `
     default-src 'self';
-    connect-src 'self' https://*.flows.sh https://*.flows-cloud.com${
+    connect-src 'self' https://*.flows.sh https://*.flows-cloud.com https://*.posthog.com${
       dev ? " http://127.0.0.1:3005" : ""
     };
-    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://flows.sh https://*.lemonsqueezy.com https://challenges.cloudflare.com;
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://flows.sh https://*.lemonsqueezy.com https://challenges.cloudflare.com https://*.posthog.com;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
     font-src 'self';
