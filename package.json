@@ -6,14 +6,15 @@
     "build": "TURBO_NO_UPDATE_NOTIFIER=true turbo run build",
     "dev": "TURBO_NO_UPDATE_NOTIFIER=true turbo run dev --no-cache",
     "lint": "TURBO_NO_UPDATE_NOTIFIER=true turbo run lint",
-    "test": "pnpm -r test",
-    "tsc": "pnpm -r --parallel tsc",
+    "test": "TURBO_NO_UPDATE_NOTIFIER=true turbo run test",
+    "tsc": "TURBO_NO_UPDATE_NOTIFIER=true turbo run tsc",
     "app": "pnpm --filter app",
     "docs": "pnpm --filter docs",
     "web": "pnpm --filter web",
     "ui": "pnpm --filter ui",
     "be": "pnpm --filter backend",
     "db": "pnpm --filter db",
+    "e2e": "pnpm --filter e2e",
     "prepare": "husky",
     "pre-push": "concurrently \"pnpm lint\" \"pnpm tsc\" \"pnpm test\" \"pnpm spellcheck\" \"pnpm -r pre-commit\"",
     "web-docs": "pnpm --filter=web --filter=docs",
@@ -26,6 +27,6 @@
     "husky": "^9.0.11",
     "prettier": "^3.0.3",
     "tsconfig": "workspace:*",
-    "turbo": "^1.13.3-canary.4"
+    "turbo": "^1.13.3"
   }
 }
