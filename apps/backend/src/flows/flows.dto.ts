@@ -29,8 +29,7 @@ export class FlowVersionDto {
   @ApiProperty({ enum: FlowFrequencyEnum })
   frequency: FlowFrequency;
   userProperties: unknown[][];
-  clickElement?: string;
-  location?: string;
+  start: unknown[];
   steps: unknown[];
   published_at?: Date;
 }
@@ -51,10 +50,8 @@ export class CompleteUpdateFlowDto {
   human_id: string;
   @IsBoolean()
   enabled: boolean;
-  @IsString()
-  clickElement: string;
-  @IsString()
-  location: string;
+  @IsArray()
+  start: unknown[];
   @IsArray()
   steps: unknown[];
   @ApiProperty({ type: [Array], required: false })

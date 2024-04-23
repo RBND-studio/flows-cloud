@@ -1,8 +1,13 @@
 const path = require("node:path");
 
+// eslint-disable-next-line turbo/no-undeclared-env-vars -- ignore
+const dev = process.env.NODE_ENV !== "production";
+
 const cspHeader = `
     default-src 'self';
-    connect-src 'self' https://*.flows.sh https://*.flows-cloud.com;
+    connect-src 'self' https://*.flows.sh https://*.flows-cloud.com${
+      dev ? " http://127.0.0.1:3005" : ""
+    };
     script-src 'self' 'unsafe-eval' 'unsafe-inline' https://flows.sh https://*.lemonsqueezy.com;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
