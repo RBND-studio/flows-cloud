@@ -16,6 +16,9 @@ module.exports = {
     "no-implicit-coercion": "off",
     "no-sequences": "off",
     "no-nested-ternary": "off",
+    // Re-enable this rule when @vercel/style-guide v7 is released
+    // More info: https://github.com/vercel/style-guide/issues/105
+    "@typescript-eslint/restrict-template-expressions": "off",
   },
   plugins: ["simple-import-sort"],
 };
