@@ -7,6 +7,7 @@ import { api, type OrganizationDetail } from "lib/api";
 import { useRouter } from "next/navigation";
 import { type FC } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { formatNumberWithThousandSeparator } from "shared";
 import { t } from "translations";
 import { Button, Input, Text, toast } from "ui";
 
@@ -62,13 +63,17 @@ export const OrganizationLimitInput: FC<Props> = ({ organization }) => {
           type="number"
           defaultValue={formState.defaultValues?.start_limit}
         />
+        <div>
+          <Text mb="space4">Cost estimate</Text>
+          <Flex py="6px" px="space8" bg="bg.subtle" borderRadius="radius8">
+            <Text>
+              ${formatNumberWithThousandSeparator(getLimitPrice(Number(watch("start_limit"))), 3)}
+            </Text>
+          </Flex>
+        </div>
         <Button loading={loading} disabled={!formState.isDirty} type="submit">
           Save
         </Button>
-        <div>
-          <Text>Cost limit</Text>
-          <Text>${getLimitPrice(Number(watch("start_limit"))).toFixed(2)}</Text>
-        </div>
       </Flex>
     </form>
   );

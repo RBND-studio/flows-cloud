@@ -1,27 +1,29 @@
 import { cva, cx } from "@flows/styled-system/css";
+import { type HTMLStyledProps, styled } from "@flows/styled-system/jsx";
 import { Slot } from "@radix-ui/react-slot";
 import { forwardRef, type HTMLAttributes } from "react";
 
-type Props = HTMLAttributes<HTMLParagraphElement> & {
-  /**
-   * @defaultValue "primary"
-   */
-  variant?: (typeof textVariants.variantMap.variant)[number];
-  /**
-   * @defaultValue "p"
-   */
-  as?: (typeof textVariants.variantMap.as)[number];
-  /**
-   * @defaultValue "black"
-   */
-  color?: (typeof textVariants.variantMap.color)[number];
+type Props = HTMLAttributes<HTMLParagraphElement> &
+  HTMLStyledProps<"p"> & {
+    /**
+     * @defaultValue "primary"
+     */
+    variant?: (typeof textVariants.variantMap.variant)[number];
+    /**
+     * @defaultValue "p"
+     */
+    as?: (typeof textVariants.variantMap.as)[number];
+    /**
+     * @defaultValue "black"
+     */
+    color?: (typeof textVariants.variantMap.color)[number];
 
-  asChild?: boolean;
+    asChild?: boolean;
 
-  weight?: "400" | "600" | "700";
+    weight?: "400" | "600" | "700";
 
-  align?: "left" | "center" | "right";
-};
+    align?: "left" | "center" | "right";
+  };
 
 export const Text = forwardRef<HTMLParagraphElement, Props>(function Text(
   {
@@ -36,7 +38,8 @@ export const Text = forwardRef<HTMLParagraphElement, Props>(function Text(
   },
   ref,
 ) {
-  const Component = asChild ? Slot : as;
+  const Component = asChild ? Slot : styled[as];
+
   return (
     <Component
       {...props}

@@ -1,5 +1,6 @@
-export function formatNumberWithThousandSeparator(value: number): string {
-  return value.toString().replace(/\B(?=(?<temp1>\d{3})+(?!\d))/g, ",");
+export function formatNumberWithThousandSeparator(value: number, round?: number): string {
+  const roundedValue = round !== undefined ? value.toFixed(round) : value.toString();
+  return roundedValue.replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
 }
 
 export function formatNumberToK(value: number): string {
