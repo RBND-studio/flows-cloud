@@ -7,8 +7,9 @@ import { api, type OrganizationDetail } from "lib/api";
 import { useRouter } from "next/navigation";
 import { type FC } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { formatNumberWithThousandSeparator } from "shared";
 import { t } from "translations";
-import { Button, Input, toast } from "ui";
+import { Button, Input, Text, toast } from "ui";
 
 type Props = {
   organization: OrganizationDetail;
@@ -19,9 +20,23 @@ type FormValues = {
 };
 
 export const OrganizationLimitInput: FC<Props> = ({ organization }) => {
-  const { register, formState, handleSubmit, reset } = useForm<FormValues>({
+  const { register, formState, handleSubmit, reset, watch } = useForm<FormValues>({
     defaultValues: { start_limit: String(organization.limit) },
   });
+
+  const getLimitPrice = (limit: number): number => {
+    const subscription = organization.subscription;
+    if (!subscription) return 0;
+    let amountLeft = limit;
+    let price = 0;
+    subscription.price_tiers.forEach((tier) => {
+      const lastUnit = tier.last_unit === "inf" ? Infinity : Number(tier.last_unit);
+      const tierAmount = Math.min(amountLeft, lastUnit);
+      amountLeft -= tierAmount;
+      price += tierAmount * Number(tier.unit_price_decimal) * 0.01;
+    });
+    return price;
+  };
 
   const { send, loading } = useSend();
   const router = useRouter();
@@ -48,6 +63,14 @@ export const OrganizationLimitInput: FC<Props> = ({ organization }) => {
           type="number"
           defaultValue={formState.defaultValues?.start_limit}
         />
+        <div>
+          <Text mb="space4">Cost estimate</Text>
+          <Flex py="6px" px="space8" bg="bg.subtle" borderRadius="radius8">
+            <Text>
+              ${formatNumberWithThousandSeparator(getLimitPrice(Number(watch("start_limit"))), 3)}
+            </Text>
+          </Flex>
+        </div>
         <Button loading={loading} disabled={!formState.isDirty} type="submit">
           Save
         </Button>
