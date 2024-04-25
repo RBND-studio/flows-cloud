@@ -1,7 +1,5 @@
-export function formatNumberWithThousandSeparator(value: number, round?: number): string {
-  const roundedValue = round !== undefined ? value.toFixed(round) : value.toString();
-  return roundedValue.replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
-}
+export const formatNumberWithThousandSeparator = (value: number, round?: number): string =>
+  value.toLocaleString("en-US", { maximumFractionDigits: round, minimumFractionDigits: round });
 
 export function formatNumberToK(value: number): string {
   if (value >= 1000) {
