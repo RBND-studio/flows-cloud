@@ -78,6 +78,13 @@ export const FlowPreviewDialog: FC<Props> = ({ flow }) => {
             </a>{" "}
             Flows on the website.
           </Text>
+          <Text
+            className={css({
+              mb: "space16",
+            })}
+          >
+            Flow previews don’t get counted towards your usage.
+          </Text>
           <Input
             label="Start url"
             type="url"
