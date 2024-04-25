@@ -51,10 +51,11 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
       const res = await send(
         api["PATCH /flows/:flowId"](flow.id, {
           ...data,
+          start: data.start as unknown as UpdateFlow["start"],
           steps: data.steps as unknown as UpdateFlow["steps"],
           userProperties: fixedUserProperties,
         }),
-        { errorMessage: t.toasts.saveStepsFailed },
+        { errorMessage: t.toasts.saveFlowFailed },
       );
       if (res.error) return;
       reset(data, { keepValues: true });

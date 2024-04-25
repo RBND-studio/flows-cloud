@@ -94,8 +94,7 @@ export class FlowsService {
       return {
         frequency: version.frequency,
         steps: version.data.steps,
-        clickElement: version.data.clickElement,
-        location: version.data.location,
+        start: version.data.start,
         userProperties: version.data.userProperties,
         published_at: version.published_at ?? undefined,
       };
@@ -253,8 +252,7 @@ export class FlowsService {
       frequency: updates?.frequency ?? compareVersion?.frequency,
       data: {
         steps: updates?.steps ?? compareVersion?.data.steps ?? [],
-        clickElement: updates?.clickElement ?? compareVersion?.data.clickElement,
-        location: updates?.location ?? compareVersion?.data.location,
+        start: updates?.start ?? compareVersion?.data.start ?? [],
         userProperties: updates?.userProperties ?? compareVersion?.data.userProperties ?? [],
       },
     });

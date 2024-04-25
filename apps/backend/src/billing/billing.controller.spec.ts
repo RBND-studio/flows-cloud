@@ -4,8 +4,10 @@ import { invoices, subscriptions, webhookEvents } from "db";
 import { DatabaseService } from "../database/database.service";
 import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { verifyWebhookSignature } from "../lib/webhook-signature";
+import { LogtailService } from "../logtail/logtail.service";
 import { getMockDB, type MockDB } from "../mocks";
 import { getMockLemonSqueezyService, type MockLemonSqueezyService } from "../mocks/lemon-squeezy";
+import { getMockLogtailService, type MockLogtailService } from "../mocks/logtail-service";
 import { getMockNewsfeedService, type MockNewsfeedService } from "../mocks/newsfeed-service";
 import { mockWebhooks } from "../mocks/webhooks";
 import { NewsfeedService } from "../newsfeed/newsfeed.service";
@@ -21,11 +23,13 @@ let billingController: BillingController;
 let db: MockDB;
 let lemonSqueezyService: MockLemonSqueezyService;
 let newsfeedService: MockNewsfeedService;
+let logtailService: MockLogtailService;
 
 beforeEach(async () => {
   db = getMockDB();
   lemonSqueezyService = getMockLemonSqueezyService();
   newsfeedService = getMockNewsfeedService();
+  logtailService = getMockLogtailService();
 
   const moduleRef = await Test.createTestingModule({
     controllers: [BillingController],
@@ -35,6 +39,7 @@ beforeEach(async () => {
       if (token === DatabaseService) return { db };
       if (token === LemonSqueezyService) return lemonSqueezyService;
       if (token === NewsfeedService) return newsfeedService;
+      if (token === LogtailService) return logtailService;
     })
     .compile();
   billingController = moduleRef.get(BillingController);

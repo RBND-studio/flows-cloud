@@ -1,15 +1,22 @@
 "use client";
 
-import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
+import { Plus16 } from "icons";
 import type { FC } from "react";
+import { useFieldArray } from "react-hook-form";
 import { t } from "translations";
-import { Input, Text } from "ui";
+import { Button, Text } from "ui";
 
 import { useFlowEditForm } from "./edit-constants";
+import { StepWaitOption } from "./step-form/step-wait-option";
 
 export const LaunchForm: FC = () => {
-  const { register, formState } = useFlowEditForm();
+  const { control } = useFlowEditForm();
+  const fieldName = "start";
+  const { append, remove, fields } = useFieldArray({
+    name: fieldName,
+    control,
+  });
 
   return (
     <Box p="space16">
@@ -18,22 +25,24 @@ export const LaunchForm: FC = () => {
         <Text color="muted">{t.launch.description}</Text>
       </Flex>
 
-      <Input
-        {...register("location")}
-        className={css({ width: "100%", mb: "space16" })}
-        defaultValue={formState.defaultValues?.location}
-        description={t.launch.location}
-        label="Location"
-        placeholder="^\/home$ <- shows up only on the home page"
-      />
-      <Input
-        {...register("clickElement")}
-        className={css({ width: "100%", mb: "space16" })}
-        defaultValue={formState.defaultValues?.clickElement}
-        description={t.launch.element}
-        label="Click element"
-        placeholder=".onboarding-flow"
-      />
+      {fields.map((field, i) => (
+        <StepWaitOption
+          fieldName={`${fieldName}.${i}`}
+          index={i}
+          key={(field as { id: string }).id}
+          onRemove={() => remove(i)}
+        />
+      ))}
+
+      <Button
+        onClick={() => append({})}
+        shadow="none"
+        size="small"
+        startIcon={<Plus16 />}
+        variant="secondary"
+      >
+        Add start option
+      </Button>
     </Box>
   );
 };

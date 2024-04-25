@@ -81,8 +81,7 @@ export const flowVersions = pgTable("flow_version", {
     .$type<{
       steps: unknown[];
       userProperties: unknown[][];
-      clickElement?: string;
-      location?: string;
+      start: unknown[];
     }>()
     .notNull(),
   frequency: flowFrequencyEnum("frequency").notNull().default("once"),

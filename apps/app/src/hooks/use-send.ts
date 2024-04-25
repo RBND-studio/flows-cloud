@@ -24,7 +24,8 @@ export const useSend = () => {
       setError(undefined);
       return fn({ token: auth.session.access_token })
         .then((data) => ({ data }))
-        .catch((err: Error) => {
+        .catch((e: unknown) => {
+          const err = e as Error;
           setError(err);
 
           if (options.errorMessage) toast.error(options.errorMessage, { description: err.message });

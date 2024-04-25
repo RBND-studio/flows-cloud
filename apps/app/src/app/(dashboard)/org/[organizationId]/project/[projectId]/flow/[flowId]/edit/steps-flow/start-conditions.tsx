@@ -26,12 +26,20 @@ export const StartConditions: FC<Props> = ({ onSelectItem, selectedItem }) => {
   })();
 
   const launchText = (() => {
-    const location = watch("location");
-    const clickElement = watch("clickElement");
-    if (location && clickElement) return "Page and click element";
-    if (location) return "By visiting a page";
-    if (clickElement) return "By clicking element";
-    return "From code";
+    const startOptions = watch("start");
+    if (startOptions.length === 1) {
+      const firstOption = startOptions[0];
+      const location = !!firstOption.location;
+      if (firstOption.form && location) return "By submitting a form at specific page";
+      if (firstOption.form) return "By submitting a form";
+      if (firstOption.change && location) return "By changing input at specific page";
+      if (firstOption.change) return "By changing input";
+      if (firstOption.clickElement && location) return "By clicking element at specific page";
+      if (firstOption.clickElement) return "By clicking element";
+      if (location) return "By visiting a page";
+      return "From code";
+    }
+    return `${startOptions.length} start options`;
   })();
 
   return (
