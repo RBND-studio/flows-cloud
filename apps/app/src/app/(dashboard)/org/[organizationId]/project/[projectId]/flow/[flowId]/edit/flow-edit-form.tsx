@@ -20,7 +20,7 @@ import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialo
 import { createDefaultValues, type IFlowEditForm, type SelectedItem } from "./edit-constants";
 import { EditFormEmpty } from "./edit-form-empty";
 import { FrequencyForm } from "./frequency-form";
-import { LaunchForm } from "./launch-form";
+import { StartForm } from "./start-form";
 import { StepForm } from "./step-form";
 import { StepPreview } from "./step-preview";
 import { StepsFlow } from "./steps-flow";
@@ -137,8 +137,8 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
                   <FlowTargetingForm />
                 ) : selectedItem === "frequency" ? (
                   <FrequencyForm />
-                ) : selectedItem === "launch" ? (
-                  <LaunchForm />
+                ) : selectedItem === "start" ? (
+                  <StartForm />
                 ) : (
                   <>
                     <Box bg="bg" p="space16">
