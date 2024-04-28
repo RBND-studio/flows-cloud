@@ -5,8 +5,15 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from "@nestjs/common";
-import { invoices, organizations, organizationsToUsers, subscriptions, userInvite } from "db";
-import { and, count, desc, eq, gt, inArray, sql } from "drizzle-orm";
+import {
+  invoices,
+  organizations,
+  organizationsToUsers,
+  projects,
+  subscriptions,
+  userInvite,
+} from "db";
+import { and, desc, eq, gt, inArray, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
@@ -36,15 +43,8 @@ export class OrganizationsService {
   ) {}
 
   async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
-    const orgs = await this.databaseService.db
-      .select({
-        id: organizations.id,
-        name: organizations.name,
-        description: organizations.description,
-        created_at: organizations.created_at,
-        updated_at: organizations.updated_at,
-        members_count: count(organizationsToUsers.user_id),
-      })
+    const rows = await this.databaseService.db
+      .select()
       .from(organizations)
       .leftJoin(
         organizationsToUsers,
@@ -53,17 +53,44 @@ export class OrganizationsService {
           eq(organizationsToUsers.user_id, auth.userId),
         ),
       )
+      .leftJoin(projects, eq(projects.organization_id, organizations.id))
       .where(eq(organizationsToUsers.user_id, auth.userId))
-      .groupBy(
-        organizations.id,
-        organizations.name,
-        organizations.description,
-        organizations.created_at,
-        organizations.updated_at,
-      )
-      .orderBy(organizations.name);
+      .orderBy(organizations.name, projects.name);
 
-    return orgs;
+    const oo = rows.reduce<GetOrganizationsDto[]>((acc, row) => {
+      const org = acc.find((o) => o.id === row.organization.id);
+
+      if (!org) {
+        const orgRows = rows.filter((r) => r.organization.id === row.organization.id);
+        const members = orgRows.reduce<string[]>((acc2, row2) => {
+          if (!acc2.includes(row2.organization_to_user?.user_id ?? ""))
+            acc2.push(row2.organization_to_user?.user_id ?? "");
+          return acc2;
+        }, []);
+
+        acc.push({
+          id: row.organization.id,
+          name: row.organization.name,
+          description: row.organization.description,
+          created_at: row.organization.created_at,
+          updated_at: row.organization.updated_at,
+          members_count: members.length,
+          projects: orgRows.map((r) => {
+            return {
+              id: r.project?.id ?? "",
+              name: r.project?.name ?? "",
+              description: r.project?.description ?? "",
+              created_at: r.project?.created_at ?? new Date(),
+              updated_at: r.project?.updated_at ?? new Date(),
+              organization_id: r.project?.organization_id ?? "",
+            };
+          }),
+        });
+      }
+
+      return acc;
+    }, []);
+    return oo;
   }
 
   async getOrganizationDetail({
@@ -163,7 +190,7 @@ export class OrganizationsService {
       organization_id: org.id,
       user_id: auth.userId,
     });
-    return org;
+    return { ...org, projects: null };
   }
 
   async updateOrganization({
@@ -195,7 +222,7 @@ export class OrganizationsService {
     const updatedOrg = updatedOrganizations.at(0);
     if (!updatedOrg) throw new InternalServerErrorException("Failed to update organization");
 
-    return updatedOrg;
+    return { ...updatedOrg, projects: null };
   }
 
   async deleteOrganization({

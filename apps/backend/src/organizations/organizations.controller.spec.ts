@@ -55,11 +55,90 @@ beforeEach(async () => {
   organizationsController = moduleRef.get(OrganizationsController);
 });
 
-//TODO: Fix the test
 describe("Get organizations", () => {
   it("should return organizations", async () => {
+    const date = new Date();
+    db.orderBy.mockResolvedValue([
+      {
+        organization: {
+          id: "org1",
+          name: "Our  org",
+          description: null,
+          created_at: date,
+          updated_at: date,
+          start_limit: 100000,
+          free_start_limit: null,
+        },
+        organization_to_user: {
+          organization_id: "org1",
+          user_id: "userId",
+        },
+        project: {
+          id: "proj1",
+          organization_id: "org1",
+          name: "O5",
+          description: null,
+          domains: [],
+          created_at: date,
+          updated_at: date,
+          css_vars: null,
+          css_template: null,
+        },
+      },
+      {
+        organization: {
+          id: "org1",
+          name: "Our  org",
+          description: null,
+          created_at: date,
+          updated_at: date,
+          start_limit: 100000,
+          free_start_limit: null,
+        },
+        organization_to_user: {
+          organization_id: "org1",
+          user_id: "userId2",
+        },
+        project: {
+          id: "proj2",
+          organization_id: "org1",
+          name: "O6",
+          description: null,
+          domains: [],
+          created_at: date,
+          updated_at: date,
+          css_vars: null,
+          css_template: null,
+        },
+      },
+    ]);
     await expect(organizationsController.getOrganizations({ userId: "userId" })).resolves.toEqual([
-      { organization: { id: "org1" } },
+      {
+        id: "org1",
+        name: "Our  org",
+        description: null,
+        created_at: date,
+        updated_at: date,
+        members_count: 2,
+        projects: [
+          {
+            id: "proj1",
+            name: "O5",
+            description: "",
+            created_at: date,
+            updated_at: date,
+            organization_id: "org1",
+          },
+          {
+            id: "proj2",
+            name: "O6",
+            description: "",
+            created_at: date,
+            updated_at: date,
+            organization_id: "org1",
+          },
+        ],
+      },
     ]);
   });
 });
@@ -114,7 +193,7 @@ describe("Create organization", () => {
   it("should create organization and user connection and return organization", async () => {
     await expect(
       organizationsController.createOrganization({ userId: "userId" }, { name: "org1" }),
-    ).resolves.toEqual({ id: "org1" });
+    ).resolves.toEqual({ id: "org1", projects: null });
     expect(db.insert).toHaveBeenCalledWith(organizations);
     expect(db.insert).toHaveBeenCalledWith(organizationsToUsers);
   });
@@ -134,7 +213,7 @@ describe("Update organization", () => {
   it("should update organization", async () => {
     await expect(
       organizationsController.updateOrganization({ userId: "userId" }, "org1", { name: "org1" }),
-    ).resolves.toEqual({ id: "org1" });
+    ).resolves.toEqual({ id: "org1", projects: null });
     expect(db.update).toHaveBeenCalledWith(organizations);
     expect(db.set).toHaveBeenCalledWith(
       expect.objectContaining({ name: "org1", updated_at: expect.any(Date) }),

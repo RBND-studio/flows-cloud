@@ -19,6 +19,7 @@
     "@hookform/resolvers": "^3.3.4",
     "@marsidev/react-turnstile": "^0.5.3",
     "@monaco-editor/react": "^4.6.0",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-slot": "^1.0.2",
     "@rbnd/react-dark-mode": "^2.0.1",
     "@supabase/ssr": "^0.1.0",
