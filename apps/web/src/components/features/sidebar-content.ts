@@ -104,9 +104,9 @@ export const sidebarData: SidebarData = [
         link: `${routes.featuresDeliver}#targeting`,
       },
       {
-        title: "Launch action",
+        title: "Start action",
         icon: Send16,
-        link: `${routes.featuresDeliver}#launch-action`,
+        link: `${routes.featuresDeliver}#start-action`,
       },
     ],
   },

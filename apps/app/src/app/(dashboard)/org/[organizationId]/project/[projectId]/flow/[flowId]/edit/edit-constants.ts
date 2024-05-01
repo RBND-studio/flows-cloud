@@ -27,5 +27,5 @@ export type SelectedItem =
   | number
   | `${number}.${number}.${number}`
   | "targeting"
-  | "launch"
+  | "start"
   | "frequency";
