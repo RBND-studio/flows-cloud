@@ -148,10 +148,10 @@ export const featuresData: FeatureGridTypes[] = [
       {
         mainSlot: (
           <>
-            <span>Launch action.</span> Trigger flows from anywhere.
+            <span>Start action.</span> Trigger flows from anywhere.
           </>
         ),
-        link: `${routes.featuresDeliver}#launch-action`,
+        link: `${routes.featuresDeliver}#start-action`,
         icon: Send16,
       },
     ],

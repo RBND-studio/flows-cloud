@@ -28,9 +28,6 @@ export const t = {
     createFlowSuccess: "Flow created",
     updateFlowSuccess: "Flow updated",
     deleteFlowSuccess: "Flow deleted",
-    saveTargetingSuccess: "Targeting updated",
-    saveFrequencySuccess: "Frequency updated",
-    saveLaunchSuccess: "Launch settings updated",
     inviteSent: "Invite sent",
     usersInvited: "Users were invited",
     memberRemoved: "Member removed",
@@ -49,9 +46,6 @@ export const t = {
     deleteInviteFailed: "Failed to delete invite",
     deleteInviteSuccess: "Invite deleted",
     saveFlowFailed: "Failed to update flow",
-    saveTargetingFailed: "Failed to update targeting",
-    saveFrequencyFailed: "Failed to update frequency",
-    saveLaunchFailed: "Failed to update launch settings",
     deleteFlowFailed: "Failed to delete flow",
     publishFlowFailed: "Failed to publish flow",
     enableFlowFailed: "Failed to enable flow",
@@ -153,13 +147,11 @@ export const t = {
     once: "One time",
     "every-time": "Every time",
   },
-  launch: {
-    launch: "Launch",
+  start: {
+    start: "Start",
     description:
-      "When and where should the flow be shown to your users. Leave empty when launching manually in your codebase.",
-    localState: "Local flow launch settings need to be changed in your codebase",
-    element: "After clicking on a specified element.",
-    location: "After visiting a specified url. Supports regex.",
+      "When and where should the flow be shown to your users. Leave empty when starting manually in your codebase.",
+    addOption: "Add start option",
   },
   analytics: {
     starts: "Starts",
@@ -182,7 +174,6 @@ export const t = {
     domains: {
       domains: "Project domains",
       description: "Add the domains from where you want to use this project.",
-      localState: "Local project domains need to be changed in your codebase",
       addDomain: "Add domain",
       domainPlaceholder: "example.com",
       invalidDomain: "Invalid domain. Please use https://example.com format.",
