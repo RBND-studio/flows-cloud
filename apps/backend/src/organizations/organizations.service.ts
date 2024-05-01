@@ -13,7 +13,7 @@ import {
   subscriptions,
   userInvite,
 } from "db";
-import { and, desc, eq, gt, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, exists, gt, inArray, sql } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
@@ -43,54 +43,62 @@ export class OrganizationsService {
   ) {}
 
   async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
-    const rows = await this.databaseService.db
-      .select()
+    const otuQuery = sql<number>`(SELECT COUNT(user_id) FROM organization_to_user otu WHERE otu.organization_id = organization.id) as members_count`;
+    const query = this.databaseService.db
+      .select({
+        organization: organizations,
+        members_count: otuQuery,
+        project: {
+          id: projects.id,
+          name: projects.name,
+        },
+      })
       .from(organizations)
-      .leftJoin(
-        organizationsToUsers,
-        and(
-          eq(organizations.id, organizationsToUsers.organization_id),
-          eq(organizationsToUsers.user_id, auth.userId),
+      .leftJoin(projects, eq(projects.organization_id, organizations.id))
+      .where(
+        exists(
+          this.databaseService.db
+            .select({ userId: organizationsToUsers.user_id })
+            .from(organizationsToUsers)
+            .where(
+              and(
+                eq(organizationsToUsers.organization_id, organizations.id),
+                eq(organizationsToUsers.user_id, auth.userId),
+              ),
+            ),
         ),
       )
-      .leftJoin(projects, eq(projects.organization_id, organizations.id))
-      .where(eq(organizationsToUsers.user_id, auth.userId))
       .orderBy(organizations.name, projects.name);
 
-    const oo = rows.reduce<GetOrganizationsDto[]>((acc, row) => {
-      const org = acc.find((o) => o.id === row.organization.id);
+    const rows = await query;
 
-      if (!org) {
-        const orgRows = rows.filter((r) => r.organization.id === row.organization.id);
-        const members = orgRows.reduce<string[]>((acc2, row2) => {
-          if (!acc2.includes(row2.organization_to_user?.user_id ?? ""))
-            acc2.push(row2.organization_to_user?.user_id ?? "");
-          return acc2;
-        }, []);
-
-        acc.push({
-          id: row.organization.id,
-          name: row.organization.name,
-          description: row.organization.description,
-          created_at: row.organization.created_at,
-          updated_at: row.organization.updated_at,
-          members_count: members.length,
-          projects: orgRows.map((r) => {
-            return {
-              id: r.project?.id ?? "",
-              name: r.project?.name ?? "",
-              description: r.project?.description ?? "",
-              created_at: r.project?.created_at ?? new Date(),
-              updated_at: r.project?.updated_at ?? new Date(),
-              organization_id: r.project?.organization_id ?? "",
-            };
-          }),
-        });
-      }
-
+    const t = rows.reduce<Record<string, typeof rows>>((acc, row) => {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- on the first iteration, acc[row.organization.id] will be undefined
+      if (!acc[row.organization.id]) acc[row.organization.id] = [];
+      acc[row.organization.id].push(row);
       return acc;
-    }, []);
-    return oo;
+    }, {});
+
+    const ooo: GetOrganizationsDto[] = Object.entries(t).map(([_key, value]) => {
+      const org = value[0];
+
+      return {
+        id: org.organization.id,
+        name: org.organization.name,
+        description: org.organization.description,
+        created_at: org.organization.created_at,
+        updated_at: org.organization.updated_at,
+        members_count: org.members_count,
+        projects: value.map((r) => {
+          return {
+            id: r.project?.id ?? "",
+            name: r.project?.name ?? "",
+          };
+        }),
+      };
+    });
+
+    return ooo;
   }
 
   async getOrganizationDetail({

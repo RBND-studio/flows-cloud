@@ -1,6 +1,5 @@
 "use client";
 
-import { css } from "@flows/styled-system/css";
 import React, { useEffect, useState } from "react";
 
 const useMousePosition = (): { x: number; y: number } => {
@@ -46,20 +45,17 @@ export const SafeArea = ({ submenu }: SafeAreaProps): JSX.Element => {
         bottom: 0,
         left: mouseX - 15,
       }}
-      className={css({
-        height: `${height}px`,
-      })}
       id="svg-safe-area"
     >
       {/* Unsafe Area - only defined for debug visualization */}
-      <path
+      {/* <path
         pointerEvents="none"
         width="100%"
         height="100%"
         fill="var(--colors-bg-danger-subtle)"
         opacity={0.5}
         d={`M 0,0 L ${svgWidth},0 L ${svgWidth},${svgHeight} L 0,${svgHeight} z`}
-      />
+      /> */}
       {/* Safe Area */}
       <path
         pointerEvents="auto"

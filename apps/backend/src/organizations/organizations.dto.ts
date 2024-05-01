@@ -1,7 +1,10 @@
 import { PartialType } from "@nestjs/swagger";
 import { IsEmail, IsNumber, IsString, MinLength } from "class-validator";
-import { GetProjectsDto } from "../projects/projects.dto";
 
+export class GetOrganizationsProjectDto {
+  id: string;
+  name: string;
+}
 export class GetOrganizationsDto {
   id: string;
   name: string;
@@ -9,7 +12,7 @@ export class GetOrganizationsDto {
   created_at: Date;
   updated_at: Date;
   members_count?: number;
-  projects: GetProjectsDto[] | null;
+  projects: GetOrganizationsProjectDto[] | null;
 }
 
 export class GetOrganizationSubscriptionDto {
@@ -32,7 +35,6 @@ export class GetOrganizationDetailDto {
   description: string | null;
   created_at: Date;
   updated_at: Date;
-  members_count?: number;
   usage: number;
   limit: number;
   estimated_price?: number;

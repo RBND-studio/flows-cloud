@@ -105,16 +105,12 @@ export const ProjectsMenu: FC = () => {
     (org) => org.id === (openOrg === undefined ? organizationId : openOrg),
   );
   const currentProject = currentOrg?.projects?.find((proj) => proj.id === projectId);
-  const close = (): void => {
-    setOpen(false);
-    setOpenOrg(undefined);
-  };
 
   return (
     <Popover
       onOpenChange={(isOpen) => {
         if (!isOpen) {
-          setOpenOrg(null);
+          setOpenOrg(undefined);
         }
         setOpen(isOpen);
       }}
@@ -215,7 +211,7 @@ export const ProjectsMenu: FC = () => {
                           justifyContent: "space-between",
                         })}
                         key={proj.id}
-                        onClick={close}
+                        onClick={() => setOpen(false)}
                       >
                         <Link
                           href={routes.project({
