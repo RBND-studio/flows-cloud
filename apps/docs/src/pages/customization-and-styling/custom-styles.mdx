@@ -1,0 +1,50 @@
+---
+title: Custom styles
+description: Create a custom theme to change the look and feel of your onboarding flows.
+---
+
+# Custom styles
+
+Create a custom theme to change the look and feel of your onboarding flows. We strive to provide good defaults, but we expect that you will want to customize how the elements look to match your brand and application.
+
+![Custom styles](/customization-and-styling/custom-styles.png)
+
+## CSS variables (recommended)
+
+CSS variables are the easier way to customize your theme. With variables, you can change the basics like colors, fonts, and spacing across all the elements in the onboarding flows. Using variables is less likely to break when we introduce new features or changes (but we strive to avoid breaking changes whenever possible).
+
+If you ever need to go back to the start and get the default CSS template, click the **Apply defaults** button.
+
+### Dark mode
+
+Out of the box, Flows supports dark mode when you apply class `.dark` on either `html` or `body`. You can change the selector to match your theming implementation.
+
+```css
+:root {
+  /* This is your default (light) theme */
+  --flows-bg-default: #ffffff;
+  --flows-bg-primary: #ec6441;
+}
+
+.dark {
+  /* This is your dark theme */
+  --flows-bg-default: #181818;
+  --flows-bg-primary: #e46a49;
+}
+```
+
+## Full CSS template
+
+For more advanced styling, you can use the full CSS template. This template allows you to customize every element used in the onboarding flows. Please note that this template is more likely to receive breaking changes as we introduce more step types and features.
+
+Customizing the full CSS template requires a good understanding of CSS and the structure of the onboarding flows. We recommend using the CSS variables template whenever possible. Make sure to preview and test your changes in the onboarding flows to ensure they look good on all devices and screen sizes. We transpile the CSS with [lightningcss.dev](https://lightningcss.dev) so you don't have to worry about browser compatibility.
+
+### Customizing the full CSS template
+
+To customize the full CSS template, you need to switch on the **Customize full CSS template** toggle on the **Style template** page. This will display the full CSS template that you can customize.
+
+If you ever need to go back to the start and get the default CSS template, click the **Apply defaults** button.
+
+### Restoring to default
+
+When you customize the full CSS template, the SDK will always load your custom CSS even if there are breaking changes. If you want to go back to the default CSS, just switch off the **Customize full CSS template** toggle on the **Style template** page. This will make sure that your SDK will always load the correct CSS for the version you are using.
