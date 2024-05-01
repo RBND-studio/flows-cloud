@@ -12,6 +12,8 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import privacyImage from "../../../../../public/images/features/privacy.webp";
+
 export const metadata: Metadata = {
   title: "Modern and Secure – Flows Features",
   description:
@@ -37,9 +39,9 @@ export default function Page(): ReactElement {
         <Image
           alt="Privacy"
           className={ImageStyles}
-          height={720}
-          src="/images/features/privacy.png"
-          width={2160}
+          src={privacyImage}
+          //quality={80}
+          sizes="(max-width: 768px) 100vw, 1024px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Identify users semi-anonymously

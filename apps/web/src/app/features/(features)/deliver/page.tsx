@@ -12,6 +12,12 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import frequencyImage from "../../../../../public/images/features/frequency.webp";
+import sizeImage from "../../../../../public/images/features/size.webp";
+import speedImage from "../../../../../public/images/features/speed.webp";
+import launchImage from "../../../../../public/images/features/start.webp";
+import targetingImage from "../../../../../public/images/features/targeting.webp";
+
 export const metadata: Metadata = {
   title: "Deliver – Flows Features",
   description:
@@ -36,9 +42,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Speed"
           className={ImageStyles}
-          height={960}
-          src="/images/features/speed.png"
-          width={2160}
+          src={speedImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Async loading
@@ -61,9 +66,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Size"
           className={ImageStyles}
-          height={960}
-          src="/images/features/size.png"
-          width={2160}
+          src={sizeImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           CDN hosted
@@ -90,9 +94,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Frequency"
           className={ImageStyles}
-          height={654}
-          src="/images/features/frequency.png"
-          width={2160}
+          src={frequencyImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
@@ -104,13 +107,7 @@ export default function Page(): ReactElement {
           to those who stand to benefit, ensuring that the right message reaches the right audience
           at the right time.
         </Text>
-        <Image
-          alt="Targeting"
-          className={ImageStyles}
-          height={882}
-          src="/images/features/targeting.png"
-          width={2160}
-        />
+        <Image alt="Targeting" className={ImageStyles} src={targetingImage} />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Secure and private
         </Text>
@@ -131,9 +128,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Start"
           className={ImageStyles}
-          height={753}
-          src="/images/features/start.png"
-          width={2160}
+          src={launchImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>
 

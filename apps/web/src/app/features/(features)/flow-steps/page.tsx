@@ -12,6 +12,10 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import modalImage from "../../../../../public/images/features/modal.webp";
+import tooltipImage from "../../../../../public/images/features/tooltip.webp";
+import waitImage from "../../../../../public/images/features/wait.webp";
+
 export const metadata: Metadata = {
   title: "Flow Steps – Flows Features",
   description:
@@ -36,9 +40,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Tooltip"
           className={ImageStyles}
-          height={822}
-          src="/images/features/tooltip.png"
-          width={2160}
+          src={tooltipImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Wait for user input
@@ -59,9 +62,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Modal"
           className={ImageStyles}
-          height={1095}
-          src="/images/features/modal.png"
-          width={2160}
+          src={modalImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Custom HTML content
@@ -82,9 +84,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Wait"
           className={ImageStyles}
-          height={1017}
-          src="/images/features/wait.png"
-          width={2160}
+          src={waitImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Wait for click

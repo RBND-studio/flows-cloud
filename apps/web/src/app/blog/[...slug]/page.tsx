@@ -103,6 +103,7 @@ export default function PostPage({ params }: PostProps): ReactElement {
               priority
               src={post.image}
               width={1200}
+              sizes="(max-width: 768px) 100vw, 896px"
             />
           </div>
         ) : null}

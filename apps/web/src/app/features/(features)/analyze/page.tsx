@@ -11,6 +11,8 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import analyticsImage from "../../../../../public/images/features/analytics.webp";
+
 export const metadata: Metadata = {
   title: "Analyze – Flows Features",
   description:
@@ -35,9 +37,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Analytics"
           className={ImageStyles}
-          height={1371}
-          src="/images/features/analytics.png"
-          width={2160}
+          src={analyticsImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">

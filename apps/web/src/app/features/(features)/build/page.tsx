@@ -12,6 +12,10 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import inCodeImage from "../../../../../public/images/features/in-code.webp";
+import noCodeImage from "../../../../../public/images/features/no-code.webp";
+import previewImage from "../../../../../public/images/features/preview.webp";
+
 export const metadata: Metadata = {
   title: "Build – Flows Features",
   description:
@@ -36,9 +40,8 @@ export default function Page(): ReactElement {
         <Image
           alt="No-code"
           className={ImageStyles}
-          height={1317}
-          src="/images/features/no-code.png"
-          width={2160}
+          src={noCodeImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Steps editor
@@ -59,9 +62,8 @@ export default function Page(): ReactElement {
         <Image
           alt="In-code"
           className={ImageStyles}
-          height={1251}
-          src="/images/features/in-code.png"
-          width={2160}
+          src={inCodeImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Flows JS SDK
@@ -82,9 +84,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Preview"
           className={ImageStyles}
-          height={630}
-          src="/images/features/preview.png"
-          width={2160}
+          src={previewImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>
 

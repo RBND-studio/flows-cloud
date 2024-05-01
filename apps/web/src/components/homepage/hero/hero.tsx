@@ -101,11 +101,10 @@ export const Hero = (): ReactElement => {
             maxWidth: "1440px",
           })}
           fetchPriority="high"
-          height={2160}
-          sizes="100wv"
+          quality={90}
+          sizes="1440px"
           srcDark={heroDarkImg}
           srcLight={heroLightImg}
-          width={4320}
         />
       </Box>
       <Box
@@ -125,11 +124,10 @@ export const Hero = (): ReactElement => {
             maxWidth: "780px",
           })}
           fetchPriority="high"
-          height={471}
-          sizes="100wv"
           srcDark={heroMobileDarkImg}
           srcLight={heroMobileLightImg}
-          width={780}
+          quality={85}
+          sizes="896px"
         />
       </Box>
     </Section>
