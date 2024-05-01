@@ -9,7 +9,7 @@ const questions = [
   {
     title: "How does the pricing work?",
     content:
-      "Flows offers volume based pricing, the more flows you launch the less you pay. Every month you will be billed based on the number of flows you started. To get an estimate of your monthly cost, use our pricing calculator above.",
+      "Flows offers volume based pricing, the more flows you start the less you pay. Every month you will be billed based on the number of flows you started. To get an estimate of your monthly cost, use our pricing calculator above.",
   },
   {
     title: "Do you offer a free tier?",

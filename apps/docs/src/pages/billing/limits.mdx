@@ -21,4 +21,4 @@ To set a usage limit:
 
 Because of the way Flows Cloud and Flows SDK work, we can't guarantee that we'll stop sending flows exactly when the limit is reached. If you have a lot of users that you show flows to, it's possible that we'll send a few more flows than the limit you set.
 
-This happens because Flows SDK loads all flows the user can see at once, and launches them when conditions are met. Which means that if a user is initialized before the limit is reached, they'll still be able to see the flows even if the limit already reached when starting the flow. If you feel like you overshot the limit by too much, please contact us and we'll help you out.
+This happens because Flows SDK loads all flows the user can see at once, and starts them when conditions are met. Which means that if a user is initialized before the limit is reached, they'll still be able to see the flows even if the limit already reached when starting the flow. If you feel like you overshot the limit by too much, please contact us and we'll help you out.

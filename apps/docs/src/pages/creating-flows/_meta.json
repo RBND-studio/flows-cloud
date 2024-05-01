@@ -1,6 +1,6 @@
 {
   "steps-editor": "Steps editor",
-  "start": "Start",
+  "start-flow": "Start a flow",
   "frequency": "Frequency",
   "targeting": "Targeting",
   "preview": "Preview flow",

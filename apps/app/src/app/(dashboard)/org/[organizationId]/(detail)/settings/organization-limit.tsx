@@ -24,7 +24,7 @@ export const OrganizationLimit: FC<Props> = ({ org }) => {
           <Text variant="titleL">Usage limit</Text>
           <Text color="muted">
             Limit resets on {monthDayYear(renewal)} ({dayjs(renewal).fromNow()}). Limit how many
-            flows can launch in a billing period to prevent unexpected charges. Note that sometimes
+            flows can start in a billing period to prevent unexpected charges. Note that sometimes
             the limit can be exceed if there is a high volume of flows running at the same time.
           </Text>
         </Flex>
