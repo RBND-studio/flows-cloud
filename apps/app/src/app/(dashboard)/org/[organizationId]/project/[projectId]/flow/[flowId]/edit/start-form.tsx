@@ -10,7 +10,7 @@ import { Button, Text } from "ui";
 import { useFlowEditForm } from "./edit-constants";
 import { StepWaitOption } from "./step-form/step-wait-option";
 
-export const LaunchForm: FC = () => {
+export const StartForm: FC = () => {
   const { control } = useFlowEditForm();
   const fieldName = "start";
   const { append, remove, fields } = useFieldArray({
@@ -21,8 +21,8 @@ export const LaunchForm: FC = () => {
   return (
     <Box p="space16">
       <Flex flexDirection="column" mb="space12">
-        <Text variant="titleL">{t.launch.launch}</Text>
-        <Text color="muted">{t.launch.description}</Text>
+        <Text variant="titleL">{t.start.start}</Text>
+        <Text color="muted">{t.start.description}</Text>
       </Flex>
 
       {fields.map((field, i) => (
@@ -41,7 +41,7 @@ export const LaunchForm: FC = () => {
         startIcon={<Plus16 />}
         variant="secondary"
       >
-        Add start option
+        {t.start.addOption}
       </Button>
     </Box>
   );

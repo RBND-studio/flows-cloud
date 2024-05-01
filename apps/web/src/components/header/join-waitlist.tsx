@@ -14,6 +14,7 @@ import {
   Text,
 } from "ui";
 
+// TODO: remove this component
 export const JoinWaitlist: FC = () => {
   const { email, handleSubmit, loading, setEmail, setThankYouOpen, thankYouOpen, loadRecaptcha } =
     useWaitlistForm();
