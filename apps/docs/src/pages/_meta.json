@@ -3,6 +3,11 @@
   "getting-started": "Getting started",
   "creating-flows": "Create flows",
   "step-types": "Step types",
+  "customization-and-styling": "Customization & Styling",
+  "project-setup": "Project setup",
+  "organization-setup": "Organization setup",
+  "analytics": "Analytics",
+  "integrations": "Integrations",
   "-0": {
     "title": "",
     "type": "separator"

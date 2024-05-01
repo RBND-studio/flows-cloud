@@ -1,0 +1,44 @@
+---
+title: Projects
+description: The first step to using Flows is to create a project for your organization.
+---
+
+# Projects
+
+Projects typically represent a single application or a set of related applications. Each project has its own set of flows, analytics, and settings. Flows are always installed on per Project basis and all users can (theoretically) see all flows in the project.
+
+![Project switcher](/project-setup/projects.png)
+
+## Basics
+
+### Workspace settings
+
+Currently, any member of the organization can manage its projects. This means that any member can create, update, delete, and manage projects. This will change in the future when we introduce member roles.
+
+### Project ID
+
+Each project has a unique ID that is used to identify it in the SDK. You can find the project ID in the project settings. Add the project ID to your SDK configuration as described in the [installation guide](/getting-started/install-flows).
+
+### Project domains
+
+Each project can have a list of allowed domains. This is a security feature that allows you to restrict where the Flows SDK can be used.
+
+<SectionLink href="/project-setup/project-domains">
+  Learn more about the Project domains →
+</SectionLink>
+
+### Multiple projects
+
+You can have multiple projects in a single organization. This is useful when you have multiple applications that you want to manage separately. Each project has its own set of flows, analytics, and settings.
+
+To create a new project:
+
+1. Click your currently selected project and organization in the sidebar.
+2. Select **New project**.
+3. Enter the project name and confirm.
+
+You'll be able to switch between projects by clicking on the project name in the top left corner and selecting the project you want to switch to.
+
+### Delete a project
+
+You can delete projects (which also includes flows and analytics data) under **Project settings**. Please note that this action is not reversible.

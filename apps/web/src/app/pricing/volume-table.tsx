@@ -33,7 +33,7 @@ export const VolumeTable = (): ReactElement => {
       <Flex flexDirection="column" gap="space8" mb="space32">
         <Text variant="title2xl">Volume pricing</Text>
         <Text variant="bodyL" color="muted">
-          Flows offers volume based pricing, the more flows you launch the less you pay.
+          Flows offers volume based pricing, the more flows you start the less you pay.
         </Text>
       </Flex>
       <Box shadow="l2" className={cardWrapper()}>
