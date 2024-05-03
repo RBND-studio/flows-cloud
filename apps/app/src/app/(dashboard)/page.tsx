@@ -14,6 +14,8 @@ export default async function DashboardPage(): Promise<JSX.Element> {
   if (!organizations.length) return redirect(routes.welcome);
 
   const org = organizations[0];
+
+  // TODO: refactor to single api call after https://github.com/RBND-studio/flows-cloud/pull/303 is merged
   const projects = await load(api["/organizations/:organizationId/projects"](org.id));
   if (projects.length)
     return redirect(
