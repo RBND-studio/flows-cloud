@@ -121,18 +121,18 @@ export default function Page(): ReactElement {
         </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
-        <Text as="h2" className={Heading2styles} id="launch-action" variant="title2xl">
-          Launch action
+        <Text as="h2" className={Heading2styles} id="start-action" variant="title2xl">
+          Start action
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
-          Timing is everything. Launch flows precisely when users visit a designated page or
-          interact with a specific element, maximizing the impact of your onboarding efforts.
+          Timing is everything. Start flows precisely when users visit a designated page or interact
+          with a specific element, maximizing the impact of your onboarding efforts.
         </Text>
         <Image
-          alt="Launch"
+          alt="Start"
           className={ImageStyles}
           height={753}
-          src="/images/features/launch.png"
+          src="/images/features/start.png"
           width={2160}
         />
       </Box>

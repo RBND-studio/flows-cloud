@@ -1,0 +1,18 @@
+---
+title: Project domains
+description: Select the domains where the Flows SDK can be used.
+---
+
+# Project domains
+
+Select the domains where the Flows SDK can be used. This is a security feature that allows you to restrict where the Flows SDK can be used.
+
+![Project domains](/project-setup/project-domains.png)
+
+## Add a domain
+
+To add a domain, just click on the **Add domain** button and enter the domain name. Make sure to enter the domain with the correct protocol (http:// or https://) and without the trailing slash. We don't support wildcards.
+
+## Local development
+
+When you are developing locally, you don't need to add `localhost` and `127.0.0.1` to the list of allowed domains. The Flows SDK will work on your machine without any additional configuration. Note that any events from the local environment will be ignored in the analytics and billing.

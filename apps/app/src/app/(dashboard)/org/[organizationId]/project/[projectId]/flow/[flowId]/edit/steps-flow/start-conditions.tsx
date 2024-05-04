@@ -25,7 +25,7 @@ export const StartConditions: FC<Props> = ({ onSelectItem, selectedItem }) => {
     return `${count} ${plural(count, "target group", "target groups")}`;
   })();
 
-  const launchText = (() => {
+  const startText = (() => {
     const startOptions = watch("start");
     if (startOptions.length === 1) {
       const firstOption = startOptions[0];
@@ -46,9 +46,9 @@ export const StartConditions: FC<Props> = ({ onSelectItem, selectedItem }) => {
     <Flex gap="space8" bor="1px" p="space12" borderRadius="radius8">
       {(
         [
-          { value: "frequency", label: t.frequency.frequency, text: frequencyText },
+          { value: "start", label: t.start.start, text: startText },
           { value: "targeting", label: t.targeting.targeting, text: targetingText },
-          { value: "launch", label: t.launch.launch, text: launchText },
+          { value: "frequency", label: t.frequency.frequency, text: frequencyText },
         ] as const
       ).map((item) => {
         const selected = selectedItem === item.value;

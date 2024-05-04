@@ -5,7 +5,7 @@ import type { FC } from "react";
 import { Text } from "ui";
 
 import { Frequency } from "./frequency";
-import { Launch } from "./launch";
+import { Start } from "./start";
 import { Targeting } from "./targeting";
 
 type Props = {
@@ -34,9 +34,9 @@ export const SetupSection: FC<Props> = ({ flow }) => {
         ) : null}
         {!flowIsLocal && (
           <>
-            <Frequency flow={flow} />
+            <Start flow={flow} />
             <Targeting flow={flow} />
-            <Launch flow={flow} />
+            <Frequency flow={flow} />
           </>
         )}
       </Flex>

@@ -8,10 +8,11 @@ const cspHeader = `
     connect-src 'self' https://*.flows.sh https://*.flows-cloud.com https://*.posthog.com${
       dev ? " http://127.0.0.1:3005 http://localhost:3005" : ""
     };
-    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://flows.sh https://*.lemonsqueezy.com https://challenges.cloudflare.com https://*.posthog.com;
-    style-src 'self' 'unsafe-inline';
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://flows.sh https://*.lemonsqueezy.com https://challenges.cloudflare.com https://*.posthog.com https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
     img-src 'self' blob: data:;
-    font-src 'self';
+    font-src 'self' https://cdn.jsdelivr.net;
+    worker-src 'self' blob:;
     object-src 'none';
     base-uri 'self';
     form-action 'self';

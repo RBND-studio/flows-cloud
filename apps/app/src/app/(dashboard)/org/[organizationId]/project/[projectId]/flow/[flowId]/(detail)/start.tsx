@@ -9,7 +9,7 @@ type Props = {
   flow: FlowDetail;
 };
 
-export const Launch: FC<Props> = ({ flow }) => {
+export const Start: FC<Props> = ({ flow }) => {
   const start = (flow.publishedVersion?.start ?? []) as WaitStepOptions[];
 
   const noOptions =
@@ -18,7 +18,7 @@ export const Launch: FC<Props> = ({ flow }) => {
 
   return (
     <Flex direction="column" gap="space8">
-      <Text variant="titleS">Launch</Text>
+      <Text variant="titleS">Start</Text>
       <Wrap gap="space8" direction="column" alignItems="center">
         {!noOptions &&
           start.map((startOption, i) => {

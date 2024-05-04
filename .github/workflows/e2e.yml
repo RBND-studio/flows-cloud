@@ -1,0 +1,20 @@
+name: End-to-End Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    environment: staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - run: pnpm install
+      - run: pnpm e2e cy:run --env http_auth_username=${{ secrets.http_auth_username }},http_auth_password=${{ secrets.http_auth_password }},app_email=${{ secrets.app_email }},app_password=${{ secrets.app_password }}

@@ -29,6 +29,10 @@ const config: DocsThemeConfig = {
     return SEO_PROPS;
   },
 
+  sidebar: {
+    defaultMenuCollapseLevel: 1,
+  },
+
   darkMode: true,
   primaryHue: 12,
   primarySaturation: 70,
