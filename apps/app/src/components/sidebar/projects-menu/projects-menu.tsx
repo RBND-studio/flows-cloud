@@ -9,6 +9,7 @@ import { MenuSection } from "components/sidebar/menu-section";
 import { SafeArea } from "components/sidebar/projects-menu/safe-area";
 import { useFetch } from "hooks/use-fetch";
 import { Check16, ChevronDown16, Plus16 } from "icons";
+import { type OrganizationPreview } from "lib/api";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { type FC, useRef, useState } from "react";
@@ -87,7 +88,7 @@ const Trigger: FC<TriggerProps> = ({ projectName, orgName, loading }) => {
 
 export const ProjectsMenu: FC = () => {
   const [open, setOpen] = useState(false);
-  const [openOrg, setOpenOrg] = useState<string | null | undefined>(undefined);
+  const [openOrg, setOpenOrg] = useState<string | undefined>();
 
   const parent = useRef<HTMLDivElement>(null);
   const child = useRef<HTMLDivElement>(null);
@@ -95,15 +96,22 @@ export const ProjectsMenu: FC = () => {
     organizationId?: string;
     projectId?: string;
   }>();
-  const { data: organizations, isLoading: isLoadingOrganizations } = useFetch("/organizations");
 
+  const onOrganizationsFetchSuccess = (data: OrganizationPreview[]): void => {
+    setOpenOrg(data.find((org) => org.id === organizationId)?.id ?? undefined);
+  };
+
+  const { data: organizations, isLoading: isLoadingOrganizations } = useFetch(
+    "/organizations",
+    [],
+    onOrganizationsFetchSuccess,
+  );
   const { auth } = useAuth();
+
   if (!auth || isLoadingOrganizations) return <Trigger loading />;
 
   const currentOrg = organizations?.find((org) => org.id === organizationId);
-  const highlightedOrg = organizations?.find(
-    (org) => org.id === (openOrg === undefined ? organizationId : openOrg),
-  );
+  const highlightedOrg = organizations?.find((org) => org.id === openOrg);
   const currentProject = currentOrg?.projects?.find((proj) => proj.id === projectId);
 
   return (
@@ -171,7 +179,7 @@ export const ProjectsMenu: FC = () => {
                   <button
                     type="button"
                     onMouseEnter={() => {
-                      setOpenOrg(null);
+                      setOpenOrg(undefined);
                     }}
                   >
                     <MenuItem>
