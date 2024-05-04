@@ -3,7 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
   "/status": {
     get: operations["AppController_getStatus"];
@@ -266,6 +265,10 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
       members_count?: number;
+      projects?: {
+        id: string;
+        name: string;
+      }[];
     };
     SubscriptionPriceTierDto: {
       last_unit: string;
@@ -377,7 +380,6 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
-
   AppController_getStatus: {
     responses: {
       200: {

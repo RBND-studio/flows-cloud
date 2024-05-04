@@ -12,7 +12,7 @@ import { Icon, Text } from "ui";
 
 import { HelpMenu } from "./help-menu";
 import { Invites } from "./invites";
-import { ProjectsMenu } from "./projects-menu";
+import { ProjectsMenu } from "./projects-menu/projects-menu";
 import { SettingsMenu } from "./settings-menu";
 import { UsageWidget } from "./usage-widget";
 

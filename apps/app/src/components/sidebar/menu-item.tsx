@@ -36,6 +36,9 @@ export const MenuItem = forwardRef<HTMLElement, Props>(function MenuItem(
           "&:hover": {
             bg: disabled ? "transparent" : "bg.hover",
           },
+          _active: {
+            bg: disabled ? "transparent" : "bg.hover",
+          },
         }),
         props.className,
       )}
