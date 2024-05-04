@@ -155,6 +155,8 @@ export const ProjectsMenu: FC = () => {
                       asChild
                       className={css({
                         justifyContent: "space-between",
+                        // Prevent cursor flickering when hovering over orgs + you can't click them anyway
+                        cursor: "default",
                       })}
                       key={org.id}
                     >
