@@ -6,6 +6,11 @@ import { Hourglass16, Storage16 } from "icons";
 import type { FC } from "react";
 import { Text } from "ui";
 
+import bundleSizeDark from "./bundle-size-dark.webp";
+import bundleSizeLight from "./bundle-size-light.webp";
+import deliverySpeedDark from "./delivery-speed-dark.webp";
+import deliverySpeedLight from "./delivery-speed-light.webp";
+
 const mainList: FeatureCardTypes[] = [
   {
     featureIcon: Hourglass16,
@@ -27,10 +32,9 @@ const mainList: FeatureCardTypes[] = [
       <>
         <ThemeImage
           alt="Chart illustrating delivery speed"
-          height={720}
-          srcDark="/images/homepage/delivery-speed-dark.webp"
-          srcLight="/images/homepage/delivery-speed-light.webp"
-          width={1392}
+          srcDark={deliverySpeedDark}
+          srcLight={deliverySpeedLight}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
         />
         <Text
           className={css({
@@ -67,10 +71,9 @@ const mainList: FeatureCardTypes[] = [
         className={css({
           marginY: "auto",
         })}
-        height={720}
-        srcDark="/images/homepage/bundle-size-dark.webp"
-        srcLight="/images/homepage/bundle-size-light.webp"
-        width={1392}
+        srcDark={bundleSizeDark}
+        srcLight={bundleSizeLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
   },

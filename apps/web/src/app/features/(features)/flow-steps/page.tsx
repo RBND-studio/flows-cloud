@@ -12,14 +12,27 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
-import modalImage from "../../../../../public/images/features/modal.webp";
-import tooltipImage from "../../../../../public/images/features/tooltip.webp";
-import waitImage from "../../../../../public/images/features/wait.webp";
+import { metadata as featuresLayoutMetadata } from "../../layout";
+import modalImage from "./modal.webp";
+import tooltipImage from "./tooltip.webp";
+import waitImage from "./wait.webp";
 
 export const metadata: Metadata = {
   title: "Flow Steps – Flows Features",
   description:
     "Great onboarding needs powerful step types. With Flows we are reinventing the way you can guide users through your product. Wait for user input or branch based on their actions to create a truly personalized experience.",
+  openGraph: {
+    ...featuresLayoutMetadata.openGraph,
+    title: "Flow Steps – Flows Features",
+    description:
+      "Great onboarding needs powerful step types. With Flows we are reinventing the way you can guide users through your product. Wait for user input or branch based on their actions to create a truly personalized experience.",
+  },
+  twitter: {
+    ...featuresLayoutMetadata.twitter,
+    title: "Flow Steps – Flows Features",
+    description:
+      "Great onboarding needs powerful step types. With Flows we are reinventing the way you can guide users through your product. Wait for user input or branch based on their actions to create a truly personalized experience.",
+  },
 };
 
 export default function Page(): ReactElement {

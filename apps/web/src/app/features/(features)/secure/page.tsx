@@ -12,12 +12,25 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
-import privacyImage from "../../../../../public/images/features/privacy.webp";
+import { metadata as featuresLayoutMetadata } from "../../layout";
+import privacyImage from "./privacy.webp";
 
 export const metadata: Metadata = {
   title: "Modern and Secure – Flows Features",
   description:
     "Flows are built with privacy in mind. We don’t track your users, store any of their personal data, and we use only one functional cookie.",
+  openGraph: {
+    ...featuresLayoutMetadata.openGraph,
+    title: "Modern and Secure – Flows Features",
+    description:
+      "Flows are built with privacy in mind. We don’t track your users, store any of their personal data, and we use only one functional cookie.",
+  },
+  twitter: {
+    ...featuresLayoutMetadata.twitter,
+    title: "Modern and Secure – Flows Features",
+    description:
+      "Flows are built with privacy in mind. We don’t track your users, store any of their personal data, and we use only one functional cookie.",
+  },
 };
 
 export default function Page(): ReactElement {

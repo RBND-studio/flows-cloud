@@ -12,16 +12,29 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
-import frequencyImage from "../../../../../public/images/features/frequency.webp";
-import sizeImage from "../../../../../public/images/features/size.webp";
-import speedImage from "../../../../../public/images/features/speed.webp";
-import launchImage from "../../../../../public/images/features/start.webp";
-import targetingImage from "../../../../../public/images/features/targeting.webp";
+import { metadata as featuresLayoutMetadata } from "../../layout";
+import frequencyImage from "./frequency.webp";
+import sizeImage from "./size.webp";
+import speedImage from "./speed.webp";
+import launchImage from "./start.webp";
+import targetingImage from "./targeting.webp";
 
 export const metadata: Metadata = {
   title: "Deliver – Flows Features",
   description:
     "Flows are built in pursuit of high-performance. We’ve optimized every aspect of Flows to make sure your users get the best experience possible.",
+  openGraph: {
+    ...featuresLayoutMetadata.openGraph,
+    title: "Deliver – Flows Features",
+    description:
+      "Flows are built in pursuit of high-performance. We’ve optimized every aspect of Flows to make sure your users get the best experience possible.",
+  },
+  twitter: {
+    ...featuresLayoutMetadata.twitter,
+    title: "Deliver – Flows Features",
+    description:
+      "Flows are built in pursuit of high-performance. We’ve optimized every aspect of Flows to make sure your users get the best experience possible.",
+  },
 };
 
 export default function Page(): ReactElement {

@@ -12,14 +12,27 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
-import inCodeImage from "../../../../../public/images/features/in-code.webp";
-import noCodeImage from "../../../../../public/images/features/no-code.webp";
-import previewImage from "../../../../../public/images/features/preview.webp";
+import { metadata as featuresLayoutMetadata } from "../../layout";
+import inCodeImage from "./in-code.webp";
+import noCodeImage from "./no-code.webp";
+import previewImage from "./preview.webp";
 
 export const metadata: Metadata = {
   title: "Build – Flows Features",
   description:
     "Flows is the tool to build advanced user onboarding. Powerful yet simple to use, it allows you to work how you want. Without clunky limitations or bottlenecks.",
+  openGraph: {
+    ...featuresLayoutMetadata.openGraph,
+    title: "Build – Flows Features",
+    description:
+      "Flows is the tool to build advanced user onboarding. Powerful yet simple to use, it allows you to work how you want. Without clunky limitations or bottlenecks.",
+  },
+  twitter: {
+    ...featuresLayoutMetadata.twitter,
+    title: "Build – Flows Features",
+    description:
+      "Flows is the tool to build advanced user onboarding. Powerful yet simple to use, it allows you to work how you want. Without clunky limitations or bottlenecks.",
+  },
 };
 
 export default function Page(): ReactElement {
