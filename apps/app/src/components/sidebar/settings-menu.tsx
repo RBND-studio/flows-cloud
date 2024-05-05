@@ -23,7 +23,7 @@ const Trigger: FC = () => {
         borderStyle: "solid",
         borderWidth: "1px",
         borderColor: "border",
-        borderRadius: "100%",
+        borderRadius: "radius8",
         backgroundColor: "bg",
         fastEaseInOut: "background-color",
 
