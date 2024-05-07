@@ -4,6 +4,13 @@ import { ThemeImage } from "components/theme-image";
 import { FeatureCard, type FeatureCardTypes } from "components/ui";
 import type { FC } from "react";
 
+import fastDark from "./fast-dark.webp";
+import fastLight from "./fast-light.webp";
+import flexibleDark from "./flexible-dark.webp";
+import flexibleLight from "./flexible-light.webp";
+import privacyDark from "./privacy-dark.webp";
+import privacyLight from "./privacy-light.webp";
+
 const mainList: FeatureCardTypes[] = [
   {
     mainSlot: (
@@ -21,10 +28,9 @@ const mainList: FeatureCardTypes[] = [
             width: "100%",
           },
         })}
-        height={552}
-        srcDark="/images/homepage/fast-dark.webp"
-        srcLight="/images/homepage/fast-light.webp"
-        width={894}
+        srcDark={fastDark}
+        srcLight={fastLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 320px"
       />
     ),
   },
@@ -44,10 +50,9 @@ const mainList: FeatureCardTypes[] = [
             width: "100%",
           },
         })}
-        height={552}
-        srcDark="/images/homepage/flexible-dark.webp"
-        srcLight="/images/homepage/flexible-light.webp"
-        width={894}
+        srcDark={flexibleDark}
+        srcLight={flexibleLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 320px"
       />
     ),
   },
@@ -67,10 +72,9 @@ const mainList: FeatureCardTypes[] = [
             width: "100%",
           },
         })}
-        height={552}
-        srcDark="/images/homepage/privacy-dark.webp"
-        srcLight="/images/homepage/privacy-light.webp"
-        width={894}
+        srcDark={privacyDark}
+        srcLight={privacyLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 320px"
       />
     ),
   },

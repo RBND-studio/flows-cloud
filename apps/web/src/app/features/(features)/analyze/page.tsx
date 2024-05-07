@@ -11,10 +11,25 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import { metadata as featuresLayoutMetadata } from "../../layout";
+import analyticsImage from "./analytics.webp";
+
 export const metadata: Metadata = {
   title: "Analyze – Flows Features",
   description:
     "Building truly great user onboarding is part intuition and part data. To help with the data part, Flows offer tools to help you understand how users are interacting with your tours.",
+  openGraph: {
+    ...featuresLayoutMetadata.openGraph,
+    title: "Analyze – Flows Features",
+    description:
+      "Building truly great user onboarding is part intuition and part data. To help with the data part, Flows offer tools to help you understand how users are interacting with your tours.",
+  },
+  twitter: {
+    ...featuresLayoutMetadata.twitter,
+    title: "Analyze – Flows Features",
+    description:
+      "Building truly great user onboarding is part intuition and part data. To help with the data part, Flows offer tools to help you understand how users are interacting with your tours.",
+  },
 };
 
 export default function Page(): ReactElement {
@@ -35,9 +50,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Analytics"
           className={ImageStyles}
-          height={1371}
-          src="/images/features/analytics.png"
-          width={2160}
+          src={analyticsImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">

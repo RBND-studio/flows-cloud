@@ -40,7 +40,14 @@ export const Hero = (): ReactElement => {
       sectionPadding="none"
     >
       <Flex flexDirection="column" gap="space12" maxW="728px">
-        <Text align="center" as="h1" variant="title5xl">
+        <Text
+          align="center"
+          as="h1"
+          variant="title5xl"
+          className={css({
+            animation: "topSlideIn 0.6s ease-out",
+          })}
+        >
           User onboarding for modern SaaS
         </Text>
         <Text
@@ -48,6 +55,10 @@ export const Hero = (): ReactElement => {
           className={css({
             maxWidth: "560px",
             marginX: "auto",
+            opacity: 0,
+            animation: "topSlideIn 0.6s ease-out",
+            animationFillMode: "forwards",
+            animationDelay: "0.3s",
           })}
           color="muted"
           variant="bodyL"
@@ -56,7 +67,17 @@ export const Hero = (): ReactElement => {
           improve revenue.
         </Text>
       </Flex>
-      <Flex alignItems="center" flexDirection="column" gap="space16" maxWidth="240px" width="100%">
+      <Flex
+        alignItems="center"
+        flexDirection="column"
+        gap="space16"
+        maxWidth="240px"
+        width="100%"
+        opacity={0}
+        animation="topSlideIn 0.6s ease-out"
+        animationDelay="0.6s"
+        animationFillMode="forwards"
+      >
         <SignupClick>
           <Button
             asChild
@@ -101,11 +122,10 @@ export const Hero = (): ReactElement => {
             maxWidth: "1440px",
           })}
           fetchPriority="high"
-          height={2160}
-          sizes="100wv"
+          quality={90}
+          sizes="1440px"
           srcDark={heroDarkImg}
           srcLight={heroLightImg}
-          width={4320}
         />
       </Box>
       <Box
@@ -125,11 +145,10 @@ export const Hero = (): ReactElement => {
             maxWidth: "780px",
           })}
           fetchPriority="high"
-          height={471}
-          sizes="100wv"
           srcDark={heroMobileDarkImg}
           srcLight={heroMobileLightImg}
-          width={780}
+          quality={85}
+          sizes="896px"
         />
       </Box>
     </Section>

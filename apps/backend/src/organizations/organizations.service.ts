@@ -5,8 +5,16 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from "@nestjs/common";
-import { invoices, organizations, organizationsToUsers, subscriptions, userInvite } from "db";
-import { and, count, desc, eq, gt, inArray, sql } from "drizzle-orm";
+import {
+  invoices,
+  organizations,
+  organizationsToUsers,
+  projects,
+  subscriptions,
+  userInvite,
+} from "db";
+import { and, desc, eq, exists, gt, inArray, sql } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
@@ -36,34 +44,62 @@ export class OrganizationsService {
   ) {}
 
   async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
-    const orgs = await this.databaseService.db
+    const otu = alias(organizationsToUsers, "otu");
+    const otuQuery = sql<number>`(SELECT COUNT(${otu.user_id}) FROM organization_to_user otu WHERE ${otu.organization_id} = ${organizations.id}) as members_count`;
+    const query = this.databaseService.db
       .select({
-        id: organizations.id,
-        name: organizations.name,
-        description: organizations.description,
-        created_at: organizations.created_at,
-        updated_at: organizations.updated_at,
-        members_count: count(organizationsToUsers.user_id),
+        organization: organizations,
+        members_count: otuQuery,
+        project: {
+          id: projects.id,
+          name: projects.name,
+        },
       })
       .from(organizations)
-      .leftJoin(
-        organizationsToUsers,
-        and(
-          eq(organizations.id, organizationsToUsers.organization_id),
-          eq(organizationsToUsers.user_id, auth.userId),
+      .leftJoin(projects, eq(projects.organization_id, organizations.id))
+      .where(
+        exists(
+          this.databaseService.db
+            .select({ userId: organizationsToUsers.user_id })
+            .from(organizationsToUsers)
+            .where(
+              and(
+                eq(organizationsToUsers.organization_id, organizations.id),
+                eq(organizationsToUsers.user_id, auth.userId),
+              ),
+            ),
         ),
       )
-      .where(eq(organizationsToUsers.user_id, auth.userId))
-      .groupBy(
-        organizations.id,
-        organizations.name,
-        organizations.description,
-        organizations.created_at,
-        organizations.updated_at,
-      )
-      .orderBy(organizations.name);
+      .orderBy(organizations.name, projects.name);
 
-    return orgs;
+    const rows = await query;
+
+    const t = rows.reduce<Record<string, typeof rows>>((acc, row) => {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- on the first iteration, acc[row.organization.id] will be undefined
+      if (!acc[row.organization.id]) acc[row.organization.id] = [];
+      acc[row.organization.id].push(row);
+      return acc;
+    }, {});
+
+    const ooo: GetOrganizationsDto[] = Object.entries(t).map(([_key, value]) => {
+      const org = value[0];
+
+      return {
+        id: org.organization.id,
+        name: org.organization.name,
+        description: org.organization.description,
+        created_at: org.organization.created_at,
+        updated_at: org.organization.updated_at,
+        members_count: org.members_count,
+        projects: value.map((r) => {
+          return {
+            id: r.project?.id ?? "",
+            name: r.project?.name ?? "",
+          };
+        }),
+      };
+    });
+    return ooo;
   }
 
   async getOrganizationDetail({
@@ -163,7 +199,7 @@ export class OrganizationsService {
       organization_id: org.id,
       user_id: auth.userId,
     });
-    return org;
+    return { ...org, projects: null };
   }
 
   async updateOrganization({
@@ -195,7 +231,7 @@ export class OrganizationsService {
     const updatedOrg = updatedOrganizations.at(0);
     if (!updatedOrg) throw new InternalServerErrorException("Failed to update organization");
 
-    return updatedOrg;
+    return { ...updatedOrg, projects: null };
   }
 
   async deleteOrganization({
