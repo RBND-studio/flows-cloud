@@ -12,10 +12,25 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import { metadata as featuresLayoutMetadata } from "../../layout";
+import privacyImage from "./privacy.webp";
+
 export const metadata: Metadata = {
   title: "Modern and Secure – Flows Features",
   description:
     "Flows are built with privacy in mind. We don’t track your users, store any of their personal data, and we use only one functional cookie.",
+  openGraph: {
+    ...featuresLayoutMetadata.openGraph,
+    title: "Modern and Secure – Flows Features",
+    description:
+      "Flows are built with privacy in mind. We don’t track your users, store any of their personal data, and we use only one functional cookie.",
+  },
+  twitter: {
+    ...featuresLayoutMetadata.twitter,
+    title: "Modern and Secure – Flows Features",
+    description:
+      "Flows are built with privacy in mind. We don’t track your users, store any of their personal data, and we use only one functional cookie.",
+  },
 };
 
 export default function Page(): ReactElement {
@@ -37,9 +52,9 @@ export default function Page(): ReactElement {
         <Image
           alt="Privacy"
           className={ImageStyles}
-          height={720}
-          src="/images/features/privacy.png"
-          width={2160}
+          src={privacyImage}
+          //quality={80}
+          sizes="(max-width: 768px) 100vw, 1024px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Identify users semi-anonymously

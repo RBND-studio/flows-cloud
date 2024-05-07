@@ -28,7 +28,10 @@ export const SafeArea = ({ submenu }: SafeAreaProps): JSX.Element => {
 
   const { height, x, y } = submenu.getBoundingClientRect();
 
-  const svgWidth = x - mouseX;
+  // Make sure the safe area doesn't go into negative values
+  const safeX = Math.min(mouseX, x);
+
+  const svgWidth = x - safeX;
   const svgHeight = height;
 
   return (
@@ -43,7 +46,7 @@ export const SafeArea = ({ submenu }: SafeAreaProps): JSX.Element => {
         zIndex: 2,
         top: 0,
         bottom: 0,
-        left: mouseX - 15,
+        left: safeX - 16.5,
       }}
       id="svg-safe-area"
     >
