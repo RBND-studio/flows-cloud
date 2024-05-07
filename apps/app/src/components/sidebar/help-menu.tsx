@@ -36,7 +36,7 @@ export const HelpMenu: FC = () => {
   return (
     <Menu
       trigger={
-        <Button size="icon" variant="secondary">
+        <Button size="icon" shadow="none" variant="secondary">
           <Icon icon={Question24} />
         </Button>
       }

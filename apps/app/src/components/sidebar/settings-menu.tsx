@@ -55,7 +55,7 @@ export const SettingsMenu: FC = () => {
   ];
 
   const trigger = (
-    <Button size="icon" variant="secondary">
+    <Button size="icon" shadow="none" variant="secondary">
       <Icon icon={Settings24} className={css({ w: "20px", h: "20px" })} />
     </Button>
   );
