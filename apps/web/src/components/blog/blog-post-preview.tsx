@@ -44,6 +44,7 @@ export const BlogPostPreview = ({ post }: Props): ReactElement => {
             height={600}
             src={post.image}
             width={1200}
+            sizes="(max-width: 768px) 100vw, 896px"
           />
         </Link>
       ) : null}

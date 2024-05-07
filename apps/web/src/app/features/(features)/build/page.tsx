@@ -12,10 +12,27 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import { metadata as featuresLayoutMetadata } from "../../layout";
+import inCodeImage from "./in-code.webp";
+import noCodeImage from "./no-code.webp";
+import previewImage from "./preview.webp";
+
 export const metadata: Metadata = {
   title: "Build – Flows Features",
   description:
     "Flows is the tool to build advanced user onboarding. Powerful yet simple to use, it allows you to work how you want. Without clunky limitations or bottlenecks.",
+  openGraph: {
+    ...featuresLayoutMetadata.openGraph,
+    title: "Build – Flows Features",
+    description:
+      "Flows is the tool to build advanced user onboarding. Powerful yet simple to use, it allows you to work how you want. Without clunky limitations or bottlenecks.",
+  },
+  twitter: {
+    ...featuresLayoutMetadata.twitter,
+    title: "Build – Flows Features",
+    description:
+      "Flows is the tool to build advanced user onboarding. Powerful yet simple to use, it allows you to work how you want. Without clunky limitations or bottlenecks.",
+  },
 };
 
 export default function Page(): ReactElement {
@@ -36,9 +53,8 @@ export default function Page(): ReactElement {
         <Image
           alt="No-code"
           className={ImageStyles}
-          height={1317}
-          src="/images/features/no-code.png"
-          width={2160}
+          src={noCodeImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Steps editor
@@ -59,9 +75,8 @@ export default function Page(): ReactElement {
         <Image
           alt="In-code"
           className={ImageStyles}
-          height={1251}
-          src="/images/features/in-code.png"
-          width={2160}
+          src={inCodeImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Flows JS SDK
@@ -82,9 +97,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Preview"
           className={ImageStyles}
-          height={630}
-          src="/images/features/preview.png"
-          width={2160}
+          src={previewImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>
 

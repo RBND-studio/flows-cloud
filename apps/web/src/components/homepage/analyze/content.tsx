@@ -5,6 +5,11 @@ import { FeatureCard, type FeatureCardTypes } from "components/ui";
 import { Alert16, Graph16, Stack16 } from "icons";
 import type { FC } from "react";
 
+import errorTrackingDark from "./error-tracking-dark.webp";
+import errorTrackingLight from "./error-tracking-light.webp";
+import flowAnalyticsDark from "./flow-analytics-dark.webp";
+import flowAnalyticsLight from "./flow-analytics-light.webp";
+
 const mainList: FeatureCardTypes[] = [
   {
     featureIcon: Graph16,
@@ -17,10 +22,9 @@ const mainList: FeatureCardTypes[] = [
     illustration: (
       <ThemeImage
         alt="Funnel chart illustration"
-        height={720}
-        srcDark="/images/homepage/flow-analytics-dark.webp"
-        srcLight="/images/homepage/flow-analytics-light.webp"
-        width={1392}
+        srcDark={flowAnalyticsDark}
+        srcLight={flowAnalyticsLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
   },
@@ -35,10 +39,9 @@ const mainList: FeatureCardTypes[] = [
     illustration: (
       <ThemeImage
         alt="Error tracking illustration"
-        height={720}
-        srcDark="/images/homepage/error-tracking-dark.webp"
-        srcLight="/images/homepage/error-tracking-light.webp"
-        width={1392}
+        srcDark={errorTrackingDark}
+        srcLight={errorTrackingLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
   },

@@ -12,10 +12,27 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import { metadata as featuresLayoutMetadata } from "../../layout";
+import modalImage from "./modal.webp";
+import tooltipImage from "./tooltip.webp";
+import waitImage from "./wait.webp";
+
 export const metadata: Metadata = {
   title: "Flow Steps – Flows Features",
   description:
     "Great onboarding needs powerful step types. With Flows we are reinventing the way you can guide users through your product. Wait for user input or branch based on their actions to create a truly personalized experience.",
+  openGraph: {
+    ...featuresLayoutMetadata.openGraph,
+    title: "Flow Steps – Flows Features",
+    description:
+      "Great onboarding needs powerful step types. With Flows we are reinventing the way you can guide users through your product. Wait for user input or branch based on their actions to create a truly personalized experience.",
+  },
+  twitter: {
+    ...featuresLayoutMetadata.twitter,
+    title: "Flow Steps – Flows Features",
+    description:
+      "Great onboarding needs powerful step types. With Flows we are reinventing the way you can guide users through your product. Wait for user input or branch based on their actions to create a truly personalized experience.",
+  },
 };
 
 export default function Page(): ReactElement {
@@ -36,9 +53,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Tooltip"
           className={ImageStyles}
-          height={822}
-          src="/images/features/tooltip.png"
-          width={2160}
+          src={tooltipImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Wait for user input
@@ -59,9 +75,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Modal"
           className={ImageStyles}
-          height={1095}
-          src="/images/features/modal.png"
-          width={2160}
+          src={modalImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Custom HTML content
@@ -82,9 +97,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Wait"
           className={ImageStyles}
-          height={1017}
-          src="/images/features/wait.png"
-          width={2160}
+          src={waitImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Wait for click
