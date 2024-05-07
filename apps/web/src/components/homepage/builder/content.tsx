@@ -5,6 +5,13 @@ import { FeatureCard, type FeatureCardTypes } from "components/ui/feature-card";
 import { Cloud16, Code16, Versions16 } from "icons";
 import type { FC } from "react";
 
+import flowDiagramDark from "./flow-diagram-dark.webp";
+import flowDiagramLight from "./flow-diagram-light.webp";
+import inCodeDark from "./in-code-dark.webp";
+import inCodeLight from "./in-code-light.webp";
+import noCodeDark from "./no-code-dark.webp";
+import noCodeLight from "./no-code-light.webp";
+
 const mainList: FeatureCardTypes[] = [
   {
     featureIcon: Cloud16,
@@ -18,10 +25,9 @@ const mainList: FeatureCardTypes[] = [
     illustration: (
       <ThemeImage
         alt="Flow tooltip illustration"
-        height={720}
-        srcDark="/images/homepage/no-code-dark.webp"
-        srcLight="/images/homepage/no-code-light.webp"
-        width={1392}
+        srcDark={noCodeDark}
+        srcLight={noCodeLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
   },
@@ -37,10 +43,9 @@ const mainList: FeatureCardTypes[] = [
     illustration: (
       <ThemeImage
         alt="Code implementation illustration"
-        height={720}
-        srcDark="/images/homepage/in-code-dark.webp"
-        srcLight="/images/homepage/in-code-light.webp"
-        width={1392}
+        srcDark={inCodeDark}
+        srcLight={inCodeLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
   },
@@ -62,10 +67,9 @@ export const Content: FC = () => {
           >
             <ThemeImage
               alt="Onboarding flow diagram illustration"
-              height={792}
-              srcDark="/images/homepage/flow-diagram-dark.webp"
-              srcLight="/images/homepage/flow-diagram-light.webp"
-              width={2874}
+              srcDark={flowDiagramDark}
+              srcLight={flowDiagramLight}
+              sizes="(max-width: 1024px) 100vw, 1024px"
             />
           </Box>
         }

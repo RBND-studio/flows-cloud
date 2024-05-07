@@ -8,38 +8,11 @@ import { useParams, usePathname } from "next/navigation";
 import type { FC } from "react";
 import { routes } from "routes";
 import { t } from "translations";
-import { Icon, Popover, PopoverContent, PopoverTrigger, Text } from "ui";
+import { Button, Icon, Popover, PopoverContent, PopoverTrigger, Text } from "ui";
 
 import { MenuItem } from "./menu-item";
 import { MenuSection } from "./menu-section";
 import { ThemeSwitch } from "./theme-switch";
-
-const Trigger: FC = () => {
-  return (
-    <div
-      className={css({
-        cursor: "pointer",
-        padding: "6px",
-        borderStyle: "solid",
-        borderWidth: "1px",
-        borderColor: "border",
-        borderRadius: "100%",
-        backgroundColor: "bg",
-        fastEaseInOut: "background-color",
-
-        "&:hover": {
-          bg: "bg.hover",
-        },
-        "& > svg": {
-          width: "20px",
-          height: "20px",
-        },
-      })}
-    >
-      <Icon icon={Settings24} />
-    </div>
-  );
-};
 
 export const SettingsMenu: FC = () => {
   const { projectId, organizationId } = useParams<{ projectId?: string; organizationId: string }>();
@@ -81,13 +54,17 @@ export const SettingsMenu: FC = () => {
         ]),
   ];
 
-  if (!auth) return <Trigger />;
+  const trigger = (
+    <Button size="icon" shadow="none" variant="secondary">
+      <Icon icon={Settings24} className={css({ w: "20px", h: "20px" })} />
+    </Button>
+  );
+
+  if (!auth) return trigger;
 
   return (
     <Popover>
-      <PopoverTrigger>
-        <Trigger />
-      </PopoverTrigger>
+      <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent align="end">
         <div
           className={css({

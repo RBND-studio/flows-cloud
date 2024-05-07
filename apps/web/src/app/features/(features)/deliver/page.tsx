@@ -12,10 +12,29 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
+import { metadata as featuresLayoutMetadata } from "../../layout";
+import frequencyImage from "./frequency.webp";
+import sizeImage from "./size.webp";
+import speedImage from "./speed.webp";
+import launchImage from "./start.webp";
+import targetingImage from "./targeting.webp";
+
 export const metadata: Metadata = {
   title: "Deliver – Flows Features",
   description:
     "Flows are built in pursuit of high-performance. We’ve optimized every aspect of Flows to make sure your users get the best experience possible.",
+  openGraph: {
+    ...featuresLayoutMetadata.openGraph,
+    title: "Deliver – Flows Features",
+    description:
+      "Flows are built in pursuit of high-performance. We’ve optimized every aspect of Flows to make sure your users get the best experience possible.",
+  },
+  twitter: {
+    ...featuresLayoutMetadata.twitter,
+    title: "Deliver – Flows Features",
+    description:
+      "Flows are built in pursuit of high-performance. We’ve optimized every aspect of Flows to make sure your users get the best experience possible.",
+  },
 };
 
 export default function Page(): ReactElement {
@@ -36,9 +55,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Speed"
           className={ImageStyles}
-          height={960}
-          src="/images/features/speed.png"
-          width={2160}
+          src={speedImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Async loading
@@ -61,9 +79,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Size"
           className={ImageStyles}
-          height={960}
-          src="/images/features/size.png"
-          width={2160}
+          src={sizeImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
         <Text as="h3" className={Heading3styles} variant="titleL">
           CDN hosted
@@ -90,9 +107,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Frequency"
           className={ImageStyles}
-          height={654}
-          src="/images/features/frequency.png"
-          width={2160}
+          src={frequencyImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
@@ -104,13 +120,7 @@ export default function Page(): ReactElement {
           to those who stand to benefit, ensuring that the right message reaches the right audience
           at the right time.
         </Text>
-        <Image
-          alt="Targeting"
-          className={ImageStyles}
-          height={882}
-          src="/images/features/targeting.png"
-          width={2160}
-        />
+        <Image alt="Targeting" className={ImageStyles} src={targetingImage} />
         <Text as="h3" className={Heading3styles} variant="titleL">
           Secure and private
         </Text>
@@ -131,9 +141,8 @@ export default function Page(): ReactElement {
         <Image
           alt="Start"
           className={ImageStyles}
-          height={753}
-          src="/images/features/start.png"
-          width={2160}
+          src={launchImage}
+          sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>
 

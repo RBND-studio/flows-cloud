@@ -2,36 +2,11 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { FeatureGrid } from "components/feature-grid";
 import { Section } from "components/ui";
-import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactElement } from "react";
 import { Text } from "ui";
 
 import { featuresData } from "./content";
-
-export const metadata: Metadata = {
-  metadataBase: new URL("https://flows.sh"),
-  title: "Features – Flows",
-  description:
-    "The new standard for building user onboarding. Flows is the tool of choice for modern SaaS companies.",
-  openGraph: {
-    type: "website",
-    title: "Features – Flows",
-    description:
-      "The new standard for building user onboarding. Flows is the tool of choice for modern SaaS companies.",
-    images: "/images/features/features-og.png",
-    url: "/features",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Features – Flows",
-    description:
-      "The new standard for building user onboarding. Flows is the tool of choice for modern SaaS companies.",
-    images: "/images/features/features-og.png",
-    creator: "@flows_sh",
-  },
-};
 
 const Page = (): ReactElement => {
   return (
