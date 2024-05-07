@@ -84,7 +84,7 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Box borBottom="1px" p="space16">
-          <Flex alignItems="center" margin="0 auto" maxWidth="1280px">
+          <Flex alignItems="center">
             <Box flex={1}>
               <Text variant="titleM">{flow.name}</Text>
             </Box>
@@ -115,23 +115,15 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
         {!fieldArray.fields.length ? (
           <EditFormEmpty fieldArray={fieldArray} />
         ) : (
-          <Grid
-            flex={1}
-            gap={0}
-            gridTemplateColumns={2}
-            margin="0 auto"
-            maxWidth="1280px"
-            overflow="hidden"
-            width="100%"
-          >
-            <Grid borLeft="1px" borRight="1px" overflow="auto">
+          <Flex flex={1} gap={0} overflow="hidden" width="100%">
+            <Grid borRight="1px" overflow="auto" flex={1}>
               <StepsFlow
                 onSelectItem={setSelectedItem}
                 selectedItem={selectedItem}
                 fieldArray={fieldArray}
               />
             </Grid>
-            <Box borRight="1px" overflow="auto" bg="bg">
+            <Box borRight="1px" overflow="auto" bg="bg" flex={1} maxWidth="760px">
               {selectedItem !== undefined ? (
                 selectedItem === "targeting" ? (
                   <FlowTargetingForm />
@@ -163,7 +155,7 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
                 </Flex>
               )}
             </Box>
-          </Grid>
+          </Flex>
         )}
       </form>
     </FormProvider>
