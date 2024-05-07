@@ -42,6 +42,7 @@ export const CreateProjectDialog: FC<Props> = ({ trigger, organizationId }) => {
     if (!res.data) return;
     setOpen(false);
     toast.success(t.toasts.createProjectSuccess);
+    void mutate("/organizations", []);
     void mutate("/organizations/:organizationId/projects", [organizationId]);
     router.push(routes.project({ projectId: res.data.id, organizationId }));
   };
