@@ -28,7 +28,7 @@
     "bright": "^0.8.4",
     "icons": "workspace:*",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.3.1",
     "sonner": "^1.4.0"
   },
   "devDependencies": {
@@ -41,7 +41,7 @@
     "@storybook/react": "^8.0.8",
     "@storybook/react-vite": "^8.0.8",
     "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint-config-custom": "workspace:*",
     "react": "^18.2.0",
