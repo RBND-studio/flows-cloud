@@ -15,7 +15,7 @@ import { useParams } from "next/navigation";
 import { type FC, useRef, useState } from "react";
 import { routes } from "routes";
 import { t } from "translations";
-import { Icon, Popover, PopoverContent, PopoverTrigger, Skeleton, Text } from "ui";
+import { Icon, MenuSeparator, Popover, PopoverContent, PopoverTrigger, Skeleton, Text } from "ui";
 
 type TriggerProps = {
   projectName?: string;
@@ -195,65 +195,69 @@ export const ProjectsMenu: FC = () => {
               />
             </MenuSection>
           </div>
-          <div
-            className={css({
-              borLeft: "1px",
-              minWidth: "260px",
-              backgroundColor: "bg",
-              display: (highlightedOrg?.projects?.length ?? 0) > 0 ? "flex" : "none",
-              flexDirection: "column",
-            })}
-            ref={child}
-          >
-            {highlightedOrg?.projects ? (
-              <>
-                <MenuSection background="bg.muted" bottomBorder header>
-                  <Text variant="bodyS" weight="600">
-                    {highlightedOrg.name} projects ({highlightedOrg.projects.length})
-                  </Text>
-                </MenuSection>
-                <MenuSection>
-                  {highlightedOrg.projects.map((proj) => {
-                    return (
-                      <MenuItem
-                        asChild
-                        className={css({
-                          justifyContent: "space-between",
+          {highlightedOrg ? (
+            <div
+              className={css({
+                borLeft: "1px",
+                minWidth: "260px",
+                backgroundColor: "bg",
+                display: "flex",
+                flexDirection: "column",
+              })}
+              ref={child}
+            >
+              <MenuSection background="bg.muted" bottomBorder header>
+                <Text variant="bodyS" weight="600">
+                  {highlightedOrg.name} projects ({highlightedOrg.projects?.length})
+                </Text>
+              </MenuSection>
+              <MenuSection>
+                {highlightedOrg.projects?.map((proj) => {
+                  return (
+                    <MenuItem
+                      asChild
+                      className={css({
+                        justifyContent: "space-between",
+                      })}
+                      key={proj.id}
+                      onClick={() => setOpen(false)}
+                    >
+                      <Link
+                        href={routes.project({
+                          projectId: proj.id,
+                          organizationId: highlightedOrg.id,
                         })}
-                        key={proj.id}
-                        onClick={() => setOpen(false)}
                       >
-                        <Link
-                          href={routes.project({
-                            projectId: proj.id,
-                            organizationId: highlightedOrg.id,
-                          })}
-                        >
-                          <Text variant="titleS">{proj.name}</Text>
-                          {currentProject?.id === proj.id ? (
-                            <Icon color="icon.primary" icon={Check16} />
-                          ) : null}
-                        </Link>
+                        <Text variant="titleS">{proj.name}</Text>
+                        {currentProject?.id === proj.id ? (
+                          <Icon color="icon.primary" icon={Check16} />
+                        ) : null}
+                      </Link>
+                    </MenuItem>
+                  );
+                })}
+                <CreateProjectDialog
+                  organizationId={highlightedOrg.id}
+                  trigger={
+                    <button type="button">
+                      <MenuItem>
+                        <Icon color="icon" icon={Plus16} />
+                        <Text color="muted" variant="bodyS">
+                          {t.actions.newProject}
+                        </Text>
                       </MenuItem>
-                    );
-                  })}
-                  <CreateProjectDialog
-                    organizationId={highlightedOrg.id}
-                    trigger={
-                      <button type="button">
-                        <MenuItem>
-                          <Icon color="icon" icon={Plus16} />
-                          <Text color="muted" variant="bodyS">
-                            {t.actions.newProject}
-                          </Text>
-                        </MenuItem>
-                      </button>
-                    }
-                  />
-                </MenuSection>
-              </>
-            ) : null}
-          </div>
+                    </button>
+                  }
+                />
+                <MenuSeparator />
+                <MenuItem asChild>
+                  <Link href={routes.organization({ organizationId: highlightedOrg.id })}>
+                    Organization detail
+                  </Link>
+                </MenuItem>
+              </MenuSection>
+            </div>
+          ) : null}
         </div>
       </PopoverContent>
     </Popover>

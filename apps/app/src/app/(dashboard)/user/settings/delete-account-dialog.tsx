@@ -1,6 +1,5 @@
 "use client";
 
-import { css } from "@flows/styled-system/css";
 import { useAuth } from "auth/client";
 import { useFetch } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
@@ -26,10 +25,8 @@ type DeleteAccountForm = {
 };
 
 export const DeleteAccountDialog = (): JSX.Element => {
-  const { register, handleSubmit, formState } = useForm<DeleteAccountForm>({
-    defaultValues: {
-      email: "",
-    },
+  const { register, handleSubmit, formState, reset } = useForm<DeleteAccountForm>({
+    defaultValues: { email: "" },
   });
   const { auth, logout, processingLogout } = useAuth();
 
@@ -75,17 +72,14 @@ export const DeleteAccountDialog = (): JSX.Element => {
           {t.personal.deleteAccount.title}
         </Button>
       }
+      onOpenChange={() => reset()}
     >
       <DialogTitle> {t.personal.deleteAccount.title}</DialogTitle>
       <DialogContent>
-        <form
-          className={css({
-            display: "flex",
-            flexDirection: "column",
-            gap: "space32",
-          })}
-        >
-          <Text variant="bodyS">{t.personal.deleteAccount.description}</Text>
+        <form id="delete-account" onSubmit={handleSubmit(onSubmit)}>
+          <Text mb="space24" variant="bodyS">
+            {t.personal.deleteAccount.description}
+          </Text>
           <Input
             {...register("email")}
             label={`Enter your email to confirm (${auth?.user.email})`}
@@ -103,9 +97,9 @@ export const DeleteAccountDialog = (): JSX.Element => {
         <Button
           disabled={isDisabled}
           loading={loading}
-          onClick={handleSubmit(onSubmit)}
-          size="small"
           type="submit"
+          form="delete-account"
+          size="small"
           variant="danger"
         >
           {t.personal.deleteAccount.confirm}

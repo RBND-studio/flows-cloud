@@ -6,6 +6,7 @@ import type { OrganizationDetail } from "lib/api";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
+import { useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
 import {
@@ -15,6 +16,7 @@ import {
   DialogClose,
   DialogContent,
   DialogTitle,
+  Input,
   Text,
   toast,
 } from "ui";
@@ -24,6 +26,10 @@ type Props = {
 };
 
 export const OrganizationDeleteDialog: FC<Props> = ({ organization }) => {
+  const { register, handleSubmit, reset, formState } = useForm<{ organizationName: string }>({
+    defaultValues: { organizationName: "" },
+  });
+
   const router = useRouter();
   const { send, loading } = useSend();
   const handleDelete = async (): Promise<void> => {
@@ -38,10 +44,28 @@ export const OrganizationDeleteDialog: FC<Props> = ({ organization }) => {
   };
 
   return (
-    <Dialog trigger={<Button variant="secondary">{t.actions.delete}</Button>}>
+    <Dialog
+      onOpenChange={() => reset()}
+      trigger={<Button variant="secondary">{t.actions.delete}</Button>}
+    >
       <DialogTitle>{t.organization.deleteDialog.title}</DialogTitle>
       <DialogContent>
-        <Text>{t.organization.deleteDialog.description}</Text>
+        <form onSubmit={handleSubmit(handleDelete)} id="delete-organization">
+          <Text mb="space24">{t.organization.deleteDialog.description}</Text>
+          <Input
+            {...register("organizationName", {
+              validate: (value) => {
+                if (value !== organization.name) return "Organization name does not match.";
+                return true;
+              },
+            })}
+            required
+            label={`Enter organization name to confirm (${organization.name})`}
+            placeholder={organization.name}
+            error
+            description={formState.errors.organizationName?.message}
+          />
+        </form>
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
@@ -49,7 +73,13 @@ export const OrganizationDeleteDialog: FC<Props> = ({ organization }) => {
             {t.actions.close}
           </Button>
         </DialogClose>
-        <Button loading={loading} onClick={handleDelete} size="small" variant="primary">
+        <Button
+          loading={loading}
+          type="submit"
+          form="delete-organization"
+          size="small"
+          variant="primary"
+        >
           {t.organization.deleteDialog.confirm}
         </Button>
       </DialogActions>
