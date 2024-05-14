@@ -13,7 +13,7 @@
     "drizzle-kit": "^0.20.14",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "5.4.4"
+    "typescript": "5.4.5"
   },
   "dependencies": {
     "drizzle-orm": "^0.30.8",

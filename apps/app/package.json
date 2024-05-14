@@ -36,8 +36,8 @@
     "monaco-editor": "^0.47.0",
     "next": "14.2.3",
     "posthog-js": "^1.120.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.1",
     "shared": "workspace:*",
     "sharp": "^0.33.2",
@@ -49,10 +49,10 @@
     "@next/eslint-plugin-next": "14.2.3",
     "@pandacss/dev": "0.37.2",
     "@types/node": "^20.11.29",
-    "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "5.4.4"
+    "typescript": "5.4.5"
   }
 }

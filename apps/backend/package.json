@@ -20,13 +20,13 @@
     "generate-metadata": "ts-node src/generate-metadata.ts"
   },
   "dependencies": {
-    "@fastify/static": "^7.0.3",
+    "@fastify/static": "^7.0.4",
     "@lemonsqueezy/lemonsqueezy.js": "^2.2.0",
     "@logtail/node": "^0.4.21",
-    "@nestjs/common": "^10.3.7",
-    "@nestjs/config": "^3.2.1",
-    "@nestjs/core": "^10.3.7",
-    "@nestjs/platform-fastify": "^10.3.7",
+    "@nestjs/common": "^10.3.8",
+    "@nestjs/config": "^3.2.2",
+    "@nestjs/core": "^10.3.8",
+    "@nestjs/platform-fastify": "^10.3.8",
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/throttler": "^5.1.2",
     "browserslist": "^4.23.0",
@@ -36,7 +36,7 @@
     "dayjs": "^1.11.10",
     "db": "workspace:*",
     "drizzle-orm": "^0.30.8",
-    "fastify": "^4.26.2",
+    "fastify": "^4.27.0",
     "jsonwebtoken": "^9.0.2",
     "lightningcss": "^1.24.1",
     "loops": "^0.3.0",
@@ -48,8 +48,8 @@
   "devDependencies": {
     "@nestjs/cli": "^10.3.2",
     "@nestjs/schematics": "^10.1.1",
-    "@nestjs/testing": "^10.3.7",
-    "@swc/core": "^1.4.0",
+    "@nestjs/testing": "^10.3.8",
+    "@swc/core": "^1.5.6",
     "@types/cors": "^2.8.17",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
@@ -67,6 +67,6 @@
     "ts-node": "^10.9.2",
     "tsconfig": "workspace:*",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "5.4.4"
+    "typescript": "5.4.5"
   }
 }
