@@ -1,4 +1,9 @@
-import { type AuthSession, mapSupabaseSession } from "auth/map-supabase-session";
+import {
+  type AuthSession,
+  mapSupabaseSession,
+  mapSupabaseUser,
+  type UserData,
+} from "auth/map-supabase-session";
 import { signOut } from "auth/server-actions";
 import { posthog } from "posthog-js";
 import type { FC, ReactNode } from "react";
@@ -13,8 +18,10 @@ import {
 } from "react";
 import { createClient } from "supabase/client";
 
+type AuthData = { session: AuthSession; user: UserData };
+
 type AuthContextType = {
-  auth: AuthSession | null;
+  auth: AuthData | null;
   logout: () => void;
   processingLogout: boolean;
 };
@@ -29,15 +36,15 @@ type Props = {
 };
 export const AuthProvider: FC<Props> = ({ children }) => {
   const supabase = createClient();
-  const [auth, setAuth] = useState<AuthSession | null>(null);
+  const [auth, setAuth] = useState<AuthData | null>(null);
 
   useEffect(() => {
-    void supabase.auth.getSession().then((res) => {
-      setAuth(mapSupabaseSession(res.data.session));
-    });
-
-    supabase.auth.onAuthStateChange((_, session) => {
-      setAuth(mapSupabaseSession(session));
+    void Promise.all([supabase.auth.getSession(), supabase.auth.getUser()]).then(([s, u]) => {
+      if (!s.data.session || !u.data.user) return;
+      setAuth({
+        session: mapSupabaseSession(s.data.session),
+        user: mapSupabaseUser(u.data.user),
+      });
     });
   }, [supabase.auth]);
 
