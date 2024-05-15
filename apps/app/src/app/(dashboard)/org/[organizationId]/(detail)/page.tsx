@@ -8,8 +8,6 @@ import { redirect } from "next/navigation";
 import { routes } from "routes";
 import { Button, Text } from "ui";
 
-import { OrganizationDeleteDialog } from "../organization-delete-dialog";
-
 type Props = {
   params: { organizationId: string };
 };
@@ -37,7 +35,6 @@ export default async function ProjectsPage({ params }: Props): Promise<JSX.Eleme
     <>
       <Flex alignItems="center" justifyContent="space-between" mb="space16">
         <Text variant="titleXl">{org.name}</Text>
-        <OrganizationDeleteDialog organization={org} />
       </Flex>
 
       <Flex

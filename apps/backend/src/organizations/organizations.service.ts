@@ -91,10 +91,11 @@ export class OrganizationsService {
         created_at: org.organization.created_at,
         updated_at: org.organization.updated_at,
         members_count: org.members_count,
-        projects: value.map((r) => {
+        projects: value.flatMap((r) => {
+          if (!r.project) return [];
           return {
-            id: r.project?.id ?? "",
-            name: r.project?.name ?? "",
+            id: r.project.id,
+            name: r.project.name,
           };
         }),
       };
