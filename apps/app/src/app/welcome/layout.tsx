@@ -1,6 +1,9 @@
 import { Flex, Grid } from "@flows/styled-system/jsx";
+import { getAuth } from "auth/server";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
+import { routes } from "routes";
 import { Text } from "ui";
 
 import { TopRightButtons } from "./top-right-buttons";
@@ -10,7 +13,10 @@ type Props = {
   children: ReactNode;
 };
 
-export default function WelcomeLayout({ children }: Props): JSX.Element {
+export default async function WelcomeLayout({ children }: Props): Promise<JSX.Element> {
+  const auth = await getAuth();
+  if (!auth) return redirect(routes.login());
+
   return (
     <WelcomeProviders>
       <Grid height="100vh" placeItems="center" position="relative">

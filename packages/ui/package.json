@@ -27,8 +27,8 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "bright": "^0.8.4",
     "icons": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "sonner": "^1.4.0"
   },
   "devDependencies": {
@@ -40,14 +40,13 @@
     "@storybook/cli": "^8.0.8",
     "@storybook/react": "^8.0.8",
     "@storybook/react-vite": "^8.0.8",
-    "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint-config-custom": "workspace:*",
-    "react": "^18.2.0",
     "storybook": "^8.0.8",
     "tsconfig": "workspace:*",
-    "typescript": "5.4.4",
+    "typescript": "5.4.5",
     "vite": "^5.2.8",
     "vite-tsconfig-paths": "^4.3.2"
   }

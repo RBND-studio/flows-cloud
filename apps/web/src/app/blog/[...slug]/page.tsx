@@ -64,9 +64,7 @@ export default function PostPage({ params }: PostProps): ReactElement {
   const post = getPostFromParams(params);
   const date = post ? new Date(post.date) : new Date();
 
-  if (!post) {
-    notFound();
-  }
+  if (!post) return notFound();
 
   return (
     <article>
