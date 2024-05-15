@@ -1,5 +1,6 @@
 "use client";
 
+import { css } from "@flows/styled-system/css";
 import { mutate } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
 import type { OrganizationDetail } from "lib/api";
@@ -60,7 +61,19 @@ export const OrganizationDeleteDialog: FC<Props> = ({ organization }) => {
               },
             })}
             required
-            label={`Enter organization name to confirm (${organization.name})`}
+            label={
+              <>
+                Enter{" "}
+                <span
+                  className={css({
+                    fontWeight: 700,
+                  })}
+                >
+                  {organization.name}
+                </span>{" "}
+                to confirm
+              </>
+            }
             placeholder={organization.name}
             error
             description={formState.errors.organizationName?.message}

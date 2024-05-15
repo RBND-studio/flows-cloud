@@ -1,5 +1,6 @@
 "use client";
 
+import { css } from "@flows/styled-system/css";
 import { useAuth } from "auth/client";
 import { useFetch } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
@@ -82,7 +83,19 @@ export const DeleteAccountDialog = (): JSX.Element => {
           </Text>
           <Input
             {...register("email")}
-            label={`Enter your email to confirm (${auth?.user.email})`}
+            label={
+              <>
+                Enter{" "}
+                <span
+                  className={css({
+                    fontWeight: 700,
+                  })}
+                >
+                  {auth?.user.email}
+                </span>{" "}
+                to confirm
+              </>
+            }
             placeholder={auth?.user.email}
             type="e-mail"
           />

@@ -251,9 +251,11 @@ export const ProjectsMenu: FC = () => {
                 />
                 <MenuSeparator />
                 <MenuItem asChild>
-                  <Link href={routes.organization({ organizationId: highlightedOrg.id })}>
-                    Organization detail
-                  </Link>
+                  <Text asChild color="muted" variant="bodyS">
+                    <Link href={routes.organizationSettings({ organizationId: highlightedOrg.id })}>
+                      Organization settings
+                    </Link>
+                  </Text>
                 </MenuItem>
               </MenuSection>
             </div>
