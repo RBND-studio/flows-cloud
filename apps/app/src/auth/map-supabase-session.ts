@@ -1,34 +1,27 @@
 import { type Session } from "@supabase/supabase-js";
 
+export type UserData = Session["user"] & { full_name: string };
 export type AuthSession = {
-  session: Omit<Session, "user">;
-  user: Session["user"] & { full_name: string };
+  access_token: string;
 };
 
-export const mapSupabaseSession = (session?: Session | null): AuthSession | null => {
-  if (!session) return null;
-
+export const mapSupabaseSession = (session: Session): AuthSession => {
   return {
-    session: {
-      provider_token: session.provider_token,
-      provider_refresh_token: session.provider_refresh_token,
-      access_token: session.access_token,
-      refresh_token: session.refresh_token,
-      expires_in: session.expires_in,
-      expires_at: session.expires_at,
-      token_type: session.token_type,
-    },
-    user: {
-      app_metadata: session.user.app_metadata,
-      aud: session.user.aud,
-      confirmed_at: session.user.confirmed_at,
-      created_at: session.user.created_at,
-      email: session.user.email,
-      id: session.user.id,
-      role: session.user.role,
-      updated_at: session.user.updated_at,
-      user_metadata: session.user.user_metadata,
-      full_name: session.user.user_metadata.full_name,
-    },
+    access_token: session.access_token,
+  };
+};
+
+export const mapSupabaseUser = (user: Session["user"]): UserData => {
+  return {
+    app_metadata: user.app_metadata,
+    aud: user.aud,
+    confirmed_at: user.confirmed_at,
+    created_at: user.created_at,
+    email: user.email,
+    id: user.id,
+    role: user.role,
+    updated_at: user.updated_at,
+    user_metadata: user.user_metadata,
+    full_name: user.user_metadata.full_name,
   };
 };
