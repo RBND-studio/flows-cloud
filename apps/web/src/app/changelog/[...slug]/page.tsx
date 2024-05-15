@@ -56,8 +56,8 @@ export default function ReleasePage({ params }: ReleaseProps): ReactElement {
     <>
       <ChangelogItem detail release={release} />
       <Grid gap="space24" gridTemplateColumns="2" mt="space32">
-        <div>{prevRelease ? <ReleasePreview variant="prev" release={prevRelease} /> : null}</div>
         <div>{nextRelease ? <ReleasePreview variant="next" release={nextRelease} /> : null}</div>
+        <div>{prevRelease ? <ReleasePreview variant="prev" release={prevRelease} /> : null}</div>
       </Grid>
     </>
   );
