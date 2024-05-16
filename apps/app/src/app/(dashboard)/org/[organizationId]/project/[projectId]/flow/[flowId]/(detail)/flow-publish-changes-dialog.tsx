@@ -19,11 +19,9 @@ import {
 
 type Props = {
   flow: FlowDetail;
-  onSave?: () => Promise<void>;
-  isDirty?: boolean;
 };
 
-export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) => {
+export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
   const { organizationId } = useParams<{ organizationId: string }>();
   const [open, setOpen] = useState(false);
   const [makeLiveOpen, setMakeLiveOpen] = useState(false);
@@ -32,7 +30,6 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) =
   const router = useRouter();
   const pushRoute = routes.flow({ flowId: flow.id, projectId: flow.project_id, organizationId });
   const handlePublish = async (): Promise<void> => {
-    await onSave?.();
     const res = await send(api["POST /flows/:flowId/publish"](flow.id), {
       errorMessage: t.toasts.publishFlowFailed,
     });
@@ -89,20 +86,18 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow, onSave, isDirty }) =
     );
 
   const changesToPublish = !!flow.draftVersion && !!flow.draftVersion.steps.length;
-  const hidden = isDirty === undefined && !changesToPublish;
-  if (hidden) return null;
 
   return (
     <Dialog
       onOpenChange={setOpen}
       open={open}
-      trigger={<Button disabled={isDirty === false}>Publish changes</Button>}
+      trigger={<Button disabled={!changesToPublish}>Publish changes</Button>}
     >
       <DialogTitle>Publish changes</DialogTitle>
       <DialogContent>
         <Text>
-          Are you sure you want to publish flow changes? If you are not ready, you can save them as
-          a draft by clicking the Save and close button.
+          Are you sure you want to publish flow changes? Any changes you&apos;ve made will be
+          available to your users.
         </Text>
       </DialogContent>
       <DialogActions>

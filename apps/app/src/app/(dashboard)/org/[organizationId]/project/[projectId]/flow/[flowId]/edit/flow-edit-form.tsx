@@ -13,10 +13,11 @@ import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
-import { Button, Icon, Separator, Text, toast } from "ui";
+import { Button, Icon, Separator, Text } from "ui";
 
 import { FlowPreviewDialog } from "../(detail)/flow-preview-dialog";
 import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialog";
+import { Autosave } from "./autosave";
 import { createDefaultValues, type IFlowEditForm, type SelectedItem } from "./edit-constants";
 import { EditFormEmpty } from "./edit-form-empty";
 import { FrequencyForm } from "./frequency-form";
@@ -37,14 +38,14 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
     defaultValues: createDefaultValues(flow),
     mode: "onChange",
   });
-  const { formState, reset, handleSubmit, control } = methods;
+  const { reset, handleSubmit, control } = methods;
   const fieldArray = useFieldArray({ control, name: "steps" });
 
   const backLink = routes.flow({ flowId: flow.id, organizationId, projectId: flow.project_id });
   const router = useRouter();
-  const { loading, send } = useSend();
+  const { send } = useSend();
   const onSubmit: SubmitHandler<IFlowEditForm> = useCallback(
-    async (data, event) => {
+    async (data) => {
       const fixedUserProperties = data.userProperties
         .map((group) => group.filter((matcher) => !!matcher.key))
         .filter((group) => !!group.length);
@@ -59,18 +60,14 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
       );
       if (res.error) return;
       reset(data, { keepValues: true });
-      toast.success(t.toasts.updateFlowSuccess);
-      const calledProgramatically = !event;
-      if (!calledProgramatically) router.push(backLink);
       router.refresh();
     },
-    [backLink, flow.id, reset, router, send],
+    [flow.id, reset, router, send],
   );
   const formRef = useRef<HTMLFormElement>(null);
-  const handleSave = useCallback(async (): Promise<void> => {
-    if (!formState.isDirty) return;
-    return handleSubmit(onSubmit)();
-  }, [formState.isDirty, handleSubmit, onSubmit]);
+  const handleSave = useCallback((): void => {
+    formRef.current?.requestSubmit();
+  }, []);
 
   return (
     <FormProvider {...methods}>
@@ -90,20 +87,9 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
             </Box>
 
             <Flex alignItems="center" gap="space12">
+              <Autosave onSave={handleSave} />
               <FlowPreviewDialog flow={flow} />
-              <Button
-                disabled={!formState.isDirty}
-                loading={loading}
-                type="submit"
-                variant="secondary"
-              >
-                Save and close
-              </Button>
-              <FlowPublishChangesDialog
-                isDirty={formState.isDirty}
-                flow={flow}
-                onSave={handleSave}
-              />
+              <FlowPublishChangesDialog flow={flow} />
               <Button variant="ghost" size="icon" asChild>
                 <Link href={backLink}>
                   <Icon icon={Close16} />
