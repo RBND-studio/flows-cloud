@@ -1,0 +1,76 @@
+---
+title: Integrations
+description: Integrate with your favorite tools to get the most out of your analytics.
+---
+
+# Integrations
+
+Flows automatically track how users interact with your flows. You can either view this data in aggregated form in the dashboard [insights section](/analytics/flow-insights) or integrate with your favorite analytics tools to get more control and flexibility.
+
+## Setup
+
+To integrate with your analytics tool, you need to pass a `tracking` function to the `init` function. This function will be called with an `event` object every time a user interacts with a flow.
+
+```js
+init({
+  projectId: "xxx",
+  // Pass a function and call an API or use a library.
+  tracking: (event) => {
+    fetch("https://my-analytics.example.com", {
+      method:"POST",
+      body: event
+    })
+  }
+})
+```
+
+The `event` has the following shape.
+
+```ts
+interface TrackingEvent {
+  type: "startFlow" | "nextStep" | "prevStep" | "finishFlow" | "cancelFlow";
+  flowId: string;
+  /**
+   * Index of the step in the flow.
+   * @example
+   * - 0 - First step
+   * - 1 - Second step
+   * - [2, 1, 0] - First step (0) in the second branch (1) of the third step (2)
+   * - [2, 1, 1] - Second step (1) in the second branch (1) of the third step (2)
+   * - 3 - Fourth step
+   */
+  stepIndex?: number | number[];
+  /**
+   * Hash of the step definition.
+   */
+  stepHash?: string;
+  /**
+   * Hash of the whole flow definition.
+   */
+  flowHash: string;
+  /**
+   * userId you've passed to the init function.
+   */
+  userId?: string;
+  /**
+   * projectId you've passed to the init function.
+  */
+  projectId: string;
+  /**
+   * Browser location
+   * @example
+   * - "/" - Root
+   * - "/checkout"
+   * - "/search?query=foo" - Query params are included
+   */
+  location: string;
+}
+```
+
+## Events
+
+- `startFlow`: When a user starts a flow.
+- `nextStep`: When a user goes to the next step in a flow.
+- `prevStep`: When a user goes to the previous step in a flow.
+- `finishFlow`: When a user finishes a flow.
+- `cancelFlow`: When a user exits the flow without completion.
