@@ -4,7 +4,7 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
 import { Close16, Versions24 } from "icons";
-import type { FlowDetail, UpdateFlow } from "lib/api";
+import type { FlowDetail } from "lib/api";
 import { api } from "lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,9 +18,15 @@ import { Button, Icon, Separator, Text } from "ui";
 import { FlowPreviewDialog } from "../(detail)/flow-preview-dialog";
 import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialog";
 import { Autosave } from "./autosave";
-import { createDefaultValues, type IFlowEditForm, type SelectedItem } from "./edit-constants";
+import {
+  createDefaultValues,
+  formToRequest,
+  type IFlowEditForm,
+  type SelectedItem,
+} from "./edit-constants";
 import { EditFormEmpty } from "./edit-form-empty";
 import { FrequencyForm } from "./frequency-form";
+import { RemoveDraft } from "./remove-draft";
 import { StartForm } from "./start-form";
 import { StepForm } from "./step-form";
 import { StepPreview } from "./step-preview";
@@ -46,18 +52,9 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
   const { send } = useSend();
   const onSubmit: SubmitHandler<IFlowEditForm> = useCallback(
     async (data) => {
-      const fixedUserProperties = data.userProperties
-        .map((group) => group.filter((matcher) => !!matcher.key))
-        .filter((group) => !!group.length);
-      const res = await send(
-        api["PATCH /flows/:flowId"](flow.id, {
-          ...data,
-          start: data.start as unknown as UpdateFlow["start"],
-          steps: data.steps as unknown as UpdateFlow["steps"],
-          userProperties: fixedUserProperties,
-        }),
-        { errorMessage: t.toasts.saveFlowFailed },
-      );
+      const res = await send(api["PATCH /flows/:flowId"](flow.id, formToRequest(data)), {
+        errorMessage: t.toasts.saveFlowFailed,
+      });
       if (res.error) return;
       reset(data, { keepValues: true });
       router.refresh();
@@ -88,6 +85,7 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
 
             <Flex alignItems="center" gap="space12">
               <Autosave onSave={handleSave} />
+              <RemoveDraft flow={flow} />
               <FlowPreviewDialog flow={flow} />
               <FlowPublishChangesDialog flow={flow} />
               <Button variant="ghost" size="icon" asChild>
