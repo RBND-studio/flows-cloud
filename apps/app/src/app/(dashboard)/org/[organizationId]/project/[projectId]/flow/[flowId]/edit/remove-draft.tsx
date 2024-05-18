@@ -3,7 +3,7 @@ import { api, type FlowDetail } from "lib/api";
 import { useRouter } from "next/navigation";
 import { type FC } from "react";
 import { t } from "translations";
-import { Button } from "ui";
+import { Button, Dialog, DialogActions, DialogClose, DialogContent, DialogTitle, Text } from "ui";
 
 import { createDefaultValues, formToRequest, useFlowEditForm } from "./edit-constants";
 
@@ -29,8 +29,28 @@ export const RemoveDraft: FC<Props> = ({ flow }) => {
   const hasDraft = !!flow.draftVersion;
 
   return (
-    <Button loading={loading} variant="secondary" onClick={handleRemoveDraft} disabled={!hasDraft}>
-      Remove draft
-    </Button>
+    <Dialog
+      trigger={
+        <Button loading={loading} variant="secondary" disabled={!hasDraft}>
+          Discard draft
+        </Button>
+      }
+    >
+      <DialogTitle>Discard draft</DialogTitle>
+      <DialogContent>
+        <Text>Are you sure you want to discard the draft? This action cannot be undone.</Text>
+      </DialogContent>
+      <DialogActions>
+        <DialogClose asChild>
+          <Button shadow="none" size="small" variant="secondary">
+            Close
+          </Button>
+        </DialogClose>
+        {/* TODO: make this close on click */}
+        <Button loading={loading} onClick={handleRemoveDraft}>
+          Discard draft
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };

@@ -96,8 +96,8 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
       <DialogTitle>Publish changes</DialogTitle>
       <DialogContent>
         <Text>
-          Are you sure you want to publish flow changes? Any changes you&apos;ve made will be
-          available to your users.
+          Are you sure you want to publish flow changes? This will update the flow for all of your
+          users.
         </Text>
       </DialogContent>
       <DialogActions>

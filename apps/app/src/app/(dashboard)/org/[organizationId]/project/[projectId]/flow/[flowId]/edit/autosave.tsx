@@ -1,8 +1,10 @@
 "use client";
 
+import { Flex } from "@flows/styled-system/jsx";
+import { Check16 } from "icons";
 import { debounce } from "lib/debounce";
 import { type FC, useEffect, useMemo } from "react";
-import { Text } from "ui";
+import { Icon, Text } from "ui";
 
 import { useFlowEditForm } from "./edit-constants";
 
@@ -23,7 +25,19 @@ export const Autosave: FC<Props> = ({ onSave }) => {
     if (formState.isDirty) debouncedSave();
   }, [debouncedSave, formState.isDirty]);
 
-  if (formState.isDirty) return <Text color="muted">Saving</Text>;
+  if (formState.isDirty)
+    return (
+      <Text variant="bodyXs" color="muted">
+        Saving
+      </Text>
+    );
 
-  return null;
+  return (
+    <Flex gap="space4">
+      <Icon icon={Check16} />
+      <Text variant="bodyXs" color="muted">
+        Saved
+      </Text>
+    </Flex>
+  );
 };
