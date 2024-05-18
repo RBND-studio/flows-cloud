@@ -5,6 +5,7 @@ import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { useFirstRender } from "hooks/use-first-render";
 import type { FC } from "react";
 import { useEffect, useMemo, useRef } from "react";
+import { Text } from "ui";
 
 import { useTemplate } from "./template-context";
 
@@ -25,9 +26,9 @@ export const TemplatePreview: FC = () => {
       root: tooltipRootRef.current,
       target: tooltipTargetRef.current,
       step: {
-        title: "Tooltip",
+        title: "Tooltip preview",
         // cspell:disable-next-line
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        body: "This is just a preview of the tooltip. Try changing the styles in the sections above.",
         targetElement: ".tooltip-target",
       },
       isFirstStep: false,
@@ -45,9 +46,9 @@ export const TemplatePreview: FC = () => {
       isFirstStep: false,
       isLastStep: false,
       step: {
-        title: "Modal",
+        title: "Modal preview",
         // cspell:disable-next-line
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        body: "This is just a preview of the modal. Try changing the styles in the sections above.",
       },
     });
 
@@ -60,8 +61,11 @@ export const TemplatePreview: FC = () => {
   if (firstRender) return null;
 
   return (
-    <>
-      <Grid gridTemplateColumns="1fr 1fr" gap="space16" h="200px">
+    <Box>
+      <Text variant="titleL" mb="space8">
+        Template preview
+      </Text>
+      <Grid gridTemplateColumns="1fr 1fr" gap="space16" h="260px">
         <Flex
           ref={tooltipRootRef}
           alignItems="center"
@@ -82,6 +86,6 @@ export const TemplatePreview: FC = () => {
         <Box ref={modalRootRef} cardWrap="-" transform="translate3d(0,0,0)" overflow="hidden" />
       </Grid>
       <style>{cssStyle}</style>
-    </>
+    </Box>
   );
 };
