@@ -1,16 +1,17 @@
 {
   "index": "Overview",
   "getting-started": "Getting started",
+  "contact-us": "Contact us",
+  "-0": {
+    "title": "",
+    "type": "separator"
+  },
   "creating-flows": "Create flows",
   "step-types": "Step types",
   "customization-and-styling": "Customization & Styling",
   "project-setup": "Project setup",
   "organization-setup": "Organization setup",
   "analytics": "Analytics",
-  "-0": {
-    "title": "",
-    "type": "separator"
-  },
   "billing": "Billing",
   "-1": {
     "title": "",
