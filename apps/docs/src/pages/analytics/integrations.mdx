@@ -5,13 +5,15 @@ description: Integrate with any analytics tool to get the full picture of your u
 
 # Integrations
 
-Flows automatically track how users interact with your flows to help you better understand how users are engaging with your product. When the built-in [insights](/analytics/flow-insights) are not enough, you can easily integrate with almost any analytics tool to get the full picture of your users' behavior.
+Flows automatically track how users interact with your flows to help you better understand how users are engaging with your product. If the built-in [insights](/analytics/flow-insights) are not enough, you can easily integrate with almost any analytics tool to get the full picture of your users' behavior.
 
 ## Setup
 
-To integrate Flows with your analytics tool, pass a `tracking` function to the Flows `init` function. The `tracking` function will be called every time a user interacts with your flows.
+To integrate Flows with your analytics tool, pass a `tracking` function to the Flows `init` function. The `tracking` function will be called every time a user interacts with your flows sending and `event` object with the details of the interaction.
 
 ```js
+import init from "@flows/js";
+
 init({
   projectId: "xxx",
   // Pass a function and call your tool's API or use a library to send the event.
@@ -24,7 +26,23 @@ init({
 });
 ```
 
-When the function is called, it will receive an `event` object with information about the user interaction. The `event` object has the following shape:
+## Events
+
+Events are sent to your tracking function every time a user interacts with a flow. You can use these events to track how users are engaging with your flows and analyze the data in your analytics tool.
+
+### Event types
+
+These are the events that Flows will send to your tracking function:
+
+- `startFlow`: When a user starts a flow.
+- `nextStep`: When a user goes to the next step in a flow.
+- `prevStep`: When a user goes to the previous step in a flow.
+- `finishFlow`: When a user finishes a flow.
+- `cancelFlow`: When a user exits the flow without finishing it.
+
+### Event object
+
+The `event` object has the following shape:
 
 ```ts
 interface TrackingEvent {
@@ -67,21 +85,14 @@ interface TrackingEvent {
 }
 ```
 
-## Events
-
-These are the events that Flows will send to your tracking function:
-
-- `startFlow`: When a user starts a flow.
-- `nextStep`: When a user goes to the next step in a flow.
-- `prevStep`: When a user goes to the previous step in a flow.
-- `finishFlow`: When a user finishes a flow.
-- `cancelFlow`: When a user exits the flow without finishing it.
-
-## Examples
+## Integrating with Mixpanel
 
 Here is an example of how you can send events from Flows to Mixpanel for analysis:
 
 ```js
+import init from "@flows/js";
+import mixpanel from "mixpanel-browser";
+
 init({
   projectId: "xxx",
   userId: "abc",
