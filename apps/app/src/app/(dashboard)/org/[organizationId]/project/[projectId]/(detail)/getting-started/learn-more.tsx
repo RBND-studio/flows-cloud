@@ -23,7 +23,7 @@ const content = [
   {
     title: "Contact support",
     description: "Get in touch with our support team for help with your account.",
-    href: links.support,
+    href: links.docsContact,
     icon: Question16,
   },
 ];
