@@ -8,7 +8,7 @@ import type { FlowDetail } from "lib/api";
 import { api } from "lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type FC, useCallback, useRef, useState } from "react";
+import { type FC, useCallback, useEffect, useRef, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
@@ -44,7 +44,7 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
     defaultValues: createDefaultValues(flow),
     mode: "onChange",
   });
-  const { reset, handleSubmit, control } = methods;
+  const { reset, handleSubmit, control, formState } = methods;
   const fieldArray = useFieldArray({ control, name: "steps" });
 
   const backLink = routes.flow({ flowId: flow.id, organizationId, projectId: flow.project_id });
@@ -61,10 +61,36 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
     },
     [flow.id, reset, router, send],
   );
+
   const formRef = useRef<HTMLFormElement>(null);
   const handleSave = useCallback((): void => {
     formRef.current?.requestSubmit();
   }, []);
+
+  const onUnload = useCallback(
+    (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+      handleSave();
+    },
+    [handleSave],
+  );
+
+  const { isDirty } = formState;
+  // Save on page unload (refresh, close, etc.)
+  useEffect(() => {
+    if (!isDirty) return;
+    window.addEventListener("beforeunload", onUnload);
+    return () => window.removeEventListener("beforeunload", onUnload);
+  }, [isDirty, onUnload]);
+
+  // Save on SPA navigation to other page
+  useEffect(() => {
+    if (!isDirty) return;
+    return () => {
+      void handleSubmit(onSubmit)();
+    };
+  }, [handleSubmit, isDirty, onSubmit]);
 
   return (
     <FormProvider {...methods}>

@@ -1,7 +1,7 @@
 import { useSend } from "hooks/use-send";
 import { api, type FlowDetail } from "lib/api";
 import { useRouter } from "next/navigation";
-import { type FC } from "react";
+import { type FC, useState } from "react";
 import { t } from "translations";
 import { Button, Dialog, DialogActions, DialogClose, DialogContent, DialogTitle, Text } from "ui";
 
@@ -12,6 +12,7 @@ type Props = {
 };
 
 export const RemoveDraft: FC<Props> = ({ flow }) => {
+  const [open, setOpen] = useState(false);
   const { reset } = useFlowEditForm();
 
   const router = useRouter();
@@ -24,12 +25,15 @@ export const RemoveDraft: FC<Props> = ({ flow }) => {
     if (res.error) return;
     reset(newDefaultValues);
     router.refresh();
+    setOpen(false);
   };
 
   const hasDraft = !!flow.draftVersion;
 
   return (
     <Dialog
+      open={open}
+      onOpenChange={setOpen}
       trigger={
         <Button loading={loading} variant="secondary" disabled={!hasDraft}>
           Discard draft
