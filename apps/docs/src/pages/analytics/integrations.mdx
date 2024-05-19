@@ -1,0 +1,111 @@
+---
+title: Integrations
+description: Integrate with any analytics tool to get the full picture of your users' behavior.
+---
+
+# Integrations
+
+Flows automatically track how users interact with your flows to help you better understand how users are engaging with your product. If the built-in [insights](/analytics/flow-insights) are not enough, you can easily integrate with almost any analytics tool to get the full picture of your users' behavior.
+
+## Setup
+
+To integrate Flows with your analytics tool, pass a `tracking` function to the Flows `init` function. The `tracking` function will be called every time a user interacts with your flows sending and `event` object with the details of the interaction.
+
+```js
+import init from "@flows/js";
+
+init({
+  projectId: "xxx",
+  // Pass a function and call your tool's API or use a library to send the event.
+  tracking: (event) => {
+    fetch("https://my-analytics.example.com", {
+      method: "POST",
+      body: event,
+    });
+  },
+});
+```
+
+## Events
+
+Events are sent to your tracking function every time a user interacts with a flow. You can use these events to track how users are engaging with your flows and analyze the data in your analytics tool.
+
+### Event types
+
+These are the events that Flows will send to your tracking function:
+
+- `startFlow`: When a user starts a flow.
+- `nextStep`: When a user goes to the next step in a flow.
+- `prevStep`: When a user goes to the previous step in a flow.
+- `finishFlow`: When a user finishes a flow.
+- `cancelFlow`: When a user exits the flow without finishing it.
+
+### Event object
+
+The `event` object has the following shape:
+
+```ts
+interface TrackingEvent {
+  type: "startFlow" | "nextStep" | "prevStep" | "finishFlow" | "cancelFlow";
+  flowId: string;
+  /**
+   * Index of the step in the flow.
+   * @example
+   * - 0 - First step
+   * - 1 - Second step
+   * - [2, 1, 0] - First step (0) in the second branch (1) of the third step (2)
+   * - [2, 1, 1] - Second step (1) in the second branch (1) of the third step (2)
+   * - 3 - Fourth step
+   */
+  stepIndex?: number | number[];
+  /**
+   * Hash of the step definition.
+   */
+  stepHash?: string;
+  /**
+   * Hash of the whole flow definition.
+   */
+  flowHash: string;
+  /**
+   * userId you've passed to the init function.
+   */
+  userId?: string;
+  /**
+   * projectId you've passed to the init function.
+   */
+  projectId: string;
+  /**
+   * Browser location
+   * @example
+   * - "/" - Root
+   * - "/checkout"
+   * - "/search?query=foo" - Query params are included
+   */
+  location: string;
+}
+```
+
+## Integrating with Mixpanel
+
+Here is an example of how you can send events from Flows to Mixpanel for analysis:
+
+```js
+import init from "@flows/js";
+import mixpanel from "mixpanel-browser";
+
+init({
+  projectId: "xxx",
+  userId: "abc",
+  tracking: (event) => {
+    mixpanel.track(
+      event.type, // What happened
+      {
+        flowId: event.flowId, // What flow the user is interacting with
+        stepIndex: event.stepIndex, // What step they are on
+        location: event.location, // What page they are on
+        userId: event.userId, // Optional: Mixpanel automatically adds user properties to events when you use mixpanel.identify
+      },
+    );
+  },
+});
+```
