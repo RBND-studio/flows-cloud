@@ -110,7 +110,7 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
             </Box>
 
             <Flex alignItems="center" gap="space12">
-              <Autosave onSave={handleSave} />
+              <Autosave onSave={handleSave} flow={flow} />
               <RemoveDraft flow={flow} />
               <FlowPreviewDialog flow={flow} />
               <FlowPublishChangesDialog flow={flow} />

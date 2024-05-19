@@ -50,7 +50,6 @@ export const RemoveDraft: FC<Props> = ({ flow }) => {
             Close
           </Button>
         </DialogClose>
-        {/* TODO: make this close on click */}
         <Button loading={loading} onClick={handleRemoveDraft}>
           Discard draft
         </Button>
