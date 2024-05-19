@@ -4,22 +4,29 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
 import { Close16, Versions24 } from "icons";
-import type { FlowDetail, UpdateFlow } from "lib/api";
+import type { FlowDetail } from "lib/api";
 import { api } from "lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type FC, useCallback, useRef, useState } from "react";
+import { type FC, useCallback, useEffect, useRef, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
-import { Button, Icon, Separator, Text, toast } from "ui";
+import { Button, Icon, Separator, Text } from "ui";
 
 import { FlowPreviewDialog } from "../(detail)/flow-preview-dialog";
 import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialog";
-import { createDefaultValues, type IFlowEditForm, type SelectedItem } from "./edit-constants";
+import { Autosave } from "./autosave";
+import {
+  createDefaultValues,
+  formToRequest,
+  type IFlowEditForm,
+  type SelectedItem,
+} from "./edit-constants";
 import { EditFormEmpty } from "./edit-form-empty";
 import { FrequencyForm } from "./frequency-form";
+import { RemoveDraft } from "./remove-draft";
 import { StartForm } from "./start-form";
 import { StepForm } from "./step-form";
 import { StepPreview } from "./step-preview";
@@ -37,40 +44,53 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
     defaultValues: createDefaultValues(flow),
     mode: "onChange",
   });
-  const { formState, reset, handleSubmit, control } = methods;
+  const { reset, handleSubmit, control, formState } = methods;
   const fieldArray = useFieldArray({ control, name: "steps" });
 
   const backLink = routes.flow({ flowId: flow.id, organizationId, projectId: flow.project_id });
   const router = useRouter();
-  const { loading, send } = useSend();
+  const { send } = useSend();
   const onSubmit: SubmitHandler<IFlowEditForm> = useCallback(
-    async (data, event) => {
-      const fixedUserProperties = data.userProperties
-        .map((group) => group.filter((matcher) => !!matcher.key))
-        .filter((group) => !!group.length);
-      const res = await send(
-        api["PATCH /flows/:flowId"](flow.id, {
-          ...data,
-          start: data.start as unknown as UpdateFlow["start"],
-          steps: data.steps as unknown as UpdateFlow["steps"],
-          userProperties: fixedUserProperties,
-        }),
-        { errorMessage: t.toasts.saveFlowFailed },
-      );
+    async (data) => {
+      const res = await send(api["PATCH /flows/:flowId"](flow.id, formToRequest(data)), {
+        errorMessage: t.toasts.saveFlowFailed,
+      });
       if (res.error) return;
       reset(data, { keepValues: true });
-      toast.success(t.toasts.updateFlowSuccess);
-      const calledProgramatically = !event;
-      if (!calledProgramatically) router.push(backLink);
       router.refresh();
     },
-    [backLink, flow.id, reset, router, send],
+    [flow.id, reset, router, send],
   );
+
   const formRef = useRef<HTMLFormElement>(null);
-  const handleSave = useCallback(async (): Promise<void> => {
-    if (!formState.isDirty) return;
-    return handleSubmit(onSubmit)();
-  }, [formState.isDirty, handleSubmit, onSubmit]);
+  const handleSave = useCallback((): void => {
+    formRef.current?.requestSubmit();
+  }, []);
+
+  const onUnload = useCallback(
+    (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+      handleSave();
+    },
+    [handleSave],
+  );
+
+  const { isDirty } = formState;
+  // Save on page unload (refresh, close, etc.)
+  useEffect(() => {
+    if (!isDirty) return;
+    window.addEventListener("beforeunload", onUnload);
+    return () => window.removeEventListener("beforeunload", onUnload);
+  }, [isDirty, onUnload]);
+
+  // Save on SPA navigation to other page
+  useEffect(() => {
+    if (!isDirty) return;
+    return () => {
+      void handleSubmit(onSubmit)();
+    };
+  }, [handleSubmit, isDirty, onSubmit]);
 
   return (
     <FormProvider {...methods}>
@@ -90,20 +110,10 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
             </Box>
 
             <Flex alignItems="center" gap="space12">
+              <Autosave onSave={handleSave} flow={flow} />
+              <RemoveDraft flow={flow} />
               <FlowPreviewDialog flow={flow} />
-              <Button
-                disabled={!formState.isDirty}
-                loading={loading}
-                type="submit"
-                variant="secondary"
-              >
-                Save and close
-              </Button>
-              <FlowPublishChangesDialog
-                isDirty={formState.isDirty}
-                flow={flow}
-                onSave={handleSave}
-              />
+              <FlowPublishChangesDialog flow={flow} />
               <Button variant="ghost" size="icon" asChild>
                 <Link href={backLink}>
                   <Icon icon={Close16} />
