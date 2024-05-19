@@ -13,7 +13,7 @@ const options = [
   {
     label: "Contact support",
     icon: Question16,
-    href: links.support,
+    href: links.docsContact,
   },
   {
     label: "Send feedback",
