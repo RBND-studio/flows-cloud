@@ -54,8 +54,8 @@ const footerGroups: FooterGroup[] = [
         href: links.docs,
       },
       {
-        title: "Support",
-        href: links.support,
+        title: "Contact",
+        href: links.docsContact,
         target: "_blank",
       },
       {
