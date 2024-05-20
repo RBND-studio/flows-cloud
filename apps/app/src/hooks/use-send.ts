@@ -7,14 +7,16 @@ import { toast } from "ui";
 export const useSend = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
+
   const { auth } = useAuth();
+  const token = auth?.session.access_token;
 
   const send = useCallback(
     <T>(
       fn: (ctx: FetcherContext) => Promise<T>,
       options: { errorMessage: string | null },
     ): Promise<{ data?: T; error?: Error }> => {
-      if (!auth) {
+      if (!token) {
         const err = new Error("Not authenticated");
         setError(err);
         return Promise.resolve({ error: err });
@@ -22,7 +24,7 @@ export const useSend = () => {
 
       setLoading(true);
       setError(undefined);
-      return fn({ token: auth.session.access_token })
+      return fn({ token })
         .then((data) => ({ data }))
         .catch((e: unknown) => {
           const err = e as Error;
@@ -35,7 +37,7 @@ export const useSend = () => {
           setLoading(false);
         });
     },
-    [auth],
+    [token],
   );
 
   return { send, loading, error };
