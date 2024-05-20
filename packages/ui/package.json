@@ -34,7 +34,7 @@
   "devDependencies": {
     "@pandacss/dev": "0.37.2",
     "@storybook/addon-essentials": "^8.0.8",
-    "@storybook/addon-interactions": "^8.0.8",
+    "@storybook/addon-interactions": "^8.1.1",
     "@storybook/addon-links": "^8.0.8",
     "@storybook/blocks": "^8.0.8",
     "@storybook/cli": "^8.0.8",
