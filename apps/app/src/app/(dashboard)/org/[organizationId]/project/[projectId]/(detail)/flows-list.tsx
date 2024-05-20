@@ -1,4 +1,4 @@
-import { css } from "@flows/styled-system/css";
+import { css, cx } from "@flows/styled-system/css";
 import { Check16, CircleSlash16 } from "icons";
 import type { FlowPreview } from "lib/api";
 import { timeFromNow } from "lib/date";
@@ -32,31 +32,34 @@ export const FlowsList: FC<Props> = ({ projectId, flows, organizationId }) => {
     >
       {flows.map((flow) => (
         <Link
-          className={css({
-            display: "flex",
-            py: "space24",
-            px: "space24",
-            alignItems: "center",
-            gap: "space24",
-            justifyContent: "space-between",
+          className={cx(
+            "flow-list-item",
+            css({
+              display: "flex",
+              py: "space24",
+              px: "space24",
+              alignItems: "center",
+              gap: "space24",
+              justifyContent: "space-between",
 
-            fastEaseInOut: "all",
+              fastEaseInOut: "all",
 
-            borderBottomStyle: "solid",
-            borderBottomWidth: "1px",
-            borderBottomColor: "border",
+              borderBottomStyle: "solid",
+              borderBottomWidth: "1px",
+              borderBottomColor: "border",
 
-            color: "text",
+              color: "text",
 
-            _last: {
-              borderBottomStyle: "none",
-            },
+              _last: {
+                borderBottomStyle: "none",
+              },
 
-            "&:hover": {
-              bg: "bg.subtleHover",
-              color: "text.primary",
-            },
-          })}
+              "&:hover": {
+                bg: "bg.subtleHover",
+                color: "text.primary",
+              },
+            }),
+          )}
           href={routes.flow({ flowId: flow.id, projectId, organizationId })}
           key={flow.id}
         >
