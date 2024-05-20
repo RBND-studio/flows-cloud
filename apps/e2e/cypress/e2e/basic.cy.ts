@@ -69,5 +69,7 @@ it("Create flow -> Load SDK -> check the flow starts -> delete flow", () => {
 
     cy.get("div").contains("Delete").click();
     cy.get("button").contains("Delete flow").click();
+
+    cy.get("flow-list-item").should("not.exist");
   });
 });
