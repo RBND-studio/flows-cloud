@@ -8,5 +8,5 @@ export const db = (
   connectionString: string,
 ): { db: PostgresJsDatabase<typeof schema>; sql: postgres.Sql } => {
   const sql = postgres(connectionString, { max: 1 });
-  return { db: drizzle(sql, { schema }), sql };
+  return { db: drizzle(sql, { schema, logger: true }), sql };
 };

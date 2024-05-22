@@ -1,15 +1,19 @@
 import { Test } from "@nestjs/testing";
+import { organizationEvents } from "db";
 import { FREE_LIMIT } from "shared";
 
 import { DatabaseService } from "../database/database.service";
-import { getMockDB, type MockDB } from "../mocks";
+import { EmailService } from "../email/email.service";
+import { getMockDB, getMockEmailService, type MockDB, type MockEmailService } from "../mocks";
 import { OrganizationUsageService } from "./organization-usage.service";
 
 let organizationUsageService: OrganizationUsageService;
 let db: MockDB;
+let emailService: MockEmailService;
 
 beforeEach(async () => {
   db = getMockDB();
+  emailService = getMockEmailService();
 
   const moduleRef = await Test.createTestingModule({
     providers: [OrganizationUsageService],
@@ -17,6 +21,7 @@ beforeEach(async () => {
   })
     .useMocker((token) => {
       if (token === DatabaseService) return { db };
+      if (token === EmailService) return emailService;
     })
     .compile();
   organizationUsageService = moduleRef.get(OrganizationUsageService);
@@ -55,5 +60,84 @@ describe("getOrganizationLimit", () => {
     await expect(
       organizationUsageService.getOrganizationLimit({ organizationId: "orgId" }),
     ).resolves.toBe(FREE_LIMIT);
+  });
+});
+
+describe("sendUsageAlertIfNeeded", () => {
+  let getOrganizationLimit = jest.fn();
+  let getOrganizationUsage = jest.fn();
+  beforeEach(() => {
+    db.query.organizationEvents.findFirst.mockResolvedValue(null);
+    db.query.organizations.findFirst.mockResolvedValue({ name: "orgName" });
+    db.query.organizationsToUsers.findMany.mockResolvedValue([
+      { user: { email: "test@test.com" } },
+    ]);
+
+    getOrganizationLimit = jest.fn().mockResolvedValue(10);
+    getOrganizationUsage = jest.fn().mockResolvedValue(9);
+    organizationUsageService.getOrganizationLimit = getOrganizationLimit;
+    organizationUsageService.getOrganizationUsage = getOrganizationUsage;
+  });
+  it("should do nothing if event already exists", async () => {
+    db.query.organizationEvents.findFirst.mockResolvedValue({ id: "event-id" });
+    await expect(
+      organizationUsageService.sendUsageAlertIfNeeded({
+        organizationId: "orgId",
+        alert: "approachingUsageLimit",
+      }),
+    ).resolves.toBeUndefined();
+    expect(getOrganizationLimit).not.toHaveBeenCalled();
+    expect(getOrganizationUsage).not.toHaveBeenCalled();
+  });
+  it("should do nothing if limit is not reached", async () => {
+    await expect(
+      organizationUsageService.sendUsageAlertIfNeeded({
+        organizationId: "orgId",
+        alert: "approachingUsageLimit",
+      }),
+    ).resolves.toBeUndefined();
+    expect(getOrganizationLimit).toHaveBeenCalledWith({ organizationId: "orgId" });
+    expect(getOrganizationUsage).toHaveBeenCalledWith({ organizationId: "orgId" });
+  });
+  it("should throw without organization", async () => {
+    db.query.organizations.findFirst.mockResolvedValue(null);
+    await expect(
+      organizationUsageService.sendUsageAlertIfNeeded({
+        organizationId: "orgId",
+        alert: "approachingUsageLimit",
+      }),
+    ).rejects.toThrow("Organization not found");
+  });
+  it("should not call sendUsageAlert if threshold is not reached", async () => {
+    await expect(
+      organizationUsageService.sendUsageAlertIfNeeded({
+        organizationId: "orgId",
+        alert: "exceededUsageLimit",
+      }),
+    ).resolves.toBeUndefined();
+    expect(getOrganizationLimit).toHaveBeenCalledWith({ organizationId: "orgId" });
+    expect(getOrganizationUsage).toHaveBeenCalledWith({ organizationId: "orgId" });
+    expect(db.insert).not.toHaveBeenCalled();
+    expect(emailService.sendUsageAlert).not.toHaveBeenCalled();
+  });
+  it("should call sendUsageAlert if threshold is reached", async () => {
+    await expect(
+      organizationUsageService.sendUsageAlertIfNeeded({
+        organizationId: "orgId",
+        alert: "approachingUsageLimit",
+      }),
+    ).resolves.toBeUndefined();
+    expect(getOrganizationLimit).toHaveBeenCalledWith({ organizationId: "orgId" });
+    expect(getOrganizationLimit).toHaveBeenCalledWith({ organizationId: "orgId" });
+    expect(db.insert).toHaveBeenCalledWith(organizationEvents);
+    expect(db.query.organizations.findFirst).toHaveBeenCalled();
+    expect(db.query.organizationsToUsers.findMany).toHaveBeenCalled();
+    expect(emailService.sendUsageAlert).toHaveBeenCalledWith({
+      email: "test@test.com",
+      organizationName: "orgName",
+      limit: 10,
+      usage: 9,
+      type: "approachingUsageLimit",
+    });
   });
 });
