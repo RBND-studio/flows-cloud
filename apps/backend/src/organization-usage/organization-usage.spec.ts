@@ -4,16 +4,26 @@ import { FREE_LIMIT } from "shared";
 
 import { DatabaseService } from "../database/database.service";
 import { EmailService } from "../email/email.service";
-import { getMockDB, getMockEmailService, type MockDB, type MockEmailService } from "../mocks";
+import {
+  getMockDB,
+  getMockEmailService,
+  getMockNewsfeedService,
+  type MockDB,
+  type MockEmailService,
+  type MockNewsfeedService,
+} from "../mocks";
+import { NewsfeedService } from "../newsfeed/newsfeed.service";
 import { OrganizationUsageService } from "./organization-usage.service";
 
 let organizationUsageService: OrganizationUsageService;
 let db: MockDB;
 let emailService: MockEmailService;
+let newsfeedService: MockNewsfeedService;
 
 beforeEach(async () => {
   db = getMockDB();
   emailService = getMockEmailService();
+  newsfeedService = getMockNewsfeedService();
 
   const moduleRef = await Test.createTestingModule({
     providers: [OrganizationUsageService],
@@ -22,6 +32,7 @@ beforeEach(async () => {
     .useMocker((token) => {
       if (token === DatabaseService) return { db };
       if (token === EmailService) return emailService;
+      if (token === NewsfeedService) return newsfeedService;
     })
     .compile();
   organizationUsageService = moduleRef.get(OrganizationUsageService);
@@ -132,6 +143,7 @@ describe("sendUsageAlertIfNeeded", () => {
     expect(db.insert).toHaveBeenCalledWith(organizationEvents);
     expect(db.query.organizations.findFirst).toHaveBeenCalled();
     expect(db.query.organizationsToUsers.findMany).toHaveBeenCalled();
+    expect(newsfeedService.postMessage).toHaveBeenCalled();
     expect(emailService.sendUsageAlert).toHaveBeenCalledWith({
       email: "test@test.com",
       organizationName: "orgName",

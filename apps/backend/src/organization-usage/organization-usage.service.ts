@@ -14,6 +14,7 @@ import { FREE_LIMIT } from "shared";
 
 import { DatabaseService } from "../database/database.service";
 import { EmailService } from "../email/email.service";
+import { NewsfeedService } from "../newsfeed/newsfeed.service";
 import { type OrganizationUsageAlertType } from "../types/organization";
 
 const alertUsageLimitCoefficient: Record<OrganizationUsageAlertType, number> = {
@@ -27,6 +28,7 @@ export class OrganizationUsageService {
   constructor(
     private databaseService: DatabaseService,
     private emailService: EmailService,
+    private newsfeedService: NewsfeedService,
   ) {}
 
   getOrganizationBillingPeriodStartSQL({ organizationId }: { organizationId: string }): SQL<Date> {
@@ -166,6 +168,10 @@ export class OrganizationUsageService {
 
     if (!organization) throw new InternalServerErrorException("Organization not found");
     const emails = users.flatMap(({ user }) => user.email ?? []);
+
+    void this.newsfeedService.postMessage({
+      message: `🚀 Usage alert sent for ${organization.name} organization (${organizationId})`,
+    });
 
     await Promise.all(
       emails.map((email) => {
