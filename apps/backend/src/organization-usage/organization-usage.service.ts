@@ -186,6 +186,7 @@ export class OrganizationUsageService {
       emails.map((email) => {
         return this.emailService.sendUsageAlert({
           email,
+          organizationId,
           organizationName: organization.name,
           limit,
           usage,

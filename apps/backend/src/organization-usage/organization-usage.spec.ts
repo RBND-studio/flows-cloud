@@ -148,6 +148,7 @@ describe("sendUsageAlertIfNeeded", () => {
     expect(db.query.subscriptions.findFirst).toHaveBeenCalled();
     expect(emailService.sendUsageAlert).toHaveBeenCalledWith({
       email: "test@test.com",
+      organizationId: "orgId",
       organizationName: "orgName",
       limit: 10,
       usage: 9,

@@ -26,16 +26,19 @@ export class EmailService {
     email,
     limit,
     organizationName,
+    organizationId,
     usage,
     type,
     renewsAt,
   }: {
-    organizationName: string;
     email: string;
+    type: OrganizationUsageAlertType;
+
+    organizationName: string;
+    organizationId: string;
+    renewsAt: string;
     usage: number;
     limit: number;
-    renewsAt: string;
-    type: OrganizationUsageAlertType;
   }): Promise<ReturnType<LoopsClient["sendTransactionalEmail"]>> {
     const templateByAlertType: Record<OrganizationUsageAlertType, string> = {
       // cspell:disable-next-line
@@ -44,10 +47,11 @@ export class EmailService {
       exceededUsageLimit: "clwhj5ue700v5gn9teb9w7ud2",
     };
     return this.loops.sendTransactionalEmail(templateByAlertType[type], email, {
+      organizationId,
       organizationName,
+      renewsAt,
       usage,
       limit,
-      renewsAt,
     });
   }
 
