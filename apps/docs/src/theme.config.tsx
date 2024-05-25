@@ -6,6 +6,7 @@ import { DocsBanner } from "./components/docs-banner";
 import { DocsLogo } from "./components/docs-logo";
 import { DocsSignUp } from "./components/docs-sign-up";
 import { SectionLink } from "./components/section-link";
+import { Timestamp } from "./components/timestamp";
 import { SEO_PROPS } from "./lib/constants";
 
 const config: DocsThemeConfig = {
@@ -45,6 +46,10 @@ const config: DocsThemeConfig = {
     Demo,
     SectionLink,
     BetterCallout,
+  },
+
+  gitTimestamp({ timestamp }) {
+    return <Timestamp timestamp={timestamp} />;
   },
 };
 
