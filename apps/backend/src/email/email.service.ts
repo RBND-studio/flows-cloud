@@ -28,11 +28,13 @@ export class EmailService {
     organizationName,
     usage,
     type,
+    renewsAt,
   }: {
     organizationName: string;
     email: string;
     usage: number;
     limit: number;
+    renewsAt: string;
     type: OrganizationUsageAlertType;
   }): Promise<ReturnType<LoopsClient["sendTransactionalEmail"]>> {
     const templateByAlertType: Record<OrganizationUsageAlertType, string> = {
@@ -45,6 +47,7 @@ export class EmailService {
       organizationName,
       usage,
       limit,
+      renewsAt,
     });
   }
 

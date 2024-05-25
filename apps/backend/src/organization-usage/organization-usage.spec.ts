@@ -83,6 +83,7 @@ describe("sendUsageAlertIfNeeded", () => {
     db.query.organizationsToUsers.findMany.mockResolvedValue([
       { user: { email: "test@test.com" } },
     ]);
+    db.query.subscriptions.findFirst.mockResolvedValue({ renews_at: new Date("2022-01-01") });
 
     getOrganizationLimit = jest.fn().mockResolvedValue(10);
     getOrganizationUsage = jest.fn().mockResolvedValue(9);
@@ -144,12 +145,14 @@ describe("sendUsageAlertIfNeeded", () => {
     expect(db.query.organizations.findFirst).toHaveBeenCalled();
     expect(db.query.organizationsToUsers.findMany).toHaveBeenCalled();
     expect(newsfeedService.postMessage).toHaveBeenCalled();
+    expect(db.query.subscriptions.findFirst).toHaveBeenCalled();
     expect(emailService.sendUsageAlert).toHaveBeenCalledWith({
       email: "test@test.com",
       organizationName: "orgName",
       limit: 10,
       usage: 9,
       type: "approachingUsageLimit",
+      renewsAt: "January 1, 2022",
     });
   });
 });

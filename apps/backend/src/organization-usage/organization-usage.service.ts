@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import dayjs from "dayjs";
 import {
   events,
   flows,
@@ -10,7 +11,7 @@ import {
   subscriptions,
 } from "db";
 import { and, eq, gt, gte, inArray, type SQL, sql } from "drizzle-orm";
-import { FREE_LIMIT } from "shared";
+import { FREE_LIMIT, FREE_RENEWAL_DATE } from "shared";
 
 import { DatabaseService } from "../database/database.service";
 import { EmailService } from "../email/email.service";
@@ -154,7 +155,7 @@ export class OrganizationUsageService {
       .insert(organizationEvents)
       .values({ organization_id: organizationId, event_type: alert });
 
-    const [organization, users] = await Promise.all([
+    const [organization, users, subscription] = await Promise.all([
       this.databaseService.db.query.organizations.findFirst({
         where: eq(organizations.id, organizationId),
         columns: { name: true },
@@ -164,10 +165,18 @@ export class OrganizationUsageService {
         with: { user: { columns: { email: true } } },
         columns: {},
       }),
+      this.databaseService.db.query.subscriptions.findFirst({
+        columns: { renews_at: true },
+        where: and(
+          eq(organizations.id, organizationId),
+          inArray(subscriptions.status, ["active", "past_due"]),
+        ),
+      }),
     ]);
 
     if (!organization) throw new InternalServerErrorException("Organization not found");
     const emails = users.flatMap(({ user }) => user.email ?? []);
+    const renewsAt = dayjs(subscription?.renews_at ?? FREE_RENEWAL_DATE).format("MMMM D, YYYY");
 
     void this.newsfeedService.postMessage({
       message: `🚀 Usage alert sent for ${organization.name} organization (${organizationId})`,
@@ -180,6 +189,7 @@ export class OrganizationUsageService {
           organizationName: organization.name,
           limit,
           usage,
+          renewsAt,
           type: alert,
         });
       }),
