@@ -5,15 +5,15 @@ export const DocsBanner = (): JSX.Element => {
   return (
     <>
       Flows docs are in early stages and not everything is documented yet. If you have any
-      questions, please reach out to us{" "}
+      questions, please{" "}
       <a
         className={css({
           textDecoration: "underline!",
           fontWeight: "700!",
         })}
-        href={links.support}
+        href={links.docsContact}
       >
-        hello@flows.sh
+        contact us
       </a>
       .
     </>
