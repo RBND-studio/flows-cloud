@@ -2,7 +2,6 @@ import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { bulletCss, headingCss, paragraphCss, Section } from "components/ui";
 import type { ReactElement } from "react";
-import { links } from "shared";
 import { Text } from "ui";
 
 const Page = (): ReactElement => {
@@ -167,9 +166,9 @@ const Page = (): ReactElement => {
           by some other means.
         </Text>
         <Text className={paragraphCss} variant="bodyM">
-          Contact us at <a href={links.support}>hello@flows.sh</a> if you have any questions,
-          comments, or concerns about this privacy policy, your data, or your rights with respect to
-          your information.
+          Contact us at <strong>hello@flows.sh</strong> if you have any questions, comments, or
+          concerns about this privacy policy, your data, or your rights with respect to your
+          information.
         </Text>
         <Text className={paragraphCss} variant="bodyM">
           Last updated: April 6, 2024
