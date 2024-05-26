@@ -19,16 +19,19 @@ type Props = {
 export const FlowsList: FC<Props> = ({ projectId, flows, organizationId }) => {
   return (
     <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        borderStyle: "solid",
-        borderWidth: "1px",
-        borderColor: "border",
-        backgroundColor: "bg.card",
-        borderRadius: "radius12",
-        overflow: "hidden",
-      })}
+      className={cx(
+        "flow-list",
+        css({
+          display: "flex",
+          flexDirection: "column",
+          borderStyle: "solid",
+          borderWidth: "1px",
+          borderColor: "border",
+          backgroundColor: "bg.card",
+          borderRadius: "radius12",
+          overflow: "hidden",
+        }),
+      )}
     >
       {flows.map((flow) => (
         <Link
