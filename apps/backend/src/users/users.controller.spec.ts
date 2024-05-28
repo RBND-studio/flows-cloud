@@ -4,8 +4,8 @@ import { organizationsToUsers, userInvite, userMetadata } from "db";
 import { DatabaseService } from "../database/database.service";
 import { EmailService } from "../email/email.service";
 import { verifyCaptcha } from "../lib/captcha";
-import type { MockDB } from "../mocks";
-import { getMockDB } from "../mocks";
+import type { MockDB, MockEmailService } from "../mocks";
+import { getMockDB, getMockEmailService } from "../mocks";
 import { getMockNewsfeedService, type MockNewsfeedService } from "../mocks/newsfeed-service";
 import { NewsfeedService } from "../newsfeed/newsfeed.service";
 import { UsersController } from "./users.controller";
@@ -18,15 +18,12 @@ jest.mock("../lib/captcha", () => ({
 let usersController: UsersController;
 let db: MockDB;
 let newsfeedService: MockNewsfeedService;
-
-const emailService = {
-  createContact: jest.fn(),
-  signedUp: jest.fn(),
-};
+let emailService: MockEmailService;
 
 beforeEach(async () => {
   db = getMockDB();
   newsfeedService = getMockNewsfeedService();
+  emailService = getMockEmailService();
 
   const moduleRef = await Test.createTestingModule({
     controllers: [UsersController],
