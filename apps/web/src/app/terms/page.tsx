@@ -3,7 +3,6 @@ import { Flex } from "@flows/styled-system/jsx";
 import { headingCss, paragraphCss, Section, SmartLink } from "components/ui";
 import type { ReactElement } from "react";
 import { routes } from "routes";
-import { links } from "shared";
 import { Text } from "ui";
 
 const Page = (): ReactElement => {
@@ -285,7 +284,7 @@ const Page = (): ReactElement => {
         </Text>
         <Text className={paragraphCss} variant="bodyM">
           If you have a question about any of the Terms of Service, please contact us by e-mail at{" "}
-          <a href={links.support}>hello@flows.sh</a>.
+          <strong>hello@flows.sh</strong>.
         </Text>
         <Text className={paragraphCss} variant="bodyM">
           Last updated: April 6, 2024
