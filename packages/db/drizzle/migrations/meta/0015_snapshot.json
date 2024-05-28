@@ -1,10 +1,8 @@
 {
-  "id": "dd8c676f-037c-4ceb-acc1-ce8652e7672c",
-  "prevId": "1898feb9-5e76-4d4d-af9c-3ed8dc99a003",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "event": {
+    "public.event": {
       "name": "event",
       "schema": "",
       "columns": {
@@ -63,29 +61,29 @@
         "event_flow_id_flow_id_fk": {
           "name": "event_flow_id_flow_id_fk",
           "tableFrom": "event",
-          "tableTo": "flow",
           "columnsFrom": [
             "flow_id"
           ],
+          "tableTo": "flow",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "event_id_unique": {
           "name": "event_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "flow_version": {
+    "public.flow_version": {
       "name": "flow_version",
       "schema": "",
       "columns": {
@@ -121,29 +119,29 @@
         "flow_version_flow_id_flow_id_fk": {
           "name": "flow_version_flow_id_flow_id_fk",
           "tableFrom": "flow_version",
-          "tableTo": "flow",
           "columnsFrom": [
             "flow_id"
           ],
+          "tableTo": "flow",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "flow_version_id_unique": {
           "name": "flow_version_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "flow": {
+    "public.flow": {
       "name": "flow",
       "schema": "",
       "columns": {
@@ -257,42 +255,42 @@
         "flow_project_id_project_id_fk": {
           "name": "flow_project_id_project_id_fk",
           "tableFrom": "flow",
-          "tableTo": "project",
           "columnsFrom": [
             "project_id"
           ],
+          "tableTo": "project",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "flow_flow_version_id_flow_version_id_fk": {
           "name": "flow_flow_version_id_flow_version_id_fk",
           "tableFrom": "flow",
-          "tableTo": "flow_version",
           "columnsFrom": [
             "flow_version_id"
           ],
+          "tableTo": "flow_version",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "flow_id_unique": {
           "name": "flow_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "organization": {
+    "public.organization": {
       "name": "organization",
       "schema": "",
       "columns": {
@@ -336,14 +334,14 @@
       "uniqueConstraints": {
         "organization_id_unique": {
           "name": "organization_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "organization_to_user": {
+    "public.organization_to_user": {
       "name": "organization_to_user",
       "schema": "",
       "columns": {
@@ -365,34 +363,34 @@
         "organization_to_user_organization_id_organization_id_fk": {
           "name": "organization_to_user_organization_id_organization_id_fk",
           "tableFrom": "organization_to_user",
-          "tableTo": "organization",
           "columnsFrom": [
             "organization_id"
           ],
+          "tableTo": "organization",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "organization_to_user_user_id_users_id_fk": {
           "name": "organization_to_user_user_id_users_id_fk",
           "tableFrom": "organization_to_user",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "project": {
+    "public.project": {
       "name": "project",
       "schema": "",
       "columns": {
@@ -462,29 +460,29 @@
         "project_organization_id_organization_id_fk": {
           "name": "project_organization_id_organization_id_fk",
           "tableFrom": "project",
-          "tableTo": "organization",
           "columnsFrom": [
             "organization_id"
           ],
+          "tableTo": "organization",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "project_id_unique": {
           "name": "project_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "users": {
+    "auth.users": {
       "name": "users",
       "schema": "auth",
       "columns": {
@@ -530,7 +528,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user_invite": {
+    "public.user_invite": {
       "name": "user_invite",
       "schema": "",
       "columns": {
@@ -580,43 +578,45 @@
         "user_invite_organization_id_organization_id_fk": {
           "name": "user_invite_organization_id_organization_id_fk",
           "tableFrom": "user_invite",
-          "tableTo": "organization",
           "columnsFrom": [
             "organization_id"
           ],
+          "tableTo": "organization",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "user_invite_id_unique": {
           "name": "user_invite_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
   },
   "enums": {
-    "flow_frequency": {
+    "public.flow_frequency": {
       "name": "flow_frequency",
-      "values": {
-        "once": "once",
-        "every-time": "every-time"
-      }
+      "schema": "public",
+      "values": [
+        "once",
+        "every-time"
+      ]
     },
-    "flow_type": {
+    "public.flow_type": {
       "name": "flow_type",
-      "values": {
-        "cloud": "cloud",
-        "local": "local"
-      }
+      "schema": "public",
+      "values": [
+        "cloud",
+        "local"
+      ]
     }
   },
   "schemas": {
@@ -626,5 +626,7 @@
     "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "dd8c676f-037c-4ceb-acc1-ce8652e7672c",
+  "prevId": "1898feb9-5e76-4d4d-af9c-3ed8dc99a003"
 }
