@@ -19,18 +19,19 @@ COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=builder /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
-RUN yarn global add pnpm
-RUN pnpm install --ignore-scripts
+RUN corepack enable pnpm
+RUN pnpm install --ignore-scripts --frozen-lockfile
 
 COPY --from=builder /app/out/full/ .
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 RUN yarn turbo run build --filter=backend...
 
 FROM base as prod-installer
 WORKDIR /app
-RUN yarn global add pnpm
+RUN corepack enable pnpm
 COPY --from=builder /app/out/full/ .
-RUN pnpm install --production --ignore-scripts
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN pnpm install --production --ignore-scripts --frozen-lockfile
 
 FROM base AS runner
 WORKDIR /app
