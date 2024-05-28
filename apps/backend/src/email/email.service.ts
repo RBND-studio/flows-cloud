@@ -25,6 +25,7 @@ export class EmailService {
   async sendUsageAlert({
     email,
     limit,
+    isOrganizationSubscribed,
     organizationName,
     organizationId,
     usage,
@@ -33,6 +34,7 @@ export class EmailService {
   }: {
     email: string;
     type: OrganizationUsageAlertType;
+    isOrganizationSubscribed: boolean;
 
     organizationName: string;
     organizationId: string;
@@ -40,13 +42,23 @@ export class EmailService {
     usage: number;
     limit: number;
   }): Promise<ReturnType<LoopsClient["sendTransactionalEmail"]>> {
-    const templateByAlertType: Record<OrganizationUsageAlertType, string> = {
+    const subsribedTemplateByAlertType: Record<OrganizationUsageAlertType, string> = {
       // cspell:disable-next-line
       approachingUsageLimit: "clwhium2a01nadxap9d3lnvrf",
       // cspell:disable-next-line
       exceededUsageLimit: "clwhj5ue700v5gn9teb9w7ud2",
     };
-    return this.loops.sendTransactionalEmail(templateByAlertType[type], email, {
+    const freeTemplateByAlertType: Record<OrganizationUsageAlertType, string> = {
+      // cspell:disable-next-line
+      approachingUsageLimit: "clwq17f6n0274vmjjp4wmeg60",
+      // cspell:disable-next-line
+      exceededUsageLimit: "clwq16zxw01e4lt7jed3sogpz",
+    };
+    const template = isOrganizationSubscribed
+      ? subsribedTemplateByAlertType[type]
+      : freeTemplateByAlertType[type];
+
+    return this.loops.sendTransactionalEmail(template, email, {
       organizationId,
       organizationName,
       renewsAt,
