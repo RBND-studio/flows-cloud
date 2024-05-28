@@ -147,6 +147,7 @@ describe("sendUsageAlertIfNeeded", () => {
     expect(newsfeedService.postMessage).toHaveBeenCalled();
     expect(db.query.subscriptions.findFirst).toHaveBeenCalled();
     expect(emailService.sendUsageAlert).toHaveBeenCalledWith({
+      isOrganizationSubscribed: true,
       email: "test@test.com",
       organizationId: "orgId",
       organizationName: "orgName",

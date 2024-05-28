@@ -177,6 +177,7 @@ export class OrganizationUsageService {
     if (!organization) throw new InternalServerErrorException("Organization not found");
     const emails = users.flatMap(({ user }) => user.email ?? []);
     const renewsAt = dayjs(subscription?.renews_at ?? FREE_RENEWAL_DATE).format("MMMM D, YYYY");
+    const isOrganizationSubscribed = !!subscription;
 
     void this.newsfeedService.postMessage({
       message: `🚀 Usage alert sent for ${organization.name} organization (${organizationId})`,
@@ -185,6 +186,7 @@ export class OrganizationUsageService {
     await Promise.all(
       emails.map((email) => {
         return this.emailService.sendUsageAlert({
+          isOrganizationSubscribed,
           email,
           organizationId,
           organizationName: organization.name,
