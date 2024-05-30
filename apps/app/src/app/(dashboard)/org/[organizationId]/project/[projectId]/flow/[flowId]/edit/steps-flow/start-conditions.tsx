@@ -36,6 +36,8 @@ export const StartConditions: FC<Props> = ({ onSelectItem, selectedItem }) => {
       if (firstOption.change) return "By changing input";
       if (firstOption.clickElement && location) return "By clicking element at specific page";
       if (firstOption.clickElement) return "By clicking element";
+      if (firstOption.element && location) return "By adding element to the DOM at specific page";
+      if (firstOption.element) return "By adding element to the DOM";
       if (location) return "By visiting a page";
       return "From code";
     }

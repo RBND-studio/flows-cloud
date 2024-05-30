@@ -27,9 +27,11 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
   const isStart = fieldName.startsWith("start.");
 
   const currentVariant = (() => {
+    if (value.element !== undefined) return "element";
+    if (value.clickElement !== undefined) return "click";
     if (value.form) return "submit";
     if (value.change) return "change";
-    return "click";
+    return "empty";
   })();
   const handleVariantChange = (variant: typeof currentVariant): void => {
     let newValue: WaitStepOptions | null = null;
@@ -51,6 +53,14 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
         targetBranch: value.targetBranch,
         clickElement: "",
       };
+    if (variant === "element")
+      newValue = {
+        location: value.location,
+        targetBranch: value.targetBranch,
+        element: "",
+      };
+    if (variant === "empty")
+      newValue = { location: value.location, targetBranch: value.targetBranch };
     if (newValue) setValue(fieldName, newValue, { shouldDirty: true });
   };
 
@@ -72,13 +82,14 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
         placeholder="^/path$ (uses regex)"
       />
 
-      <Flex gap="space4" my="space16">
-        {(["click", "change", "submit"] as const).map((variant) => (
+      <Flex my="space16" cardWrap="-" overflowX="auto">
+        {(["empty", "click", "element", "change", "submit"] as const).map((variant) => (
           <Button
             key={variant}
             onClick={() => handleVariantChange(variant)}
             size="small"
-            variant={currentVariant === variant ? "black" : "secondary"}
+            className={css({ flex: "1 0 32px"})}
+            variant={currentVariant === variant ? "black" : "ghost"}
           >
             {t.steps.wait.variant[variant]}
           </Button>
@@ -89,8 +100,17 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
         <Input
           {...register(`${fieldName}.clickElement`)}
           defaultValue={value.clickElement}
-          description="Wait for the user to click on this element can be combined with 'location'"
+          description="Wait for the user to click on this element, can be combined with 'location'"
           label="Click element"
+          placeholder=".element"
+        />
+      )}
+      {currentVariant === "element" && (
+        <Input
+          {...register(`${fieldName}.element`)}
+          defaultValue={value.element}
+          description="Wait for the element to appear in the DOM, can be combined with 'location'"
+          label="Existing element"
           placeholder=".element"
         />
       )}

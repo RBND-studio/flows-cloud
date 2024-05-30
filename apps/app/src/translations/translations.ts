@@ -104,6 +104,8 @@ export const t = {
     },
     wait: {
       variant: {
+        empty: "-",
+        element: "Element in page",
         submit: "Form submit",
         click: "Click",
         change: "Input change",
