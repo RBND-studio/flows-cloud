@@ -24,7 +24,7 @@ RUN pnpm install --ignore-scripts --frozen-lockfile
 
 COPY --from=builder /app/out/full/ .
 RUN pnpm install --frozen-lockfile
-RUN yarn turbo run build --filter=backend...
+RUN pnpm turbo run build --filter=backend...
 
 FROM base as prod-installer
 WORKDIR /app
