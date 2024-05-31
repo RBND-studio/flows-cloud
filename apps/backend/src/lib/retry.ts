@@ -1,5 +1,5 @@
 export const retry = <T>(fn: () => Promise<T>, retries = 3): Promise<T> =>
-  fn().catch((error) => {
+  fn().catch((error: unknown) => {
     if (retries > 0) {
       return retry(fn, retries - 1);
     }

@@ -14,11 +14,11 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^14.1.4",
+    "@next/bundle-analyzer": "^14.2.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@rbnd/react-dark-mode": "^2.0.1",
     "contentlayer": "^0.3.4",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.11",
     "icons": "workspace:*",
     "next": "14.2.3",
     "next-contentlayer": "^0.3.4",
@@ -30,14 +30,14 @@
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.0",
     "shared": "workspace:*",
-    "sharp": "^0.33.2",
+    "sharp": "^0.33.4",
     "ui": "workspace:*"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "14.2.3",
-    "@pandacss/dev": "0.37.2",
-    "@types/node": "^20.11.29",
-    "@types/react": "^18.3.2",
+    "@pandacss/dev": "0.39.2",
+    "@types/node": "^20.12.12",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
