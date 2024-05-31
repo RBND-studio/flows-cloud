@@ -28,7 +28,7 @@ RUN pnpm install --ignore-scripts --frozen-lockfile
 COPY --from=builder /app/out/full/ .
 RUN PROD=true pnpm install --frozen-lockfile
 ARG APP
-RUN yarn turbo run build --filter=${APP}...
+RUN pnpm turbo run build --filter=${APP}...
 
 FROM base AS runner
 WORKDIR /app
