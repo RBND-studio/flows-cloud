@@ -82,18 +82,23 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
         placeholder="^/path$ (uses regex)"
       />
 
-      <Flex my="space16" cardWrap="-" overflowX="auto">
-        {(["empty", "click", "element", "change", "submit"] as const).map((variant) => (
-          <Button
-            key={variant}
-            onClick={() => handleVariantChange(variant)}
-            size="small"
-            className={css({ flex: "1 0 32px"})}
-            variant={currentVariant === variant ? "black" : "ghost"}
-          >
-            {t.steps.wait.variant[variant]}
-          </Button>
-        ))}
+      <Flex flexDirection="column" alignItems="flex-start" my="space16">
+        <Text weight="600">Action</Text>
+        <Text color="muted" mb="space8" variant="bodyXs">
+          What should happen to trigger this step?
+        </Text>
+        <Flex cardWrap="-" overflowX="auto">
+          {(["empty", "click", "element", "change", "submit"] as const).map((variant) => (
+            <Button
+              key={variant}
+              onClick={() => handleVariantChange(variant)}
+              size="small"
+              variant={currentVariant === variant ? "black" : "ghost"}
+            >
+              {t.steps.wait.variant[variant]}
+            </Button>
+          ))}
+        </Flex>
       </Flex>
 
       {currentVariant === "click" && (
@@ -109,7 +114,7 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
         <Input
           {...register(`${fieldName}.element`)}
           defaultValue={value.element}
-          description="Wait for the element to appear in the DOM, can be combined with 'location'"
+          description="Wait for the element to appear on the page, can be combined with 'location'"
           label="Existing element"
           placeholder=".element"
         />

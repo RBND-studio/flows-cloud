@@ -13,12 +13,13 @@ export const FrequencyForm: FC = () => {
   const { control } = useFlowEditForm();
 
   return (
-    <Flex flexDirection="column" gap="space12" padding="space16">
-      <Flex flexDirection="column">
+    <Flex flexDirection="column">
+      <Flex flexDirection="column" p="space16" borBottom="1px">
         <Text variant="titleL">{t.frequency.frequency}</Text>
         <Text color="muted">{t.frequency.description}</Text>
       </Flex>
-      <Flex gap="space8">
+
+      <Flex gap="space8" p="space16">
         <Controller
           control={control}
           name="frequency"

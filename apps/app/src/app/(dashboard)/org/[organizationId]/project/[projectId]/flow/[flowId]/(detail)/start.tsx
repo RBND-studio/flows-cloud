@@ -126,7 +126,7 @@ export const Start: FC<Props> = ({ flow }) => {
                       >
                         <Text weight="600">{startOption.element}</Text>
                       </div>
-                      <Text>appears in the DOM</Text>
+                      <Text>appears on a page</Text>
                     </>
                   ) : null}
                 </Wrap>
