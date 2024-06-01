@@ -6,7 +6,6 @@ import { useSend } from "hooks/use-send";
 import { GitHub16, Google16, Mail16 } from "icons";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { t } from "translations";
 import {
   Button,
@@ -37,7 +36,7 @@ export const ConnectedAccount = ({
   user,
   hasPassword,
 }: ConnectedAccountProps): JSX.Element => {
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  //const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const { send, loading, error } = useSend();
   const router = useRouter();
   const handleUnlink = async (): Promise<void> => {
@@ -45,7 +44,6 @@ export const ConnectedAccount = ({
       errorMessage: t.toasts.accountUnlinkFailed,
     });
     if (!error) {
-      setConfirmDialogOpen(false);
       void mutate("/organizations", []);
       router.refresh();
     }
@@ -84,8 +82,6 @@ export const ConnectedAccount = ({
           trigger={
             <div>
               <Dialog
-                open={confirmDialogOpen}
-                onOpenChange={setConfirmDialogOpen}
                 trigger={
                   <Button disabled={isDisabled} loading={loading} size="small" variant="danger">
                     {t.actions.unlink}
