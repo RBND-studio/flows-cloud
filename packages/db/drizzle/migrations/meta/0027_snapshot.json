@@ -1,10 +1,8 @@
 {
-  "id": "1992f36f-a866-4f6e-bfce-697cbbcd36f8",
-  "prevId": "527b67e6-0030-4bc2-8919-827fda68b82c",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "event": {
+    "public.event": {
       "name": "event",
       "schema": "",
       "columns": {
@@ -81,29 +79,29 @@
         "event_flow_id_flow_id_fk": {
           "name": "event_flow_id_flow_id_fk",
           "tableFrom": "event",
-          "tableTo": "flow",
           "columnsFrom": [
             "flow_id"
           ],
+          "tableTo": "flow",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "event_id_unique": {
           "name": "event_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "flow_version": {
+    "public.flow_version": {
       "name": "flow_version",
       "schema": "",
       "columns": {
@@ -159,29 +157,29 @@
         "flow_version_flow_id_flow_id_fk": {
           "name": "flow_version_flow_id_flow_id_fk",
           "tableFrom": "flow_version",
-          "tableTo": "flow",
           "columnsFrom": [
             "flow_id"
           ],
+          "tableTo": "flow",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "flow_version_id_unique": {
           "name": "flow_version_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "flow": {
+    "public.flow": {
       "name": "flow",
       "schema": "",
       "columns": {
@@ -282,55 +280,55 @@
         "flow_project_id_project_id_fk": {
           "name": "flow_project_id_project_id_fk",
           "tableFrom": "flow",
-          "tableTo": "project",
           "columnsFrom": [
             "project_id"
           ],
+          "tableTo": "project",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "flow_published_version_id_flow_version_id_fk": {
           "name": "flow_published_version_id_flow_version_id_fk",
           "tableFrom": "flow",
-          "tableTo": "flow_version",
           "columnsFrom": [
             "published_version_id"
           ],
+          "tableTo": "flow_version",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "set null"
         },
         "flow_draft_version_id_flow_version_id_fk": {
           "name": "flow_draft_version_id_flow_version_id_fk",
           "tableFrom": "flow",
-          "tableTo": "flow_version",
           "columnsFrom": [
             "draft_version_id"
           ],
+          "tableTo": "flow_version",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "set null"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "flow_id_unique": {
           "name": "flow_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "organization": {
+    "public.organization": {
       "name": "organization",
       "schema": "",
       "columns": {
@@ -374,14 +372,14 @@
       "uniqueConstraints": {
         "organization_id_unique": {
           "name": "organization_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "organization_to_user": {
+    "public.organization_to_user": {
       "name": "organization_to_user",
       "schema": "",
       "columns": {
@@ -403,35 +401,35 @@
         "organization_to_user_organization_id_organization_id_fk": {
           "name": "organization_to_user_organization_id_organization_id_fk",
           "tableFrom": "organization_to_user",
-          "tableTo": "organization",
           "columnsFrom": [
             "organization_id"
           ],
+          "tableTo": "organization",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "organization_to_user_user_id_users_id_fk": {
           "name": "organization_to_user_user_id_users_id_fk",
           "tableFrom": "organization_to_user",
-          "tableTo": "users",
-          "schemaTo": "auth",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
+          "schemaTo": "auth",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "project": {
+    "public.project": {
       "name": "project",
       "schema": "",
       "columns": {
@@ -513,29 +511,29 @@
         "project_organization_id_organization_id_fk": {
           "name": "project_organization_id_organization_id_fk",
           "tableFrom": "project",
-          "tableTo": "organization",
           "columnsFrom": [
             "organization_id"
           ],
+          "tableTo": "organization",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "project_id_unique": {
           "name": "project_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
-    "user_metadata": {
+    "public.user_metadata": {
       "name": "user_metadata",
       "schema": "",
       "columns": {
@@ -558,22 +556,22 @@
         "user_metadata_user_id_users_id_fk": {
           "name": "user_metadata_user_id_users_id_fk",
           "tableFrom": "user_metadata",
-          "tableTo": "users",
-          "schemaTo": "auth",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
+          "schemaTo": "auth",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
+    "auth.users": {
       "name": "users",
       "schema": "auth",
       "columns": {
@@ -619,7 +617,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user_invite": {
+    "public.user_invite": {
       "name": "user_invite",
       "schema": "",
       "columns": {
@@ -669,70 +667,76 @@
         "user_invite_organization_id_organization_id_fk": {
           "name": "user_invite_organization_id_organization_id_fk",
           "tableFrom": "user_invite",
-          "tableTo": "organization",
           "columnsFrom": [
             "organization_id"
           ],
+          "tableTo": "organization",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "user_invite_id_unique": {
           "name": "user_invite_id_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
   },
   "enums": {
-    "event_type": {
+    "public.event_type": {
       "name": "event_type",
-      "values": {
-        "startFlow": "startFlow",
-        "nextStep": "nextStep",
-        "prevStep": "prevStep",
-        "tooltipError": "tooltipError",
-        "invalidStepError": "invalidStepError",
-        "cancelFlow": "cancelFlow",
-        "finishFlow": "finishFlow"
-      }
+      "schema": "public",
+      "values": [
+        "startFlow",
+        "nextStep",
+        "prevStep",
+        "tooltipError",
+        "invalidStepError",
+        "cancelFlow",
+        "finishFlow"
+      ]
     },
-    "flow_frequency": {
+    "public.flow_frequency": {
       "name": "flow_frequency",
-      "values": {
-        "once": "once",
-        "every-time": "every-time"
-      }
+      "schema": "public",
+      "values": [
+        "once",
+        "every-time"
+      ]
     },
-    "flow_type": {
+    "public.flow_type": {
       "name": "flow_type",
-      "values": {
-        "cloud": "cloud",
-        "local": "local"
-      }
+      "schema": "public",
+      "values": [
+        "cloud",
+        "local"
+      ]
     },
-    "user_role": {
+    "public.user_role": {
       "name": "user_role",
-      "values": {
-        "admin": "admin",
-        "user": "user"
-      }
+      "schema": "public",
+      "values": [
+        "admin",
+        "user"
+      ]
     }
   },
   "schemas": {
     "auth": "auth"
   },
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "1992f36f-a866-4f6e-bfce-697cbbcd36f8",
+  "prevId": "527b67e6-0030-4bc2-8919-827fda68b82c"
 }

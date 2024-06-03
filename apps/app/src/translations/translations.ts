@@ -46,6 +46,7 @@ export const t = {
     deleteInviteFailed: "Failed to delete invite",
     deleteInviteSuccess: "Invite deleted",
     saveFlowFailed: "Failed to update flow",
+    removeFlowDraftFailed: "Failed to remove draft",
     deleteFlowFailed: "Failed to delete flow",
     publishFlowFailed: "Failed to publish flow",
     enableFlowFailed: "Failed to enable flow",

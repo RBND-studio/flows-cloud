@@ -5,32 +5,38 @@ import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
 import { EmailService } from "../email/email.service";
 import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
-import type { MockDB, MockDbPermissionService } from "../mocks";
-import { getMockDB, getMockDbPermissionService } from "../mocks";
-import { getMockLemonSqueezyService, type MockLemonSqueezyService } from "../mocks/lemon-squeezy";
+import type {
+  MockDB,
+  MockDbPermissionService,
+  MockEmailService,
+  MockLemonSqueezyService,
+  MockOrganizationUsageService,
+} from "../mocks";
 import {
+  getMockDB,
+  getMockDbPermissionService,
+  getMockEmailService,
+  getMockLemonSqueezyService,
   getMockOrganizationUsageService,
-  type MockOrganizationUsageService,
-} from "../mocks/organization-usage";
+} from "../mocks";
 import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
 import { OrganizationsController } from "./organizations.controller";
 import { OrganizationsService } from "./organizations.service";
 
 let organizationsController: OrganizationsController;
-const emailService = {
-  sendInvite: jest.fn(),
-};
 
 let dbPermissionService: MockDbPermissionService;
 let db: MockDB;
 let organizationUsageService: MockOrganizationUsageService;
 let lemonSqueezyService: MockLemonSqueezyService;
+let emailService: MockEmailService;
 
 beforeEach(async () => {
   db = getMockDB();
   dbPermissionService = getMockDbPermissionService();
   organizationUsageService = getMockOrganizationUsageService();
   lemonSqueezyService = getMockLemonSqueezyService();
+  emailService = getMockEmailService();
 
   db.orderBy.mockResolvedValue([{ organization: { id: "org1" } }]);
   db.query.organizations.findFirst.mockResolvedValue({

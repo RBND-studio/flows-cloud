@@ -1,16 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import type LoopsClient from "loops";
+import { LoopsClient } from "loops";
 
-const importLoops = async (): Promise<typeof LoopsClient> => {
-  // eslint-disable-next-line no-eval -- workaround for the ESM import
-  const module = (await eval(`import('loops')`)) as { default: typeof LoopsClient };
-  return module.default;
-};
+import { type OrganizationUsageAlertType } from "../types/organization";
 
 @Injectable()
 export class EmailService {
-  async loops(): Promise<LoopsClient> {
-    const LoopsClient = await importLoops();
+  get loops(): LoopsClient {
     return new LoopsClient(process.env.BACKEND_LOOPS_API_KEY);
   }
 
@@ -21,10 +16,54 @@ export class EmailService {
     organizationName: string;
     email: string;
   }): Promise<ReturnType<LoopsClient["sendTransactionalEmail"]>> {
-    const loops = await this.loops();
-    return loops.sendTransactionalEmail("clpxmw7h70012jo0pp0pe0hb5", email, {
+    return this.loops.sendTransactionalEmail("clpxmw7h70012jo0pp0pe0hb5", email, {
       orgName: organizationName,
       acceptUrl: process.env.BACKEND_APP_URL,
+    });
+  }
+
+  async sendUsageAlert({
+    email,
+    limit,
+    isOrganizationSubscribed,
+    organizationName,
+    organizationId,
+    usage,
+    type,
+    renewsAt,
+  }: {
+    email: string;
+    type: OrganizationUsageAlertType;
+    isOrganizationSubscribed: boolean;
+
+    organizationName: string;
+    organizationId: string;
+    renewsAt: string;
+    usage: number;
+    limit: number;
+  }): Promise<ReturnType<LoopsClient["sendTransactionalEmail"]>> {
+    const subsribedTemplateByAlertType: Record<OrganizationUsageAlertType, string> = {
+      // cspell:disable-next-line
+      approachingUsageLimit: "clwhium2a01nadxap9d3lnvrf",
+      // cspell:disable-next-line
+      exceededUsageLimit: "clwhj5ue700v5gn9teb9w7ud2",
+    };
+    const freeTemplateByAlertType: Record<OrganizationUsageAlertType, string> = {
+      // cspell:disable-next-line
+      approachingUsageLimit: "clwq17f6n0274vmjjp4wmeg60",
+      // cspell:disable-next-line
+      exceededUsageLimit: "clwq16zxw01e4lt7jed3sogpz",
+    };
+    const template = isOrganizationSubscribed
+      ? subsribedTemplateByAlertType[type]
+      : freeTemplateByAlertType[type];
+
+    return this.loops.sendTransactionalEmail(template, email, {
+      organizationId,
+      organizationName,
+      renewsAt,
+      usage,
+      limit,
     });
   }
 
@@ -33,12 +72,10 @@ export class EmailService {
   }: {
     email: string;
   }): Promise<ReturnType<LoopsClient["createContact"]>> {
-    const loops = await this.loops();
-    return loops.createContact(email);
+    return this.loops.createContact(email);
   }
 
   async signedUp({ email }: { email: string }): Promise<ReturnType<LoopsClient["sendEvent"]>> {
-    const loops = await this.loops();
-    return loops.sendEvent({ email }, "signup");
+    return this.loops.sendEvent({ email, eventName: "signup" });
   }
 }

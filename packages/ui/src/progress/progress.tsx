@@ -11,11 +11,17 @@ export const Progress: FC<Props> = ({ max, value, className }) => {
   const width = (value / max) * 100 || 0;
 
   return (
-    <Box position="relative" height="8px" className={className} borderRadius="100px" bg="bg.subtle">
+    <Box
+      position="relative"
+      height="8px"
+      overflow="hidden"
+      className={className}
+      borderRadius="100px"
+      bg="bg.subtle"
+    >
       <Box
         position="absolute"
         style={{ width: `${width}%` }}
-        borderRadius="100px"
         left={0}
         top={0}
         height="100%"

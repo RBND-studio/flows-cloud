@@ -2,6 +2,7 @@ import type { MiddlewareConsumer, NestModule } from "@nestjs/common";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { APP_GUARD } from "@nestjs/core";
+import { ScheduleModule } from "@nestjs/schedule";
 import { minutes, ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import cors from "cors";
 
@@ -30,6 +31,8 @@ const publicRoutes: string[] = [
   "/sdk/flows/:flowId/draft",
 ];
 
+const isTest = process.env.NODE_ENV === "test";
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -39,6 +42,7 @@ const publicRoutes: string[] = [
         limit: 250,
       },
     ]),
+    ...(!isTest ? [ScheduleModule.forRoot()] : []),
     DatabaseModule,
     DbPermissionModule,
     OrganizationUsageModule,

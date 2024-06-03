@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "cspell": "^8.4.0",
-    "eslint": "8.50.0",
+    "cspell": "^8.8.3",
+    "eslint": "8.57.0",
     "husky": "^9.0.11",
-    "prettier": "^3.0.3",
+    "prettier": "^3.2.5",
     "tsconfig": "workspace:*",
     "turbo": "^1.13.3"
   }

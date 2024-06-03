@@ -1,6 +1,6 @@
 import type { FlowSteps, WaitStepOptions } from "@flows/js";
 import { type FlowDetail, type UpdateFlow } from "lib/api";
-import { type DefaultValues, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 import { type MatchGroup } from "./targeting";
 
@@ -10,7 +10,7 @@ export type IFlowEditForm = Pick<UpdateFlow, "frequency"> & {
   start: WaitStepOptions[];
 };
 
-export const createDefaultValues = (flow: FlowDetail): DefaultValues<IFlowEditForm> => {
+export const createDefaultValues = (flow: FlowDetail): IFlowEditForm => {
   const editVersion = flow.draftVersion ?? flow.publishedVersion;
   return {
     steps: (editVersion?.steps as FlowSteps | undefined) ?? [],
@@ -29,3 +29,15 @@ export type SelectedItem =
   | "targeting"
   | "start"
   | "frequency";
+
+export const formToRequest = (data: IFlowEditForm): UpdateFlow => {
+  const fixedUserProperties = data.userProperties
+    .map((group) => group.filter((matcher) => !!matcher.key))
+    .filter((group) => !!group.length);
+  return {
+    ...data,
+    start: data.start as unknown as UpdateFlow["start"],
+    steps: data.steps as unknown as UpdateFlow["steps"],
+    userProperties: fixedUserProperties,
+  };
+};

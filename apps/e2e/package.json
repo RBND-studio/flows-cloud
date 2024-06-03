@@ -8,8 +8,8 @@
     "cy:run": "cypress run"
   },
   "devDependencies": {
-    "@types/node": "^20.11.29",
-    "cypress": "^13.8.1",
+    "@types/node": "^20.12.12",
+    "cypress": "^13.10.0",
     "typescript": "5.4.5"
   }
 }
