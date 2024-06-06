@@ -65,7 +65,7 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
         <Flex gap="space8">
           <Input
             className={css({ flex: 1 })}
-            description="Localhost is allowed by default"
+            description='Localhost is allowed by default. You can allow null origins by adding "null".'
             disabled
             value="http://localhost"
           />
