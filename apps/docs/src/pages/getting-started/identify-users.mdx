@@ -8,7 +8,7 @@ description: Learn how to identify users in your application.
 For flows to show up only once to a user, you need to identify the user. This is done by passing a `userId` parameter to the `init` function. This will allow you to count unique users that have seen your flows and show the flows only once to a specific user.
 
 ```js
-import init from "@flows/js";
+import { init } from "@flows/js";
 
 init({
   // Unique identifier for the user
@@ -26,7 +26,7 @@ The `userId` parameter can be any unique identifier for the user. We recommend u
 To target your flows to specific users, you can optionally pass user properties to the `init` function. These properties can be used to target flows to specific users based on their properties.
 
 ```js
-import init from "@flows/js";
+import { init } from "@flows/js";
 
 init({
   userId: "xxxx",
