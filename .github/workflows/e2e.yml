@@ -14,6 +14,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
-      - run: pnpm install
-      - run: pnpm e2e cy:run --env http_auth_username=${{ secrets.http_auth_username }},http_auth_password=${{ secrets.http_auth_password }},app_email=${{ secrets.app_email }},app_password=${{ secrets.app_password }}
+      - uses: cypress-io/github-action@v6
+        with:
+          command: pnpm e2e cy:run --env http_auth_username=${{ secrets.http_auth_username }},http_auth_password=${{ secrets.http_auth_password }},app_email=${{ secrets.app_email }},app_password=${{ secrets.app_password }}
