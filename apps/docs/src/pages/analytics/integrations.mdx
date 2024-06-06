@@ -12,7 +12,7 @@ Flows automatically track how users interact with your flows to help you better 
 To integrate Flows with your analytics tool, pass a `tracking` function to the Flows `init` function. The `tracking` function will be called every time a user interacts with your flows sending and `event` object with the details of the interaction.
 
 ```js
-import init from "@flows/js";
+import { init } from "@flows/js";
 
 init({
   projectId: "xxx",
@@ -90,7 +90,7 @@ interface TrackingEvent {
 Here is an example of how you can send events from Flows to Mixpanel for analysis:
 
 ```js
-import init from "@flows/js";
+import { init } from "@flows/js";
 import mixpanel from "mixpanel-browser";
 
 init({
