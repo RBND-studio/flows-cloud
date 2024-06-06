@@ -11,7 +11,11 @@ Select the domains where the Flows SDK can be used. This is a security feature t
 
 ## Add a domain
 
-To add a domain, just click on the **Add domain** button and enter the domain name. Make sure to enter the domain with the correct protocol (http:// or https://) and without the trailing slash. We don't support wildcards.
+To add a domain, just click on the **Add domain** button and enter the domain name. Make sure to enter the domain with the correct protocol (`http://` or `https://`) and without the trailing slash. We don't support wildcards.
+
+### Null origin
+
+Some environments don't have a domain, for example Figma plugins. You can allow null origins by adding `null` to the list of allowed domains.
 
 ## Local development
 
