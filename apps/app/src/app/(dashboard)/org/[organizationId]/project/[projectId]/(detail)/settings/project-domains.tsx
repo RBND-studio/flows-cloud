@@ -6,7 +6,7 @@ import { mutate } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
 import { Plus16 } from "icons";
 import { api, type ProjectDetail } from "lib/api";
-import { fixOrigin, isValidUrl } from "lib/url";
+import { fixProjectOrigin, isValidProjectOrigin } from "lib/url";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
@@ -33,7 +33,7 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
   const onSubmit: SubmitHandler<DomainsForm> = async (data) => {
     const res = await send(
       api["PATCH /projects/:projectId"](project.id, {
-        domains: data.domains.map((d) => fixOrigin(d.value)).filter((x): x is string => !!x),
+        domains: data.domains.map((d) => fixProjectOrigin(d.value)).filter((x): x is string => !!x),
       }),
       { errorMessage: t.toasts.saveProjectFailed },
     );
@@ -80,7 +80,7 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
                 <Input
                   {...register(`domains.${i}.value`, {
                     validate: (v) => {
-                      if (!isValidUrl(v)) return t.project.domains.invalidDomain;
+                      if (!isValidProjectOrigin(v)) return t.project.domains.invalidDomain;
                     },
                   })}
                   className={css({ flex: 1 })}
