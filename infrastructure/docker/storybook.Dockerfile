@@ -13,12 +13,12 @@ WORKDIR /app
 
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
-RUN yarn global add pnpm
-RUN pnpm install --ignore-scripts
+RUN corepack enable pnpm
+RUN pnpm install --ignore-scripts --frozen-lockfile
 
 COPY --from=builder /app/out/full/ .
 RUN pnpm install
-RUN yarn turbo run build --filter=ui
+RUN pnpm turbo run build --filter=ui
 
 FROM nginx:alpine AS runner
 
