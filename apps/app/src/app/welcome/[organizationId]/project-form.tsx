@@ -5,7 +5,7 @@ import { Flex } from "@flows/styled-system/jsx";
 import { useSend } from "hooks/use-send";
 import { Close16, Plus16 } from "icons";
 import { api } from "lib/api";
-import { fixOrigin, isValidUrl } from "lib/url";
+import { fixProjectOrigin, isValidProjectOrigin } from "lib/url";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
@@ -31,7 +31,7 @@ export const ProjectForm: FC<Props> = ({ organizationId }) => {
     const res = await send(
       api["POST /organizations/:organizationId/projects"](organizationId, {
         name: data.name,
-        domains: data.domains.map((d) => fixOrigin(d.value)).filter((x): x is string => !!x),
+        domains: data.domains.map((d) => fixProjectOrigin(d.value)).filter((x): x is string => !!x),
       }),
       { errorMessage: t.toasts.createProjectFailed },
     );
@@ -62,7 +62,7 @@ export const ProjectForm: FC<Props> = ({ organizationId }) => {
                       <Input
                         {...register(`domains.${i}.value`, {
                           validate: (v) => {
-                            if (!isValidUrl(v)) return t.project.domains.invalidDomain;
+                            if (!isValidProjectOrigin(v)) return t.project.domains.invalidDomain;
                           },
                         })}
                         className={css({ flex: 1 })}
