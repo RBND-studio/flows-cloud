@@ -223,6 +223,11 @@ export const t = {
         "This is the only way for you to login. To unlink it delete your account or create a password.",
       changePassword: "Change password",
       createPassword: "Create password",
+      unlinkDialog: {
+        title: "Unlink account",
+        description: "Are you sure you want to unlink this account?",
+        confirm: "Unlink account",
+      },
     },
     deleteAccount: {
       title: "Delete account",

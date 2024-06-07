@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { type Auth, Authorization } from "../auth";
@@ -47,7 +47,7 @@ export class UsersController {
   @Delete("me/identities/:providerId")
   deleteIdentity(
     @Authorization() auth: Auth,
-    @UUIDParam("providerId") providerId: string,
+    @Param("providerId") providerId: string,
   ): Promise<void> {
     return this.usersService.deleteIdentity({ auth, providerId });
   }
