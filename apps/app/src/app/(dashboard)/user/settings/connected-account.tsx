@@ -36,14 +36,13 @@ export const ConnectedAccount = ({
   user,
   hasPassword,
 }: ConnectedAccountProps): JSX.Element => {
-  //const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const { send, loading, error } = useSend();
+  const { send, loading } = useSend();
   const router = useRouter();
   const handleUnlink = async (): Promise<void> => {
-    await send(api["DELETE /me/identities/:providerId"](identity.id), {
+    const res = await send(api["DELETE /me/identities/:providerId"](identity.id), {
       errorMessage: t.toasts.accountUnlinkFailed,
     });
-    if (!error) {
+    if (!res.error) {
       void mutate("/organizations", []);
       router.refresh();
     }
