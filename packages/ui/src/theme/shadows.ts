@@ -41,9 +41,9 @@ export const shadows = defineTokens.shadows({
   },
 
   lightFocus: {
-    value: "0 0 0 4px rgba(212, 65, 33, 0.25)",
+    value: "0 0 0 4px rgba(6, 126, 253, 0.25)",
   },
   darkFocus: {
-    value: "0 0 0 4px rgba(212, 65, 33, 0.3)",
+    value: "0 0 0 4px rgba(6, 126, 253, 0.3)",
   },
 });

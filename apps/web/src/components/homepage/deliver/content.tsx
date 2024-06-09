@@ -1,7 +1,7 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { ThemeImage } from "components/theme-image";
-import { FeatureCard, type FeatureCardTypes } from "components/ui";
+import { FeatureCard, type FeatureCardTypes, LinesBox } from "components/ui";
 import { Hourglass16, Storage16 } from "icons";
 import type { FC } from "react";
 import { Text } from "ui";
@@ -54,15 +54,8 @@ const mainList: FeatureCardTypes[] = [
     featureName: "Script size",
     mainSlot: (
       <>
-        <span>Tiny size.</span> Flows script is just{" "}
-        <span
-          className={css({
-            color: "text.primary!",
-          })}
-        >
-          ~20kB
-        </span>
-        . Bundle it with your app or load from CDN.
+        <span>Robust product tours.</span> Rest easy knowing that your onboarding shows up every
+        time.
       </>
     ),
     illustration: (
@@ -81,15 +74,26 @@ const mainList: FeatureCardTypes[] = [
 
 export const Content: FC = () => {
   return (
-    <Flex
-      className={css({
-        flexDir: { smDown: "column" },
-      })}
-      gap="space32"
-    >
-      {mainList.map((item) => {
-        return <FeatureCard key={item.featureName} {...item} />;
-      })}
-    </Flex>
+    <LinesBox>
+      <Flex flexDirection="column" gap="space16">
+        <Flex
+          className={css({
+            flexDir: { smDown: "column" },
+          })}
+          gap="space16"
+        >
+          {mainList.map((item) => {
+            return <FeatureCard key={item.featureName} {...item} />;
+          })}
+        </Flex>
+        <FeatureCard
+          mainSlot={
+            <>
+              <span>Privacy first.</span> We don&apos;t collect any information about your users.
+            </>
+          }
+        />
+      </Flex>
+    </LinesBox>
   );
 };

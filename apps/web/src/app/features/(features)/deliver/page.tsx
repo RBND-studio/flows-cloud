@@ -14,6 +14,7 @@ import { Text } from "ui";
 
 import { metadata as featuresLayoutMetadata } from "../../layout";
 import frequencyImage from "./frequency.webp";
+import previewImage from "./preview.webp";
 import sizeImage from "./size.webp";
 import speedImage from "./speed.webp";
 import launchImage from "./start.webp";
@@ -142,6 +143,21 @@ export default function Page(): ReactElement {
           alt="Start"
           className={ImageStyles}
           src={launchImage}
+          sizes="(max-width: 768px) 100vw, 750px"
+        />
+      </Box>
+      <Box borBottom="1px" mb="space40" pb="space40">
+        <Text as="h2" className={Heading2styles} id="preview" variant="title2xl">
+          Preview
+        </Text>
+        <Text className={ParagraphStyles} color="muted" variant="bodyL">
+          Test your flows before you ship them to your users. This allows you to see exactly how
+          your flows will look and behave before you publish them.
+        </Text>
+        <Image
+          alt="Preview"
+          className={ImageStyles}
+          src={previewImage}
           sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>

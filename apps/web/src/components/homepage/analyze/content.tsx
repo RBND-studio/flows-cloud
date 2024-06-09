@@ -1,7 +1,7 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { ThemeImage } from "components/theme-image";
-import { FeatureCard, type FeatureCardTypes } from "components/ui";
+import { FeatureCard, type FeatureCardTypes, LinesBox } from "components/ui";
 import { Alert16, Graph16, Stack16 } from "icons";
 import type { FC } from "react";
 
@@ -49,27 +49,29 @@ const mainList: FeatureCardTypes[] = [
 
 export const Content: FC = () => {
   return (
-    <Flex flexDirection="column" gap="space32">
-      <Flex
-        className={css({
-          flexDir: { smDown: "column" },
-        })}
-        gap="space32"
-      >
-        {mainList.map((item) => {
-          return <FeatureCard key={item.featureName} {...item} />;
-        })}
+    <LinesBox>
+      <Flex flexDirection="column" gap="space16">
+        <Flex
+          className={css({
+            flexDir: { smDown: "column" },
+          })}
+          gap="space16"
+        >
+          {mainList.map((item) => {
+            return <FeatureCard key={item.featureName} {...item} />;
+          })}
+        </Flex>
+        <FeatureCard
+          featureIcon={Stack16}
+          featureName="Analytics integration"
+          mainSlot={
+            <>
+              <span>Bring your own analytics tool.</span> Send flow events anywhere you need to get
+              the full picture.
+            </>
+          }
+        />
       </Flex>
-      <FeatureCard
-        featureIcon={Stack16}
-        featureName="Analytics integration"
-        mainSlot={
-          <>
-            <span>Bring your own analytics tool.</span> Send flow events anywhere you need to get
-            the full picture.
-          </>
-        }
-      />
-    </Flex>
+    </LinesBox>
   );
 };

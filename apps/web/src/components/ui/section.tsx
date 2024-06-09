@@ -19,9 +19,9 @@ export const Section = ({
       className={cx(
         css({
           width: "100%",
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "border",
+          // borderBottomWidth: "1px",
+          // borderBottomStyle: "solid",
+          // borderBottomColor: "border",
           paddingX: "space24",
           backgroundColor: background,
         }),

@@ -12,20 +12,20 @@ export const cardWrapper = cva({
     boxShadow: "l1",
     textWrap: "balance",
 
-    _after: {
-      content: "''",
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: "linear-gradient(195deg, rgba(0, 0, 0, 0) 6%, rgba(0, 0, 0, 0.06) 94%)",
-      pointerEvents: "none",
-      _dark: {
-        background:
-          "linear-gradient(195deg, rgba(255, 255, 255, 0.04) 6%, rgba(255, 255, 255, 0) 94%)",
-      },
-    },
+    // _after: {
+    //   content: "''",
+    //   position: "absolute",
+    //   top: 0,
+    //   left: 0,
+    //   right: 0,
+    //   bottom: 0,
+    //   background: "linear-gradient(195deg, rgba(34, 38, 45, 0) 6%, rgba(34, 38, 45, 0.06) 94%)",
+    //   pointerEvents: "none",
+    //   _dark: {
+    //     background:
+    //       "linear-gradient(195deg, rgba(255, 255, 255, 0.04) 6%, rgba(255, 255, 255, 0) 94%)",
+    //   },
+    // },
   },
   variants: {
     hover: {

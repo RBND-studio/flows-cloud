@@ -35,7 +35,7 @@ const config: DocsThemeConfig = {
   },
 
   darkMode: true,
-  primaryHue: 12,
+  primaryHue: 211,
   primarySaturation: 70,
 
   footer: {
