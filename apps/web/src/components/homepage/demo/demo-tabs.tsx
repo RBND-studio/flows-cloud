@@ -1,31 +1,63 @@
-import { css } from "@flows/styled-system/css";
-import { Flex } from "@flows/styled-system/jsx";
-import { Flows16 } from "icons";
+import { css, cva } from "@flows/styled-system/css";
+import { Flex, Grid } from "@flows/styled-system/jsx";
 import { type ReactElement } from "react";
 import { Icon, Text } from "ui";
 
-const tabs = [
-  {
-    icon: Flows16,
-    title: "User onboarding",
+import { tabs } from "./demo-data";
+
+type Props = {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+};
+
+export const DemoTabs = ({ activeTab, onTabChange }: Props): ReactElement => {
+  return (
+    <Flex overflow="auto">
+      {tabs.map((tab) => {
+        const active = tab.title === activeTab;
+        return (
+          <Grid padding="space8" key={tab.title} flex="1" className={lineCss}>
+            <button
+              type="button"
+              onClick={() => onTabChange(tab.title)}
+              className={button({ active })}
+            >
+              <Icon icon={tab.icon} />
+              <Text weight="600" color="muted">
+                {tab.title}
+              </Text>
+            </button>
+          </Grid>
+        );
+      })}
+    </Flex>
+  );
+};
+
+const button = cva({
+  base: {
+    cursor: "pointer",
+    display: "flex",
+    flexDirection: "column",
+    gap: "space8",
+    paddingY: "space16",
+    paddingX: "space24",
+    alignItems: "center",
+    transitionTimingFunction: "easeInOut",
+    transitionDuration: "fast",
+    borderRadius: "radius8",
+    _hover: {
+      bg: "bg.hover",
+    },
   },
-  {
-    icon: Flows16,
-    title: "Feature adoption",
+  variants: {
+    active: {
+      true: {
+        bg: "bg.strong!",
+      },
+    },
   },
-  {
-    icon: Flows16,
-    title: "Announcements",
-  },
-  {
-    icon: Flows16,
-    title: "Tooltips",
-  },
-  {
-    icon: Flows16,
-    title: "Checklists",
-  },
-];
+});
 
 const lineCss = css({
   position: "relative",
@@ -46,27 +78,3 @@ const lineCss = css({
     },
   },
 });
-
-export const DemoTabs = (): ReactElement => {
-  return (
-    <Flex overflow="auto">
-      {tabs.map((tab) => (
-        <Flex padding="space8" key={tab.title} flex="1" className={lineCss}>
-          <Flex
-            flexDirection="column"
-            gap="space8"
-            paddingY="space16"
-            paddingX="space24"
-            alignItems="center"
-            width="100%"
-          >
-            <Icon icon={tab.icon} />
-            <Text weight="600" color="muted">
-              {tab.title}
-            </Text>
-          </Flex>
-        </Flex>
-      ))}
-    </Flex>
-  );
-};

@@ -79,8 +79,9 @@ export const Content: FC = () => {
   return (
     <LinesBox>
       <Grid gridTemplateColumns={{ _default: "1fr", sm: "1fr 1fr" }} gap="space16">
-        {mainList.map((item) => {
-          return <FeatureCard key={item.featureName} {...item} />;
+        {mainList.map((item, i) => {
+          // eslint-disable-next-line react/no-array-index-key -- order wont change
+          return <FeatureCard key={i} {...item} />;
         })}
       </Grid>
     </LinesBox>

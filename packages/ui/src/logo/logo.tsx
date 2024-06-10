@@ -5,19 +5,21 @@ import { LogoMarkSvg } from "./logo-mark";
 import { LogoPillSvg } from "./logo-pill";
 import { LogoTypeSvg } from "./logo-type";
 
+const logoByType = {
+  mark: LogoMarkSvg,
+  type: LogoTypeSvg,
+  pill: LogoPillSvg,
+} as const;
+
 type Props = {
-  type: "mark" | "type" | "pill";
+  type: keyof typeof logoByType;
   color?: string;
   size?: number;
   className?: string;
 };
 
 export const Logo: FC<Props> = ({ type, color = "currentColor", size = 40, className }) => {
-  const LogoComponent = {
-    mark: LogoMarkSvg,
-    type: LogoTypeSvg,
-    pill: LogoPillSvg,
-  }[type];
+  const LogoComponent = logoByType[type];
 
   return (
     <LogoComponent
