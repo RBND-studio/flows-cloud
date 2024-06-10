@@ -27,7 +27,10 @@ export const FrequencyForm: FC = () => {
             <Select
               className={css({ width: "200px" })}
               onChange={field.onChange}
-              options={["once", "every-time"].map((v) => ({ label: t.frequency[v], value: v }))}
+              options={["once", "every-session", "every-time"].map((v) => ({
+                label: t.frequency[v],
+                value: v,
+              }))}
               value={field.value}
             />
           )}
