@@ -3,6 +3,7 @@
  * Do not make direct changes to the file.
  */
 
+
 export interface paths {
   "/status": {
     get: operations["AppController_getStatus"];
@@ -116,7 +117,7 @@ export interface components {
   schemas: {
     GetSdkFlowsDto: {
       /** @enum {string|null} */
-      frequency?: "once" | "every-time" | null;
+      frequency?: "once" | "every-time" | "every-session" | null;
       id: string;
       start: Record<string, never>[];
       steps: Record<string, never>[];
@@ -139,7 +140,7 @@ export interface components {
       location: string;
     };
     CreateEventResponseDto: {
-      id: string;
+      id?: string;
     };
     GetFlowsDto: {
       /** @enum {string} */
@@ -164,7 +165,7 @@ export interface components {
     };
     FlowVersionDto: {
       /** @enum {string} */
-      frequency: "once" | "every-time";
+      frequency: "once" | "every-time" | "every-session";
       userProperties: Record<string, never>[][];
       start: Record<string, never>[];
       steps: Record<string, never>[];
@@ -199,7 +200,7 @@ export interface components {
       start?: Record<string, never>[];
       steps?: Record<string, never>[];
       /** @enum {string} */
-      frequency?: "once" | "every-time";
+      frequency?: "once" | "every-time" | "every-session";
       preview_url?: string;
     };
     CreateFlowDto: {
@@ -207,7 +208,7 @@ export interface components {
     };
     GetFlowVersionsDto: {
       /** @enum {string} */
-      frequency: "once" | "every-time";
+      frequency: "once" | "every-time" | "every-session";
       id: string;
       /** Format: date-time */
       created_at: string;
@@ -256,6 +257,10 @@ export interface components {
       css_vars?: string | null;
       css_template?: string | null;
     };
+    GetOrganizationsProjectDto: {
+      id: string;
+      name: string;
+    };
     GetOrganizationsDto: {
       id: string;
       name: string;
@@ -265,10 +270,7 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
       members_count?: number;
-      projects?: {
-        id: string;
-        name: string;
-      }[];
+      projects: components["schemas"]["GetOrganizationsProjectDto"][] | null;
     };
     SubscriptionPriceTierDto: {
       last_unit: string;
@@ -299,7 +301,6 @@ export interface components {
       created_at: string;
       /** Format: date-time */
       updated_at: string;
-      members_count?: number;
       usage: number;
       limit: number;
       estimated_price?: number;
@@ -380,6 +381,7 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
+
   AppController_getStatus: {
     responses: {
       200: {

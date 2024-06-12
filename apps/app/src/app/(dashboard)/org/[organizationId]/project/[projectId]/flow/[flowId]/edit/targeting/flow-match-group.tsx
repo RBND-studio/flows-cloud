@@ -19,16 +19,7 @@ export const FlowMatchGroup: FC<Props> = ({ index, onRemove }) => {
   const { fields, append, remove } = useFieldArray({ control, name: `userProperties.${index}` });
 
   return (
-    <Flex
-      className={css({
-        borderBottomStyle: "solid",
-        borderBottomWidth: "1px",
-        borderBottomColor: "border",
-      })}
-      flexDirection="column"
-      gap="space12"
-      paddingY="space16"
-    >
+    <Flex borBottom="1px" flexDirection="column" gap="space12" paddingY="space16" p="space16">
       <div className={css({ display: "flex", gap: "space8", alignItems: "center" })}>
         <Text variant="titleS">{t.targeting.group}</Text>
         <Button onClick={onRemove} size="small" variant="ghost">

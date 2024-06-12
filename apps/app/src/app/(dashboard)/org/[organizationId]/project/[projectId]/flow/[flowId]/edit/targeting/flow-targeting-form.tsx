@@ -16,13 +16,13 @@ export const FlowTargetingForm: FC = () => {
   const { fields, append, remove } = useFieldArray({ control, name: "userProperties" });
 
   return (
-    <Flex flexDirection="column" p="space16">
-      <Flex flexDirection="column" mb="space16">
+    <Flex flexDirection="column">
+      <Flex flexDirection="column" p="space16" borBottom="1px">
         <Text variant="titleL">{t.targeting.targeting}</Text>
         <Text color="muted">{t.targeting.description}</Text>
       </Flex>
 
-      <Box borTop="1px">
+      <Box>
         {fields.map((field, i) => (
           <Fragment key={field.id}>
             {i !== 0 && (
@@ -46,7 +46,7 @@ export const FlowTargetingForm: FC = () => {
           </Fragment>
         ))}
       </Box>
-      <Box mt="space16">
+      <Box p="space16">
         <Button onClick={() => append([[]])} startIcon={<Plus16 />} variant="secondary">
           {t.targeting.addGroup}
         </Button>

@@ -135,8 +135,9 @@ export default function Page(): ReactElement {
           Start action
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
-          Timing is everything. Start flows precisely when users visit a designated page or interact
-          with a specific element, maximizing the impact of your onboarding efforts.
+          Timing is everything. Start flows precisely when user visits a specific page, interacts
+          with a specific element or when an element shows up on a page, maximizing the impact of
+          your onboarding efforts.
         </Text>
         <Image
           alt="Start"

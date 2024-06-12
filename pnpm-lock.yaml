@@ -33,8 +33,8 @@ importers:
   apps/app:
     dependencies:
       '@flows/js':
-        specifier: 0.0.51
-        version: 0.0.51
+        specifier: 0.0.52
+        version: 0.0.52
       '@hookform/resolvers':
         specifier: ^3.4.2
         version: 3.4.2(react-hook-form@7.51.5(react@18.3.1))
@@ -293,8 +293,8 @@ importers:
   apps/docs:
     dependencies:
       '@flows/js':
-        specifier: 0.0.51
-        version: 0.0.51
+        specifier: 0.0.52
+        version: 0.0.52
       icons:
         specifier: workspace:*
         version: link:../../packages/icons
@@ -2291,8 +2291,8 @@ packages:
   '@floating-ui/utils@0.2.2':
     resolution: {integrity: sha512-J4yDIIthosAsRZ5CPYP/jQvUAQtlZTTD/4suA08/FEnlxqW3sKS9iAhgsa9VYLZ6vDHn/ixJgIqRQPotoBjxIw==}
 
-  '@flows/js@0.0.51':
-    resolution: {integrity: sha512-kQIgUXPDk8Wfq0PGEvxoJd5KcOVT5+n8LJHZERCz4LF2sovjYP1cLZabBq19e5iDjlF1y/Ix+qTvPmIFD6lGpQ==}
+  '@flows/js@0.0.52':
+    resolution: {integrity: sha512-Lb/DWDafatlOryIAcGkFoeWtDptmRjHviRjTw9IzpQIzCwN4UNVMNFp1ulQvgCA04rJsWevcgXYPQG+Xzk/1+g==}
 
   '@grpc/grpc-js@1.10.8':
     resolution: {integrity: sha512-vYVqYzHicDqyKB+NQhAc54I1QWCBLCrYG6unqOIcBTHx+7x8C9lcoLj3KVJXs2VB4lUbpWY+Kk9NipcbXYWmvg==}
@@ -2322,6 +2322,7 @@ packages:
   '@humanwhocodes/config-array@0.13.0':
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -12560,7 +12561,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.2': {}
 
-  '@flows/js@0.0.51':
+  '@flows/js@0.0.52':
     dependencies:
       '@floating-ui/dom': 1.6.5
       superstruct: 1.0.4

@@ -1,5 +1,5 @@
 {
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.event": {
@@ -230,26 +230,52 @@
       },
       "indexes": {
         "human_id_idx": {
-          "name": "human_id_idx",
           "columns": [
-            "human_id"
+            {
+              "expression": "human_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "name": "human_id_idx",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         },
         "human_id_alias_idx": {
-          "name": "human_id_alias_idx",
           "columns": [
-            "human_id_alias"
+            {
+              "expression": "human_id_alias",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "name": "human_id_alias_idx",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         },
         "human_id_project_id_idx": {
-          "name": "human_id_project_id_idx",
           "columns": [
-            "project_id",
-            "human_id"
+            {
+              "expression": "project_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "human_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": true
+          "name": "human_id_project_id_idx",
+          "isUnique": true,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {
@@ -406,26 +432,52 @@
       },
       "indexes": {
         "human_id_idx": {
-          "name": "human_id_idx",
           "columns": [
-            "human_id"
+            {
+              "expression": "human_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "name": "human_id_idx",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         },
         "human_id_alias_idx": {
-          "name": "human_id_alias_idx",
           "columns": [
-            "human_id_alias"
+            {
+              "expression": "human_id_alias",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "name": "human_id_alias_idx",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         },
         "human_id_organization_id_idx": {
-          "name": "human_id_organization_id_idx",
           "columns": [
-            "organization_id",
-            "human_id"
+            {
+              "expression": "organization_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "human_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": true
+          "name": "human_id_organization_id_idx",
+          "isUnique": true,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {

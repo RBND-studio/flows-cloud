@@ -14,7 +14,9 @@ export const Start: FC<Props> = ({ flow }) => {
 
   const noOptions =
     start.length === 0 ||
-    start.every((opt) => !opt.location && !opt.change && !opt.form && !opt.clickElement);
+    start.every(
+      (opt) => !opt.location && !opt.change && !opt.form && !opt.clickElement && !opt.element,
+    );
 
   return (
     <Flex direction="column" gap="space8">
@@ -108,6 +110,23 @@ export const Start: FC<Props> = ({ flow }) => {
                       >
                         <Text weight="600">{startOption.clickElement}</Text>
                       </div>
+                    </>
+                  ) : null}
+                  {startOption.element ? (
+                    <>
+                      <Text>{location ? "and" : "When"}</Text>
+                      <div
+                        className={css({
+                          paddingY: "space4",
+                          paddingX: "space8",
+                          backgroundColor: "bg",
+                          bor: "1px",
+                          borderRadius: "radius8",
+                        })}
+                      >
+                        <Text weight="600">{startOption.element}</Text>
+                      </div>
+                      <Text>appears on a page</Text>
                     </>
                   ) : null}
                 </Wrap>

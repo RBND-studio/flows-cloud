@@ -1,4 +1,6 @@
 {
+  "id": "eb99762c-436c-4c32-80cd-202d873b2f66",
+  "prevId": "38a4f1a9-289a-46eb-bec2-123a7fc123f6",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -25,9 +27,10 @@
           "primaryKey": false,
           "notNull": true
         },
-        "type": {
-          "name": "type",
-          "type": "text",
+        "event_type": {
+          "name": "event_type",
+          "type": "event_type",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -54,32 +57,66 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "sdk_version": {
+          "name": "sdk_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "target_element": {
+          "name": "target_element",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "location": {
+          "name": "location",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         }
       },
-      "indexes": {},
+      "indexes": {
+        "event_time_idx": {
+          "name": "event_time_idx",
+          "columns": [
+            {
+              "expression": "event_time",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "event_flow_id_flow_id_fk": {
           "name": "event_flow_id_flow_id_fk",
           "tableFrom": "event",
+          "tableTo": "flow",
           "columnsFrom": [
             "flow_id"
           ],
-          "tableTo": "flow",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "event_id_unique": {
           "name": "event_id_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
     },
@@ -109,6 +146,7 @@
         "frequency": {
           "name": "frequency",
           "type": "flow_frequency",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
           "default": "'once'"
@@ -139,25 +177,25 @@
         "flow_version_flow_id_flow_id_fk": {
           "name": "flow_version_flow_id_flow_id_fk",
           "tableFrom": "flow_version",
+          "tableTo": "flow",
           "columnsFrom": [
             "flow_id"
           ],
-          "tableTo": "flow",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "flow_version_id_unique": {
           "name": "flow_version_id_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
     },
@@ -177,12 +215,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "human_id_alias": {
-          "name": "human_id_alias",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         },
         "project_id": {
           "name": "project_id",
@@ -211,6 +243,7 @@
         "flow_type": {
           "name": "flow_type",
           "type": "flow_type",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -248,7 +281,8 @@
         }
       },
       "indexes": {
-        "human_id_idx": {
+        "flow_human_id_idx": {
+          "name": "flow_human_id_idx",
           "columns": [
             {
               "expression": "human_id",
@@ -257,26 +291,13 @@
               "nulls": "last"
             }
           ],
-          "name": "human_id_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         },
-        "human_id_alias_idx": {
-          "columns": [
-            {
-              "expression": "human_id_alias",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "human_id_alias_idx",
-          "isUnique": false,
-          "method": "btree",
-          "concurrently": false
-        },
-        "human_id_project_id_idx": {
+        "flow_human_id_project_id_idx": {
+          "name": "flow_human_id_project_id_idx",
           "columns": [
             {
               "expression": "project_id",
@@ -291,61 +312,195 @@
               "nulls": "last"
             }
           ],
-          "name": "human_id_project_id_idx",
           "isUnique": true,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {
         "flow_project_id_project_id_fk": {
           "name": "flow_project_id_project_id_fk",
           "tableFrom": "flow",
+          "tableTo": "project",
           "columnsFrom": [
             "project_id"
           ],
-          "tableTo": "project",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         },
         "flow_published_version_id_flow_version_id_fk": {
           "name": "flow_published_version_id_flow_version_id_fk",
           "tableFrom": "flow",
+          "tableTo": "flow_version",
           "columnsFrom": [
             "published_version_id"
           ],
-          "tableTo": "flow_version",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "set null",
+          "onUpdate": "no action"
         },
         "flow_draft_version_id_flow_version_id_fk": {
           "name": "flow_draft_version_id_flow_version_id_fk",
           "tableFrom": "flow",
+          "tableTo": "flow_version",
           "columnsFrom": [
             "draft_version_id"
           ],
-          "tableTo": "flow_version",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "set null",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "flow_id_unique": {
           "name": "flow_id_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ],
-          "nullsNotDistinct": false
+          ]
+        }
+      }
+    },
+    "public.invoice": {
+      "name": "invoice",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_name": {
+          "name": "user_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_email": {
+          "name": "user_email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lemon_squeezy_id": {
+          "name": "lemon_squeezy_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subscription_id": {
+          "name": "subscription_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "billing_reason": {
+          "name": "billing_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status_formatted": {
+          "name": "status_formatted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "refunded_at": {
+          "name": "refunded_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "invoice_url": {
+          "name": "invoice_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subtotal_formatted": {
+          "name": "subtotal_formatted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "discount_total_formatted": {
+          "name": "discount_total_formatted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tax_formatted": {
+          "name": "tax_formatted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_formatted": {
+          "name": "total_formatted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "invoice_id_unique": {
+          "name": "invoice_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id"
+          ]
+        },
+        "invoice_lemon_squeezy_id_unique": {
+          "name": "invoice_lemon_squeezy_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "lemon_squeezy_id"
+          ]
         }
       }
     },
@@ -385,6 +540,19 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "start_limit": {
+          "name": "start_limit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 100000
+        },
+        "free_start_limit": {
+          "name": "free_start_limit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -393,10 +561,10 @@
       "uniqueConstraints": {
         "organization_id_unique": {
           "name": "organization_id_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
     },
@@ -422,32 +590,91 @@
         "organization_to_user_organization_id_organization_id_fk": {
           "name": "organization_to_user_organization_id_organization_id_fk",
           "tableFrom": "organization_to_user",
+          "tableTo": "organization",
           "columnsFrom": [
             "organization_id"
           ],
-          "tableTo": "organization",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         },
         "organization_to_user_user_id_users_id_fk": {
           "name": "organization_to_user_user_id_users_id_fk",
           "tableFrom": "organization_to_user",
+          "tableTo": "users",
+          "schemaTo": "auth",
           "columnsFrom": [
             "user_id"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
+    },
+    "public.organization_event": {
+      "name": "organization_event",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "event_type": {
+          "name": "event_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_event_organization_id_organization_id_fk": {
+          "name": "organization_event_organization_id_organization_id_fk",
+          "tableFrom": "organization_event",
+          "tableTo": "organization",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "organization_event_id_unique": {
+          "name": "organization_event_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id"
+          ]
+        }
+      }
     },
     "public.project": {
       "name": "project",
@@ -497,10 +724,23 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "css_vars": {
+          "name": "css_vars",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "css_template": {
+          "name": "css_template",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {
-        "organization_id_idx": {
+        "project_organization_id_idx": {
+          "name": "project_organization_id_idx",
           "columns": [
             {
               "expression": "organization_id",
@@ -509,12 +749,13 @@
               "nulls": "last"
             }
           ],
-          "name": "organization_id_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         },
-        "domain_idx": {
+        "project_domain_idx": {
+          "name": "project_domain_idx",
           "columns": [
             {
               "expression": "domains",
@@ -523,37 +764,269 @@
               "nulls": "last"
             }
           ],
-          "name": "domain_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {
         "project_organization_id_organization_id_fk": {
           "name": "project_organization_id_organization_id_fk",
           "tableFrom": "project",
+          "tableTo": "organization",
           "columnsFrom": [
             "organization_id"
           ],
-          "tableTo": "organization",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "project_id_unique": {
           "name": "project_id_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
+    },
+    "public.subscription": {
+      "name": "subscription",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "lemon_squeezy_id": {
+          "name": "lemon_squeezy_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "order_id": {
+          "name": "order_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status_formatted": {
+          "name": "status_formatted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "renews_at": {
+          "name": "renews_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ends_at": {
+          "name": "ends_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price_tiers": {
+          "name": "price_tiers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "trial_ends_at": {
+          "name": "trial_ends_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_paused": {
+          "name": "is_paused",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subscription_item_id": {
+          "name": "subscription_item_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "subscription_organization_id_organization_id_fk": {
+          "name": "subscription_organization_id_organization_id_fk",
+          "tableFrom": "subscription",
+          "tableTo": "organization",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "subscription_id_unique": {
+          "name": "subscription_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id"
+          ]
+        },
+        "subscription_lemon_squeezy_id_unique": {
+          "name": "subscription_lemon_squeezy_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "lemon_squeezy_id"
+          ]
+        }
+      }
+    },
+    "public.webhook_event": {
+      "name": "webhook_event",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "event_name": {
+          "name": "event_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "processed": {
+          "name": "processed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "body": {
+          "name": "body",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "processing_error": {
+          "name": "processing_error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "webhook_event_id_unique": {
+          "name": "webhook_event_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id"
+          ]
+        }
+      }
+    },
+    "public.user_metadata": {
+      "name": "user_metadata",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "user_role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'user'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_metadata_user_id_users_id_fk": {
+          "name": "user_metadata_user_id_users_id_fk",
+          "tableFrom": "user_metadata",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     },
     "auth.users": {
       "name": "users",
@@ -632,7 +1105,8 @@
         }
       },
       "indexes": {
-        "email_idx": {
+        "user_invite_email_idx": {
+          "name": "user_invite_email_idx",
           "columns": [
             {
               "expression": "email",
@@ -641,12 +1115,13 @@
               "nulls": "last"
             }
           ],
-          "name": "email_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         },
-        "organization_id_idx": {
+        "user_invite_organization_id_idx": {
+          "name": "user_invite_organization_id_idx",
           "columns": [
             {
               "expression": "organization_id",
@@ -655,45 +1130,59 @@
               "nulls": "last"
             }
           ],
-          "name": "organization_id_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {
         "user_invite_organization_id_organization_id_fk": {
           "name": "user_invite_organization_id_organization_id_fk",
           "tableFrom": "user_invite",
+          "tableTo": "organization",
           "columnsFrom": [
             "organization_id"
           ],
-          "tableTo": "organization",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "user_invite_id_unique": {
           "name": "user_invite_id_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "id"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
     }
   },
   "enums": {
+    "public.event_type": {
+      "name": "event_type",
+      "schema": "public",
+      "values": [
+        "startFlow",
+        "nextStep",
+        "prevStep",
+        "tooltipError",
+        "invalidStepError",
+        "cancelFlow",
+        "finishFlow"
+      ]
+    },
     "public.flow_frequency": {
       "name": "flow_frequency",
       "schema": "public",
       "values": [
         "once",
+        "every-session",
         "every-time"
       ]
     },
@@ -704,19 +1193,22 @@
         "cloud",
         "local"
       ]
+    },
+    "public.user_role": {
+      "name": "user_role",
+      "schema": "public",
+      "values": [
+        "admin",
+        "user"
+      ]
     }
   },
   "schemas": {
     "auth": "auth"
   },
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {
-      "\"flow\".\"flow_version_id\"": "\"flow\".\"published_version_id\"",
-      "\"flow\".\"published_at\"": "\"flow\".\"enabled_at\""
-    }
-  },
-  "id": "ed0bdf99-9e6a-4e47-b97b-33b0bf3fecda",
-  "prevId": "dd8c676f-037c-4ceb-acc1-ce8652e7672c"
+    "tables": {}
+  }
 }
