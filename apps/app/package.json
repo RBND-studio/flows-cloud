@@ -15,7 +15,7 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@flows/js": "0.0.52-canary.7",
+    "@flows/js": "0.0.52",
     "@hookform/resolvers": "^3.4.2",
     "@marsidev/react-turnstile": "^0.6.1",
     "@monaco-editor/react": "^4.6.0",
