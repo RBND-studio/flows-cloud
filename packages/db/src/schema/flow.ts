@@ -70,6 +70,7 @@ export type FlowFrequency = (typeof flowFrequencyEnum.enumValues)[number];
 export enum FlowFrequencyEnum {
   ONCE = "once",
   EVERYTIME = "every-time",
+  EVERYSESSION = "every-session",
 }
 
 export const flowVersions = pgTable("flow_version", {
