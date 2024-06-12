@@ -65,7 +65,7 @@ export const flowsRelations = relations(flows, ({ one }) => ({
   }),
 }));
 
-export const flowFrequencyEnum = pgEnum("flow_frequency", ["once", "every-time"]);
+export const flowFrequencyEnum = pgEnum("flow_frequency", ["once", "every-session", "every-time"]);
 export type FlowFrequency = (typeof flowFrequencyEnum.enumValues)[number];
 export enum FlowFrequencyEnum {
   ONCE = "once",
