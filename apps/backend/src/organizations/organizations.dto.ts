@@ -5,14 +5,16 @@ export class GetOrganizationsProjectDto {
   id: string;
   name: string;
 }
-export class GetOrganizationsDto {
+export class GetOrganizationDto {
   id: string;
   name: string;
   description: string | null;
   created_at: Date;
   updated_at: Date;
   members_count?: number;
-  projects: GetOrganizationsProjectDto[] | null;
+}
+export class GetOrganizationListItemDto extends GetOrganizationDto {
+  projects: GetOrganizationsProjectDto[];
 }
 
 export class GetOrganizationSubscriptionDto {

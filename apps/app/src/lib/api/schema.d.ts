@@ -261,7 +261,8 @@ export interface components {
       id: string;
       name: string;
     };
-    GetOrganizationsDto: {
+    GetOrganizationListItemDto: {
+      projects: components["schemas"]["GetOrganizationsProjectDto"][];
       id: string;
       name: string;
       description: string | null;
@@ -270,7 +271,6 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
       members_count?: number;
-      projects: components["schemas"]["GetOrganizationsProjectDto"][] | null;
     };
     SubscriptionPriceTierDto: {
       last_unit: string;
@@ -308,6 +308,16 @@ export interface components {
     };
     CreateOrganizationDto: {
       name: string;
+    };
+    GetOrganizationDto: {
+      id: string;
+      name: string;
+      description: string | null;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      members_count?: number;
     };
     UpdateOrganizationDto: {
       name?: string;
@@ -700,7 +710,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["GetOrganizationsDto"][];
+          "application/json": components["schemas"]["GetOrganizationListItemDto"][];
         };
       };
     };
@@ -714,7 +724,7 @@ export interface operations {
     responses: {
       201: {
         content: {
-          "application/json": components["schemas"]["GetOrganizationsDto"];
+          "application/json": components["schemas"]["GetOrganizationDto"];
         };
       };
     };
@@ -759,7 +769,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["GetOrganizationsDto"];
+          "application/json": components["schemas"]["GetOrganizationDto"];
         };
       };
     };

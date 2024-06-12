@@ -112,7 +112,7 @@ export const ProjectsMenu: FC = () => {
 
   const currentOrg = organizations?.find((org) => org.id === organizationId);
   const highlightedOrg = organizations?.find((org) => org.id === openOrg);
-  const currentProject = currentOrg?.projects?.find((proj) => proj.id === projectId);
+  const currentProject = currentOrg?.projects.find((proj) => proj.id === projectId);
 
   return (
     <Popover
@@ -208,11 +208,11 @@ export const ProjectsMenu: FC = () => {
             >
               <MenuSection background="bg.muted" bottomBorder header>
                 <Text variant="bodyS" weight="600">
-                  {highlightedOrg.name} projects ({highlightedOrg.projects?.length})
+                  {highlightedOrg.name} projects ({highlightedOrg.projects.length})
                 </Text>
               </MenuSection>
               <MenuSection>
-                {highlightedOrg.projects?.map((proj) => {
+                {highlightedOrg.projects.map((proj) => {
                   return (
                     <MenuItem
                       asChild

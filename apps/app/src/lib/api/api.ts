@@ -6,7 +6,8 @@ import type { Endpoint } from "./types";
 
 type Schemas = components["schemas"];
 
-export type OrganizationPreview = Schemas["GetOrganizationsDto"];
+export type OrganizationPreview = Schemas["GetOrganizationListItemDto"];
+export type Organization = Schemas["GetOrganizationDto"];
 export type OrganizationDetail = Schemas["GetOrganizationDetailDto"];
 export type OrganizationInvoice = Schemas["GetOrganizationInvoiceDto"];
 export type SubscriptionDetail = Schemas["GetSubscriptionDetailDto"];
@@ -33,11 +34,8 @@ export type AcceptInviteResponse = Schemas["AcceptInviteResponseDto"];
 
 export type Api = {
   "/organizations": Endpoint<OrganizationPreview[]>;
-  "POST /organizations": Endpoint<OrganizationDetail, [CreateOrganization]>;
-  "PATCH /organizations/:organizationId": Endpoint<
-    OrganizationDetail,
-    [string, UpdateOrganization]
-  >;
+  "POST /organizations": Endpoint<Organization, [CreateOrganization]>;
+  "PATCH /organizations/:organizationId": Endpoint<Organization, [string, UpdateOrganization]>;
   "/organizations/:organizationId": Endpoint<OrganizationDetail, [string]>;
   "/organizations/:organizationId/invoices": Endpoint<OrganizationInvoice[], [string]>;
   "/organizations/:organizationId/users": Endpoint<OrganizationUsers, [string]>;

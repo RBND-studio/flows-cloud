@@ -25,9 +25,10 @@ import { OrganizationUsageService } from "../organization-usage/organization-usa
 import type {
   CreateOrganizationDto,
   GetOrganizationDetailDto,
+  GetOrganizationDto,
   GetOrganizationInvoiceDto,
+  GetOrganizationListItemDto,
   GetOrganizationMembersDto,
-  GetOrganizationsDto,
   GetSubscriptionDetailDto,
   OrganizationMemberDto,
   UpdateOrganizationDto,
@@ -43,7 +44,7 @@ export class OrganizationsService {
     private lemonSqueezyService: LemonSqueezyService,
   ) {}
 
-  async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
+  async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationListItemDto[]> {
     const otu = alias(organizationsToUsers, "otu");
     const otuQuery = sql<number>`(SELECT COUNT(${otu.user_id}) FROM organization_to_user otu WHERE ${otu.organization_id} = ${organizations.id}) as members_count`;
     const query = this.databaseService.db
@@ -81,7 +82,7 @@ export class OrganizationsService {
       return acc;
     }, {});
 
-    const ooo: GetOrganizationsDto[] = Object.entries(t).map(([_key, value]) => {
+    const ooo: GetOrganizationListItemDto[] = Object.entries(t).map(([_key, value]) => {
       const org = value[0];
 
       return {
@@ -183,7 +184,7 @@ export class OrganizationsService {
   }: {
     auth: Auth;
     data: CreateOrganizationDto;
-  }): Promise<GetOrganizationsDto> {
+  }): Promise<GetOrganizationDto> {
     const orgs = await this.databaseService.db
       .insert(organizations)
       .values({ name: data.name })
@@ -200,7 +201,7 @@ export class OrganizationsService {
       organization_id: org.id,
       user_id: auth.userId,
     });
-    return { ...org, projects: null };
+    return org;
   }
 
   async updateOrganization({
@@ -211,7 +212,7 @@ export class OrganizationsService {
     auth: Auth;
     data: UpdateOrganizationDto;
     organizationId: string;
-  }): Promise<GetOrganizationsDto> {
+  }): Promise<GetOrganizationDto> {
     await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
 
     const updatedOrganizations = await this.databaseService.db
@@ -232,7 +233,7 @@ export class OrganizationsService {
     const updatedOrg = updatedOrganizations.at(0);
     if (!updatedOrg) throw new InternalServerErrorException("Failed to update organization");
 
-    return { ...updatedOrg, projects: null };
+    return updatedOrg;
   }
 
   async deleteOrganization({
