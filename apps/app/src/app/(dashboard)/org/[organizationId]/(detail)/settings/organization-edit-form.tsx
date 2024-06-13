@@ -3,7 +3,7 @@
 import { css } from "@flows/styled-system/css";
 import { mutate } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
-import { api, type OrganizationDetail } from "lib/api";
+import { api, type Organization } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
@@ -12,7 +12,7 @@ import { t } from "translations";
 import { Button, Input, Text, toast } from "ui";
 
 type Props = {
-  org: OrganizationDetail;
+  org: Organization;
 };
 
 type OrgForm = {
@@ -65,6 +65,6 @@ export const OrganizationEditForm: FC<Props> = ({ org }) => {
   );
 };
 
-const createDefaultValues = (org: OrganizationDetail): OrgForm => ({
+const createDefaultValues = (org: Organization): OrgForm => ({
   name: org.name,
 });
