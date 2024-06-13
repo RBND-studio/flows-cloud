@@ -1,9 +1,20 @@
-import { Body, Controller, Delete, Get, Header, Headers, Param, Post, Query } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Header,
+  Headers,
+  Param,
+  Post,
+  Query,
+  Version,
+} from "@nestjs/common";
 import { ApiQuery, ApiTags } from "@nestjs/swagger";
 import { minutes, Throttle } from "@nestjs/throttler";
 
 import { UUIDQuery } from "../lib/uuid";
-import type { CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
+import type { CreateEventResponseDto, GetSdkFlowsDto, GetSdkFlowsV2Dto } from "./sdk.dto";
 import { CreateEventDto } from "./sdk.dto";
 import { SdkService } from "./sdk.service";
 
@@ -23,11 +34,24 @@ export class SdkController {
   @Get("flows")
   @Throttle({ default: { limit: 50, ttl: minutes(1) } })
   @ApiQuery({ name: "userHash", required: false })
-  getFlows(
+  async getFlows(
     @Headers("origin") origin: string,
     @UUIDQuery("projectId") projectId: string,
     @Query("userHash") userHash?: string,
   ): Promise<GetSdkFlowsDto[]> {
+    const result = await this.sdkService.getFlows({ projectId, requestOrigin: origin, userHash });
+    return result.results;
+  }
+
+  @Version("2")
+  @Get("flows")
+  @Throttle({ default: { limit: 50, ttl: minutes(1) } })
+  @ApiQuery({ name: "userHash", required: false })
+  getFlowsV2(
+    @Headers("origin") origin: string,
+    @UUIDQuery("projectId") projectId: string,
+    @Query("userHash") userHash?: string,
+  ): Promise<GetSdkFlowsV2Dto> {
     return this.sdkService.getFlows({ projectId, requestOrigin: origin, userHash });
   }
 

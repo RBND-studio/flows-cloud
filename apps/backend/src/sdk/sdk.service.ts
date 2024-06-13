@@ -15,8 +15,14 @@ import { DbPermissionService } from "../db-permission/db-permission.service";
 import { LemonSqueezyService } from "../lemon-squeezy/lemon-squeezy.service";
 import { getDefaultCssMinTemplate, getDefaultCssMinVars } from "../lib/css";
 import { isLocalhost } from "../lib/origin";
+import { TooManyRequestsException } from "../lib/too-many-requests-exception";
 import { OrganizationUsageService } from "../organization-usage/organization-usage.service";
-import type { CreateEventDto, CreateEventResponseDto, GetSdkFlowsDto } from "./sdk.dto";
+import type {
+  CreateEventDto,
+  CreateEventResponseDto,
+  GetSdkFlowsDto,
+  GetSdkFlowsV2Dto,
+} from "./sdk.dto";
 
 @Injectable()
 export class SdkService {
@@ -69,13 +75,14 @@ export class SdkService {
     projectId: string;
     requestOrigin: string;
     userHash?: string;
-  }): Promise<GetSdkFlowsDto[]> {
+  }): Promise<GetSdkFlowsV2Dto> {
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
 
     const limitReached = await this.organizationUsageService.getIsOrganizationLimitReachedByProject(
       { projectId },
     );
-    if (limitReached) return [];
+    if (limitReached && !isLocalhost(requestOrigin))
+      throw new TooManyRequestsException("Organization limit reached");
 
     const dbFlows = await this.databaseService.db.query.flows.findMany({
       where: and(
@@ -112,7 +119,7 @@ export class SdkService {
 
     const seenEventsByFlowId = new Map(seenEvents?.map((e) => [e.flow_id, e]));
 
-    return dbFlows
+    const results = dbFlows
       .filter((flow) => {
         if (!userHash) return true;
         if (flow.publishedVersion?.frequency === "every-time") return true;
@@ -133,6 +140,12 @@ export class SdkService {
           _incompleteSteps,
         };
       });
+
+    const error_message = limitReached
+      ? "Organization limit reached, your flows will be loaded because you are on localhost."
+      : undefined;
+
+    return { results, error_message };
   }
 
   async getFlowDetail({

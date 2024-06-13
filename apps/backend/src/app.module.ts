@@ -23,13 +23,7 @@ import { ProjectsModule } from "./projects/projects.module";
 import { SdkModule } from "./sdk/sdk.module";
 import { UsersModule } from "./users/users.module";
 
-const publicRoutes: string[] = [
-  "/sdk/flows",
-  "/sdk/events",
-  "/sdk/events/:eventId",
-  "/sdk/flows/:flowId",
-  "/sdk/flows/:flowId/draft",
-];
+const publicRoutes: string[] = ["/v(.)/sdk/(.*)", "/sdk/(.*)"];
 
 const isTest = process.env.NODE_ENV === "test";
 
