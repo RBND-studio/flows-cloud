@@ -23,7 +23,7 @@ export const PageError: FC<Props> = ({ error, reset, title }) => {
     });
 
   return (
-    <Flex align="center" direction="column">
+    <Flex align="center" justifyContent="center" direction="column" height="100vh">
       <Text className={css({ mb: "space16" })} variant="titleL">
         {title}
       </Text>

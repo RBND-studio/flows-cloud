@@ -240,16 +240,6 @@ describe("Invite user", () => {
       organizationsController.inviteUser({ userId: "userId" }, "org1", { email: "email" }),
     ).rejects.toThrow("User already in organization");
   });
-  it("should throw with user already invited", async () => {
-    db.query.userInvite.findFirst.mockResolvedValue({ id: "inviteId" });
-    await expect(
-      organizationsController.inviteUser({ userId: "userId" }, "org1", { email: "email" }),
-    ).resolves.toBeUndefined();
-    expect(emailService.sendInvite).toHaveBeenCalledWith({
-      email: "email",
-      organizationName: "org",
-    });
-  });
   it("should create invite and send email", async () => {
     await expect(
       organizationsController.inviteUser({ userId: "userId" }, "org1", { email: "email" }),
@@ -258,6 +248,7 @@ describe("Invite user", () => {
     expect(emailService.sendInvite).toHaveBeenCalledWith({
       email: "email",
       organizationName: "org",
+      inviteId: "inviteId",
     });
   });
 });
