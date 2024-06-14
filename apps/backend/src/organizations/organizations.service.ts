@@ -271,7 +271,8 @@ export class OrganizationsService {
     );
     if (userAlreadyInOrg) throw new ConflictException("User already in organization");
 
-    const existingInvite = await this.databaseService.db.query.userInvite.findFirst({
+    let invite = await this.databaseService.db.query.userInvite.findFirst({
+      columns: { id: true },
       where: and(
         eq(userInvite.organization_id, organizationId),
         eq(userInvite.email, email),
@@ -279,15 +280,21 @@ export class OrganizationsService {
       ),
     });
 
-    if (!existingInvite) {
-      await this.databaseService.db.insert(userInvite).values({
-        email,
-        organization_id: organizationId,
-        expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
-      });
+    if (!invite) {
+      const newInvites = await this.databaseService.db
+        .insert(userInvite)
+        .values({
+          email,
+          organization_id: organizationId,
+          expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
+        })
+        .returning({ id: userInvite.id });
+      const newInvite = newInvites.at(0);
+      if (!newInvite) throw new InternalServerErrorException();
+      invite = newInvite;
     }
 
-    await this.emailService.sendInvite({ email, organizationName: org.name });
+    await this.emailService.sendInvite({ email, organizationName: org.name, inviteId: invite.id });
   }
 
   async leaveOrganization({
