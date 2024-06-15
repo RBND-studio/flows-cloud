@@ -5,10 +5,10 @@ import { FeatureCard, type FeatureCardTypes, LinesBox } from "components/ui";
 import { Alert16, Graph16, Stack16 } from "icons";
 import type { FC } from "react";
 
-import errorTrackingDark from "./error-tracking-dark.webp";
-import errorTrackingLight from "./error-tracking-light.webp";
-import flowAnalyticsDark from "./flow-analytics-dark.webp";
-import flowAnalyticsLight from "./flow-analytics-light.webp";
+import errorTrackingDark from "./error-tracking-dark.png";
+import errorTrackingLight from "./error-tracking-light.png";
+import flowAnalyticsDark from "./flow-analytics-dark.png";
+import flowAnalyticsLight from "./flow-analytics-light.png";
 
 const mainList: FeatureCardTypes[] = [
   {

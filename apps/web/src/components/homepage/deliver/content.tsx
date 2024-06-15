@@ -6,10 +6,10 @@ import { Hourglass16, Storage16 } from "icons";
 import type { FC } from "react";
 import { Text } from "ui";
 
-import bundleSizeDark from "./bundle-size-dark.webp";
-import bundleSizeLight from "./bundle-size-light.webp";
-import deliverySpeedDark from "./delivery-speed-dark.webp";
-import deliverySpeedLight from "./delivery-speed-light.webp";
+import bundleSizeDark from "./bundle-size-dark.png";
+import bundleSizeLight from "./bundle-size-light.png";
+import deliverySpeedDark from "./delivery-speed-dark.png";
+import deliverySpeedLight from "./delivery-speed-light.png";
 
 const mainList: FeatureCardTypes[] = [
   {

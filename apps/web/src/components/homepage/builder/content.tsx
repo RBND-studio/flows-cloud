@@ -3,10 +3,14 @@ import { ThemeImage } from "components/theme-image";
 import { FeatureCard, type FeatureCardTypes, LinesBox } from "components/ui/feature-card";
 import type { FC } from "react";
 
-import inCodeDark from "./in-code-dark.webp";
-import inCodeLight from "./in-code-light.webp";
-import noCodeDark from "./no-code-dark.webp";
-import noCodeLight from "./no-code-light.webp";
+import branchOutDark from "./branch-out-dark.png";
+import branchOutLight from "./branch-out-light.png";
+import segmentationDark from "./segmentation-dark.png";
+import segmentationLight from "./segmentation-light.png";
+import visualFlowBuilderDark from "./visual-flow-builder-dark.png";
+import visualFlowBuilderLight from "./visual-flow-builder-light.png";
+import waitForUsersDark from "./wait-for-users-dark.png";
+import waitForUsersLight from "./wait-for-users-light.png";
 
 const mainList: FeatureCardTypes[] = [
   {
@@ -19,8 +23,8 @@ const mainList: FeatureCardTypes[] = [
     illustration: (
       <ThemeImage
         alt="Flow tooltip illustration"
-        srcDark={noCodeDark}
-        srcLight={noCodeLight}
+        srcDark={visualFlowBuilderDark}
+        srcLight={visualFlowBuilderLight}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
@@ -35,8 +39,8 @@ const mainList: FeatureCardTypes[] = [
     illustration: (
       <ThemeImage
         alt="Code implementation illustration"
-        srcDark={inCodeDark}
-        srcLight={inCodeLight}
+        srcDark={segmentationDark}
+        srcLight={segmentationLight}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
@@ -51,8 +55,8 @@ const mainList: FeatureCardTypes[] = [
     illustration: (
       <ThemeImage
         alt="Code implementation illustration"
-        srcDark={inCodeDark}
-        srcLight={inCodeLight}
+        srcDark={waitForUsersDark}
+        srcLight={waitForUsersLight}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
@@ -67,8 +71,8 @@ const mainList: FeatureCardTypes[] = [
     illustration: (
       <ThemeImage
         alt="Code implementation illustration"
-        srcDark={inCodeDark}
-        srcLight={inCodeLight}
+        srcDark={branchOutDark}
+        srcLight={branchOutLight}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
