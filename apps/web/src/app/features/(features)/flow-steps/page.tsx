@@ -13,9 +13,9 @@ import type { ReactElement } from "react";
 import { Text } from "ui";
 
 import { metadata as featuresLayoutMetadata } from "../../layout";
-import modalImage from "./modal.webp";
-import tooltipImage from "./tooltip.webp";
-import waitImage from "./wait.webp";
+import modalImage from "./modal.png";
+import tooltipImage from "./tooltip.png";
+import waitImage from "./wait.png";
 
 export const metadata: Metadata = {
   title: "Flow Steps – Flows Features",

@@ -13,12 +13,12 @@ import type { ReactElement } from "react";
 import { Text } from "ui";
 
 import { metadata as featuresLayoutMetadata } from "../../layout";
-import frequencyImage from "./frequency.webp";
-import previewImage from "./preview.webp";
-import sizeImage from "./size.webp";
-import speedImage from "./speed.webp";
-import launchImage from "./start.webp";
-import targetingImage from "./targeting.webp";
+import frequencyImage from "./frequency.png";
+import previewImage from "./preview.png";
+import sizeImage from "./size.png";
+import speedImage from "./speed.png";
+import launchImage from "./start.png";
+import targetingImage from "./targeting.png";
 
 export const metadata: Metadata = {
   title: "Deliver – Flows Features",
