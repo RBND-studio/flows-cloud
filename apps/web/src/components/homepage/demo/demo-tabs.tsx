@@ -23,7 +23,7 @@ export const DemoTabs = ({ activeTab, onTabChange }: Props): ReactElement => {
               className={button({ active })}
             >
               <Icon icon={tab.icon} />
-              <Text weight="600" color="muted">
+              <Text weight="600" color="muted" align="center">
                 {tab.title}
               </Text>
             </button>
@@ -41,8 +41,10 @@ const button = cva({
     flexDirection: "column",
     gap: "space8",
     paddingY: "space16",
-    paddingX: "space24",
+    paddingX: "space8",
     alignItems: "center",
+    minWidth: "140px",
+    justifyContent: "center",
     transitionTimingFunction: "easeInOut",
     transitionDuration: "fast",
     borderRadius: "radius8",

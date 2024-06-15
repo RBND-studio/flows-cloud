@@ -60,7 +60,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
       <body className={css({ background: "bg" })}>
         <Providers>
           <Header />
-          <main>
+          <main
+            className={css({
+              overflowX: "hidden",
+            })}
+          >
             {children}
             <CtaBanner />
           </main>

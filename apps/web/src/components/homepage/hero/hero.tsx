@@ -19,7 +19,7 @@ export const Hero = (): ReactElement => {
       })}
       outerClassName={css({
         paddingTop: "80px",
-        paddingBottom: "140px",
+        paddingBottom: "80px",
         position: "relative",
 
         overflow: "hidden",
