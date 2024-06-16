@@ -55,7 +55,7 @@ const button = cva({
   variants: {
     active: {
       true: {
-        bg: "bg.strong!",
+        bg: "bg.subtle",
       },
     },
   },
