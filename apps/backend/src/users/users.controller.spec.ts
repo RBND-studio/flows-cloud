@@ -94,6 +94,16 @@ describe("Get me", () => {
   });
 });
 
+describe("Update profile", () => {
+  it("should call update", async () => {
+    await expect(
+      usersController.updateMe({ userId: "userId" }, { finished_welcome: true }),
+    ).resolves.toBeUndefined();
+    expect(db.update).toHaveBeenCalledWith(userMetadata);
+    expect(db.set).toHaveBeenCalledWith({ finished_welcome: true });
+  });
+});
+
 describe("Accept invite", () => {
   beforeEach(() => {
     db.query.users.findFirst.mockResolvedValue({ id: "userId", email: "email" });

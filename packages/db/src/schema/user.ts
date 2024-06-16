@@ -1,4 +1,4 @@
-import { pgEnum, pgSchema, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, pgEnum, pgSchema, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const authSchema = pgSchema("auth");
 
@@ -24,4 +24,5 @@ export const userMetadata = pgTable("user_metadata", {
     .primaryKey()
     .references(() => users.id, { onDelete: "cascade" }),
   role: userRoleEnum("role").notNull().default("user"),
+  finished_welcome: boolean("finished_welcome").notNull().default(false),
 });

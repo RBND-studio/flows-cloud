@@ -17,6 +17,7 @@ export const routes = {
   welcomeOrganization: (params: { organizationId: string }) => `/welcome/${params.organizationId}`,
   welcomeOrganizationProject: (params: { organizationId: string; projectId: string }) =>
     `/welcome/${params.organizationId}/${params.projectId}`,
+  welcomeSubscribe: "/welcome/subscribe",
   userSettings: () => `/user/settings`,
   organization: (params: { organizationId: string }) => `/org/${params.organizationId}`,
   organizationSettings: (params: { organizationId: string }) =>
