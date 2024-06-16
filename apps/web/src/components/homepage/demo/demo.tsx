@@ -2,8 +2,8 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box } from "@flows/styled-system/jsx";
+import { ThemeImage } from "components/theme-image";
 import { Section, SingleBoxLinesWrapper } from "components/ui";
-import Image from "next/image";
 import { type FC, useState } from "react";
 
 import { tabs } from "./demo-data";
@@ -32,7 +32,13 @@ export const DemoSection: FC = () => {
         >
           {tabs.map((tab) => (
             <Box key={tab.title} display={activeTab === tab.title ? "block" : "none"}>
-              <Image src={tab.img} alt={tab.title} width={2844} height={1605} priority />
+              <ThemeImage
+                srcDark={tab.imgDark}
+                srcLight={tab.imgLight}
+                alt={tab.title}
+                width={2844}
+                height={1605}
+              />
             </Box>
           ))}
         </Box>
