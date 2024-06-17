@@ -30,17 +30,21 @@ export const DemoSection: FC = () => {
           bor="1px"
           overflow="hidden"
         >
-          {tabs.map((tab) => (
-            <Box key={tab.title} display={activeTab === tab.title ? "block" : "none"}>
-              <ThemeImage
-                srcDark={tab.imgDark}
-                srcLight={tab.imgLight}
-                alt={tab.title}
-                width={2844}
-                height={1605}
-              />
-            </Box>
-          ))}
+          {tabs.map((tab) => {
+            const active = activeTab === tab.title;
+            return (
+              <Box key={tab.title} display={active ? "block" : "none"}>
+                <ThemeImage
+                  fetchPriority={active ? "high" : undefined}
+                  srcDark={tab.imgDark}
+                  srcLight={tab.imgLight}
+                  alt={tab.title}
+                  width={2844}
+                  height={1605}
+                />
+              </Box>
+            );
+          })}
         </Box>
       </SingleBoxLinesWrapper>
     </Section>
