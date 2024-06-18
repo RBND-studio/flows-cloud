@@ -38,7 +38,7 @@
     "posthog-js": "^1.139.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.51.5",
+    "react-hook-form": "^7.52.0",
     "shared": "workspace:*",
     "sharp": "^0.33.4",
     "swr": "^2.2.5",
