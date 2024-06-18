@@ -44,7 +44,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.0",
     "eslint-config-custom": "workspace:*",
-    "storybook": "^8.1.6",
+    "storybook": "^8.1.10",
     "tsconfig": "workspace:*",
     "typescript": "5.4.5",
     "vite": "^5.2.13",
