@@ -37,7 +37,7 @@ export const VolumeTable = (): ReactElement => {
         </Text>
       </Flex>
       <SingleBoxLinesWrapper>
-        <Box shadow="l2" className={cardWrapper()}>
+        <Box className={cardWrapper()}>
           {pricing.map((item) => (
             <Flex
               key={item.price}

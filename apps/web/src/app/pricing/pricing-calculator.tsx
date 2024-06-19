@@ -39,7 +39,7 @@ export const PricingCalculator = (): ReactElement => {
   return (
     <Section sectionPadding="small">
       <SingleBoxLinesWrapper>
-        <Box shadow="l2" className={cardWrapper()}>
+        <Box className={cardWrapper()}>
           <Box padding="space24" borBottom="1px">
             <Flex
               justifyContent="space-between"

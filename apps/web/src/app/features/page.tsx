@@ -20,6 +20,7 @@ const Page = (): ReactElement => {
         outerClassName={css({
           backgroundImage: "radial-gradient(token(colors.special.dotBg) 1px, transparent 0)",
           backgroundSize: "16px 16px",
+          borBottom: "1px",
         })}
       >
         <Logo type="pill" size={80} />

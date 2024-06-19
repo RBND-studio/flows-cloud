@@ -56,6 +56,7 @@ export const ChangelogItem = ({ release, detail }: Props): ReactElement => {
       borBottom="1px"
       py="space64"
       mdDown={{ flexDirection: "column", py: "space40" }}
+      _last={{ border: "none" }}
     >
       <Box maxWidth={200} width="100%" mt="space12">
         {dateComponent}

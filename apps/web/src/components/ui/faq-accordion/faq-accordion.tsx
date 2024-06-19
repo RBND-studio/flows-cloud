@@ -22,7 +22,7 @@ export const FaqAccordion = ({ title, children }: Props): ReactElement => {
   }, [isOpen]);
 
   return (
-    <Box borBottom="1px" overflow="hidden">
+    <Box borBottom="1px" overflow="hidden" _last={{ border: "none" }}>
       <button
         type="button"
         className={css({

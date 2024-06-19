@@ -54,6 +54,10 @@ const corner = cva({
           right: "-80px",
           height: "1px",
           background: "linear-gradient(-90deg, transparent, {colors.border})",
+          mdDown: {
+            width: "24px",
+            right: "-24px",
+          },
         },
         _after: {
           top: "-80px",
@@ -61,6 +65,10 @@ const corner = cva({
           right: "-1px",
           width: "1px",
           background: "linear-gradient(180deg, transparent, {colors.border})",
+          mdDown: {
+            height: "24px",
+            top: "-24px",
+          },
         },
       },
       topLeft: {
@@ -72,6 +80,10 @@ const corner = cva({
           left: "-80px",
           height: "1px",
           background: "linear-gradient(90deg, transparent, {colors.border})",
+          mdDown: {
+            width: "24px",
+            left: "-24px",
+          },
         },
         _after: {
           top: "-80px",
@@ -79,6 +91,10 @@ const corner = cva({
           left: "-1px",
           width: "1px",
           background: "linear-gradient(180deg, transparent, {colors.border})",
+          mdDown: {
+            height: "24px",
+            top: "-24px",
+          },
         },
       },
       bottomRight: {
@@ -90,6 +106,10 @@ const corner = cva({
           right: "-80px",
           height: "1px",
           background: "linear-gradient(-90deg, transparent, {colors.border})",
+          mdDown: {
+            width: "24px",
+            right: "-24px",
+          },
         },
         _after: {
           bottom: "-80px",
@@ -97,6 +117,10 @@ const corner = cva({
           right: "-1px",
           width: "1px",
           background: "linear-gradient(0deg, transparent, {colors.border})",
+          mdDown: {
+            height: "24px",
+            bottom: "-24px",
+          },
         },
       },
       bottomLeft: {
@@ -108,6 +132,10 @@ const corner = cva({
           left: "-80px",
           height: "1px",
           background: "linear-gradient(90deg, transparent, {colors.border})",
+          mdDown: {
+            width: "24px",
+            left: "-24px",
+          },
         },
         _after: {
           bottom: "-80px",
@@ -115,6 +143,10 @@ const corner = cva({
           left: "-1px",
           width: "1px",
           background: "linear-gradient(0deg, transparent, {colors.border})",
+          mdDown: {
+            height: "24px",
+            bottom: "-24px",
+          },
         },
       },
     },

@@ -12,9 +12,16 @@ export const CtaBanner = (): ReactElement => {
     <Section
       innerClassName={css({
         display: "flex",
-        flexDirection: "column",
         gap: "space24",
-        alignItems: "flex-start",
+        alignItems: "center",
+        justifyContent: "space-between",
+        mdDown: {
+          flexDirection: "column",
+          alignItems: "flex-start",
+        },
+      })}
+      outerClassName={css({
+        borTop: "1px",
       })}
     >
       <Text as="h2" variant="title2xl">
