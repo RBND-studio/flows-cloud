@@ -11,14 +11,16 @@ export class EmailService {
 
   async sendInvite({
     organizationName,
+    inviteId,
     email,
   }: {
+    inviteId: string;
     organizationName: string;
     email: string;
   }): Promise<ReturnType<LoopsClient["sendTransactionalEmail"]>> {
     return this.loops.sendTransactionalEmail("clpxmw7h70012jo0pp0pe0hb5", email, {
       orgName: organizationName,
-      acceptUrl: process.env.BACKEND_APP_URL,
+      acceptUrl: `${process.env.BACKEND_APP_URL}/accept-invite/${inviteId}`,
     });
   }
 

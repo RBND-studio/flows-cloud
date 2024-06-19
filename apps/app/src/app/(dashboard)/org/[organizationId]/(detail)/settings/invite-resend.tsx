@@ -2,6 +2,7 @@
 
 import { useSend } from "hooks/use-send";
 import { api } from "lib/api";
+import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import { t } from "translations";
 import { Button, toast } from "ui";
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export const InviteResend: FC<Props> = ({ email, organizationId }) => {
+  const router = useRouter();
   const { send, loading } = useSend();
   const handleResend = async (): Promise<void> => {
     const res = await send(
@@ -20,6 +22,7 @@ export const InviteResend: FC<Props> = ({ email, organizationId }) => {
     );
     if (res.error) return;
     toast.success(t.toasts.inviteSent);
+    router.refresh();
   };
 
   return (
