@@ -20,6 +20,7 @@ import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialo
 import { Autosave } from "./autosave";
 import {
   createDefaultValues,
+  fixFormData,
   formToRequest,
   type IFlowEditForm,
   type SelectedItem,
@@ -52,9 +53,10 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
   const { send } = useSend();
   const onSubmit: SubmitHandler<IFlowEditForm> = useCallback(
     async (data) => {
-      const res = await send(api["PATCH /flows/:flowId"](flow.id, formToRequest(data)), {
-        errorMessage: t.toasts.saveFlowFailed,
-      });
+      const res = await send(
+        api["PATCH /flows/:flowId"](flow.id, formToRequest(fixFormData(data))),
+        { errorMessage: t.toasts.saveFlowFailed },
+      );
       if (res.error) return;
       reset(data, { keepValues: true });
       router.refresh();
