@@ -13,7 +13,7 @@ export const useFetch = <
 >(
   key: Key | null,
   args: Args | null = DEFAULT_ARGS as Args,
-  onSuccess?: ((data: Return) => void) | undefined,
+  options?: { onSuccess?: ((data: Return) => void) | undefined },
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- not needed
 ) => {
   const { auth } = useAuth();
@@ -35,7 +35,7 @@ export const useFetch = <
     [token],
   );
 
-  return useSWR<Return>(_key, { fetcher, onSuccess });
+  return useSWR<Return>(_key, fetcher, options);
 };
 
 export const mutate = <Key extends keyof Api, Args extends Parameters<Api[Key]>>(
