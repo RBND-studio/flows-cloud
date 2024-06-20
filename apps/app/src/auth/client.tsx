@@ -46,6 +46,19 @@ export const AuthProvider: FC<Props> = ({ children }) => {
         user: mapSupabaseUser(u.data.user),
       });
     });
+
+    // middleware.ts refreshes the access_token in cookies when server request is made, but we still need to refresh the access_token in browser memory
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) return setAuth(null);
+      setAuth({
+        session: mapSupabaseSession(session),
+        user: mapSupabaseUser(session.user),
+      });
+    });
+
+    return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
   const [processingLogout, startTransition] = useTransition();
