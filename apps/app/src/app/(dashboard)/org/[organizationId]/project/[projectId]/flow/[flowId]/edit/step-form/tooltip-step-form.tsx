@@ -150,9 +150,28 @@ export const TooltipStepForm: FC<Props> = ({ index }) => {
           <Input
             {...register(`${stepKey}.scrollElement`)}
             defaultValue={initialValue.scrollElement}
+            className={css({ mb: "space16" })}
             description="Element to scroll to when tooltip is shown"
             label="Scroll to element"
             placeholder=".element"
+          />
+
+          <Input
+            {...register(`${stepKey}.zIndex`)}
+            className={css({ mb: "space16" })}
+            defaultValue={initialValue.zIndex}
+            label="Tooltip z-index"
+            description="Z-index of the tooltip element"
+            placeholder="1000"
+          />
+
+          <Input
+            {...register(`${stepKey}.targetZIndex`)}
+            className={css({ mb: "space16" })}
+            defaultValue={initialValue.targetZIndex}
+            label="Target z-index"
+            description="Z-index of the tooltip target element when using overlay"
+            placeholder="1100"
           />
         </Accordion>
       </Flex>

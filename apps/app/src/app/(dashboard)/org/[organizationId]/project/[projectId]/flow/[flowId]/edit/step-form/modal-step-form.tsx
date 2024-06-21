@@ -90,10 +90,19 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
         <Accordion title="Advanced">
           <Input
             {...register(`${stepKey}.stepId`)}
+            className={css({ mb: "space16" })}
             defaultValue={initialValue.stepId}
             description={t.steps.stepIdDescription}
             label={t.steps.stepIdLabel}
             placeholder="my-step-id"
+          />
+
+          <Input
+            {...register(`${stepKey}.zIndex`)}
+            defaultValue={initialValue.zIndex}
+            label="Modal z-index"
+            description="Z-index of the modal element"
+            placeholder="1000"
           />
         </Accordion>
       </Flex>
