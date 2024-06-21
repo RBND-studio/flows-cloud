@@ -148,8 +148,8 @@ export class UsersService {
       columns: { email: true },
       where: eq(users.id, auth.userId),
     });
-    if (!user) throw new InternalServerErrorException();
-    // TODO: Add user to newsletter group in loops
+    if (!user?.email) throw new InternalServerErrorException();
+    await this.emailService.joinNewsletter({ email: user.email });
   }
 
   async deleteIdentity({ auth, providerId }: { auth: Auth; providerId: string }): Promise<void> {

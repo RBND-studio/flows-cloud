@@ -205,3 +205,19 @@ describe("Join waitlist", () => {
     expect(newsfeedService.postMessage).toHaveBeenCalled();
   });
 });
+
+describe("Join newsletter", () => {
+  beforeEach(() => {
+    db.query.users.findFirst.mockResolvedValue({ email: "email" });
+  });
+  it("should throw without user", async () => {
+    db.query.users.findFirst.mockResolvedValue(null);
+    await expect(usersController.joinNewsletter({ userId: "userId" })).rejects.toThrow(
+      "Internal Server Error",
+    );
+  });
+  it("should call emailService", async () => {
+    await expect(usersController.joinNewsletter({ userId: "userId" })).resolves.toBeUndefined();
+    expect(emailService.joinNewsletter).toHaveBeenCalledWith({ email: "email" });
+  });
+});

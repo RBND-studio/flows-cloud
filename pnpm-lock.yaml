@@ -208,8 +208,8 @@ importers:
         specifier: ^1.25.1
         version: 1.25.1
       loops:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.1.1
+        version: 2.1.1
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -7960,8 +7960,8 @@ packages:
   look-it-up@2.1.0:
     resolution: {integrity: sha512-nMoGWW2HurtuJf6XAL56FWTDCWLOTSsanrgwOyaR5Y4e3zfG5N/0cU5xWZSEU3tBxhQugRbV1xL9jb+ug7yZww==}
 
-  loops@2.0.0:
-    resolution: {integrity: sha512-9kgk4FgGZ8lDlX65AppVJH/Z63mWTjcBCmq8Dw064Q9EIPi6PaNY8XmBfKKBKO+DpcQB4Hnxz4w8g67XSUPUnA==}
+  loops@2.1.1:
+    resolution: {integrity: sha512-+cFs6He1nPGsK5f5/lJbxujEFWcmK4Bt78F4cYem3TaMMBcD906a/WU0rUBb1zp813T5z++E0USr1wKzuTVm7A==}
     engines: {node: '>=18'}
 
   loose-envify@1.4.0:
@@ -19772,7 +19772,7 @@ snapshots:
 
   look-it-up@2.1.0: {}
 
-  loops@2.0.0: {}
+  loops@2.1.1: {}
 
   loose-envify@1.4.0:
     dependencies:
