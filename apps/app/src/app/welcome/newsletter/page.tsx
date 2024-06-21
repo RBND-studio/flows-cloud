@@ -7,8 +7,10 @@ export default function WelcomeSubscribePage(): JSX.Element {
   return (
     <Flex flexDirection="column" gap="space24" maxW="400px" width="100%">
       <Flex alignItems="center" flexDirection="column" gap="space4">
-        <Text variant="titleL">Welcome to Flows</Text>
-        <Text color="muted">Start by creating an organization for your projects.</Text>
+        <Text variant="titleL">Subscribe to updates</Text>
+        <Text color="muted">
+          Flows are improving every month. These are the best ways to stay in the loop.
+        </Text>
       </Flex>
       <Box borderRadius="radius12" cardWrap="-" padding="space24">
         <SubscribeForm />

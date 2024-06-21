@@ -7,7 +7,7 @@ import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { routes } from "routes";
-import { Button, Checkbox } from "ui";
+import { Button, Checkbox, Text } from "ui";
 
 type FormValues = {
   marketingConsent: boolean;
@@ -42,7 +42,14 @@ export const SubscribeForm = (): JSX.Element => {
             <Checkbox
               checked={field.value}
               onCheckedChange={field.onChange}
-              label="Subscribe to monthly newsletter"
+              label={
+                <>
+                  Subscribe to monthly newsletter
+                  <Text as="span" variant="bodyXs" display="block" color="muted">
+                    Email once a month about new features and changes
+                  </Text>
+                </>
+              }
             />
           )}
         />

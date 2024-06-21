@@ -11,7 +11,7 @@ export const WelcomeRedirect = (): null => {
 
   useEffect(() => {
     if (!data) return;
-    if (!data.finished_welcome) router.replace(routes.welcomeSubscribe);
+    if (!data.finished_welcome) router.replace(routes.welcomeNewsletter);
   }, [data, router]);
 
   return null;
