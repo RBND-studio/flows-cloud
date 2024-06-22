@@ -1,0 +1,24 @@
+---
+title: Wait for element to be on page
+date: "2024-06-01"
+---
+
+Now you can wait for an element to be on the page before starting a flow. This is good for cases where you need to wait for a page to load or to avoid starting flows on empty states.
+
+## Organization usage improvements
+
+We've added a few improvements to help you keep track of your organization usage:
+
+- When your organization reaches 80% of the usage limit, we'll email you.
+- When your organization reaches the limit, we'll email you and log error messages in the console and localhost.
+
+## Flows improvements
+
+Now you can set the flow frequency to every session. This means that the flow will start every time the user opens the app, for example. Along with this, we've also improved the session handling in the SDK.
+
+## Other improvements
+
+- Allow null origin in projects so you can use Flows places that don't have an origin like Figma plugins
+- Expired organization invites are now shown with the option to resend them
+- Improved join organization flow
+- Improved unlink account dialog
