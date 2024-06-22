@@ -16,7 +16,7 @@
     "db": "pnpm --filter db",
     "e2e": "pnpm --filter e2e",
     "prepare": "husky",
-    "pre-push": "concurrently \"pnpm lint\" \"pnpm tsc\" \"pnpm test\" \"pnpm spellcheck\" \"pnpm -r pre-commit\"",
+    "pre-push": "TURBO_NO_UPDATE_NOTIFIER=true turbo lint tsc test spellcheck pre-commit",
     "web-docs": "pnpm --filter=web --filter=docs",
     "spellcheck": "pnpm cspell .  --quiet"
   },
