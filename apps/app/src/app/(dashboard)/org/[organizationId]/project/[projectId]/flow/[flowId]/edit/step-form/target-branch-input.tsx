@@ -51,13 +51,21 @@ export const TargetBranchInput: FC<Props> = ({ fieldName }) => {
             </Text>
 
             <Flex cardWrap="-" overflowX="auto" display="inline-flex">
+              <Button
+                variant={field.value === null ? "black" : "ghost"}
+                onClick={() => field.onChange(null)}
+                size="small"
+              >
+                None
+              </Button>
               {options.map((opt) => {
                 const active = field.value === opt;
                 return (
                   <Button
                     key={opt}
+                    size="small"
                     variant={active ? "black" : "ghost"}
-                    onClick={() => field.onChange(active ? null : opt)}
+                    onClick={() => field.onChange(opt)}
                   >
                     {opt}
                   </Button>
