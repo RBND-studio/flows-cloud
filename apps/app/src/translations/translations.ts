@@ -86,8 +86,7 @@ export const t = {
     stepIdLabel: "Step ID",
     stepIdDescription: "Unique ID of the step. Useful for programmatic control of the flow.",
     targetBranchLabel: "Target branch",
-    targetBranchDescription:
-      "Which branch to take. If empty, the flow needs to be continued in some other way.",
+    targetBranchDescription: "Which branch to take.",
     footer: {
       buttonAlignment: {
         left: "Left",
