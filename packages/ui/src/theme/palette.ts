@@ -3,19 +3,20 @@ import { defineTokens } from "@pandacss/dev";
 // Palettes made in Atmos
 // Light - https://app.atmos.style/653c8f3f160dfe09ce630ffd
 // Dark - https://app.atmos.style/6546397653415c4a4d4741d8
+// Neutral - https://app.atmos.style/6505646a4ee98f32998487bf
 
 export const palette = defineTokens.colors({
   primary: {
-    800: { value: "#561e0f" },
-    700: { value: "#802612" },
-    600: { value: "#aa3218" },
-    500: { value: "#d03e1f" },
-    400: { value: "#ec6441" },
-    300: { value: "#f58e70" },
-    200: { value: "#f5b7a4" },
-    100: { value: "#fbdbd2" },
-    50: { value: "#f9e7e1" },
-    25: { value: "#fcf7f5" },
+    800: { value: "#003161" },
+    700: { value: "#01478f" },
+    600: { value: "#015ebd" },
+    500: { value: "#067efd" },
+    400: { value: "#3a90ff" },
+    300: { value: "#75b0ff" },
+    200: { value: "#a3cbff" },
+    100: { value: "#d1e5ff" },
+    50: { value: "#deedff" },
+    25: { value: "#f3f9ff" },
   },
 
   success: {
@@ -71,16 +72,16 @@ export const palette = defineTokens.colors({
   },
 
   "primary-dark": {
-    900: { value: "#271812" },
-    800: { value: "#512114" },
-    700: { value: "#7c2a17" },
-    600: { value: "#a6361d" },
-    500: { value: "#d35131" },
-    450: { value: "#db5736" },
-    400: { value: "#e46a49" },
-    300: { value: "#f78d6e" },
-    200: { value: "#feb49d" },
-    100: { value: "#ffdacf" },
+    900: { value: "#0e1c2f" },
+    800: { value: "#173256" },
+    700: { value: "#1d4982" },
+    600: { value: "#2861ac" },
+    500: { value: "#357ddb" },
+    450: { value: "#3382e7" },
+    400: { value: "#468ff1" },
+    300: { value: "#77b0ff" },
+    200: { value: "#a5cbff" },
+    100: { value: "#d3e5fe" },
   },
 
   "success-dark": {
@@ -136,20 +137,20 @@ export const palette = defineTokens.colors({
   },
 
   neutral: {
-    0: { value: "#FFFFFF" },
-    25: { value: "#fafafa" },
-    50: { value: "#eeeeee" },
-    100: { value: "#e2e2e2" },
-    150: { value: "#d4d4d4 " },
-    200: { value: "#c6c6c6" },
-    300: { value: "#ababab" },
-    400: { value: "#919191" },
-    500: { value: "#717171" },
-    650: { value: "#525252" },
-    750: { value: "#3b3b3b" },
-    800: { value: "#303030" },
-    850: { value: "#262626" },
-    875: { value: "#1f1f1f" },
-    900: { value: "#181818" },
+    0: { value: "#ffffff" },
+    25: { value: "#f9fafc" },
+    50: { value: "#ebeef3" },
+    100: { value: "#dfe3e8" },
+    150: { value: "#d1d5db" },
+    200: { value: "#c2c7ce" },
+    300: { value: "#a6acb4" },
+    400: { value: "#8b929b" },
+    500: { value: "#6b727c" },
+    650: { value: "#4d535d" },
+    750: { value: "#353c46" },
+    800: { value: "#2b313a" },
+    850: { value: "#22262d" },
+    875: { value: "#1c2026" },
+    900: { value: "#15181c" },
   },
 });

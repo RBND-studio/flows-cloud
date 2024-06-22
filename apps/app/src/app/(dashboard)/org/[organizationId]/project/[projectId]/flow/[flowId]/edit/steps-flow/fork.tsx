@@ -68,7 +68,7 @@ export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove })
           size="smallIcon"
           variant="secondary"
           className={css({ opacity: "0" })}
-          onClick={() => append(STEP_DEFAULT.fork as never[])}
+          onClick={() => append([[STEP_DEFAULT.tooltip]] as never[])}
         >
           <Icon icon={Fork16} />
         </Button>
