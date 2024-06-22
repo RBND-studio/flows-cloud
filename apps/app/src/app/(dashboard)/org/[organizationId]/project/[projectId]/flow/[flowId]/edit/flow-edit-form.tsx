@@ -76,21 +76,25 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
     [handleSave],
   );
 
-  const { isDirty } = formState;
+  const isDirty = useRef(formState.isDirty);
+  useEffect(() => {
+    isDirty.current = formState.isDirty;
+  }, [formState.isDirty]);
+
   // Save on page unload (refresh, close, etc.)
   useEffect(() => {
-    if (!isDirty) return;
+    if (!isDirty.current) return;
     window.addEventListener("beforeunload", onUnload);
     return () => window.removeEventListener("beforeunload", onUnload);
-  }, [isDirty, onUnload]);
+  }, [onUnload]);
 
   // Save on SPA navigation to other page
   useEffect(() => {
-    if (!isDirty) return;
     return () => {
+      if (!isDirty.current) return;
       void handleSubmit(onSubmit)();
     };
-  }, [handleSubmit, isDirty, onSubmit]);
+  }, [handleSubmit, onSubmit]);
 
   return (
     <FormProvider {...methods}>
