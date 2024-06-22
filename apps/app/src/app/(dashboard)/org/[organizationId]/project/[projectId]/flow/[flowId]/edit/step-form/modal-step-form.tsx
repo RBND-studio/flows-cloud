@@ -116,7 +116,7 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
             defaultValue={initialValue.zIndex}
             label="Modal z-index"
             description="Z-index of the modal element"
-            placeholder="1000"
+            placeholder="e.g. 1000"
           />
         </Accordion>
       </Flex>

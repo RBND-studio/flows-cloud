@@ -175,7 +175,7 @@ export const TooltipStepForm: FC<Props> = ({ index }) => {
             defaultValue={initialValue.zIndex}
             label="Tooltip z-index"
             description="Z-index of the tooltip element"
-            placeholder="1000"
+            placeholder="e.g. 1000"
           />
 
           <Input
@@ -184,7 +184,7 @@ export const TooltipStepForm: FC<Props> = ({ index }) => {
             defaultValue={initialValue.targetZIndex}
             label="Target z-index"
             description="Z-index of the tooltip target element. Applied when using overlay to lift the target element above the overlay"
-            placeholder="1100"
+            placeholder="e.g. 1100"
           />
         </Accordion>
       </Flex>
