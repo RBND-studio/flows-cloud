@@ -28,6 +28,7 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
             {...register(`${stepKey}.title`)}
             defaultValue={initialValue.title}
             description="HTML title of the modal"
+            className={css({ mb: "space16" })}
             label="Title"
           />
           <Input
