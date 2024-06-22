@@ -1,19 +1,23 @@
 import "./globals.css";
 
-import { css } from "@flows/styled-system/css";
+import { css, cx } from "@flows/styled-system/css";
 import { CtaBanner } from "components/cta-banner";
 import { Providers } from "components/providers";
 import { PRODUCTION } from "lib";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Figtree, Inter } from "next/font/google";
 import Script from "next/script";
 
 import { Footer, Header } from "../components";
 
-const MonaSans = localFont({
-  src: "../fonts/Mona-Sans.woff2",
-  display: "swap",
-  variable: "--font-mona-sans",
+const FigTreeFont = Figtree({
+  subsets: ["latin"],
+  variable: "--font-main",
+});
+
+const InterFont = Inter({
+  subsets: ["latin-ext"],
+  variable: "--font-body",
 });
 
 export const metadata: Metadata = {
@@ -44,7 +48,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
-    <html className={MonaSans.variable} lang="en" suppressHydrationWarning>
+    <html
+      className={cx(FigTreeFont.variable, InterFont.variable)}
+      lang="en"
+      suppressHydrationWarning
+    >
       <head>
         {/* eslint-disable-next-line @next/next/no-sync-scripts -- needed for noflash script */}
         <script src="/noflash.min.js" />
@@ -52,7 +60,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
       <body className={css({ background: "bg" })}>
         <Providers>
           <Header />
-          <main>
+          <main
+            className={css({
+              overflowX: "hidden",
+            })}
+          >
             {children}
             <CtaBanner />
           </main>

@@ -1,8 +1,7 @@
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
-import Image from "next/image";
 import Link from "next/link";
-import { Text } from "ui";
+import { Logo } from "ui";
 
 export const DocsLogo = (): JSX.Element => {
   return (
@@ -16,12 +15,7 @@ export const DocsLogo = (): JSX.Element => {
         })}
         href="https://flows.sh"
       >
-        <span className={css({ display: "flex", gap: "space8", alignItems: "center" })}>
-          <Image alt="Logo" height={28} src="/docs/logo.svg" width={28} />
-          <Text className={css({ color: "inherit" })} variant="bodyM" weight="700">
-            Flows
-          </Text>
-        </span>
+        <Logo type="type" size={20} />
       </Link>
       <Box background="border.strong" height="20px" width="1px" />
       <Link

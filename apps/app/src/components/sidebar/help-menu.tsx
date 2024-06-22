@@ -1,5 +1,5 @@
 import { showSurvey } from "components/providers";
-import { Book16, Comment16, Question16, Question24, Slack16 } from "icons";
+import { Book16, Comment16, Log16, Question16, Question24, Slack16 } from "icons";
 import type { FC } from "react";
 import { links } from "shared";
 import { Button, Icon, Menu, MenuItem, MenuSeparator } from "ui";
@@ -20,11 +20,12 @@ const options = [
     icon: Comment16,
     onClick: () => showSurvey("feedback-survey"),
   },
-  // "separator",
-  // {
-  //   label: "Changelog TODO",
-  //   icon: Log16,
-  // },
+  "separator",
+  {
+    label: "Changelog",
+    icon: Log16,
+    href: links.changelog,
+  },
   {
     label: "Join Slack community",
     icon: Slack16,

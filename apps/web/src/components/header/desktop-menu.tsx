@@ -32,7 +32,8 @@ export const DesktopMenu = (): ReactElement => {
               },
             })}
             color={path === item.href ? "default" : "subtle"}
-            variant="titleS"
+            variant="bodyS"
+            weight="700"
           >
             <SmartLink href={item.href} target={item.target}>
               {item.title}
