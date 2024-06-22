@@ -40,6 +40,23 @@ export const Hero = (): ReactElement => {
       sectionPadding="none"
     >
       <Flex flexDirection="column" gap="space12" maxW="728px">
+        {/* <Flex
+          paddingX="space12"
+          paddingY="space4"
+          background="bg"
+          borderRadius="radius24"
+          alignItems="center"
+          gap="space8"
+          margin="0 auto"
+          bor="1px"
+          opacity={0}
+          animation="topSlideIn 0.6s ease-out"
+          animationDelay="0.8s"
+          animationFillMode="forwards"
+        >
+          <Text>Transitioning to Flows from another platform? We can help!</Text>{" "}
+          <Icon icon={ArrowRight16} color="icon.primary" />
+        </Flex> */}
         <Text
           align="center"
           as="h1"
