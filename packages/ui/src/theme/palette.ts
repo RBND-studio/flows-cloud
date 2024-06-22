@@ -3,6 +3,7 @@ import { defineTokens } from "@pandacss/dev";
 // Palettes made in Atmos
 // Light - https://app.atmos.style/653c8f3f160dfe09ce630ffd
 // Dark - https://app.atmos.style/6546397653415c4a4d4741d8
+// Neutral - https://app.atmos.style/6505646a4ee98f32998487bf
 
 export const palette = defineTokens.colors({
   primary: {
@@ -69,19 +70,6 @@ export const palette = defineTokens.colors({
     50: { value: "#e6eafb" },
     25: { value: "#f7f8fd" },
   },
-
-  // "primary-dark": {
-  //   900: { value: "#271812" },
-  //   800: { value: "#512114" },
-  //   700: { value: "#7c2a17" },
-  //   600: { value: "#a6361d" },
-  //   500: { value: "#d35131" },
-  //   450: { value: "#db5736" },
-  //   400: { value: "#e46a49" },
-  //   300: { value: "#f78d6e" },
-  //   200: { value: "#feb49d" },
-  //   100: { value: "#ffdacf" },
-  // },
 
   "primary-dark": {
     900: { value: "#0e1c2f" },
