@@ -13,7 +13,7 @@ import type { ReactElement } from "react";
 import { Text } from "ui";
 
 import { metadata as featuresLayoutMetadata } from "../../layout";
-import privacyImage from "./privacy.webp";
+import privacyImage from "./privacy.png";
 
 export const metadata: Metadata = {
   title: "Modern and Secure – Flows Features",

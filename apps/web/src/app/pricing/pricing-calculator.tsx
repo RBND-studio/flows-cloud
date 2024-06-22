@@ -2,7 +2,7 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
-import { cardWrapper, Section } from "components/ui";
+import { cardWrapper, Section, SingleBoxLinesWrapper } from "components/ui";
 import { sum } from "lib/sum";
 import { type ReactElement, useState } from "react";
 import { formatNumberWithThousandSeparator, pricingTiers } from "shared";
@@ -38,53 +38,56 @@ export const PricingCalculator = (): ReactElement => {
 
   return (
     <Section sectionPadding="small">
-      <Box marginTop="-140px" mdDown={{ marginTop: 0 }} shadow="l2" className={cardWrapper()}>
-        <Box padding="space24" borBottom="1px">
-          <Flex
-            justifyContent="space-between"
-            mb="space16"
-            mdDown={{ flexDirection: "column", gap: "space8" }}
-          >
-            <Text variant="titleL">Started flows</Text>
-            <Flex gap="space8" alignItems="baseline">
-              <Text variant="titleL">{formatNumberWithThousandSeparator(selectedValue)}</Text>
+      <SingleBoxLinesWrapper>
+        <Box className={cardWrapper()}>
+          <Box padding="space24" borBottom="1px">
+            <Flex
+              justifyContent="space-between"
+              mb="space16"
+              mdDown={{ flexDirection: "column", gap: "space8" }}
+            >
+              <Text variant="titleL">Started flows</Text>
+              <Flex gap="space8" alignItems="baseline">
+                <Text variant="titleL">{formatNumberWithThousandSeparator(selectedValue)}</Text>
+                <Text variant="bodyL" color="muted">
+                  flows / month
+                </Text>
+              </Flex>
+            </Flex>
+            <Slider
+              defaultValue={[1.5]}
+              max={120}
+              min={0}
+              step={0.1}
+              onValueChange={(value) => handleSliderChange(value[0])}
+            />
+            <Flex justifyContent="space-between" mt="space16">
+              <Text variant="bodyS" color="muted">
+                1k
+              </Text>
+              <Text variant="bodyS" color="muted">
+                5k
+              </Text>
+              <Text variant="bodyS" color="muted">
+                25k
+              </Text>
+              <Text variant="bodyS" color="muted">
+                100k
+              </Text>
+            </Flex>
+          </Box>
+          <Flex padding="space24" justifyContent="space-between" alignItems="baseline">
+            <Text variant="titleL">Estimate</Text>
+            <Flex alignItems="baseline" gap="space8">
+              <Text variant="title2xl">${estimatedCost}</Text>
               <Text variant="bodyL" color="muted">
-                flows / month
+                / month
               </Text>
             </Flex>
           </Flex>
-          <Slider
-            defaultValue={[1.5]}
-            max={120}
-            min={0}
-            step={0.1}
-            onValueChange={(value) => handleSliderChange(value[0])}
-          />
-          <Flex justifyContent="space-between" mt="space16">
-            <Text variant="bodyS" color="muted">
-              1k
-            </Text>
-            <Text variant="bodyS" color="muted">
-              5k
-            </Text>
-            <Text variant="bodyS" color="muted">
-              25k
-            </Text>
-            <Text variant="bodyS" color="muted">
-              100k
-            </Text>
-          </Flex>
         </Box>
-        <Flex padding="space24" justifyContent="space-between" alignItems="baseline">
-          <Text variant="titleL">Estimate</Text>
-          <Flex alignItems="baseline" gap="space8">
-            <Text variant="title2xl">${estimatedCost}</Text>
-            <Text variant="bodyL" color="muted">
-              / month
-            </Text>
-          </Flex>
-        </Flex>
-      </Box>
+      </SingleBoxLinesWrapper>
+
       <Text
         variant="bodyM"
         color="muted"

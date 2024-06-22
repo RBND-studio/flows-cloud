@@ -19,6 +19,11 @@ export default async function ProjectTemplatePage({ params }: Props): Promise<JS
     load(api["/css/template"]()),
   ]);
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is intentional here
+  const cssVars = project.css_vars || defaultVars;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- or is intentional here
+  const template = project.css_template || defaultTemplate;
+
   return (
     <>
       <Flex flexDirection="column" gap="space8" mb="space16">
@@ -28,7 +33,7 @@ export default async function ProjectTemplatePage({ params }: Props): Promise<JS
           template.
         </Text>
       </Flex>
-      <TemplateProvider defaultCssTemplate={defaultTemplate} defaultCssVars={defaultVars}>
+      <TemplateProvider cssTemplate={template} cssVars={cssVars}>
         <CssVarsForm defaultVars={defaultVars} project={project} />
         <CssTemplateForm defaultTemplate={defaultTemplate} project={project} />
         <TemplatePreview />

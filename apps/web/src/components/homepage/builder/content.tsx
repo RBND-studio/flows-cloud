@@ -1,95 +1,93 @@
-import { css } from "@flows/styled-system/css";
-import { Box, Flex } from "@flows/styled-system/jsx";
+import { Grid } from "@flows/styled-system/jsx";
 import { ThemeImage } from "components/theme-image";
-import { FeatureCard, type FeatureCardTypes } from "components/ui/feature-card";
-import { Cloud16, Code16, Versions16 } from "icons";
+import { FeatureCard, type FeatureCardTypes, LinesBox } from "components/ui/feature-card";
 import type { FC } from "react";
 
-import flowDiagramDark from "./flow-diagram-dark.webp";
-import flowDiagramLight from "./flow-diagram-light.webp";
-import inCodeDark from "./in-code-dark.webp";
-import inCodeLight from "./in-code-light.webp";
-import noCodeDark from "./no-code-dark.webp";
-import noCodeLight from "./no-code-light.webp";
+import branchOutDark from "./branch-out-dark.png";
+import branchOutLight from "./branch-out-light.png";
+import segmentationDark from "./segmentation-dark.png";
+import segmentationLight from "./segmentation-light.png";
+import visualFlowBuilderDark from "./visual-flow-builder-dark.png";
+import visualFlowBuilderLight from "./visual-flow-builder-light.png";
+import waitForUsersDark from "./wait-for-users-dark.png";
+import waitForUsersLight from "./wait-for-users-light.png";
 
 const mainList: FeatureCardTypes[] = [
   {
-    featureIcon: Cloud16,
-    featureName: "No-code",
     mainSlot: (
       <>
-        <span>Experiment in real-time.</span> Detach from release cycles and iterate on flows as you
-        wish.
+        <span>Visual flow builder.</span> Build out your onboarding and education experience with an
+        advanced visual flow builder.
       </>
     ),
     illustration: (
       <ThemeImage
         alt="Flow tooltip illustration"
-        srcDark={noCodeDark}
-        srcLight={noCodeLight}
+        srcDark={visualFlowBuilderDark}
+        srcLight={visualFlowBuilderLight}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
   },
   {
-    featureIcon: Code16,
-    featureName: "In-code",
     mainSlot: (
       <>
-        <span>Keep things stable.</span> Define flows inside your codebase and prevent any
-        bottlenecks.
+        <span>Segment users.</span> Control which users or companies can see specific onboarding
+        flows.
       </>
     ),
     illustration: (
       <ThemeImage
         alt="Code implementation illustration"
-        srcDark={inCodeDark}
-        srcLight={inCodeLight}
+        srcDark={segmentationDark}
+        srcLight={segmentationLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
+      />
+    ),
+  },
+  {
+    mainSlot: (
+      <>
+        <span>Wait for user actions.</span> Real world isn&apos;t linear, your flows shouldn’t be
+        either. Give users time to do an action or to navigate to different page.
+      </>
+    ),
+    illustration: (
+      <ThemeImage
+        alt="Code implementation illustration"
+        srcDark={waitForUsersDark}
+        srcLight={waitForUsersLight}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
+      />
+    ),
+  },
+  {
+    mainSlot: (
+      <>
+        <span>Branch out when needed.</span> Create personalized flows with built-in branching logic
+        based on user actions.
+      </>
+    ),
+    illustration: (
+      <ThemeImage
+        alt="Code implementation illustration"
+        srcDark={branchOutDark}
+        srcLight={branchOutLight}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 512px"
       />
     ),
   },
 ];
 
-//TODO: Add mobile version of the diagram illustration
 export const Content: FC = () => {
   return (
-    <Flex flexDirection="column" gap="space32">
-      <FeatureCard
-        featureIcon={Versions16}
-        featureName="Advanced flow builder"
-        illustration={
-          <Box
-            display="unset"
-            smDown={{
-              display: "none",
-            }}
-          >
-            <ThemeImage
-              alt="Onboarding flow diagram illustration"
-              srcDark={flowDiagramDark}
-              srcLight={flowDiagramLight}
-              sizes="(max-width: 1024px) 100vw, 1024px"
-            />
-          </Box>
-        }
-        mainSlot={
-          <>
-            <span>Total control.</span> Create the onboarding experiences you want without any
-            limitations. Built with modern SaaS in mind.
-          </>
-        }
-      />
-      <Flex
-        className={css({
-          flexDir: { smDown: "column" },
+    <LinesBox>
+      <Grid gridTemplateColumns={{ _default: "1fr", sm: "1fr 1fr" }} gap="space16">
+        {mainList.map((item, i) => {
+          // eslint-disable-next-line react/no-array-index-key -- order wont change
+          return <FeatureCard key={i} {...item} />;
         })}
-        gap="space32"
-      >
-        {mainList.map((item) => {
-          return <FeatureCard key={item.featureName} {...item} />;
-        })}
-      </Flex>
-    </Flex>
+      </Grid>
+    </LinesBox>
   );
 };
