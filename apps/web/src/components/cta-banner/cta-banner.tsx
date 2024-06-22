@@ -1,55 +1,45 @@
 import { css } from "@flows/styled-system/css";
+import { Flex } from "@flows/styled-system/jsx";
 import { Section } from "components/ui/section";
 import { SignupClick } from "components/utils/signup-click";
-import Image from "next/image";
 import type { ReactElement } from "react";
 import { links } from "shared";
 import { Button, Text } from "ui";
 
+//TODO: fix the layout for blog and feature pages
 export const CtaBanner = (): ReactElement => {
   return (
     <Section
-      background="bg"
       innerClassName={css({
         display: "flex",
-        flexDirection: "column",
         gap: "space24",
         alignItems: "center",
+        justifyContent: "space-between",
+        mdDown: {
+          flexDirection: "column",
+          alignItems: "flex-start",
+        },
       })}
       outerClassName={css({
-        backgroundImage: "radial-gradient(token(colors.special.dotBg) 1px, transparent 0)",
-        backgroundSize: "16px 16px",
+        borTop: "1px",
       })}
     >
-      <Image alt="Logo" height={72} src="/images/logo/logo.svg" width={72} />
-      <div
-        className={css({
-          display: "flex",
-          flexDirection: "column",
-          gap: "space8",
-          alignItems: "center",
-        })}
-      >
-        <Text align="center" as="h2" variant="title3xl">
-          Try Flows today
-        </Text>
-        <Text align="center" variant="bodyM">
-          With forever free plan, see what Flows can do.
-        </Text>
-      </div>
-      <SignupClick>
-        <Button
-          asChild
-          className={css({
-            maxWidth: "240px",
-            width: "100%",
-          })}
-          shadow="highlight"
-          size="large"
-        >
-          <a href={links.signUp}>Sign up for free</a>
+      <Text as="h2" variant="title2xl">
+        Ready to start driving product <br /> activation and adoption?
+      </Text>
+
+      <Flex gap="space16">
+        <SignupClick>
+          <Button asChild shadow="highlight" size="betweenMediumAndLarge">
+            <a href={links.signUp}>Sign up for free</a>
+          </Button>
+        </SignupClick>
+        <Button variant="secondary" asChild size="betweenMediumAndLarge">
+          <a href={links.nextJsDemo} target="_blank" rel="noopener">
+            See demo
+          </a>
         </Button>
-      </SignupClick>
+      </Flex>
     </Section>
   );
 };

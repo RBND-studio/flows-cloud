@@ -12,7 +12,7 @@ import type { ReactElement } from "react";
 import { Text } from "ui";
 
 import { metadata as featuresLayoutMetadata } from "../../layout";
-import analyticsImage from "./analytics.webp";
+import analyticsImage from "./analytics.png";
 
 export const metadata: Metadata = {
   title: "Analyze – Flows Features",

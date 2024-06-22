@@ -9,6 +9,7 @@ export const textStyles = defineTextStyles({
       fontWeight: { base: "750", md: "800" },
       fontSize: { base: "40px", sm: "50px", md: "76px" },
       lineHeight: { base: "52px", sm: "64px", md: "80px" },
+      fontFamily: "var(--font-main)",
     },
   },
   title5xl: {
@@ -17,6 +18,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "750",
       fontSize: { base: "34px", sm: "42px", md: "60px" },
       lineHeight: { base: "44px", sm: "56px", md: "76px" },
+      fontFamily: "var(--font-main)",
     },
   },
   title4xl: {
@@ -25,6 +27,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "750",
       fontSize: { base: "30px", sm: "34px", md: "48px" },
       lineHeight: { base: "40px", sm: "44px", md: "60px" },
+      fontFamily: "var(--font-main)",
     },
   },
   title3xl: {
@@ -33,6 +36,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "750",
       fontSize: { base: "26px", sm: "28px", md: "38px" },
       lineHeight: { base: "32px", sm: "32px", md: "48px" },
+      fontFamily: "var(--font-main)",
     },
   },
   title2xl: {
@@ -41,6 +45,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "750",
       fontSize: { base: "24px", sm: "24px", md: "30px" },
       lineHeight: { base: "32px", sm: "32px", md: "40px" },
+      fontFamily: "var(--font-main)",
     },
   },
   titleXl: {
@@ -49,6 +54,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "750",
       fontSize: { base: "20px", sm: "20px", md: "24px" },
       lineHeight: { base: "28px", sm: "28px", md: "32px" },
+      fontFamily: "var(--font-main)",
     },
   },
   titleL: {
@@ -57,6 +63,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "750",
       fontSize: "18px",
       lineHeight: "28px",
+      fontFamily: "var(--font-main)",
     },
   },
   titleM: {
@@ -65,6 +72,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "750",
       fontSize: "16px",
       lineHeight: "24px",
+      fontFamily: "var(--font-main)",
     },
   },
   titleS: {
@@ -73,6 +81,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "750",
       fontSize: "14px",
       lineHeight: "20px",
+      fontFamily: "var(--font-main)",
     },
   },
   titleXs: {
@@ -81,6 +90,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "750",
       fontSize: "12px",
       lineHeight: "16px",
+      fontFamily: "var(--font-main)",
     },
   },
   // Body
@@ -90,6 +100,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "450",
       fontSize: "18px",
       lineHeight: "28px",
+      fontFamily: "var(--font-body)",
     },
   },
   bodyM: {
@@ -98,6 +109,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "450",
       fontSize: "16px",
       lineHeight: "24px",
+      fontFamily: "var(--font-body)",
     },
   },
   bodyS: {
@@ -106,6 +118,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "450",
       fontSize: "14px",
       lineHeight: "20px",
+      fontFamily: "var(--font-body)",
     },
   },
   bodyXs: {
@@ -114,6 +127,7 @@ export const textStyles = defineTextStyles({
       fontWeight: "450",
       fontSize: "12px",
       lineHeight: "16px",
+      fontFamily: "var(--font-body)",
     },
   },
 });

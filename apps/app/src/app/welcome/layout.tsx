@@ -1,10 +1,9 @@
 import { Flex, Grid } from "@flows/styled-system/jsx";
 import { getAuth } from "auth/server";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { routes } from "routes";
-import { Text } from "ui";
+import { Logo } from "ui";
 
 import { TopRightButtons } from "./top-right-buttons";
 import { WelcomeProviders } from "./welcome-providers";
@@ -24,10 +23,7 @@ export default async function WelcomeLayout({ children }: Props): Promise<JSX.El
           {children}
         </Flex>
         <Flex alignItems="center" gap="space8" left="space24" position="absolute" top="space24">
-          <Image alt="Logo" height={28} priority src="/logo.svg" width={28} />
-          <Text variant="bodyM" weight="700">
-            Flows
-          </Text>
+          <Logo type="type" size={24} />
         </Flex>
         <TopRightButtons />
       </Grid>

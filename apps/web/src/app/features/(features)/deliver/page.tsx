@@ -13,11 +13,12 @@ import type { ReactElement } from "react";
 import { Text } from "ui";
 
 import { metadata as featuresLayoutMetadata } from "../../layout";
-import frequencyImage from "./frequency.webp";
-import sizeImage from "./size.webp";
-import speedImage from "./speed.webp";
-import launchImage from "./start.webp";
-import targetingImage from "./targeting.webp";
+import frequencyImage from "./frequency.png";
+import previewImage from "./preview.png";
+import sizeImage from "./size.png";
+import speedImage from "./speed.png";
+import launchImage from "./start.png";
+import targetingImage from "./targeting.png";
 
 export const metadata: Metadata = {
   title: "Deliver – Flows Features",
@@ -143,6 +144,21 @@ export default function Page(): ReactElement {
           alt="Start"
           className={ImageStyles}
           src={launchImage}
+          sizes="(max-width: 768px) 100vw, 750px"
+        />
+      </Box>
+      <Box borBottom="1px" mb="space40" pb="space40">
+        <Text as="h2" className={Heading2styles} id="preview" variant="title2xl">
+          Preview
+        </Text>
+        <Text className={ParagraphStyles} color="muted" variant="bodyL">
+          Test your flows before you ship them to your users. This allows you to see exactly how
+          your flows will look and behave before you publish them.
+        </Text>
+        <Image
+          alt="Preview"
+          className={ImageStyles}
+          src={previewImage}
           sizes="(max-width: 768px) 100vw, 750px"
         />
       </Box>

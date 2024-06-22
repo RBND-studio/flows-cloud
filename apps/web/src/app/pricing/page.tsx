@@ -43,10 +43,7 @@ const Page = (): ReactElement => {
           flexDirection: "column",
           alignItems: "center",
           gap: "space24",
-        })}
-        outerClassName={css({
-          backgroundImage: "radial-gradient(token(colors.special.dotBg) 1px, transparent 0)",
-          backgroundSize: "16px 16px",
+          paddingBottom: "space24!",
         })}
       >
         <Flex flexDirection="column" gap="space12" maxW="800px">
