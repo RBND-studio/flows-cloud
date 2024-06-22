@@ -1,6 +1,6 @@
-import { useAuth } from "auth/client";
 import type { FetcherContext } from "lib/api/types";
 import { useCallback, useState } from "react";
+import { createClient } from "supabase/client";
 import { toast } from "ui";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- not needed
@@ -8,14 +8,13 @@ export const useSend = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
 
-  const { auth } = useAuth();
-  const token = auth?.session.access_token;
-
   const send = useCallback(
-    <T>(
+    async <T>(
       fn: (ctx: FetcherContext) => Promise<T>,
       options: { errorMessage: string | null },
     ): Promise<{ data?: T; error?: Error }> => {
+      const session = await createClient().auth.getSession();
+      const token = session.data.session?.access_token;
       if (!token) {
         const err = new Error("Not authenticated");
         setError(err);
@@ -37,7 +36,7 @@ export const useSend = () => {
           setLoading(false);
         });
     },
-    [token],
+    [],
   );
 
   return { send, loading, error };
