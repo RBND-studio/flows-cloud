@@ -183,7 +183,7 @@ export const TooltipStepForm: FC<Props> = ({ index }) => {
             className={css({ mb: "space16" })}
             defaultValue={initialValue.targetZIndex}
             label="Target z-index"
-            description="Z-index of the tooltip target element when using overlay"
+            description="Z-index of the tooltip target element. Applied when using overlay to lift the target element above the overlay"
             placeholder="1100"
           />
         </Accordion>
