@@ -15,7 +15,7 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@flows/js": "0.0.53",
+    "@flows/js": "0.0.54",
     "@hookform/resolvers": "^3.4.2",
     "@marsidev/react-turnstile": "^0.6.1",
     "@monaco-editor/react": "^4.6.0",
@@ -34,7 +34,7 @@
     "dayjs": "^1.11.11",
     "icons": "workspace:*",
     "monaco-editor": "^0.49.0",
-    "next": "14.2.3",
+    "next": "14.2.4",
     "posthog-js": "^1.139.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -46,7 +46,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "14.2.3",
+    "@next/eslint-plugin-next": "14.2.4",
     "@pandacss/dev": "0.39.2",
     "@types/node": "^20.14.5",
     "@types/react": "^18.3.3",

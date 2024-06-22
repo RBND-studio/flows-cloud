@@ -12,6 +12,8 @@
       "persistent": true
     },
     "test": {},
-    "tsc": {}
+    "tsc": {},
+    "pre-commit": {},
+    "spellcheck": {}
   }
 }
