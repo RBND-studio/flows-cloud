@@ -1,4 +1,4 @@
-import { ValidationPipe } from "@nestjs/common";
+import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import type { NestFastifyApplication } from "@nestjs/platform-fastify";
 import { FastifyAdapter } from "@nestjs/platform-fastify";
@@ -10,6 +10,9 @@ import metadata from "./metadata";
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
     rawBody: true,
+  });
+  app.enableVersioning({
+    type: VersioningType.URI,
   });
 
   app.useGlobalPipes(

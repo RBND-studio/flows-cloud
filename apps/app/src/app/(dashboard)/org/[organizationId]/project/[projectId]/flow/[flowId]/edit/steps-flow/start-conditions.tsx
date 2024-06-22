@@ -36,6 +36,8 @@ export const StartConditions: FC<Props> = ({ onSelectItem, selectedItem }) => {
       if (firstOption.change) return "By changing input";
       if (firstOption.clickElement && location) return "By clicking element at specific page";
       if (firstOption.clickElement) return "By clicking element";
+      if (firstOption.element && location) return "When element shows up at specific page";
+      if (firstOption.element) return "When element shows up";
       if (location) return "By visiting a page";
       return "From code";
     }
@@ -64,7 +66,7 @@ export const StartConditions: FC<Props> = ({ onSelectItem, selectedItem }) => {
             borderRadius="radius8"
             fastEaseInOut="all"
             key={item.value}
-            width="140px"
+            width="160px"
             onClick={() => onSelectItem(item.value)}
             background="bg.card"
             _hover={{

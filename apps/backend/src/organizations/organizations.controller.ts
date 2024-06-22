@@ -5,9 +5,10 @@ import { type Auth, Authorization } from "../auth";
 import { UUIDParam } from "../lib/uuid";
 import type {
   GetOrganizationDetailDto,
+  GetOrganizationDto,
   GetOrganizationInvoiceDto,
+  GetOrganizationListItemDto,
   GetOrganizationMembersDto,
-  GetOrganizationsDto,
   GetSubscriptionDetailDto,
 } from "./organizations.dto";
 import { CreateOrganizationDto, InviteUserDto, UpdateOrganizationDto } from "./organizations.dto";
@@ -20,7 +21,7 @@ export class OrganizationsController {
   constructor(private organizationsService: OrganizationsService) {}
 
   @Get("organizations")
-  getOrganizations(@Authorization() auth: Auth): Promise<GetOrganizationsDto[]> {
+  getOrganizations(@Authorization() auth: Auth): Promise<GetOrganizationListItemDto[]> {
     return this.organizationsService.getOrganizations({ auth });
   }
 
@@ -36,7 +37,7 @@ export class OrganizationsController {
   createOrganization(
     @Authorization() auth: Auth,
     @Body() body: CreateOrganizationDto,
-  ): Promise<GetOrganizationsDto> {
+  ): Promise<GetOrganizationDto> {
     return this.organizationsService.createOrganization({ auth, data: body });
   }
 
@@ -45,7 +46,7 @@ export class OrganizationsController {
     @Authorization() auth: Auth,
     @UUIDParam("organizationId") organizationId: string,
     @Body() body: UpdateOrganizationDto,
-  ): Promise<GetOrganizationsDto> {
+  ): Promise<GetOrganizationDto> {
     return this.organizationsService.updateOrganization({ auth, organizationId, data: body });
   }
 

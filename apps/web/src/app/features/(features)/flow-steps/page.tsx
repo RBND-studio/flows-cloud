@@ -108,6 +108,12 @@ export default function Page(): ReactElement {
           page where they will navigate to.
         </Text>
         <Text as="h3" className={Heading3styles} variant="titleL">
+          Wait for element
+        </Text>
+        <Text className={ParagraphStyles} color="muted" variant="bodyL">
+          Wait for an element to appear on the page before moving on.
+        </Text>
+        <Text as="h3" className={Heading3styles} variant="titleL">
           Wait for input change
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">

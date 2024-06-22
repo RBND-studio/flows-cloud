@@ -13,7 +13,7 @@ import {
   subscriptions,
   userInvite,
 } from "db";
-import { and, desc, eq, exists, gt, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, exists, inArray, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 
 import type { Auth } from "../auth";
@@ -25,9 +25,10 @@ import { OrganizationUsageService } from "../organization-usage/organization-usa
 import type {
   CreateOrganizationDto,
   GetOrganizationDetailDto,
+  GetOrganizationDto,
   GetOrganizationInvoiceDto,
+  GetOrganizationListItemDto,
   GetOrganizationMembersDto,
-  GetOrganizationsDto,
   GetSubscriptionDetailDto,
   OrganizationMemberDto,
   UpdateOrganizationDto,
@@ -43,7 +44,7 @@ export class OrganizationsService {
     private lemonSqueezyService: LemonSqueezyService,
   ) {}
 
-  async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationsDto[]> {
+  async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationListItemDto[]> {
     const otu = alias(organizationsToUsers, "otu");
     const otuQuery = sql<number>`(SELECT COUNT(${otu.user_id}) FROM organization_to_user otu WHERE ${otu.organization_id} = ${organizations.id}) as members_count`;
     const query = this.databaseService.db
@@ -81,7 +82,7 @@ export class OrganizationsService {
       return acc;
     }, {});
 
-    const ooo: GetOrganizationsDto[] = Object.entries(t).map(([_key, value]) => {
+    const ooo: GetOrganizationListItemDto[] = Object.entries(t).map(([_key, value]) => {
       const org = value[0];
 
       return {
@@ -183,7 +184,7 @@ export class OrganizationsService {
   }: {
     auth: Auth;
     data: CreateOrganizationDto;
-  }): Promise<GetOrganizationsDto> {
+  }): Promise<GetOrganizationDto> {
     const orgs = await this.databaseService.db
       .insert(organizations)
       .values({ name: data.name })
@@ -200,7 +201,7 @@ export class OrganizationsService {
       organization_id: org.id,
       user_id: auth.userId,
     });
-    return { ...org, projects: null };
+    return org;
   }
 
   async updateOrganization({
@@ -211,7 +212,7 @@ export class OrganizationsService {
     auth: Auth;
     data: UpdateOrganizationDto;
     organizationId: string;
-  }): Promise<GetOrganizationsDto> {
+  }): Promise<GetOrganizationDto> {
     await this.dbPermissionService.doesUserHaveAccessToOrganization({ auth, organizationId });
 
     const updatedOrganizations = await this.databaseService.db
@@ -232,7 +233,7 @@ export class OrganizationsService {
     const updatedOrg = updatedOrganizations.at(0);
     if (!updatedOrg) throw new InternalServerErrorException("Failed to update organization");
 
-    return { ...updatedOrg, projects: null };
+    return updatedOrg;
   }
 
   async deleteOrganization({
@@ -270,23 +271,29 @@ export class OrganizationsService {
     );
     if (userAlreadyInOrg) throw new ConflictException("User already in organization");
 
-    const existingInvite = await this.databaseService.db.query.userInvite.findFirst({
-      where: and(
-        eq(userInvite.organization_id, organizationId),
-        eq(userInvite.email, email),
-        gt(userInvite.expires_at, sql`now()`),
-      ),
+    let invite = await this.databaseService.db.query.userInvite.findFirst({
+      columns: { id: true },
+      where: and(eq(userInvite.organization_id, organizationId), eq(userInvite.email, email)),
     });
 
-    if (!existingInvite) {
-      await this.databaseService.db.insert(userInvite).values({
-        email,
-        organization_id: organizationId,
-        expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
-      });
+    const expires_at = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // 7 days
+
+    if (invite) {
+      await this.databaseService.db
+        .update(userInvite)
+        .set({ expires_at })
+        .where(eq(userInvite.id, invite.id));
+    } else {
+      const newInvites = await this.databaseService.db
+        .insert(userInvite)
+        .values({ email, organization_id: organizationId, expires_at })
+        .returning({ id: userInvite.id });
+      const newInvite = newInvites.at(0);
+      if (!newInvite) throw new InternalServerErrorException();
+      invite = newInvite;
     }
 
-    await this.emailService.sendInvite({ email, organizationName: org.name });
+    await this.emailService.sendInvite({ email, organizationName: org.name, inviteId: invite.id });
   }
 
   async leaveOrganization({
@@ -376,10 +383,7 @@ export class OrganizationsService {
         columns: {},
       }),
       this.databaseService.db.query.userInvite.findMany({
-        where: and(
-          eq(userInvite.organization_id, organizationId),
-          gt(userInvite.expires_at, sql`now()`),
-        ),
+        where: eq(userInvite.organization_id, organizationId),
         columns: {
           email: true,
           id: true,

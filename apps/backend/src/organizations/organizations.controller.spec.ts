@@ -171,7 +171,7 @@ describe("Create organization", () => {
   it("should create organization and user connection and return organization", async () => {
     await expect(
       organizationsController.createOrganization({ userId: "userId" }, { name: "org1" }),
-    ).resolves.toEqual({ id: "org1", projects: null });
+    ).resolves.toEqual({ id: "org1" });
     expect(db.insert).toHaveBeenCalledWith(organizations);
     expect(db.insert).toHaveBeenCalledWith(organizationsToUsers);
   });
@@ -191,7 +191,7 @@ describe("Update organization", () => {
   it("should update organization", async () => {
     await expect(
       organizationsController.updateOrganization({ userId: "userId" }, "org1", { name: "org1" }),
-    ).resolves.toEqual({ id: "org1", projects: null });
+    ).resolves.toEqual({ id: "org1" });
     expect(db.update).toHaveBeenCalledWith(organizations);
     expect(db.set).toHaveBeenCalledWith(
       expect.objectContaining({ name: "org1", updated_at: expect.any(Date) }),
@@ -240,16 +240,6 @@ describe("Invite user", () => {
       organizationsController.inviteUser({ userId: "userId" }, "org1", { email: "email" }),
     ).rejects.toThrow("User already in organization");
   });
-  it("should throw with user already invited", async () => {
-    db.query.userInvite.findFirst.mockResolvedValue({ id: "inviteId" });
-    await expect(
-      organizationsController.inviteUser({ userId: "userId" }, "org1", { email: "email" }),
-    ).resolves.toBeUndefined();
-    expect(emailService.sendInvite).toHaveBeenCalledWith({
-      email: "email",
-      organizationName: "org",
-    });
-  });
   it("should create invite and send email", async () => {
     await expect(
       organizationsController.inviteUser({ userId: "userId" }, "org1", { email: "email" }),
@@ -258,6 +248,7 @@ describe("Invite user", () => {
     expect(emailService.sendInvite).toHaveBeenCalledWith({
       email: "email",
       organizationName: "org",
+      inviteId: "inviteId",
     });
   });
 });

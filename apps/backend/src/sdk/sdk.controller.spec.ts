@@ -79,6 +79,15 @@ describe("Get flows", () => {
       human_id: "f2h",
       name: "F2",
       publishedVersion: {
+        frequency: "every-session",
+        data: { steps: [{}] },
+      },
+    },
+    {
+      id: "f3",
+      human_id: "f3h",
+      name: "F3",
+      publishedVersion: {
         frequency: "every-time",
         data: { steps: [{}, {}] },
       },
@@ -87,37 +96,78 @@ describe("Get flows", () => {
   beforeEach(() => {
     db.query.flows.findMany.mockReturnValue(mockFlows);
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(false);
+    db.orderBy.mockResolvedValue([{ flow_id: "f1", event_time: new Date() }]);
   });
   it("should throw with not allowed origin", async () => {
     dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
-    await expect(sdkController.getFlows("origin", "projId")).rejects.toThrow();
+    await expect(sdkController.getFlows("https://example.com", "projId")).rejects.toThrow();
+    await expect(sdkController.getFlowsV2("https://example.com", "projId")).rejects.toThrow();
   });
   it("should return no flows when limit is reached", async () => {
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(true);
-    await expect(sdkController.getFlows("origin", "projId")).resolves.toEqual([]);
+    await expect(sdkController.getFlows("https://example.com", "projId")).rejects.toThrow(
+      "Organization limit reached",
+    );
+    await expect(sdkController.getFlowsV2("https://example.com", "projId")).rejects.toThrow(
+      "Organization limit reached",
+    );
   });
   it("should not return flows without published version", async () => {
     db.query.flows.findMany.mockReturnValue(
       mockFlows.map((f) => ({ ...f, publishedVersion: null, draftVersion: f.publishedVersion })),
     );
-    await expect(sdkController.getFlows("origin", "projId")).resolves.toEqual([]);
+    await expect(sdkController.getFlows("https://example.com", "projId")).resolves.toEqual([]);
+    await expect(sdkController.getFlowsV2("https://example.com", "projId")).resolves.toEqual({
+      results: [],
+    });
   });
   it("should return flows", async () => {
-    await expect(sdkController.getFlows("origin", "projId")).resolves.toEqual([
+    await expect(sdkController.getFlows("https://example.com", "projId")).resolves.toEqual([
       { id: "f1h", steps: [{}], frequency: "once" },
-      { id: "f2h", steps: [{}], frequency: "every-time", _incompleteSteps: true },
+      { id: "f2h", steps: [{}], frequency: "every-session" },
+      { id: "f3h", steps: [{}], frequency: "every-time", _incompleteSteps: true },
     ]);
+    await expect(sdkController.getFlowsV2("https://example.com", "projId")).resolves.toEqual({
+      results: [
+        { id: "f1h", steps: [{}], frequency: "once" },
+        { id: "f2h", steps: [{}], frequency: "every-session" },
+        { id: "f3h", steps: [{}], frequency: "every-time", _incompleteSteps: true },
+      ],
+    });
+  });
+  it("should return error_message when limit is reached and origin is localhost", async () => {
+    organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(true);
+    // V1 doesn't return error_message
+    await expect(sdkController.getFlows("http://localhost:3000", "projId")).resolves.toEqual([
+      { id: "f1h", steps: [{}], frequency: "once" },
+      { id: "f2h", steps: [{}], frequency: "every-session" },
+      { id: "f3h", steps: [{}], frequency: "every-time", _incompleteSteps: true },
+    ]);
+    await expect(sdkController.getFlowsV2("http://localhost:3000", "projId")).resolves.toEqual({
+      error_message:
+        "Organization limit reached, your flows will be loaded because you are on localhost.",
+      results: [
+        { id: "f1h", steps: [{}], frequency: "once" },
+        { id: "f2h", steps: [{}], frequency: "every-session" },
+        { id: "f3h", steps: [{}], frequency: "every-time", _incompleteSteps: true },
+      ],
+    });
   });
   it("should not return flows if user already seen it", async () => {
-    db.orderBy.mockResolvedValue([{ flow_id: "f1", event_time: new Date() }]);
-    await expect(sdkController.getFlows("origin", "projId", "userHash")).resolves.toEqual([
-      {
-        id: "f2h",
-        steps: [{}],
-        frequency: "every-time",
-        _incompleteSteps: true,
-      },
+    await expect(
+      sdkController.getFlows("https://example.com", "projId", "userHash"),
+    ).resolves.toEqual([
+      { id: "f2h", steps: [{}], frequency: "every-session" },
+      { id: "f3h", steps: [{}], frequency: "every-time", _incompleteSteps: true },
     ]);
+    await expect(
+      sdkController.getFlowsV2("https://example.com", "projId", "userHash"),
+    ).resolves.toEqual({
+      results: [
+        { id: "f2h", steps: [{}], frequency: "every-session" },
+        { id: "f3h", steps: [{}], frequency: "every-time", _incompleteSteps: true },
+      ],
+    });
   });
 });
 
@@ -147,32 +197,36 @@ describe("Create event", () => {
   });
   it("should throw with not allowed origin", async () => {
     dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
-    await expect(sdkController.createEvent("origin", createEventDto)).rejects.toThrow();
+    await expect(
+      sdkController.createEvent("https://example.com", createEventDto),
+    ).rejects.toThrow();
   });
   it("should throw with limit reached with local flow", async () => {
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(true);
-    await expect(sdkController.createEvent("origin", createEventDto)).rejects.toThrow(
+    await expect(sdkController.createEvent("https://example.com", createEventDto)).rejects.toThrow(
       "Organization limit reached",
     );
   });
   it("should throw with limit reached without flow, which means its local flow", async () => {
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(true);
     db.query.flows.findFirst.mockResolvedValue(null);
-    await expect(sdkController.createEvent("origin", createEventDto)).rejects.toThrow(
+    await expect(sdkController.createEvent("https://example.com", createEventDto)).rejects.toThrow(
       "Organization limit reached",
     );
   });
   it("should not throw with limit reached and cloud flow", async () => {
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(true);
     db.query.flows.findFirst.mockResolvedValue({ ...flow, flow_type: "cloud" });
-    await expect(sdkController.createEvent("origin", createEventDto)).resolves.toEqual({
-      id: "newEventId",
-    });
+    await expect(sdkController.createEvent("https://example.com", createEventDto)).resolves.toEqual(
+      {
+        id: "newEventId",
+      },
+    );
   });
   it("should throw with no created event", async () => {
     db.returning.mockReset();
     db.returning.mockResolvedValue([]);
-    await expect(sdkController.createEvent("origin", createEventDto)).rejects.toThrow(
+    await expect(sdkController.createEvent("https://example.com", createEventDto)).rejects.toThrow(
       "error saving event",
     );
   });
@@ -181,15 +235,19 @@ describe("Create event", () => {
     db.returning.mockResolvedValueOnce([{ id: "newFlowId" }]);
     db.returning.mockResolvedValueOnce([{ id: "newEventId" }]);
     db.query.flows.findFirst.mockReturnValue(null);
-    await expect(sdkController.createEvent("origin", createEventDto)).resolves.toEqual({
-      id: "newEventId",
-    });
+    await expect(sdkController.createEvent("https://example.com", createEventDto)).resolves.toEqual(
+      {
+        id: "newEventId",
+      },
+    );
     expect(db.insert).toHaveBeenCalledWith(flows);
   });
   it("should insert into database", async () => {
-    await expect(sdkController.createEvent("origin", createEventDto)).resolves.toEqual({
-      id: "newEventId",
-    });
+    await expect(sdkController.createEvent("https://example.com", createEventDto)).resolves.toEqual(
+      {
+        id: "newEventId",
+      },
+    );
     expect(db.insert).toHaveBeenCalledWith(events);
     expect(db.values).toHaveBeenCalled();
     expect(lemonSqueezyService.createUsageRecord).toHaveBeenCalledWith({
@@ -213,30 +271,34 @@ describe("Get preview flow", () => {
     });
   });
   it("should throw without flowId", async () => {
-    await expect(sdkController.getPreviewFlow("origin", "projectId", "")).rejects.toThrow(
-      "Not Found",
-    );
+    await expect(
+      sdkController.getPreviewFlow("https://example.com", "projectId", ""),
+    ).rejects.toThrow("Not Found");
   });
   it("should throw with not allowed origin", async () => {
     dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
-    await expect(sdkController.getPreviewFlow("origin", "projectId", "flowId")).rejects.toThrow();
+    await expect(
+      sdkController.getPreviewFlow("https://example.com", "projectId", "flowId"),
+    ).rejects.toThrow();
   });
   it("should throw without flow", async () => {
     db.query.flows.findFirst.mockReturnValue(null);
-    await expect(sdkController.getPreviewFlow("origin", "projectId", "flowId")).rejects.toThrow(
-      "Not Found",
-    );
+    await expect(
+      sdkController.getPreviewFlow("https://example.com", "projectId", "flowId"),
+    ).rejects.toThrow("Not Found");
     expect(db.query.flows.findFirst).toHaveBeenCalled();
   });
   it("should throw without flow version", async () => {
     db.query.flows.findFirst.mockReturnValue({ publishedVersion: null, draftVersion: null });
-    await expect(sdkController.getPreviewFlow("origin", "projectId", "flowId")).rejects.toThrow(
-      "Bad Request",
-    );
+    await expect(
+      sdkController.getPreviewFlow("https://example.com", "projectId", "flowId"),
+    ).rejects.toThrow("Bad Request");
     expect(db.query.flows.findFirst).toHaveBeenCalled();
   });
   it("should return flow", async () => {
-    await expect(sdkController.getPreviewFlow("origin", "projectId", "flowId")).resolves.toEqual({
+    await expect(
+      sdkController.getPreviewFlow("https://example.com", "projectId", "flowId"),
+    ).resolves.toEqual({
       id: "f1h",
       steps: [],
       frequency: "once",
@@ -258,32 +320,34 @@ describe("Get flow detail", () => {
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(false);
   });
   it("should throw without flowId", async () => {
-    await expect(sdkController.getFlowDetail("origin", "projectId", "")).rejects.toThrow(
-      "Not Found",
-    );
+    await expect(
+      sdkController.getFlowDetail("https://example.com", "projectId", ""),
+    ).rejects.toThrow("Not Found");
   });
   it("should throw without requestDomain", async () => {
     dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error("Not Allowed"));
-    await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).rejects.toThrow(
-      "Not Allowed",
-    );
+    await expect(
+      sdkController.getFlowDetail("https://example.com", "projectId", "flowId"),
+    ).rejects.toThrow("Not Allowed");
   });
   it("should throw without flow", async () => {
     db.query.flows.findFirst.mockReturnValue(null);
-    await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).rejects.toThrow(
-      "Not Found",
-    );
+    await expect(
+      sdkController.getFlowDetail("https://example.com", "projectId", "flowId"),
+    ).rejects.toThrow("Not Found");
     expect(db.query.flows.findFirst).toHaveBeenCalled();
   });
   it("should throw without flow version", async () => {
     db.query.flows.findFirst.mockReturnValue({ publishedVersion: null });
-    await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).rejects.toThrow(
-      "Bad Request",
-    );
+    await expect(
+      sdkController.getFlowDetail("https://example.com", "projectId", "flowId"),
+    ).rejects.toThrow("Bad Request");
     expect(db.query.flows.findFirst).toHaveBeenCalled();
   });
   it("should return flow", async () => {
-    await expect(sdkController.getFlowDetail("origin", "projectId", "flowId")).resolves.toEqual({
+    await expect(
+      sdkController.getFlowDetail("https://example.com", "projectId", "flowId"),
+    ).resolves.toEqual({
       id: "f1h",
       steps: [],
       frequency: "once",
@@ -303,11 +367,13 @@ describe("Delete event", () => {
   });
   it("should throw without results", async () => {
     db.where.mockResolvedValue([]);
-    await expect(sdkController.deleteEvent("origin", "eventId")).rejects.toThrow("Not Found");
+    await expect(sdkController.deleteEvent("https://example.com", "eventId")).rejects.toThrow(
+      "Not Found",
+    );
   });
   it("should throw without projectId", async () => {
     db.where.mockResolvedValue([{ ...mockResult, projectId: null }]);
-    await expect(sdkController.deleteEvent("origin", "eventId")).rejects.toThrow(
+    await expect(sdkController.deleteEvent("https://example.com", "eventId")).rejects.toThrow(
       "Internal Server Error",
     );
   });
@@ -315,10 +381,14 @@ describe("Delete event", () => {
     db.where.mockResolvedValue([
       { ...mockResult, eventTime: new Date(Date.now() - 1000 * 60 * 16) },
     ]);
-    await expect(sdkController.deleteEvent("origin", "eventId")).rejects.toThrow("Bad Request");
+    await expect(sdkController.deleteEvent("https://example.com", "eventId")).rejects.toThrow(
+      "Bad Request",
+    );
   });
   it("should delete event", async () => {
-    await expect(sdkController.deleteEvent("origin", "eventId")).resolves.toBeUndefined();
+    await expect(
+      sdkController.deleteEvent("https://example.com", "eventId"),
+    ).resolves.toBeUndefined();
     expect(db.delete).toHaveBeenCalledWith(events);
   });
 });

@@ -13,6 +13,11 @@ export class GetSdkFlowsDto {
   _incompleteSteps?: boolean;
 }
 
+export class GetSdkFlowsV2Dto {
+  results: GetSdkFlowsDto[];
+  error_message?: string;
+}
+
 export class CreateEventDto {
   @Type(() => Date)
   @IsDate()

@@ -54,14 +54,21 @@ export const OrganizationMembers: FC<Props> = ({ users, org }) => {
           </Text>
           {/* TODO: @opesicka make this nicer */}
           <Flex direction="column" gap="space12" mb="space16">
-            {pending_invites.map((invite) => (
-              <Flex alignItems="center" gap="space8" key={invite.id}>
-                <Text>{invite.email}</Text>
-                <Text>Expires {timeFromNow(invite.expires_at)}</Text>
-                <InviteResend email={invite.email} organizationId={org.id} />
-                <InviteDelete inviteId={invite.id} />
-              </Flex>
-            ))}
+            {pending_invites.map((invite) => {
+              const expired = new Date(invite.expires_at) < new Date();
+              return (
+                <Flex alignItems="center" gap="space8" key={invite.id}>
+                  <Text>{invite.email}</Text>
+                  {expired ? (
+                    <Text color="danger">Expired</Text>
+                  ) : (
+                    <Text>Expires {timeFromNow(invite.expires_at)}</Text>
+                  )}
+                  <InviteResend email={invite.email} organizationId={org.id} />
+                  <InviteDelete inviteId={invite.id} />
+                </Flex>
+              );
+            })}
           </Flex>
         </>
       ) : null}

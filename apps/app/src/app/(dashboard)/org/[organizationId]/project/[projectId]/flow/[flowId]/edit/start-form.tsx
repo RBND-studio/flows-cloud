@@ -19,30 +19,32 @@ export const StartForm: FC = () => {
   });
 
   return (
-    <Box p="space16">
-      <Flex flexDirection="column" mb="space12">
+    <Box>
+      <Flex flexDirection="column" p="space16" borBottom="1px">
         <Text variant="titleL">{t.start.start}</Text>
         <Text color="muted">{t.start.description}</Text>
       </Flex>
 
-      {fields.map((field, i) => (
-        <StepWaitOption
-          fieldName={`${fieldName}.${i}`}
-          index={i}
-          key={(field as { id: string }).id}
-          onRemove={() => remove(i)}
-        />
-      ))}
+      <Box p="space16">
+        {fields.map((field, i) => (
+          <StepWaitOption
+            fieldName={`${fieldName}.${i}`}
+            index={i}
+            key={(field as { id: string }).id}
+            onRemove={() => remove(i)}
+          />
+        ))}
 
-      <Button
-        onClick={() => append({})}
-        shadow="none"
-        size="small"
-        startIcon={<Plus16 />}
-        variant="secondary"
-      >
-        {t.start.addOption}
-      </Button>
+        <Button
+          onClick={() => append({})}
+          shadow="none"
+          size="small"
+          startIcon={<Plus16 />}
+          variant="secondary"
+        >
+          {t.start.addOption}
+        </Button>
+      </Box>
     </Box>
   );
 };
