@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Flows banner" src="./docs/github_banner.png">
+  <img alt="Flows banner" src="./docs/github-banner.png">
 </p>
 <p align="center">
   <a href='http://makeapullrequest.com'><img alt='PRs Welcome' src='https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=shields'/></a>
@@ -11,10 +11,10 @@
 
 Flows lets you build any onboarding you want. Guide users, increase feature adoption, and improve revenue.
 
-- Create flows with a WYSIWYG editor or define them in your codebase
+- Create flows with a WYSIWYG editor
 - With Flows Cloud you can create and update flows on the fly without having to redeploy your app
 - Automatically track the performance of your flows
-- Use advanced step types like wait, conditional, call a function, and AI decision
+- Use advanced step types like wait and conditional steps
 - Customize anything with CSS and JS
 - Connect to external analytics tools to get the full picture of your user's journey
 

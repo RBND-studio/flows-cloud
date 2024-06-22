@@ -28,6 +28,7 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
             {...register(`${stepKey}.title`)}
             defaultValue={initialValue.title}
             description="HTML title of the modal"
+            className={css({ mb: "space16" })}
             label="Title"
           />
           <Input
@@ -65,17 +66,30 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
                   onCheckedChange={field.onChange}
                 />
                 {!field.value ? (
-                  <Controller
-                    control={control}
-                    name={`${stepKey}.closeOnOverlayClick`}
-                    render={({ field: closeField }) => (
-                      <Checkbox
-                        checked={closeField.value}
-                        label="Close on overlay click"
-                        onCheckedChange={closeField.onChange}
-                      />
-                    )}
-                  />
+                  <>
+                    <Controller
+                      control={control}
+                      name={`${stepKey}.closeOnOverlayClick`}
+                      render={({ field: closeField }) => (
+                        <Checkbox
+                          checked={closeField.value}
+                          label="Close on overlay click"
+                          onCheckedChange={closeField.onChange}
+                        />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name={`${stepKey}.disableOverlayClickLayer`}
+                      render={({ field: closeField }) => (
+                        <Checkbox
+                          checked={closeField.value}
+                          label="Disable overlay click layer"
+                          onCheckedChange={closeField.onChange}
+                        />
+                      )}
+                    />
+                  </>
                 ) : null}
               </>
             )}

@@ -3,12 +3,11 @@
 import { css, cx } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { Flows16, Hat16, Paintbrush16, Settings16 } from "icons";
-import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { type FC, useMemo } from "react";
 import { routes } from "routes";
-import { Icon, Text } from "ui";
+import { Icon, Logo, Text } from "ui";
 
 import { HelpMenu } from "./help-menu";
 import { Invites } from "./invites";
@@ -96,8 +95,7 @@ export const Sidebar: FC = () => {
               })}
               href={routes.home}
             >
-              <Image alt="Logo" height={32} priority src="/logo.svg" width={32} />
-              <Text variant="titleM">Flows</Text>
+              <Logo type="type" size={20} />
             </Link>
             <Flex gap="space8">
               <HelpMenu />

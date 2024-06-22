@@ -2,12 +2,11 @@ import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { MobileMenu } from "components/header/mobile-menu";
 import { SignupClick } from "components/utils/signup-click";
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactElement } from "react";
 import { routes } from "routes";
 import { links } from "shared";
-import { Button, Text } from "ui";
+import { Button, Logo } from "ui";
 
 import { DesktopMenu } from "./desktop-menu";
 
@@ -51,10 +50,7 @@ export const Header = (): ReactElement => {
             })}
             href={routes.home}
           >
-            <Image alt="Logo" height={28} priority src="/images/logo/logo.svg" width={28} />
-            <Text variant="bodyM" weight="700">
-              Flows
-            </Text>
+            <Logo type="type" size={20} />
           </Link>
         </Flex>
         <Flex flex={1} justifyContent="center">

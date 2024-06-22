@@ -1,10 +1,4 @@
-import {
-  AnalyzeSection,
-  BuilderSection,
-  DeliverSection,
-  FlowsAreBetterSection,
-  Hero,
-} from "components";
+import { AnalyzeSection, BuilderSection, DeliverSection, DemoSection, Hero } from "components";
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
 
@@ -16,10 +10,10 @@ const Page = (): ReactElement => {
   return (
     <>
       <Hero />
+      <DemoSection />
       <BuilderSection />
       <DeliverSection />
       <AnalyzeSection />
-      <FlowsAreBetterSection />
     </>
   );
 };

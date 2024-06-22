@@ -56,7 +56,15 @@ Enabled by default.
 
 If enabled, the tooltip will be closed when the user clicks on the overlay and the flow will end. This gives the users quick way to dismiss the flow if they are not interested in it.
 
-Can be enabled only if the overlay is enabled.
+- Can be enabled only if the overlay is enabled.
+- Can't be combined with disable overlay click layer.
+
+### Disable overlay click layer
+
+If enabled, the overlay will not prevent the user from interacting with the elements behind it. This can be useful if you want to allow the user to interact with the page while the tooltip is open, or if you have complex UI elements that are not working correctly with the overlay.
+
+- Can be enabled only if the overlay is enabled.
+- Can't be combined with close on overlay click.
 
 ## Footer
 
