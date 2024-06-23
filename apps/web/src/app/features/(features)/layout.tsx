@@ -12,6 +12,7 @@ export default function FeaturesLayout({ children }: { children: React.ReactNode
       mdDown={{ flexDirection: "column", px: "0", pt: "0" }}
       pt="space64"
       px="space24"
+      bg="bg.section"
     >
       <MobileSidebar />
       <DesktopSidebar />

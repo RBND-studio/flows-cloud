@@ -19,13 +19,13 @@ const TemplateContext = createContext<ITemplateContext>({
 
 type Props = {
   children?: ReactNode;
-  defaultCssVars?: string;
-  defaultCssTemplate?: string;
+  cssVars?: string;
+  cssTemplate?: string;
 };
 
-export const TemplateProvider: FC<Props> = ({ children, defaultCssTemplate, defaultCssVars }) => {
-  const [cssVars, setCssVars] = useState(defaultCssVars ?? "");
-  const [cssTemplate, setCssTemplate] = useState(defaultCssTemplate ?? "");
+export const TemplateProvider: FC<Props> = (props) => {
+  const [cssVars, setCssVars] = useState(props.cssVars ?? "");
+  const [cssTemplate, setCssTemplate] = useState(props.cssTemplate ?? "");
 
   const value = useMemo(
     (): ITemplateContext => ({
@@ -37,7 +37,7 @@ export const TemplateProvider: FC<Props> = ({ children, defaultCssTemplate, defa
     [cssTemplate, cssVars],
   );
 
-  return <TemplateContext.Provider value={value}>{children}</TemplateContext.Provider>;
+  return <TemplateContext.Provider value={value}>{props.children}</TemplateContext.Provider>;
 };
 
 export const useTemplate = (): ITemplateContext => useContext(TemplateContext);

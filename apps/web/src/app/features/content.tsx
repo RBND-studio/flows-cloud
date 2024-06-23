@@ -2,8 +2,6 @@ import { css } from "@flows/styled-system/css";
 import type { FeatureGridTypes } from "components/feature-grid";
 import {
   Alert16,
-  Cloud16,
-  Code16,
   Comment16,
   Eye16,
   Filter16,
@@ -20,40 +18,6 @@ import {
 import { routes } from "routes";
 
 export const featuresData: FeatureGridTypes[] = [
-  {
-    title: "Build",
-    description:
-      "Flows is the tool to build advanced user onboarding. Powerful yet simple to use, it allows you to work how you want. Without clunky limitations or bottlenecks.",
-    features: [
-      {
-        mainSlot: (
-          <>
-            <span>No-code.</span> Build and deploy in minutes.
-          </>
-        ),
-        link: `${routes.featuresBuild}#no-code`,
-        icon: Cloud16,
-      },
-      {
-        mainSlot: (
-          <>
-            <span>In-code.</span> Stabilize flows and avoid bottlenecks.
-          </>
-        ),
-        link: `${routes.featuresBuild}#in-code`,
-        icon: Code16,
-      },
-      {
-        mainSlot: (
-          <>
-            <span>Preview.</span> Test flows before you ship.
-          </>
-        ),
-        link: `${routes.featuresBuild}#preview`,
-        icon: Eye16,
-      },
-    ],
-  },
   {
     title: "Flow steps",
     description:
@@ -153,6 +117,15 @@ export const featuresData: FeatureGridTypes[] = [
         ),
         link: `${routes.featuresDeliver}#start-action`,
         icon: Send16,
+      },
+      {
+        mainSlot: (
+          <>
+            <span>Preview.</span> Test flows before you ship.
+          </>
+        ),
+        link: `${routes.featuresDeliver}#preview`,
+        icon: Eye16,
       },
     ],
   },

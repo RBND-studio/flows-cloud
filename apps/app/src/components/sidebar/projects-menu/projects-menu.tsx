@@ -104,7 +104,7 @@ export const ProjectsMenu: FC = () => {
   const { data: organizations, isLoading: isLoadingOrganizations } = useFetch(
     "/organizations",
     [],
-    onOrganizationsFetchSuccess,
+    { onSuccess: onOrganizationsFetchSuccess },
   );
   const { auth } = useAuth();
 

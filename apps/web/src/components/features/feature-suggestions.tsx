@@ -18,7 +18,7 @@ export const FeatureSuggestions: FC<Props> = ({ featureSectionTitle }) => {
   const nextFeature = nextSection?.features.at(0);
 
   return (
-    <Box>
+    <Box mb="space40">
       <Text as="h2" variant="title2xl">
         There’s more
       </Text>

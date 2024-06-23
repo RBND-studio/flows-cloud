@@ -1,12 +1,10 @@
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { SmartLink } from "components/ui";
-import Image from "next/image";
 import type { ReactElement } from "react";
-import React from "react";
 import { routes } from "routes";
 import { links } from "shared";
-import { Text } from "ui";
+import { Logo, Text } from "ui";
 
 import { ThemeSwitch } from "./theme-switch";
 
@@ -86,6 +84,7 @@ export const Footer = (): ReactElement => {
       className={css({
         backgroundColor: "bg.muted",
         paddingX: "space24",
+        borTop: "1px",
       })}
     >
       <Flex
@@ -102,10 +101,7 @@ export const Footer = (): ReactElement => {
       >
         <Box>
           <Box display="inline-flex" alignItems="center" gap="space8" marginBottom="space24">
-            <Image alt="Logo" height={24} src="/images/logo/logo.svg" width={24} />
-            <Text variant="bodyM" weight="700">
-              Flows
-            </Text>
+            <Logo type="type" size={20} />
           </Box>
           <Box marginBottom="space16">
             <Text color="subtle" variant="bodyS">
