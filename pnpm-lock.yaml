@@ -43,7 +43,7 @@ importers:
         version: 0.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@monaco-editor/react':
         specifier: ^4.6.0
-        version: 4.6.0(monaco-editor@0.49.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 4.6.0(monaco-editor@0.50.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.0.6
         version: 2.0.6(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -87,8 +87,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/icons
       monaco-editor:
-        specifier: ^0.49.0
-        version: 0.49.0
+        specifier: ^0.50.0
+        version: 0.50.0
       next:
         specifier: 14.2.4
         version: 14.2.4(@opentelemetry/api@1.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -8519,8 +8519,8 @@ packages:
   mnemonist@0.39.6:
     resolution: {integrity: sha512-A/0v5Z59y63US00cRSLiloEIw3t5G+MiKz4BhX21FI+YBJXBOGW0ohFxTxO08dsOYlzxo87T7vGfZKYp2bcAWA==}
 
-  monaco-editor@0.49.0:
-    resolution: {integrity: sha512-2I8/T3X/hLxB2oPHgqcNYUVdA/ZEFShT7IAujifIPMfKkNbLOqY8XCoyHCXrsdjb36dW9MwoTwBCFpXKMwNwaQ==}
+  monaco-editor@0.50.0:
+    resolution: {integrity: sha512-8CclLCmrRRh+sul7C08BmPBP3P8wVWfBHomsTcndxg5NRCEPfu/mc2AGU8k37ajjDVXcXFc12ORAMUkmk+lkFA==}
 
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -12976,15 +12976,15 @@ snapshots:
 
   '@microsoft/tsdoc@0.14.2': {}
 
-  '@monaco-editor/loader@1.4.0(monaco-editor@0.49.0)':
+  '@monaco-editor/loader@1.4.0(monaco-editor@0.50.0)':
     dependencies:
-      monaco-editor: 0.49.0
+      monaco-editor: 0.50.0
       state-local: 1.0.7
 
-  '@monaco-editor/react@4.6.0(monaco-editor@0.49.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@monaco-editor/react@4.6.0(monaco-editor@0.50.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@monaco-editor/loader': 1.4.0(monaco-editor@0.49.0)
-      monaco-editor: 0.49.0
+      '@monaco-editor/loader': 1.4.0(monaco-editor@0.50.0)
+      monaco-editor: 0.50.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
@@ -20908,7 +20908,7 @@ snapshots:
     dependencies:
       obliterator: 2.0.4
 
-  monaco-editor@0.49.0: {}
+  monaco-editor@0.50.0: {}
 
   mri@1.2.0: {}
 
