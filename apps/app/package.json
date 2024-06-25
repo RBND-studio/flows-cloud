@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@flows/js": "0.1.0",
-    "@hookform/resolvers": "^3.4.2",
+    "@hookform/resolvers": "^3.6.0",
     "@marsidev/react-turnstile": "^0.6.1",
     "@monaco-editor/react": "^4.6.0",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
