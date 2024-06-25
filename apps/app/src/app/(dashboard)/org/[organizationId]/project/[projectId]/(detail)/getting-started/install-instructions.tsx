@@ -34,7 +34,7 @@ const CDNSnippet: FC<Props> = async ({ projectId }) => {
       </Text>
       <CodeHighlight className={css({ margin: "0!", width: "100%" })}>
         <pre>
-          <code className="index.html">{`<script>
+          <code className="index.html">{`<script type="module">
   flows.init({ projectId: "${projectId}" });
 </script>`}</code>
         </pre>
