@@ -1,0 +1,1 @@
+ALTER TABLE "user_metadata" ADD COLUMN "finished_welcome" boolean DEFAULT false NOT NULL;

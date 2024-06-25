@@ -12,7 +12,7 @@ import { DatabaseService } from "../database/database.service";
 import { EmailService } from "../email/email.service";
 import { verifyCaptcha } from "../lib/captcha";
 import { NewsfeedService } from "../newsfeed/newsfeed.service";
-import type { AcceptInviteResponseDto, GetMeDto, JoinWaitlistDto } from "./users.dto";
+import type { AcceptInviteResponseDto, GetMeDto, JoinWaitlistDto, UpdateMeDto } from "./users.dto";
 
 @Injectable()
 export class UsersService {
@@ -75,7 +75,15 @@ export class UsersService {
       })),
       role: meta.role,
       hasPassword: user.has_password,
+      finished_welcome: meta.finished_welcome,
     };
+  }
+
+  async updateProfile({ auth, data }: { auth: Auth; data: UpdateMeDto }): Promise<void> {
+    await this.databaseService.db
+      .update(userMetadata)
+      .set(data)
+      .where(eq(userMetadata.user_id, auth.userId));
   }
 
   async hasAccessToInvite({ auth, inviteId }: { auth: Auth; inviteId: string }): Promise<{
@@ -133,6 +141,15 @@ export class UsersService {
     await this.newsfeedService.postMessage({
       message: `🤩 ${data.email} has joined the waitlist!`,
     });
+  }
+
+  async joinNewsletter({ auth }: { auth: Auth }): Promise<void> {
+    const user = await this.databaseService.db.query.users.findFirst({
+      columns: { email: true },
+      where: eq(users.id, auth.userId),
+    });
+    if (!user?.email) throw new InternalServerErrorException();
+    await this.emailService.joinNewsletter({ email: user.email });
   }
 
   async deleteIdentity({ auth, providerId }: { auth: Auth; providerId: string }): Promise<void> {
