@@ -3,6 +3,13 @@ import { LoopsClient } from "loops";
 
 import { type OrganizationUsageAlertType } from "../types/organization";
 
+const MAILING_LISTS = {
+  // cspell:disable-next-line
+  onboarding: "clxiswbsb00rt0ljwag785nf6",
+  // cspell:disable-next-line
+  newsletter: "clxisx0kc00od0ll6hevrbx8j",
+};
+
 @Injectable()
 export class EmailService {
   get loops(): LoopsClient {
@@ -78,6 +85,22 @@ export class EmailService {
   }
 
   async signedUp({ email }: { email: string }): Promise<ReturnType<LoopsClient["sendEvent"]>> {
-    return this.loops.sendEvent({ email, eventName: "signup" });
+    return this.loops.sendEvent({
+      email,
+      eventName: "signup",
+      mailingLists: { [MAILING_LISTS.onboarding]: true },
+    });
+  }
+
+  async joinNewsletter({
+    email,
+  }: {
+    email: string;
+  }): Promise<ReturnType<LoopsClient["sendEvent"]>> {
+    return this.loops.sendEvent({
+      email,
+      eventName: "newsletter_signup",
+      mailingLists: { [MAILING_LISTS.newsletter]: true },
+    });
   }
 }

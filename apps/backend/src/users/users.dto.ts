@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsString } from "class-validator";
+import { ApiProperty, PartialType } from "@nestjs/swagger";
+import { IsBoolean, IsEmail, IsString } from "class-validator";
 import { type UserRole, UserRoleEnum } from "db";
 
 export class Invite {
@@ -13,7 +13,14 @@ export class GetMeDto {
   @ApiProperty({ enum: UserRoleEnum })
   role: UserRole;
   hasPassword: boolean;
+  finished_welcome: boolean;
 }
+
+export class CompleteUpdateMeDto {
+  @IsBoolean()
+  finished_welcome: boolean;
+}
+export class UpdateMeDto extends PartialType(CompleteUpdateMeDto) {}
 
 export class AcceptInviteResponseDto {
   organization_id: string;

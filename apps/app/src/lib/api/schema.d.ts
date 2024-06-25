@@ -14,6 +14,9 @@ export interface paths {
   "/sdk/flows": {
     get: operations["SdkController_getFlows"];
   };
+  "/v2/sdk/flows": {
+    get: operations["SdkController_getFlowsV2"];
+  };
   "/sdk/flows/{flowId}/draft": {
     get: operations["SdkController_getPreviewFlow"];
   };
@@ -87,6 +90,7 @@ export interface paths {
   "/me": {
     get: operations["UsersController_me"];
     delete: operations["UsersController_deleteAccount"];
+    patch: operations["UsersController_updateMe"];
   };
   "/invites/{inviteId}/accept": {
     post: operations["UsersController_acceptInvite"];
@@ -96,6 +100,9 @@ export interface paths {
   };
   "/waitlist": {
     post: operations["UsersController_joinWaitlist"];
+  };
+  "/newsletter": {
+    post: operations["UsersController_joinNewsletter"];
   };
   "/me/identities/{providerId}": {
     delete: operations["UsersController_deleteIdentity"];
@@ -123,6 +130,10 @@ export interface components {
       steps: Record<string, never>[];
       userProperties?: Record<string, never>;
       _incompleteSteps?: boolean;
+    };
+    GetSdkFlowsV2Dto: {
+      results: components["schemas"]["GetSdkFlowsDto"][];
+      error_message?: string;
     };
     CreateEventDto: {
       /** @enum {string} */
@@ -370,9 +381,13 @@ export interface components {
       role: "admin" | "user";
       pendingInvites: components["schemas"]["Invite"][];
       hasPassword: boolean;
+      finished_welcome: boolean;
     };
     AcceptInviteResponseDto: {
       organization_id: string;
+    };
+    UpdateMeDto: {
+      finished_welcome?: boolean;
     };
     JoinWaitlistDto: {
       email: string;
@@ -430,6 +445,24 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["GetSdkFlowsDto"][];
+        };
+      };
+    };
+  };
+  SdkController_getFlowsV2: {
+    parameters: {
+      query: {
+        projectId: string;
+        userHash?: string;
+      };
+      header: {
+        origin: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetSdkFlowsV2Dto"];
         };
       };
     };
@@ -898,6 +931,18 @@ export interface operations {
       };
     };
   };
+  UsersController_updateMe: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateMeDto"];
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
   UsersController_acceptInvite: {
     parameters: {
       path: {
@@ -930,6 +975,13 @@ export interface operations {
         "application/json": components["schemas"]["JoinWaitlistDto"];
       };
     };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  UsersController_joinNewsletter: {
     responses: {
       201: {
         content: never;
