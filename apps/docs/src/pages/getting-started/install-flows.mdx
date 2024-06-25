@@ -68,7 +68,7 @@ Copy the snippet bellow and paste it within the `<head>` tag of your product - i
 When you're done, you can start using Flows by calling `flows.init()` anywhere in your code. You can find the `projectId` in your project settings.
 
 ```html
-<script>
+<script type="module">
   flows.init({
     // Insert your Flows Cloud projectId
     projectId: "xxxx",
@@ -102,47 +102,6 @@ Once the library is installed, you can start creating onboarding flows and start
 
 </Tabs.Tab>
 </Tabs>
-
-## Verify installation
-
-To verify that Flows is installed correctly, you can add a demo flow to your project. This can be done either in Flows Cloud or directly in your code. We'll show you how to do it in your code.
-
-Add the following code to your Flows `init` function. The demo flow will be started automatically when the Flows SDK is loaded on any page.
-
-```js
-import { init } from "@flows/js";
-
-init({
-  // --- ADD THIS ---
-  flows: [
-    {
-      id: "hello-world",
-      // Makes the flow start automatically on any page
-      location: "/",
-      steps: [
-        {
-          title: "Hello, world!",
-          body: "This is a modal step, to show tooltip instead add <em>targetElement: '.my-element'</em> to this step.",
-          // Uncomment and replace with your element selector to show a tooltip instead of a modal
-          // targetElement: ".my-element",
-        },
-      ]
-    }
-  ]
-  // --- END OF DEMO FLOW ---
-
-  // Your projectId from previous step
-  projectId: "...",
-})
-```
-
-If everything is set up correctly, you should see a modal with the text "Hello, world!" when you open any page with Flows initialized. If it doesn't show up, please check the browser console for any errors.
-
-![Demo flow modal step preview](/getting-started/modal-step.png)
-
-You should also see a new flow called `hello-world` in your Flows Cloud project. If you don't see it, try checking the browser console for any errors or make sure you are in the correct project.
-
-![Hello world flow in the Cloud with 1 start event](/getting-started/cloud-demo-flow.png)
 
 {/* ## Set up a proxy (optional) */}
 
