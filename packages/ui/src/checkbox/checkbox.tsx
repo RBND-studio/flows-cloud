@@ -2,7 +2,7 @@ import { css, cva, cx } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check16 } from "icons";
-import { forwardRef, useId } from "react";
+import { forwardRef, type ReactNode, useId } from "react";
 
 import { Icon } from "../icon";
 import { Label } from "../label";
@@ -16,7 +16,7 @@ type Props = {
   value?: string;
   required?: boolean;
   defaultChecked?: boolean;
-  label?: string;
+  label?: ReactNode;
   labelClassName?: string;
   inputClassName?: string;
   id?: string;

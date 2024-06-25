@@ -30,6 +30,7 @@ export type FlowVersion = Schemas["GetFlowVersionsDto"];
 export type UpdateFlow = Schemas["UpdateFlowDto"];
 export type CreateFlow = Schemas["CreateFlowDto"];
 export type Me = Schemas["GetMeDto"];
+export type UpdateMe = Schemas["UpdateMeDto"];
 export type AcceptInviteResponse = Schemas["AcceptInviteResponseDto"];
 
 export type Api = {
@@ -60,10 +61,12 @@ export type Api = {
   "POST /projects/:projectId/flows": Endpoint<FlowPreview, [string, CreateFlow]>;
   "DELETE /flows/:flowId": Endpoint<void, [string]>;
   "/me": Endpoint<Me>;
+  "PATCH /me": Endpoint<void, [UpdateMe]>;
   "DELETE /me": Endpoint<void>;
   "DELETE /me/identities/:providerId": Endpoint<void, [string]>;
   "POST /invites/:inviteId/accept": Endpoint<AcceptInviteResponse, [string]>;
   "POST /invites/:inviteId/decline": Endpoint<void, [string]>;
+  "POST /newsletter": Endpoint<void>;
 
   "/css/vars": Endpoint<string>;
   "/css/template": Endpoint<string>;
@@ -112,6 +115,7 @@ export const api: Api = {
     fetcher(`/projects/${projectId}/flows`, { method: "POST", body }),
   "DELETE /flows/:flowId": (flowId) => fetcher(`/flows/${flowId}`, { method: "DELETE" }),
   "/me": () => fetcher("/me"),
+  "PATCH /me": (body) => fetcher("/me", { method: "PATCH", body }),
   "DELETE /me": () => fetcher("/me", { method: "DELETE" }),
   "DELETE /me/identities/:providerId": (providerId) =>
     fetcher(`/me/identities/${providerId}`, { method: "DELETE" }),
@@ -119,6 +123,7 @@ export const api: Api = {
     fetcher(`/invites/${inviteId}/accept`, { method: "POST" }),
   "POST /invites/:inviteId/decline": (inviteId) =>
     fetcher(`/invites/${inviteId}/decline`, { method: "POST" }),
+  "POST /newsletter": () => fetcher("/newsletter", { method: "POST" }),
 
   "/css/vars": () => fetcher("/css/vars"),
   "/css/template": () => fetcher("/css/template"),
