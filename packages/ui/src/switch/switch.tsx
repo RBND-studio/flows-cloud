@@ -3,7 +3,7 @@
 import { cva } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import * as RadixSwitch from "@radix-ui/react-switch";
-import { type FC, useId } from "react";
+import { type FC, type ReactNode, useId } from "react";
 
 import { Label } from "../label";
 
@@ -12,7 +12,7 @@ type Props = {
   onChange: (checked: boolean) => void;
   disabled?: boolean;
   id?: string;
-  label?: string;
+  label?: ReactNode;
   labelClassName?: string;
   className?: string;
 };
