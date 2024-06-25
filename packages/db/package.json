@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
-    "drizzle-kit": "^0.22.5",
+    "drizzle-kit": "^0.22.7",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "5.5.2"
