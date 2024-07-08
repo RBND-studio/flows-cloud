@@ -96,7 +96,8 @@ export class SdkService {
     });
 
     const seenEvents = await (() => {
-      if (!userHash) return;
+      if (!userHash || !dbFlows.length) return;
+
       return this.databaseService.db
         .selectDistinctOn([events.flow_id], {
           flow_id: events.flow_id,
