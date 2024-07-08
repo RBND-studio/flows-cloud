@@ -14,7 +14,7 @@ export const PopoverTrigger = PopoverPrimitive.Trigger;
 type Props = {
   children?: ReactNode;
   className?: string;
-  align?: PopoverPrimitive.PopperContentProps["align"];
+  align?: PopoverPrimitive.PopoverContentProps["align"];
 };
 
 export const PopoverContent = forwardRef<React.ElementRef<typeof PopoverPrimitive.Content>, Props>(
