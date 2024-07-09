@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@fastify/static": "^7.0.4",
-    "@lemonsqueezy/lemonsqueezy.js": "^3.0.0",
+    "@lemonsqueezy/lemonsqueezy.js": "^3.2.0",
     "@logtail/node": "^0.4.21",
     "@nestjs/common": "^10.3.9",
     "@nestjs/config": "^3.2.2",
