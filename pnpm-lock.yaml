@@ -151,8 +151,8 @@ importers:
         specifier: ^7.0.4
         version: 7.0.4
       '@lemonsqueezy/lemonsqueezy.js':
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: ^3.2.0
+        version: 3.2.0
       '@logtail/node':
         specifier: ^0.4.21
         version: 0.4.21
@@ -2560,8 +2560,8 @@ packages:
     resolution: {integrity: sha512-2X6bvghJ/JAoZO52lbgyAPFj8uCflhTo2g7nkFzEQdXd/D8rEeD4HtmTEpmtGCva260fcd66YNXBOYdnmHqSOg==}
     engines: {node: '>=12'}
 
-  '@lemonsqueezy/lemonsqueezy.js@3.0.0':
-    resolution: {integrity: sha512-EomAGkJLisI0/ptpe6a0plB++1Pqoe+FgMip4etfg2de05y58dkI+OA+HSdaFyXxpn1g0OtB50ofNVVoYQJX5A==}
+  '@lemonsqueezy/lemonsqueezy.js@3.2.0':
+    resolution: {integrity: sha512-6K72T4XEjNTu1WrIFMfvG0FgOkDhexCD+V7IKtajyW2fzZaHeMF57mgrFAVskNOlVMuWvb1wzQ/JZ68cfxm9mw==}
     engines: {node: '>=20'}
 
   '@ljharb/through@2.3.13':
@@ -12845,7 +12845,7 @@ snapshots:
       jsbi: 4.3.0
       tslib: 2.6.2
 
-  '@lemonsqueezy/lemonsqueezy.js@3.0.0': {}
+  '@lemonsqueezy/lemonsqueezy.js@3.2.0': {}
 
   '@ljharb/through@2.3.13':
     dependencies:
