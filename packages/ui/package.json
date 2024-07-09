@@ -47,7 +47,7 @@
     "storybook": "^8.1.11",
     "tsconfig": "workspace:*",
     "typescript": "5.5.2",
-    "vite": "^5.2.13",
+    "vite": "^5.3.3",
     "vite-tsconfig-paths": "^4.3.2"
   }
 }
