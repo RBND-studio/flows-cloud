@@ -36,7 +36,7 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.11",
     "db": "workspace:*",
-    "drizzle-orm": "^0.31.2",
+    "drizzle-orm": "^0.31.4",
     "fastify": "^4.27.0",
     "jsonwebtoken": "^9.0.2",
     "lightningcss": "^1.25.1",
@@ -68,6 +68,6 @@
     "ts-node": "^10.9.2",
     "tsconfig": "workspace:*",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "5.5.2"
+    "typescript": "5.5.3"
   }
 }
