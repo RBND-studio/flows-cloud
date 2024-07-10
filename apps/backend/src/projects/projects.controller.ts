@@ -65,7 +65,7 @@ export class ProjectsController {
     @Authorization() auth: Auth,
     @UUIDParam("projectId") projectId: string,
     @Param("userHash") userHash: string,
-    @UUIDQuery("flowId") flowId?: string,
+    @UUIDQuery("flowId", true) flowId?: string,
   ): Promise<DeleteProgressResponseDto> {
     return this.projectsService.deleteUserProgress({ auth, projectId, userHash, flowId });
   }

@@ -18,7 +18,9 @@ export enum EventTypeEnum {
   NextStep = "nextStep",
   PrevStep = "prevStep",
   TooltipError = "tooltipError",
+  InvalidStepError = "invalidStepError",
   CancelFlow = "cancelFlow",
+  FinishFlow = "finishFlow",
 }
 
 export const events = pgTable(

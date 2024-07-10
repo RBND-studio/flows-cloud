@@ -183,7 +183,7 @@ export class ProjectsService {
           inArray(flowUserProgresses.flow_id, flowIds),
         ),
       )
-      .returning({});
+      .returning();
 
     return { deletedCount: deletedItems.length };
   }
