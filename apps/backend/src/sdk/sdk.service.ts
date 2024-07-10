@@ -6,8 +6,8 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import browserslist from "browserslist";
-import { events, flows, organizations, projects, subscriptions } from "db";
-import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
+import { events, flows, flowUserProgresses, organizations, projects, subscriptions } from "db";
+import { and, eq, inArray, isNotNull } from "drizzle-orm";
 import { browserslistToTargets, transform } from "lightningcss";
 
 import { DatabaseService } from "../database/database.service";
@@ -98,24 +98,16 @@ export class SdkService {
     const seenEvents = await (() => {
       if (!userHash || !dbFlows.length) return;
 
-      return this.databaseService.db
-        .selectDistinctOn([events.flow_id], {
-          flow_id: events.flow_id,
-          event_time: events.event_time,
-        })
-        .from(events)
-        .where(
-          and(
-            eq(events.user_hash, userHash),
-            inArray(events.event_type, ["finishFlow", "cancelFlow"]),
-            inArray(
-              events.flow_id,
-              dbFlows.map((f) => f.id),
-            ),
+      return this.databaseService.db.query.flowUserProgresses.findMany({
+        columns: { flow_id: true },
+        where: and(
+          eq(flowUserProgresses.user_hash, userHash),
+          inArray(
+            flowUserProgresses.flow_id,
+            dbFlows.map((f) => f.id),
           ),
-        )
-        .groupBy(events.flow_id, events.event_time)
-        .orderBy(events.flow_id, desc(events.event_time));
+        ),
+      });
     })();
 
     const seenEventsByFlowId = new Map(seenEvents?.map((e) => [e.flow_id, e]));
@@ -297,10 +289,25 @@ export class SdkService {
       location: event.location,
     };
 
-    const createdEvents = await this.databaseService.db
-      .insert(events)
-      .values(newEvent)
-      .returning({ id: events.id });
+    const createPromises = [
+      this.databaseService.db.insert(events).values(newEvent).returning({ id: events.id }),
+      ...(event.userHash
+        ? [
+            this.databaseService.db
+              .insert(flowUserProgresses)
+              .values({
+                flow_id: flow.id,
+                user_hash: event.userHash,
+              })
+              .onConflictDoUpdate({
+                target: [flowUserProgresses.flow_id, flowUserProgresses.user_hash],
+                set: { updated_at: new Date() },
+              }),
+          ]
+        : []),
+    ];
+
+    const [createdEvents] = await Promise.all(createPromises);
 
     const createdEvent = createdEvents.at(0);
     if (!createdEvent) throw new InternalServerErrorException("error saving event");
@@ -339,5 +346,34 @@ export class SdkService {
       throw new BadRequestException();
 
     await this.databaseService.db.delete(events).where(eq(events.id, result.eventId));
+  }
+
+  async deleteUserProgress({
+    projectId,
+    userHash,
+    flowId,
+  }: {
+    userHash: string;
+    projectId: string;
+    flowId?: string;
+  }): Promise<void> {
+    const eqProjectId = eq(flows.project_id, projectId);
+
+    const flowIds = await this.databaseService.db.query.flows.findMany({
+      columns: { id: true },
+      where: flowId ? and(eqProjectId, eq(flows.human_id, flowId)) : eqProjectId,
+    });
+
+    if (!flowIds.length) return;
+
+    await this.databaseService.db.delete(flowUserProgresses).where(
+      and(
+        inArray(
+          flowUserProgresses.flow_id,
+          flowIds.map((f) => f.id),
+        ),
+        eq(flowUserProgresses.user_hash, userHash),
+      ),
+    );
   }
 }

@@ -1,9 +1,13 @@
-import { Body, Controller, Delete, Get, Patch, Post } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 
 import { type Auth, Authorization } from "../auth";
-import { UUIDParam } from "../lib/uuid";
-import type { GetProjectDetailDto, GetProjectsDto } from "./projects.dto";
+import { UUIDParam, UUIDQuery } from "../lib/uuid";
+import type {
+  DeleteProgressResponseDto,
+  GetProjectDetailDto,
+  GetProjectsDto,
+} from "./projects.dto";
 import { CreateProjectDto, UpdateProjectDto } from "./projects.dto";
 import { ProjectsService } from "./projects.service";
 
@@ -53,5 +57,16 @@ export class ProjectsController {
     @UUIDParam("projectId") projectId: string,
   ): Promise<void> {
     return this.projectsService.deleteProject({ auth, projectId });
+  }
+
+  @Delete("projects/:projectId/users/:userHash/progress")
+  @ApiQuery({ name: "flowId", required: false })
+  deleteUserProgress(
+    @Authorization() auth: Auth,
+    @UUIDParam("projectId") projectId: string,
+    @Param("userHash") userHash: string,
+    @UUIDQuery("flowId") flowId?: string,
+  ): Promise<DeleteProgressResponseDto> {
+    return this.projectsService.deleteUserProgress({ auth, projectId, userHash, flowId });
   }
 }

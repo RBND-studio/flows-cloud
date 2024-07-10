@@ -1,5 +1,6 @@
 export * from "./event";
 export * from "./flow";
+export * from "./flow-user-progress";
 export * from "./invoice";
 export * from "./organization";
 export * from "./organization-event";

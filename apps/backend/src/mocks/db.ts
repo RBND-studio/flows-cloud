@@ -41,6 +41,9 @@ export const getMockDB = () => ({
     organizationEvents: {
       findFirst: jest.fn(),
     },
+    flowUserProgresses: {
+      findMany: jest.fn(),
+    },
   },
   select: jest.fn().mockReturnThis(),
   from: jest.fn().mockReturnThis(),
