@@ -232,7 +232,11 @@ describe("Create event", () => {
   });
   it("should not create progress record without userHash", async () => {
     await expect(
-      sdkController.createEvent("https://example.com", { ...createEventDto, userHash: undefined }),
+      sdkController.createEvent("https://example.com", {
+        ...createEventDto,
+        type: "finishFlow",
+        userHash: undefined,
+      }),
     ).resolves.toEqual({ id: "newEventId" });
     expect(db.insert).toHaveBeenCalledWith(events);
     expect(db.insert).not.toHaveBeenCalledWith(flowUserProgresses);
@@ -248,18 +252,26 @@ describe("Create event", () => {
     );
     expect(db.insert).toHaveBeenCalledWith(flows);
   });
-  it("should insert into database", async () => {
+  it("should create db event and not user progress for startFlow", async () => {
     await expect(sdkController.createEvent("https://example.com", createEventDto)).resolves.toEqual(
       { id: "newEventId" },
     );
     expect(db.insert).toHaveBeenCalledWith(events);
-    expect(db.insert).toHaveBeenCalledWith(flowUserProgresses);
-    expect(db.values).toHaveBeenCalledTimes(2);
+    expect(db.values).toHaveBeenCalledTimes(1);
     expect(lemonSqueezyService.createUsageRecord).toHaveBeenCalledWith({
       quantity: 1,
       subscriptionItemId: "subItemId",
       action: "increment",
     });
+  });
+  it("should create db event and user progress for finishFlow", async () => {
+    await expect(
+      sdkController.createEvent("https://example.com", { ...createEventDto, type: "finishFlow" }),
+    ).resolves.toEqual({ id: "newEventId" });
+    expect(db.insert).toHaveBeenCalledWith(events);
+    expect(db.insert).toHaveBeenCalledWith(flowUserProgresses);
+    expect(db.values).toHaveBeenCalledTimes(2);
+    expect(lemonSqueezyService.createUsageRecord).not.toHaveBeenCalled();
   });
 });
 

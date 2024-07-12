@@ -220,8 +220,6 @@ export class SdkService {
     event: CreateEventDto;
     requestOrigin: string;
   }): Promise<CreateEventResponseDto> {
-    if (isLocalhost(requestOrigin)) return {};
-
     const projectId = event.projectId;
 
     await this.dbPermissionService.isAllowedOrigin({ projectId, requestOrigin });
@@ -236,6 +234,38 @@ export class SdkService {
         await this.organizationUsageService.getIsOrganizationLimitReachedByProject({ projectId });
       if (limitReached) throw new BadRequestException("Organization limit reached");
     }
+
+    const flow = await (async () => {
+      if (existingFlow) return existingFlow;
+      const newFlows = await this.databaseService.db
+        .insert(flows)
+        .values({
+          human_id: event.flowId,
+          project_id: projectId,
+          flow_type: "local",
+          description: "",
+          name: event.flowId,
+        })
+        .returning({ id: flows.id });
+      const newFlow = newFlows.at(0);
+      if (!newFlow) throw new InternalServerErrorException("error creating flow");
+      return newFlow;
+    })();
+
+    if (event.userHash && (event.type === "cancelFlow" || event.type === "finishFlow")) {
+      await this.databaseService.db
+        .insert(flowUserProgresses)
+        .values({
+          flow_id: flow.id,
+          user_hash: event.userHash,
+        })
+        .onConflictDoUpdate({
+          target: [flowUserProgresses.flow_id, flowUserProgresses.user_hash],
+          set: { updated_at: new Date() },
+        });
+    }
+
+    if (isLocalhost(requestOrigin)) return {};
 
     // For startFlow event, we need to send usage record to LemonSqueezy if the organization has subscription
     if (event.type === "startFlow") {
@@ -259,55 +289,21 @@ export class SdkService {
         });
     }
 
-    const flow = await (async () => {
-      if (existingFlow) return existingFlow;
-      const newFlows = await this.databaseService.db
-        .insert(flows)
-        .values({
-          human_id: event.flowId,
-          project_id: projectId,
-          flow_type: "local",
-          description: "",
-          name: event.flowId,
-        })
-        .returning({ id: flows.id });
-      const newFlow = newFlows.at(0);
-      if (!newFlow) throw new InternalServerErrorException("error creating flow");
-      return newFlow;
-    })();
-
-    const newEvent: typeof events.$inferInsert = {
-      event_time: event.eventTime,
-      event_type: event.type,
-      flow_id: flow.id,
-      user_hash: event.userHash,
-      step_index: event.stepIndex,
-      flow_hash: event.flowHash,
-      step_hash: event.stepHash,
-      sdk_version: event.sdkVersion,
-      target_element: event.targetElement,
-      location: event.location,
-    };
-
-    const createPromises = [
-      this.databaseService.db.insert(events).values(newEvent).returning({ id: events.id }),
-      ...(event.userHash
-        ? [
-            this.databaseService.db
-              .insert(flowUserProgresses)
-              .values({
-                flow_id: flow.id,
-                user_hash: event.userHash,
-              })
-              .onConflictDoUpdate({
-                target: [flowUserProgresses.flow_id, flowUserProgresses.user_hash],
-                set: { updated_at: new Date() },
-              }),
-          ]
-        : []),
-    ];
-
-    const [createdEvents] = await Promise.all(createPromises);
+    const createdEvents = await this.databaseService.db
+      .insert(events)
+      .values({
+        event_time: event.eventTime,
+        event_type: event.type,
+        flow_id: flow.id,
+        user_hash: event.userHash,
+        step_index: event.stepIndex,
+        flow_hash: event.flowHash,
+        step_hash: event.stepHash,
+        sdk_version: event.sdkVersion,
+        target_element: event.targetElement,
+        location: event.location,
+      })
+      .returning({ id: events.id });
 
     const createdEvent = createdEvents.at(0);
     if (!createdEvent) throw new InternalServerErrorException("error saving event");
