@@ -1,5 +1,6 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
+import { WelcomeRedirect } from "app/(dashboard)/welcome-redirect";
 import { getAuth } from "auth/server";
 import { Sidebar } from "components/sidebar";
 import { redirect } from "next/navigation";
@@ -32,6 +33,7 @@ export default async function DashboardLayout({ children }: Props): Promise<JSX.
           {children}
         </div>
       </Flex>
+      <WelcomeRedirect />
     </DashboardProviders>
   );
 }
