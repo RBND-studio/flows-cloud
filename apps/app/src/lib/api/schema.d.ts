@@ -260,7 +260,7 @@ export interface paths {
         patch: operations["ProjectsController_updateProject"];
         trace?: never;
     };
-    "/projects/{projectId}/users/{userHash}/progress": {
+    "/projects/{projectId}/users/{userId}/progress": {
         parameters: {
             query?: never;
             header?: never;
@@ -583,7 +583,7 @@ export interface components {
         };
         CreateEventDto: {
             /** @enum {string} */
-            type: "startFlow" | "nextStep" | "prevStep" | "tooltipError" | "cancelFlow";
+            type: "startFlow" | "nextStep" | "prevStep" | "tooltipError" | "invalidStepError" | "cancelFlow" | "finishFlow";
             /** Format: date-time */
             eventTime: string;
             userHash?: string;
@@ -1350,7 +1350,7 @@ export interface operations {
             header?: never;
             path: {
                 projectId: string;
-                userHash: string;
+                userId: string;
             };
             cookie?: never;
         };

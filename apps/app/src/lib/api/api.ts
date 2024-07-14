@@ -52,7 +52,7 @@ export type Api = {
   "/projects/:projectId": Endpoint<ProjectDetail, [string]>;
   "PATCH /projects/:projectId": Endpoint<ProjectDetail, [string, UpdateProject]>;
   "DELETE /projects/:projectId": Endpoint<void, [string]>;
-  "DELETE /projects/:projectId/users/:userHash/progress": Endpoint<
+  "DELETE /projects/:projectId/users/:userId/progress": Endpoint<
     DeleteUserProgressResponse,
     [string, string, { flowId?: string }]
   >;
@@ -106,8 +106,8 @@ export const api: Api = {
     fetcher(`/projects/${projectId}`, { method: "PATCH", body }),
   "DELETE /projects/:projectId": (projectId) =>
     fetcher(`/projects/${projectId}`, { method: "DELETE" }),
-  "DELETE /projects/:projectId/users/:userHash/progress": (projectId, userHash, params) =>
-    fetcher(`/projects/${projectId}/users/${userHash}/progress${createParams(params)}`, {
+  "DELETE /projects/:projectId/users/:userId/progress": (projectId, userId, params) =>
+    fetcher(`/projects/${projectId}/users/${userId}/progress${createParams(params)}`, {
       method: "DELETE",
     }),
   "POST /organizations/:organizationId/projects": (organizationId, body) =>

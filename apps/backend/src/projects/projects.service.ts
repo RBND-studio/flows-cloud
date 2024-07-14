@@ -5,6 +5,7 @@ import { and, asc, eq, inArray } from "drizzle-orm";
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
+import { hash } from "../lib/hash";
 import type {
   CreateProjectDto,
   DeleteProgressResponseDto,
@@ -152,12 +153,12 @@ export class ProjectsService {
   async deleteUserProgress({
     auth,
     projectId,
-    userHash,
+    userId,
     flowId,
   }: {
     auth: Auth;
     projectId: string;
-    userHash: string;
+    userId: string;
     flowId?: string;
   }): Promise<DeleteProgressResponseDto> {
     await this.dbPermissionService.doesUserHaveAccessToProject({ auth, projectId });
@@ -174,6 +175,8 @@ export class ProjectsService {
     })();
 
     if (!flowIds.length) return { deletedCount: 0 };
+
+    const userHash = await hash(userId);
 
     const deletedItems = await this.databaseService.db
       .delete(flowUserProgresses)

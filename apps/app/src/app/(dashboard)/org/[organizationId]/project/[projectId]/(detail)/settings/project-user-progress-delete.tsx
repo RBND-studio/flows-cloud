@@ -24,7 +24,7 @@ export const ProjectUserProgressDelete: FC<Props> = ({ project }) => {
   const { loading, send } = useSend();
   const onSubmit: SubmitHandler<IForm> = async (data) => {
     const res = await send(
-      api["DELETE /projects/:projectId/users/:userHash/progress"](project.id, data.userId, {}),
+      api["DELETE /projects/:projectId/users/:userId/progress"](project.id, data.userId, {}),
       { errorMessage: "Failed to delete user progress" },
     );
     if (!res.data) return;

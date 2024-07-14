@@ -59,14 +59,14 @@ export class ProjectsController {
     return this.projectsService.deleteProject({ auth, projectId });
   }
 
-  @Delete("projects/:projectId/users/:userHash/progress")
+  @Delete("projects/:projectId/users/:userId/progress")
   @ApiQuery({ name: "flowId", required: false })
   deleteUserProgress(
     @Authorization() auth: Auth,
     @UUIDParam("projectId") projectId: string,
-    @Param("userHash") userHash: string,
+    @Param("userId") userId: string,
     @UUIDQuery("flowId", true) flowId?: string,
   ): Promise<DeleteProgressResponseDto> {
-    return this.projectsService.deleteUserProgress({ auth, projectId, userHash, flowId });
+    return this.projectsService.deleteUserProgress({ auth, projectId, userId, flowId });
   }
 }
