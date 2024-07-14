@@ -1,4 +1,5 @@
 import { css } from "@flows/styled-system/css";
+import { SmartLink } from "components/ui/smart-link";
 import { useSend } from "hooks/use-send";
 import { Send16 } from "icons";
 import { api, type FlowDetail } from "lib/api";
@@ -67,16 +68,10 @@ export const FlowPreviewDialog: FC<Props> = ({ flow }) => {
             })}
           >
             Enter the URL where you want to preview this flow. If nothing shows up, make sure that
-            you have{" "}
-            <a
-              className={css({ color: "text.primary", _hover: { textDecoration: "underline" } })}
-              href={links.docsInstallFlows}
-              target="_blank"
-              rel="noopener"
-            >
-              installed
-            </a>{" "}
-            Flows on the website.
+            you have installed Flows on the website.{" "}
+            <SmartLink href={links.docsPreviewFlow} target="_blank" color="text.primary">
+              Learn about preview
+            </SmartLink>
           </Text>
           <Text
             className={css({

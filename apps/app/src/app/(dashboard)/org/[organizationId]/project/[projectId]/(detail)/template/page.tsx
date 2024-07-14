@@ -1,6 +1,8 @@
 import { Flex } from "@flows/styled-system/jsx";
+import { SmartLink } from "components/ui/smart-link";
 import { api } from "lib/api";
 import { load } from "lib/load";
+import { links } from "shared";
 import { Text } from "ui";
 
 import { CssTemplateForm } from "./css-template-form";
@@ -30,7 +32,10 @@ export default async function ProjectTemplatePage({ params }: Props): Promise<JS
         <Text variant="titleXl">Style template</Text>
         <Text color="muted">
           Customize the look and feel of your flows by changing CSS variables or using full CSS
-          template.
+          template.{" "}
+          <SmartLink href={links.docsCustomStyles} target="_blank" color="text.primary">
+            Learn more
+          </SmartLink>
         </Text>
       </Flex>
       <TemplateProvider cssTemplate={template} cssVars={cssVars}>

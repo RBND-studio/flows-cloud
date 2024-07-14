@@ -1,3 +1,4 @@
+import { SmartLink } from "components/ui/smart-link";
 import { useSend } from "hooks/use-send";
 import type { FlowDetail } from "lib/api";
 import { api } from "lib/api";
@@ -5,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import type { FC } from "react";
 import { useState } from "react";
 import { routes } from "routes";
+import { links } from "shared";
 import { t } from "translations";
 import {
   Button,
@@ -70,7 +72,12 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
       <Dialog onOpenChange={handleMakeLiveOpenChange} open={makeLiveOpen}>
         <DialogTitle>Make live?</DialogTitle>
         <DialogContent>
-          <Text>For the users to see your flow, you need to make it live first.</Text>
+          <Text>
+            For the users to see your flow, you need to make it live first.{" "}
+            <SmartLink href={links.docsMakeFlowLive} target="_blank" color="text.primary">
+              Learn more
+            </SmartLink>
+          </Text>
         </DialogContent>
         <DialogActions>
           <DialogClose asChild>
@@ -97,7 +104,10 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
       <DialogContent>
         <Text>
           Are you sure you want to publish flow changes? This will update the flow for all of your
-          users.
+          users.{" "}
+          <SmartLink href={links.docsPublishFlow} target="_blank" color="text.primary">
+            Learn more
+          </SmartLink>
         </Text>
       </DialogContent>
       <DialogActions>

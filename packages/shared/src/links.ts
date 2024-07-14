@@ -17,4 +17,18 @@ export const links = {
   docsInstallFlows: "https://flows.sh/docs/getting-started/install-flows",
   docsVerifyInstallation: "https://flows.sh/docs/getting-started/install-flows#verify-installation",
   docsContact: "https://flows.sh/docs/contact-us",
+  docsStartFlow: "https://flows.sh/docs/creating-flows/start-flow",
+  docsTargetFlow: "https://flows.sh/docs/creating-flows/targeting",
+  docsFlowFrequency: "https://flows.sh/docs/creating-flows/frequency",
+  docsStep: {
+    tooltip: "https://flows.sh/docs/step-types/tooltip",
+    modal: "https://flows.sh/docs/step-types/modal",
+    wait: "https://flows.sh/docs/step-types/wait",
+  },
+  docsBranchTargeting: "https://flows.sh/docs/step-types/fork#targeting-branches",
+  docsPreviewFlow: "https://flows.sh/docs/creating-flows/preview",
+  docsPublishFlow: "https://flows.sh/docs/creating-flows/enable-flow#publishing-changes",
+  docsMakeFlowLive: "https://flows.sh/docs/creating-flows/enable-flow#making-your-flow-live",
+  docsProjectDomains: "https://flows.sh/docs/project-setup/project-domains",
+  docsCustomStyles: "https://flows.sh/docs/customization-and-styling/custom-styles",
 };

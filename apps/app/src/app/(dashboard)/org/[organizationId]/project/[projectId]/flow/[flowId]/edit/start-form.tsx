@@ -1,9 +1,11 @@
 "use client";
 
 import { Box, Flex } from "@flows/styled-system/jsx";
+import { SmartLink } from "components/ui/smart-link";
 import { Plus16 } from "icons";
 import type { FC } from "react";
 import { useFieldArray } from "react-hook-form";
+import { links } from "shared";
 import { t } from "translations";
 import { Button, Text } from "ui";
 
@@ -22,7 +24,12 @@ export const StartForm: FC = () => {
     <Box>
       <Flex flexDirection="column" p="space16" borBottom="1px">
         <Text variant="titleL">{t.start.start}</Text>
-        <Text color="muted">{t.start.description}</Text>
+        <Text color="muted">
+          {t.start.description}{" "}
+          <SmartLink color="text.primary" href={links.docsStartFlow} target="_blank">
+            Learn more
+          </SmartLink>
+        </Text>
       </Flex>
 
       <Box p="space16">
