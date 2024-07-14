@@ -23,7 +23,7 @@ export const SubscribeForm = (): JSX.Element => {
   const { send, loading } = useSend();
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const requests: Promise<{ error?: Error }>[] = [
-      send(api["/me"]({ finished_welcome: true }), { errorMessage: null }),
+      send(api["PATCH /me"]({ finished_welcome: true }), { errorMessage: null }),
     ];
     if (data.marketingConsent)
       requests.push(send(api["POST /newsletter"](), { errorMessage: "Failed to subscribe" }));
