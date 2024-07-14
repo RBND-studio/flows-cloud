@@ -1,6 +1,6 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { LinesBox, SmartLink } from "components/ui";
+import { HeroCallout, LinesBox, SmartLink } from "components/ui";
 import { Section } from "components/ui/section";
 import { SignupClick } from "components/utils/signup-click";
 import type { ReactElement } from "react";
@@ -32,23 +32,10 @@ export const Hero = (): ReactElement => {
       sectionPadding="none"
     >
       <Flex flexDirection="column" gap="space12" maxW="728px">
-        {/* <Flex
-          paddingX="space12"
-          paddingY="space4"
-          background="bg"
-          borderRadius="radius24"
-          alignItems="center"
-          gap="space8"
-          margin="0 auto"
-          bor="1px"
-          opacity={0}
-          animation="topSlideIn 0.6s ease-out"
-          animationDelay="0.8s"
-          animationFillMode="forwards"
-        >
-          <Text>Transitioning to Flows from another platform? We can help!</Text>{" "}
-          <Icon icon={ArrowRight16} color="icon.primary" />
-        </Flex> */}
+        {/* TODO: make this use const */}
+        <HeroCallout link="/docs/migrate-to-flows" delay={0.8}>
+          Transitioning to Flows from another platform? We can help!
+        </HeroCallout>
         <Text
           align="center"
           as="h1"

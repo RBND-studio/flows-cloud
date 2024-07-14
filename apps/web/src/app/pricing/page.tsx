@@ -1,6 +1,6 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { Section, SmartLink } from "components/ui";
+import { HeroCallout, Section, SmartLink } from "components/ui";
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
 import { links } from "shared";
@@ -47,6 +47,10 @@ const Page = (): ReactElement => {
         })}
       >
         <Flex flexDirection="column" gap="space12" maxW="800px">
+          {/* TODO: make this use const */}
+          <HeroCallout link="/docs/migrate-to-flows#transition-period">
+            Switching from another platform? Get free usage!
+          </HeroCallout>
           <Text align="center" as="h1" variant="title4xl">
             Pricing
           </Text>
