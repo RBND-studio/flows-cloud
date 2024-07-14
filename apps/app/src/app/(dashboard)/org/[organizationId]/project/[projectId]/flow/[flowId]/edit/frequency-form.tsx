@@ -20,7 +20,7 @@ export const FrequencyForm: FC = () => {
         <Text variant="titleL">{t.frequency.frequency}</Text>
         <Text color="muted">
           {t.frequency.description}{" "}
-          <SmartLink color="text.primary" href={links.docsFlowFrequency} target="_blank">
+          <SmartLink color="text.primary" href={links.docs.flowFrequency} target="_blank">
             Learn more
           </SmartLink>
         </Text>

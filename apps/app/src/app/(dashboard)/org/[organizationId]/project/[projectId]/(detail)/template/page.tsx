@@ -33,7 +33,7 @@ export default async function ProjectTemplatePage({ params }: Props): Promise<JS
         <Text color="muted">
           Customize the look and feel of your flows by changing CSS variables or using full CSS
           template.{" "}
-          <SmartLink href={links.docsCustomStyles} target="_blank" color="text.primary">
+          <SmartLink href={links.docs.customStyles} target="_blank" color="text.primary">
             Learn more
           </SmartLink>
         </Text>

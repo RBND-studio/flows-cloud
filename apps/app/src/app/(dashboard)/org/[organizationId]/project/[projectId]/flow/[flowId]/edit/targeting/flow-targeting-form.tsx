@@ -23,7 +23,7 @@ export const FlowTargetingForm: FC = () => {
         <Text variant="titleL">{t.targeting.targeting}</Text>
         <Text color="muted">
           {t.targeting.description}{" "}
-          <SmartLink color="text.primary" href={links.docsTargetFlow} target="_blank">
+          <SmartLink color="text.primary" href={links.docs.targetFlow} target="_blank">
             Learn more
           </SmartLink>
         </Text>

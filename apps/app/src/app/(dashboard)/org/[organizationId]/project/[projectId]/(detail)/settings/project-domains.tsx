@@ -62,7 +62,7 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
         <Text variant="titleL">{t.project.domains.domains}</Text>
         <Text color="muted">
           {t.project.domains.description}{" "}
-          <SmartLink href={links.docsProjectDomains} target="_blank" color="text.primary">
+          <SmartLink href={links.docs.projectDomains} target="_blank" color="text.primary">
             Learn more
           </SmartLink>
         </Text>

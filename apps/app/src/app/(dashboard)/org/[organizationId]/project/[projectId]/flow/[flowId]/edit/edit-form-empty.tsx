@@ -31,7 +31,7 @@ export const EditFormEmpty: FC<Props> = ({ fieldArray }) => {
         <Flex justifyContent="space-between">
           <Text variant="titleL">Create a Flow</Text>
           <Button asChild size="small" variant="secondary">
-            <Link href={links.docsStepsEditor} target="_blank">
+            <Link href={links.docs.stepsEditor} target="_blank">
               Learn
             </Link>
           </Button>

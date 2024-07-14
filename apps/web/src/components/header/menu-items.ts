@@ -18,7 +18,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     title: "Docs",
-    href: links.docs,
+    href: links.docs.home,
   },
   {
     title: "Changelog",

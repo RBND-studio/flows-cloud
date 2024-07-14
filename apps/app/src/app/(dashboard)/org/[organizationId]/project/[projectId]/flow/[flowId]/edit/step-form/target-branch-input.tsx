@@ -50,7 +50,7 @@ export const TargetBranchInput: FC<Props> = ({ fieldName }) => {
             <Text mt="space16">{t.steps.targetBranchLabel}</Text>
             <Text color="subtle" variant="bodyXs" mb="space8">
               {t.steps.targetBranchDescription}{" "}
-              <SmartLink href={links.docsBranchTargeting} target="_blank" color="text.primary">
+              <SmartLink href={links.docs.branchTargeting} target="_blank" color="text.primary">
                 Learn more
               </SmartLink>
             </Text>

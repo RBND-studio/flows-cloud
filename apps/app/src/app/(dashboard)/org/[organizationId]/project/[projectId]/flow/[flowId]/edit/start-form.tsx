@@ -26,7 +26,7 @@ export const StartForm: FC = () => {
         <Text variant="titleL">{t.start.start}</Text>
         <Text color="muted">
           {t.start.description}{" "}
-          <SmartLink color="text.primary" href={links.docsStartFlow} target="_blank">
+          <SmartLink color="text.primary" href={links.docs.startFlow} target="_blank">
             Learn more
           </SmartLink>
         </Text>

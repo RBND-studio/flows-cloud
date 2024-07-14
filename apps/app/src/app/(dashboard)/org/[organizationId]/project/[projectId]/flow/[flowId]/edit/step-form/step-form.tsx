@@ -86,7 +86,7 @@ export const StepForm: FC<Props> = ({ index }) => {
           </Menu>
         </Flex>
         <Text>
-          <SmartLink color="text.primary" href={links.docsStep[stepType]} target="_blank">
+          <SmartLink color="text.primary" href={links.docs.step[stepType]} target="_blank">
             Learn about {t.steps.stepType[stepType]}
           </SmartLink>
         </Text>

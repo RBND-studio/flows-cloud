@@ -74,7 +74,7 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
         <DialogContent>
           <Text>
             For the users to see your flow, you need to make it live first.{" "}
-            <SmartLink href={links.docsMakeFlowLive} target="_blank" color="text.primary">
+            <SmartLink href={links.docs.makeFlowLive} target="_blank" color="text.primary">
               Learn more
             </SmartLink>
           </Text>
@@ -105,7 +105,7 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
         <Text>
           Are you sure you want to publish flow changes? This will update the flow for all of your
           users.{" "}
-          <SmartLink href={links.docsPublishFlow} target="_blank" color="text.primary">
+          <SmartLink href={links.docs.publishFlow} target="_blank" color="text.primary">
             Learn more
           </SmartLink>
         </Text>

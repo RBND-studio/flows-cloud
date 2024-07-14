@@ -69,7 +69,7 @@ export const FlowPreviewDialog: FC<Props> = ({ flow }) => {
           >
             Enter the URL where you want to preview this flow. If nothing shows up, make sure that
             you have installed Flows on the website.{" "}
-            <SmartLink href={links.docsPreviewFlow} target="_blank" color="text.primary">
+            <SmartLink href={links.docs.previewFlow} target="_blank" color="text.primary">
               Learn about preview
             </SmartLink>
           </Text>
