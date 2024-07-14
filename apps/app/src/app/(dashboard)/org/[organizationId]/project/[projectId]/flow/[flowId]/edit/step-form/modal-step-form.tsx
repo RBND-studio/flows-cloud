@@ -28,6 +28,7 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
             {...register(`${stepKey}.title`)}
             defaultValue={initialValue.title}
             description="HTML title of the modal"
+            className={css({ mb: "space16" })}
             label="Title"
           />
           <Input
@@ -65,17 +66,30 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
                   onCheckedChange={field.onChange}
                 />
                 {!field.value ? (
-                  <Controller
-                    control={control}
-                    name={`${stepKey}.closeOnOverlayClick`}
-                    render={({ field: closeField }) => (
-                      <Checkbox
-                        checked={closeField.value}
-                        label="Close on overlay click"
-                        onCheckedChange={closeField.onChange}
-                      />
-                    )}
-                  />
+                  <>
+                    <Controller
+                      control={control}
+                      name={`${stepKey}.closeOnOverlayClick`}
+                      render={({ field: closeField }) => (
+                        <Checkbox
+                          checked={closeField.value}
+                          label="Close on overlay click"
+                          onCheckedChange={closeField.onChange}
+                        />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name={`${stepKey}.disableOverlayClickLayer`}
+                      render={({ field: closeField }) => (
+                        <Checkbox
+                          checked={closeField.value}
+                          label="Disable overlay click layer"
+                          onCheckedChange={closeField.onChange}
+                        />
+                      )}
+                    />
+                  </>
                 ) : null}
               </>
             )}
@@ -90,10 +104,19 @@ export const ModalStepForm: FC<Props> = ({ index }) => {
         <Accordion title="Advanced">
           <Input
             {...register(`${stepKey}.stepId`)}
+            className={css({ mb: "space16" })}
             defaultValue={initialValue.stepId}
             description={t.steps.stepIdDescription}
             label={t.steps.stepIdLabel}
             placeholder="my-step-id"
+          />
+
+          <Input
+            {...register(`${stepKey}.zIndex`)}
+            defaultValue={initialValue.zIndex}
+            label="Modal z-index"
+            description="Z-index of the modal element"
+            placeholder="e.g. 1000"
           />
         </Accordion>
       </Flex>

@@ -6,4 +6,5 @@ export const getMockEmailService = () => ({
   signedUp: jest.fn(),
   sendInvite: jest.fn(),
   sendUsageAlert: jest.fn(),
+  joinNewsletter: jest.fn(),
 });

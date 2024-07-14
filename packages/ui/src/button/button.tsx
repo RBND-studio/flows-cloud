@@ -128,6 +128,11 @@ const button = cva({
         padding: "7px 15px",
         height: 36,
       },
+      betweenMediumAndLarge: {
+        textStyle: "titleM",
+        height: 40,
+        padding: "9px 19px",
+      },
     },
     variant: {
       primary: {

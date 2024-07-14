@@ -20,6 +20,7 @@ import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialo
 import { Autosave } from "./autosave";
 import {
   createDefaultValues,
+  fixFormData,
   formToRequest,
   type IFlowEditForm,
   type SelectedItem,
@@ -52,9 +53,10 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
   const { send } = useSend();
   const onSubmit: SubmitHandler<IFlowEditForm> = useCallback(
     async (data) => {
-      const res = await send(api["PATCH /flows/:flowId"](flow.id, formToRequest(data)), {
-        errorMessage: t.toasts.saveFlowFailed,
-      });
+      const res = await send(
+        api["PATCH /flows/:flowId"](flow.id, formToRequest(fixFormData(data))),
+        { errorMessage: t.toasts.saveFlowFailed },
+      );
       if (res.error) return;
       reset(data, { keepValues: true });
       router.refresh();
@@ -76,21 +78,25 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
     [handleSave],
   );
 
-  const { isDirty } = formState;
+  const isDirty = useRef(formState.isDirty);
+  useEffect(() => {
+    isDirty.current = formState.isDirty;
+  }, [formState.isDirty]);
+
   // Save on page unload (refresh, close, etc.)
   useEffect(() => {
-    if (!isDirty) return;
+    if (!isDirty.current) return;
     window.addEventListener("beforeunload", onUnload);
     return () => window.removeEventListener("beforeunload", onUnload);
-  }, [isDirty, onUnload]);
+  }, [onUnload]);
 
   // Save on SPA navigation to other page
   useEffect(() => {
-    if (!isDirty) return;
     return () => {
+      if (!isDirty.current) return;
       void handleSubmit(onSubmit)();
     };
-  }, [handleSubmit, isDirty, onSubmit]);
+  }, [handleSubmit, onSubmit]);
 
   return (
     <FormProvider {...methods}>

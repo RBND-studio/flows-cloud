@@ -10,6 +10,7 @@ export const links = {
   privacy: "https://flows.sh/privacy",
   terms: "https://flows.sh/terms",
   pricing: "https://flows.sh/pricing",
+  changelog: "https://flows.sh/changelog",
   // docs
   docs: "https://flows.sh/docs",
   docsStepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",

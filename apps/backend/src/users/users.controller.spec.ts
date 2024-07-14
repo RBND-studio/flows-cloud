@@ -94,6 +94,16 @@ describe("Get me", () => {
   });
 });
 
+describe("Update profile", () => {
+  it("should call update", async () => {
+    await expect(
+      usersController.updateMe({ userId: "userId" }, { finished_welcome: true }),
+    ).resolves.toBeUndefined();
+    expect(db.update).toHaveBeenCalledWith(userMetadata);
+    expect(db.set).toHaveBeenCalledWith({ finished_welcome: true });
+  });
+});
+
 describe("Accept invite", () => {
   beforeEach(() => {
     db.query.users.findFirst.mockResolvedValue({ id: "userId", email: "email" });
@@ -193,5 +203,21 @@ describe("Join waitlist", () => {
       usersController.joinWaitlist({ captcha_token: "cap", email: "mail@examplec.com" }),
     ).resolves.toBeUndefined();
     expect(newsfeedService.postMessage).toHaveBeenCalled();
+  });
+});
+
+describe("Join newsletter", () => {
+  beforeEach(() => {
+    db.query.users.findFirst.mockResolvedValue({ email: "email" });
+  });
+  it("should throw without user", async () => {
+    db.query.users.findFirst.mockResolvedValue(null);
+    await expect(usersController.joinNewsletter({ userId: "userId" })).rejects.toThrow(
+      "Internal Server Error",
+    );
+  });
+  it("should call emailService", async () => {
+    await expect(usersController.joinNewsletter({ userId: "userId" })).resolves.toBeUndefined();
+    expect(emailService.joinNewsletter).toHaveBeenCalledWith({ email: "email" });
   });
 });

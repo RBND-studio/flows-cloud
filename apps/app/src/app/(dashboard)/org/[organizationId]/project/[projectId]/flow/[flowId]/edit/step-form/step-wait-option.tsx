@@ -1,27 +1,28 @@
-import type { WaitStepOptions } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { Close16 } from "icons";
 import type { FC } from "react";
-import { Controller } from "react-hook-form";
 import { t } from "translations";
 import { Button, Icon, Input, Text } from "ui";
 
-import { useFlowEditForm } from "../edit-constants";
+import { useFlowEditForm, type WaitOptions } from "../edit-constants";
 import { StepWaitChange } from "./step-wait-change";
 import { StepWaitForm } from "./step-wait-submit";
+import { TargetBranchInput } from "./target-branch-input";
+
+type FieldName =
+  | `steps.${number}.wait.${number}`
+  | `steps.${number}.${number}.${number}.wait.${number}`
+  | `start.${number}`;
 
 type Props = {
-  fieldName:
-    | `steps.${number}.wait.${number}`
-    | `steps.${number}.${number}.${number}.wait.${number}`
-    | `start.${number}`;
+  fieldName: FieldName;
   onRemove: () => void;
   index: number;
 };
 
 export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
-  const { setValue, register, watch, control } = useFlowEditForm();
+  const { setValue, register, watch } = useFlowEditForm();
   const value = watch(fieldName);
 
   const isStart = fieldName.startsWith("start.");
@@ -34,7 +35,7 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
     return "empty";
   })();
   const handleVariantChange = (variant: typeof currentVariant): void => {
-    let newValue: WaitStepOptions | null = null;
+    let newValue: WaitOptions | null = null;
     if (variant === "change")
       newValue = {
         location: value.location,
@@ -123,24 +124,17 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
       {currentVariant === "change" && <StepWaitChange fieldName={fieldName} />}
       {currentVariant === "submit" && <StepWaitForm fieldName={fieldName} />}
 
-      {!isStart && (
-        <Controller
-          control={control}
-          name={`${fieldName}.targetBranch`}
-          render={({ field }) => (
-            <Input
-              className={css({ mt: "space16" })}
-              description={t.steps.targetBranchDescription}
-              label={t.steps.targetBranchLabel}
-              onChange={(e) => field.onChange(Number(e.target.value))}
-              placeholder="0"
-              type="number"
-              value={field.value}
-            />
-          )}
-        />
-      )}
+      {isNotStart(fieldName) && <TargetBranchInput fieldName={fieldName} />}
+
       <hr className={css({ borderColor: "border", my: "space16", mx: "-space16" })} />
     </Box>
   );
 };
+
+function isNotStart(
+  fieldName: FieldName,
+): fieldName is
+  | `steps.${number}.wait.${number}`
+  | `steps.${number}.${number}.${number}.wait.${number}` {
+  return fieldName.startsWith("steps.");
+}

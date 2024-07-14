@@ -56,7 +56,15 @@ Enabled by default.
 
 If enabled, the tooltip will be closed when the user clicks on the overlay and the flow will end. This gives the users quick way to dismiss the flow if they are not interested in it.
 
-Can be enabled only if the overlay is enabled.
+- Can be enabled only if the overlay is enabled.
+- Can't be combined with disable overlay click layer.
+
+### Disable overlay click layer
+
+If enabled, the overlay will not prevent the user from interacting with the elements behind it. This can be useful if you want to allow the user to interact with the page while the tooltip is open, or if you have complex UI elements that are not working correctly with the overlay.
+
+- Can be enabled only if the overlay is enabled.
+- Can't be combined with close on overlay click.
 
 ## Footer
 
@@ -83,3 +91,15 @@ Unique identifier of the step. This is optional but can be useful for programmat
 ### Scroll to element
 
 Enter CSS selector of the element that the page should scroll to before showing the tooltip. This can be useful if the target element is not in the viewport and you want to make sure it's visible before showing the tooltip.
+
+### Tooltip z-index
+
+Custom z-index of the tooltip. This can be useful if the tooltip is not displayed correctly because of the z-index of other elements on the page. The value is applied only to the step where it's set.
+
+Defaults to CSS variable `var(--flows-zIndex)` from style template.
+
+### Target z-index
+
+Custom z-index of the target element. Applied when using the overlay to lift the target element above other elements on the page. The value is applied only to the step where it's set.
+
+Defaults to CSS variable `var(--flows-target-zIndex)` from style template.

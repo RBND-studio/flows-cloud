@@ -1,7 +1,5 @@
 import {
   Alert16,
-  Cloud16,
-  Code16,
   Comment16,
   Eye16,
   Filter16,
@@ -32,27 +30,6 @@ export type SidebarSection = {
 export type SidebarData = SidebarSection[];
 
 export const sidebarData: SidebarData = [
-  {
-    title: "Build",
-    link: routes.featuresBuild,
-    features: [
-      {
-        title: "No-code",
-        icon: Cloud16,
-        link: `${routes.featuresBuild}#no-code`,
-      },
-      {
-        title: "In-code",
-        icon: Code16,
-        link: `${routes.featuresBuild}#in-code`,
-      },
-      {
-        title: "Preview",
-        icon: Eye16,
-        link: `${routes.featuresBuild}#preview`,
-      },
-    ],
-  },
   {
     title: "Flow steps",
     link: routes.featuresFlowSteps,
@@ -107,6 +84,11 @@ export const sidebarData: SidebarData = [
         title: "Start action",
         icon: Send16,
         link: `${routes.featuresDeliver}#start-action`,
+      },
+      {
+        title: "Preview",
+        icon: Eye16,
+        link: `${routes.featuresDeliver}#preview`,
       },
     ],
   },

@@ -7,13 +7,12 @@ import { Controller, useFieldArray } from "react-hook-form";
 import { t } from "translations";
 import { Button, Checkbox, Icon, Input, Label, Select, Text } from "ui";
 
-import { useFlowEditForm } from "../edit-constants";
-
-type Placement = "left" | "center" | "right";
+import { type FooterActionPlacement, useFlowEditForm } from "../edit-constants";
+import { TargetBranchInput } from "./target-branch-input";
 
 type Props = {
   index: number | `${number}.${number}.${number}`;
-  placement: Placement;
+  placement: FooterActionPlacement;
 };
 
 export const StepFooterActions: FC<Props> = ({ index, placement }) => {
@@ -51,11 +50,13 @@ export const StepFooterActions: FC<Props> = ({ index, placement }) => {
 
 type OptionProps = {
   fieldName:
-    | `steps.${number}.footerActions.${Placement}.${number}`
-    | `steps.${number}.${number}.${number}.footerActions.${Placement}.${number}`;
+    | `steps.${number}.footerActions.${FooterActionPlacement}.${number}`
+    | `steps.${number}.${number}.${number}.footerActions.${FooterActionPlacement}.${number}`;
   onRemove: () => void;
   index: number;
 };
+
+type OptionKey = "href" | "targetBranch" | "prev" | "next" | "cancel";
 
 const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
   const { control, setValue, watch } = useFlowEditForm();
@@ -78,6 +79,15 @@ const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
     })();
     setValue(fieldName, newValue, { shouldDirty: true });
   };
+
+  const targetBranchIsEnabled = fieldName.split(".footerActions.").at(0)?.split(".").length === 2;
+  const options: OptionKey[] = [
+    "href",
+    ...(targetBranchIsEnabled ? (["targetBranch"] as const) : []),
+    "prev",
+    "next",
+    "cancel",
+  ];
 
   return (
     <Box borBottom="1px" padding="space12">
@@ -111,7 +121,7 @@ const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
       />
 
       <Flex cardWrap="-" mb="space16" overflowX="auto">
-        {(["href", "targetBranch", "prev", "next", "cancel"] as const).map((variant) => (
+        {options.map((variant) => (
           <Button
             className={css({ flex: 1, fontWeight: "normal" })}
             key={variant}
@@ -149,22 +159,7 @@ const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
         </Box>
       )}
 
-      {currentVariant === "targetBranch" && (
-        <Controller
-          control={control}
-          name={`${fieldName}.targetBranch`}
-          render={({ field }) => (
-            <Input
-              description={t.steps.targetBranchDescription}
-              label={t.steps.targetBranchLabel}
-              onChange={(e) => field.onChange(Number(e.target.value))}
-              placeholder="0"
-              type="number"
-              value={field.value}
-            />
-          )}
-        />
-      )}
+      {currentVariant === "targetBranch" && <TargetBranchInput fieldName={fieldName} />}
     </Box>
   );
 };

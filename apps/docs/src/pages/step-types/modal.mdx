@@ -33,7 +33,15 @@ Enabled by default.
 
 If enabled, the modal will be closed when the user clicks on the overlay and the flow will end. This gives the users quick way to dismiss the flow if they are not interested in it.
 
-Can be enabled only if the overlay is enabled.
+- Can be enabled only if the overlay is enabled.
+- Can't be combined with disable overlay click layer.
+
+### Disable overlay click layer
+
+If enabled, the overlay will not prevent the user from interacting with the elements behind it. This can be useful if you want to allow the user to interact with the page while the modal is open, or if you have complex UI elements that are not working correctly with the overlay.
+
+- Can be enabled only if the overlay is enabled.
+- Can't be combined with close on overlay click.
 
 ## Footer
 
@@ -56,3 +64,9 @@ The wait properties allow you to control what should the modal wait for before c
 ### Step ID
 
 Unique identifier of the step. This is optional but can be useful for programmatic control of the flow.
+
+### Modal z-index
+
+Custom z-index of the modal. This can be useful if the modal is not displayed correctly because of the z-index of other elements on the page. The value is applied only to the step where it's set.
+
+Defaults to CSS variable `var(--flows-zIndex)` from style template.
