@@ -8,12 +8,12 @@ const options = [
   {
     label: "Documentation",
     icon: Book16,
-    href: links.docs,
+    href: links.docs.home,
   },
   {
     label: "Contact support",
     icon: Question16,
-    href: links.docsContact,
+    href: links.docs.contact,
   },
   {
     label: "Send feedback",

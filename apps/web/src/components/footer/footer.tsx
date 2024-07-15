@@ -49,11 +49,11 @@ const footerGroups: FooterGroup[] = [
       },
       {
         title: "Docs",
-        href: links.docs,
+        href: links.docs.home,
       },
       {
         title: "Contact",
-        href: links.docsContact,
+        href: links.docs.contact,
         target: "_blank",
       },
       {

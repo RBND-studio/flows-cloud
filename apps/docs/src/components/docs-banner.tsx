@@ -11,7 +11,7 @@ export const DocsBanner = (): JSX.Element => {
           textDecoration: "underline!",
           fontWeight: "700!",
         })}
-        href={links.docsContact}
+        href={links.docs.contact}
       >
         contact us
       </a>
