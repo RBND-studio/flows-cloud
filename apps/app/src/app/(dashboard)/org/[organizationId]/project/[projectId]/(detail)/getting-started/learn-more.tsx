@@ -11,8 +11,7 @@ const content = [
   {
     title: "Migrate to Flows",
     description: "Transitioning to Flows from another platform? We can help!",
-    // TODO: Update this to use links const from shared after the refactor is merged
-    href: "https://flows.sh/docs/migrate-to-flows",
+    href: links.docs.migrateToFlows,
     icon: Versions16,
   },
   {

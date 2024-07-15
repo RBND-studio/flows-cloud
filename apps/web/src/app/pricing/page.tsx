@@ -47,8 +47,7 @@ const Page = (): ReactElement => {
         })}
       >
         <Flex flexDirection="column" gap="space12" maxW="800px">
-          {/* TODO: make this use const */}
-          <HeroCallout link="/docs/migrate-to-flows#transition-period">
+          <HeroCallout link={links.docs.migrateToFlows}>
             Switching from another platform? Get free usage!
           </HeroCallout>
           <Text align="center" as="h1" variant="title4xl">

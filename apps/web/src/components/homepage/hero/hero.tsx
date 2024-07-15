@@ -32,8 +32,7 @@ export const Hero = (): ReactElement => {
       sectionPadding="none"
     >
       <Flex flexDirection="column" gap="space12" maxW="728px">
-        {/* TODO: make this use const */}
-        <HeroCallout link="/docs/migrate-to-flows" delay={0.8}>
+        <HeroCallout link={links.docs.migrateToFlows} delay={0.8}>
           Transitioning to Flows from another platform? We can help!
         </HeroCallout>
         <Text
