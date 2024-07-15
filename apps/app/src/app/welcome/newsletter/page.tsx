@@ -1,7 +1,7 @@
 import { Flex } from "@flows/styled-system/jsx";
 import { Text } from "ui";
 
-import { SubscribeForm } from "./subscribe-form";
+import { NewsletterForm } from "./newsletter-form";
 
 export default function WelcomeSubscribePage(): JSX.Element {
   return (
@@ -13,7 +13,7 @@ export default function WelcomeSubscribePage(): JSX.Element {
         </Text>
       </Flex>
 
-      <SubscribeForm />
+      <NewsletterForm />
     </Flex>
   );
 }
