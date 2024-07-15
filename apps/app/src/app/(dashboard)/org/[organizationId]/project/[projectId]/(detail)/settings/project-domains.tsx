@@ -2,6 +2,7 @@
 
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
+import { SmartLink } from "components/ui/smart-link";
 import { mutate } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
 import { Plus16 } from "icons";
@@ -11,6 +12,7 @@ import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";
+import { links } from "shared";
 import { t } from "translations";
 import { Button, Description, Input, Text, toast } from "ui";
 
@@ -58,7 +60,12 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
     >
       <Flex flexDirection="column">
         <Text variant="titleL">{t.project.domains.domains}</Text>
-        <Text color="muted">{t.project.domains.description}</Text>
+        <Text color="muted">
+          {t.project.domains.description}{" "}
+          <SmartLink href={links.docs.projectDomains} target="_blank" color="text.primary">
+            Learn more
+          </SmartLink>
+        </Text>
       </Flex>
 
       <Flex direction="column" gap="space8">

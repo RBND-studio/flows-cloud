@@ -11,6 +11,7 @@ export * from "./src/cloud16";
 export * from "./src/code16";
 export * from "./src/comment16";
 export * from "./src/copy16";
+export * from "./src/external-link16";
 export * from "./src/eye16";
 export * from "./src/filter16";
 export * from "./src/flows16";

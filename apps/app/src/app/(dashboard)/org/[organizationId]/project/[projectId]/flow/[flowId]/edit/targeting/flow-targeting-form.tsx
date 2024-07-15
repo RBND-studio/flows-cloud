@@ -2,9 +2,11 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
+import { SmartLink } from "components/ui/smart-link";
 import { Plus16 } from "icons";
 import { type FC, Fragment } from "react";
 import { useFieldArray } from "react-hook-form";
+import { links } from "shared";
 import { t } from "translations";
 import { Button, Text } from "ui";
 
@@ -19,7 +21,12 @@ export const FlowTargetingForm: FC = () => {
     <Flex flexDirection="column">
       <Flex flexDirection="column" p="space16" borBottom="1px">
         <Text variant="titleL">{t.targeting.targeting}</Text>
-        <Text color="muted">{t.targeting.description}</Text>
+        <Text color="muted">
+          {t.targeting.description}{" "}
+          <SmartLink color="text.primary" href={links.docs.targetFlow} target="_blank">
+            Learn more
+          </SmartLink>
+        </Text>
       </Flex>
 
       <Box>
