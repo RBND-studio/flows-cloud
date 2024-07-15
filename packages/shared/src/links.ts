@@ -30,5 +30,6 @@ export const links = {
     makeFlowLive: "https://flows.sh/docs/creating-flows/enable-flow#making-your-flow-live",
     projectDomains: "https://flows.sh/docs/project-setup/project-domains",
     customStyles: "https://flows.sh/docs/customization-and-styling/custom-styles",
+    migrateToFlows: "https://flows.sh/docs/migrate-to-flows",
   },
 };

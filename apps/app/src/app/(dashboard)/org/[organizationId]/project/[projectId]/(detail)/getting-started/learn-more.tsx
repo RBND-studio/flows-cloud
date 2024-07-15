@@ -1,6 +1,6 @@
 import { css } from "@flows/styled-system/css";
 import { Flex, styled } from "@flows/styled-system/jsx";
-import { Book16, Info16, Question16, Slack16 } from "icons";
+import { Book16, Info16, Question16, Slack16, Versions16 } from "icons";
 import type { FC } from "react";
 import { links } from "shared";
 import { Icon, Text } from "ui";
@@ -8,6 +8,12 @@ import { Icon, Text } from "ui";
 import { NumberCircle } from "./number-circle";
 
 const content = [
+  {
+    title: "Migrate to Flows",
+    description: "Transitioning to Flows from another platform? We can help!",
+    href: links.docs.migrateToFlows,
+    icon: Versions16,
+  },
   {
     title: "Documentation",
     description: "Learn more about Flows and how to use it in your app.",
