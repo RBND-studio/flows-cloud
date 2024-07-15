@@ -2,10 +2,11 @@
 
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
-import { mutate } from "hooks/use-fetch";
+import { useFetch } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { routes } from "routes";
 import { links } from "shared";
@@ -15,23 +16,27 @@ type FormValues = {
   marketingConsent: boolean;
 };
 
-export const SubscribeForm = (): JSX.Element => {
+export const NewsletterForm = (): JSX.Element => {
+  const { data: me, mutate } = useFetch("/me");
+  const router = useRouter();
+  useEffect(() => {
+    if (me?.finished_welcome) router.replace(routes.home);
+  }, [me?.finished_welcome, router]);
+
   const { handleSubmit, control } = useForm<FormValues>({
     defaultValues: { marketingConsent: false },
   });
-  const router = useRouter();
   const { send, loading } = useSend();
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const requests: Promise<{ error?: Error }>[] = [
-      send(api["/me"]({ finished_welcome: true }), { errorMessage: null }),
+      send(api["PATCH /me"]({ finished_welcome: true }), { errorMessage: null }),
     ];
     if (data.marketingConsent)
       requests.push(send(api["POST /newsletter"](), { errorMessage: "Failed to subscribe" }));
 
     const responses = await Promise.all(requests);
     if (responses.some((res) => !!res.error)) return;
-    await mutate("/me");
-    router.replace(routes.home);
+    await mutate();
   };
 
   return (
