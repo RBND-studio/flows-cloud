@@ -1,8 +1,10 @@
 import type { FlowModalStep, FlowSteps, FlowTooltipStep, FlowWaitStep } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
+import { SmartLink } from "components/ui/smart-link";
 import { ChevronDown16 } from "icons";
 import { type FC, useMemo } from "react";
+import { links } from "shared";
 import { t } from "translations";
 import { Icon, Menu, MenuItem, Text } from "ui";
 
@@ -51,7 +53,7 @@ export const StepForm: FC<Props> = ({ index }) => {
 
   return (
     <>
-      <Flex gap="space16" justifyContent="space-between" mb="space12">
+      <Flex gap="space16" justifyContent="space-between" alignItems="center" mb="space12">
         <Flex alignItems="center" gap="space16" ml="-space8">
           <Menu
             trigger={
@@ -82,10 +84,12 @@ export const StepForm: FC<Props> = ({ index }) => {
               </MenuItem>
             ))}
           </Menu>
-          <Text color="subtle" variant="bodyS">
-            {index}
-          </Text>
         </Flex>
+        <Text>
+          <SmartLink color="text.primary" href={links.docs.step[stepType]} target="_blank">
+            Learn about {t.steps.stepType[stepType]}
+          </SmartLink>
+        </Text>
       </Flex>
 
       {stepType === "tooltip" && <TooltipStepForm index={index} />}

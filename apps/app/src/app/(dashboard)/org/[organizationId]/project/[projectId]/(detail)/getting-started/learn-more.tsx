@@ -18,7 +18,7 @@ const content = [
   {
     title: "Documentation",
     description: "Learn more about Flows and how to use it in your app.",
-    href: links.docs,
+    href: links.docs.home,
     icon: Book16,
   },
   {
@@ -30,7 +30,7 @@ const content = [
   {
     title: "Contact support",
     description: "Get in touch with our support team for help with your account.",
-    href: links.docsContact,
+    href: links.docs.contact,
     icon: Question16,
   },
 ];
