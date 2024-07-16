@@ -67,7 +67,9 @@ export const t = {
     stepType: {
       tooltip: "Tooltip",
       modal: "Modal",
+      banner: "Banner",
       wait: "Wait",
+      fork: "Fork",
     },
     placement: {
       top: "Top",

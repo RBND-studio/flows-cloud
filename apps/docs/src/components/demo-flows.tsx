@@ -32,6 +32,18 @@ export const DemoFlows: FC = () => {
           ],
         },
         {
+          id: "banner",
+          rootElement: ".banner-root",
+          frequency: "every-time",
+          steps: [
+            {
+              type: "banner",
+              title: "Banner",
+              body: "This is a content of a banner. <br/> You can show announcements to users without interrupting their workflow.",
+            },
+          ],
+        },
+        {
           id: "wait",
           rootElement: ".wait-root",
           frequency: "every-time",

@@ -3,7 +3,7 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { Close16, Comment16, Flows16, Hourglass16, Plus16 } from "icons";
 import type { FC } from "react";
-import { plural } from "translations";
+import { plural, t } from "translations";
 import { Button, Icon, Menu, MenuItem, Text } from "ui";
 
 import { useFlowEditForm } from "../edit-constants";
@@ -25,6 +25,8 @@ type Props = {
 const stepTypeIcon = {
   Tooltip: Comment16,
   Modal: Flows16,
+  // TODO: Add banner icon
+  Banner: Flows16,
   Wait: Hourglass16,
 };
 
@@ -50,9 +52,10 @@ export const StepsFlowStep: FC<Props> = ({
     return "";
   })();
   const stepType = (() => {
-    if ("targetElement" in step) return "Tooltip";
-    if ("title" in step) return "Modal";
-    return "Wait";
+    if ("targetElement" in step) return t.steps.stepType.tooltip;
+    if ("type" in step && step.type === "banner") return t.steps.stepType.banner;
+    if ("title" in step) return t.steps.stepType.modal;
+    return t.steps.stepType.wait;
   })();
 
   const handleClick = (): void => onSelect(index);
@@ -152,10 +155,11 @@ const AddButton: FC<{
         }
       >
         {[
-          { label: "Tooltip", value: STEP_DEFAULT.tooltip },
-          { label: "Modal", value: STEP_DEFAULT.modal },
-          { label: "Wait", value: STEP_DEFAULT.wait },
-          ...(allowFork ? [{ label: "Fork", value: [STEP_DEFAULT.fork] }] : []),
+          { label: t.steps.stepType.tooltip, value: STEP_DEFAULT.tooltip },
+          { label: t.steps.stepType.modal, value: STEP_DEFAULT.modal },
+          { label: t.steps.stepType.banner, value: STEP_DEFAULT.banner },
+          { label: t.steps.stepType.wait, value: STEP_DEFAULT.wait },
+          ...(allowFork ? [{ label: t.steps.stepType.fork, value: [STEP_DEFAULT.fork] }] : []),
         ].map((item) => (
           <MenuItem key={item.label} onClick={() => onAdd(item.value)}>
             {item.label}

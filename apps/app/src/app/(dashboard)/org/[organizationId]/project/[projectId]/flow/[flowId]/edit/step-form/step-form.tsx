@@ -1,4 +1,10 @@
-import type { FlowModalStep, FlowSteps, FlowTooltipStep, FlowWaitStep } from "@flows/js";
+import type {
+  FlowBannerStep,
+  FlowModalStep,
+  FlowSteps,
+  FlowTooltipStep,
+  FlowWaitStep,
+} from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { SmartLink } from "components/ui/smart-link";
@@ -9,6 +15,7 @@ import { t } from "translations";
 import { Icon, Menu, MenuItem, Text } from "ui";
 
 import { useFlowEditForm } from "../edit-constants";
+import { BannerStepForm } from "./banner-step-form";
 import { ModalStepForm } from "./modal-step-form";
 import { TooltipStepForm } from "./tooltip-step-form";
 import { WaitStepForm } from "./wait-step-form";
@@ -24,11 +31,17 @@ const DEFAULT_TOOLTIP: FlowTooltipStep = {
   overlay: true,
 };
 const DEFAULT_MODAL: FlowModalStep = { title: "Modal Title", body: "Lorem ipsum dolor sit.." };
+const DEFAULT_BANNER: FlowBannerStep = {
+  title: "Banner Title",
+  body: "Lorem ipsum dolor sit..",
+  type: "banner",
+};
 const DEFAULT_WAIT: FlowWaitStep = { wait: [] };
 const FORK_DEFAULT: FlowSteps[number] = [[DEFAULT_TOOLTIP], [DEFAULT_TOOLTIP]];
 export const STEP_DEFAULT = {
   tooltip: DEFAULT_TOOLTIP,
   modal: DEFAULT_MODAL,
+  banner: DEFAULT_BANNER,
   wait: DEFAULT_WAIT,
   fork: FORK_DEFAULT,
 };
@@ -39,12 +52,16 @@ export const StepForm: FC<Props> = ({ index }) => {
 
   const stepValue = watch(stepKey);
 
-  const stepType =
-    "targetElement" in stepValue ? "tooltip" : "title" in stepValue ? "modal" : "wait";
+  const stepType = (() => {
+    if ("targetElement" in stepValue) return "tooltip";
+    if ("type" in stepValue && stepValue.type === "banner") return "banner";
+    if ("title" in stepValue) return "modal";
+    return "wait";
+  })();
 
   const typeOptions = useMemo(
     () =>
-      (["tooltip", "modal", "wait"] as const).map((value) => ({
+      (["tooltip", "modal", "banner", "wait"] as const).map((value) => ({
         value,
         label: t.steps.stepType[value],
       })),
@@ -94,6 +111,7 @@ export const StepForm: FC<Props> = ({ index }) => {
 
       {stepType === "tooltip" && <TooltipStepForm index={index} />}
       {stepType === "modal" && <ModalStepForm index={index} />}
+      {stepType === "banner" && <BannerStepForm index={index} />}
       {stepType === "wait" && <WaitStepForm index={index} />}
     </>
   );

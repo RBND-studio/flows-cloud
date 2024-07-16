@@ -42,6 +42,16 @@ export const featuresData: FeatureGridTypes[] = [
         icon: Flows16,
       },
       {
+        // TODO: update text and icon
+        mainSlot: (
+          <>
+            <span>Banner.</span> Display larger amounts of content.
+          </>
+        ),
+        link: `${routes.featuresFlowSteps}#banner`,
+        icon: Flows16,
+      },
+      {
         mainSlot: (
           <>
             <span>Wait.</span> Give users time to complete an action.
