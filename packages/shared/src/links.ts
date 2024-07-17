@@ -22,6 +22,7 @@ export const links = {
     step: {
       tooltip: "https://flows.sh/docs/step-types/tooltip",
       modal: "https://flows.sh/docs/step-types/modal",
+      banner: "https://flows.sh/docs/step-types/banner",
       wait: "https://flows.sh/docs/step-types/wait",
     },
     branchTargeting: "https://flows.sh/docs/step-types/fork#targeting-branches",

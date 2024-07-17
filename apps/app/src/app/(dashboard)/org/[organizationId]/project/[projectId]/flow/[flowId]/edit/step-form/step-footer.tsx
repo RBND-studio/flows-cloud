@@ -87,7 +87,7 @@ export const StepFooter: FC<Props> = ({ index }) => {
       <Flex flexDirection="column" mb="space8">
         <Text variant="titleS">Custom actions</Text>
         <Text color="muted" variant="bodyS">
-          Add custom actions to the footer of the tooltip
+          Add custom actions to the footer of the step
         </Text>
       </Flex>
       <Flex gap="space16" flexDirection="column">

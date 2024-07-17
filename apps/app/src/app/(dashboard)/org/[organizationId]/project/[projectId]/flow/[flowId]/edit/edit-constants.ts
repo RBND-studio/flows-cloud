@@ -1,4 +1,5 @@
 import type {
+  FlowBannerStep,
   FlowModalStep,
   FlowStep,
   FlowSteps,
@@ -25,7 +26,11 @@ type ModalStep = Omit<FlowModalStep, "wait" | "footerActions"> & {
   wait?: WaitOptions | WaitOptions[];
   footerActions?: IFooterActions;
 };
-type IStep = TooltipStep | ModalStep | FlowWaitStep;
+type BannerStep = Omit<FlowBannerStep, "wait" | "footerActions"> & {
+  wait?: WaitOptions | WaitOptions[];
+  footerActions?: IFooterActions;
+};
+type IStep = TooltipStep | ModalStep | BannerStep | FlowWaitStep;
 type Step = IStep | IStep[][];
 
 export type IFlowEditForm = Pick<UpdateFlow, "frequency"> & {

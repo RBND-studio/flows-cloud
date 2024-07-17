@@ -15,7 +15,7 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@flows/js": "0.1.0",
+    "@flows/js": "0.2.0",
     "@hookform/resolvers": "^3.6.0",
     "@marsidev/react-turnstile": "^0.7.2",
     "@monaco-editor/react": "^4.6.0",

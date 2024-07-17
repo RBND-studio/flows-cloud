@@ -2,11 +2,12 @@
 
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { Comment16, Flows16, Hourglass16 } from "icons";
+import { Banner16, Comment16, Flows16, Hourglass16 } from "icons";
 import Link from "next/link";
 import { type FC } from "react";
 import { type UseFieldArrayReturn } from "react-hook-form";
 import { links } from "shared";
+import { t } from "translations";
 import { Button, Icon, Text } from "ui";
 
 import { type IFlowEditForm } from "./edit-constants";
@@ -43,19 +44,26 @@ export const EditFormEmpty: FC<Props> = ({ fieldArray }) => {
       <Flex flexDirection="column" gap="space8" width="100%">
         {[
           {
-            label: "Tooltip",
+            label: t.steps.stepType.tooltip,
             icon: Comment16,
             value: STEP_DEFAULT.tooltip,
             description: "Show a tooltip with a message",
           },
           {
-            label: "Modal",
+            label: t.steps.stepType.modal,
             icon: Flows16,
             value: STEP_DEFAULT.modal,
             description: "Show a modal with a message",
           },
+
           {
-            label: "Wait",
+            label: t.steps.stepType.banner,
+            icon: Banner16,
+            value: STEP_DEFAULT.banner,
+            description: "Show a banner with a message",
+          },
+          {
+            label: t.steps.stepType.wait,
             icon: Hourglass16,
             value: STEP_DEFAULT.wait,
             description: "Wait for user to perform an action",
