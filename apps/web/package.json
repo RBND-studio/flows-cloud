@@ -14,7 +14,7 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^14.2.4",
+    "@next/bundle-analyzer": "^14.2.5",
     "@radix-ui/react-slot": "^1.1.0",
     "@rbnd/react-dark-mode": "^2.0.1",
     "contentlayer": "^0.3.4",
