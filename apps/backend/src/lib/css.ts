@@ -2,7 +2,7 @@ import { retry } from "./retry";
 
 const verifyVersion = (version: string): string => {
   if (version === "latest") return version;
-  const isSemVer = /^\d+\.\d+\.\d+$/.test(version);
+  const isSemVer = /^\d+\.\d+\.\d+(?:-canary\.\d+)?$/.test(version);
   if (isSemVer) return version;
   return "latest";
 };

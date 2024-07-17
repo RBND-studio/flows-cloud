@@ -97,6 +97,7 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
         ref={rootRef}
         overflow="hidden"
         transform="translate3d(0,0,0)"
+        borBottom="1px"
         {...{
           "& .flows-root *": { pointerEvents: "none!" },
         }}
