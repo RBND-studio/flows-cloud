@@ -1,7 +1,7 @@
 import { type FlowSteps } from "@flows/js";
 import { css } from "@flows/styled-system/css";
 import { Box, Flex, Grid } from "@flows/styled-system/jsx";
-import { Close16, Comment16, Flows16, Hourglass16, Plus16 } from "icons";
+import { Banner16, Close16, Comment16, Flows16, Hourglass16, Plus16 } from "icons";
 import type { FC } from "react";
 import { plural, t } from "translations";
 import { Button, Icon, Menu, MenuItem, Text } from "ui";
@@ -25,8 +25,7 @@ type Props = {
 const stepTypeIcon = {
   Tooltip: Comment16,
   Modal: Flows16,
-  // TODO: Add banner icon
-  Banner: Flows16,
+  Banner: Banner16,
   Wait: Hourglass16,
 };
 

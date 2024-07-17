@@ -13,6 +13,7 @@ import type { ReactElement } from "react";
 import { Text } from "ui";
 
 import { metadata as featuresLayoutMetadata } from "../../layout";
+import bannerImage from "./banner.png";
 import modalImage from "./modal.png";
 import tooltipImage from "./tooltip.png";
 import waitImage from "./wait.png";
@@ -83,7 +84,7 @@ export default function Page(): ReactElement {
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
           When text alone isn’t enough, write your own HTML to create anything you imagine. Custom
-          HTML is supported in tooltips too.
+          HTML is supported in tooltips and banners too.
         </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
@@ -91,24 +92,15 @@ export default function Page(): ReactElement {
           Banner
         </Text>
         <Text className={ParagraphStyles} color="muted" variant="bodyL">
-          {/* TODO: update text */}
-          Banners are similar to modals but are less intrusive.
+          Banners are great for announcing important information to users. Use them to draw
+          attention to new features, updates, or any other important information.
         </Text>
         <Image
           alt="Banner"
           className={ImageStyles}
-          // TODO: update image
-          src={modalImage}
+          src={bannerImage}
           sizes="(max-width: 768px) 100vw, 750px"
         />
-        <Text as="h3" className={Heading3styles} variant="titleL">
-          Custom HTML content
-        </Text>
-        <Text className={ParagraphStyles} color="muted" variant="bodyL">
-          {/* TODO: update text */}
-          When text alone isn’t enough, write your own HTML to create anything you imagine. Custom
-          HTML is supported in tooltips too.
-        </Text>
       </Box>
       <Box borBottom="1px" mb="space40" pb="space40">
         <Text as="h2" className={Heading2styles} id="wait" variant="title2xl">

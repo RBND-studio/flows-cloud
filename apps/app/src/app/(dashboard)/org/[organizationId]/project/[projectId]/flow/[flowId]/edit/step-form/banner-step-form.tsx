@@ -32,7 +32,7 @@ export const BannerStepForm: FC<Props> = ({ index }) => {
           <Input
             {...register(`${stepKey}.title`)}
             defaultValue={initialValue.title}
-            description="HTML title of the modal"
+            description="HTML title of the banner"
             className={css({ mb: "space16" })}
             label="Title"
           />
@@ -40,7 +40,7 @@ export const BannerStepForm: FC<Props> = ({ index }) => {
             {...register(`${stepKey}.body`)}
             asChild
             defaultValue={initialValue.body}
-            description="HTML content of the modal"
+            description="HTML content of the banner"
             inputClassName={css({ height: "unset!" })}
             label="Body"
           >

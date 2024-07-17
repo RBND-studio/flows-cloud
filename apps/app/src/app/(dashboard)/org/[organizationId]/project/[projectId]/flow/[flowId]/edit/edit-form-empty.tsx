@@ -2,7 +2,7 @@
 
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { Comment16, Flows16, Hourglass16 } from "icons";
+import { Banner16, Comment16, Flows16, Hourglass16 } from "icons";
 import Link from "next/link";
 import { type FC } from "react";
 import { type UseFieldArrayReturn } from "react-hook-form";
@@ -58,8 +58,7 @@ export const EditFormEmpty: FC<Props> = ({ fieldArray }) => {
 
           {
             label: t.steps.stepType.banner,
-            // TODO: replace the icon
-            icon: Flows16,
+            icon: Banner16,
             value: STEP_DEFAULT.banner,
             description: "Show a banner with a message",
           },
