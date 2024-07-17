@@ -54,6 +54,7 @@ export const StepForm: FC<Props> = ({ index }) => {
 
   const stepType = (() => {
     if ("targetElement" in stepValue) return "tooltip";
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- remove when all step have type
     if ("type" in stepValue && stepValue.type === "banner") return "banner";
     if ("title" in stepValue) return "modal";
     return "wait";

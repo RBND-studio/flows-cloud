@@ -53,6 +53,7 @@ export const StepsFlowStep: FC<Props> = ({
   })();
   const stepType = (() => {
     if ("targetElement" in step) return t.steps.stepType.tooltip;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- remove when all step have type
     if ("type" in step && step.type === "banner") return t.steps.stepType.banner;
     if ("title" in step) return t.steps.stepType.modal;
     return t.steps.stepType.wait;
