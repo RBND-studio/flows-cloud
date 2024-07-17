@@ -1,0 +1,61 @@
+---
+title: Banner step
+description: Banner is a floating card that appears in the corner of the screen.
+---
+
+# Banner step
+
+Banner is a floating card that appears in the corner of the screen. It is typically used to announce new features without interrupting the user's workflow.
+
+<Demo variant="banner" />
+
+## General properties
+
+### Title
+
+Bold text at the top of the banner used to introduce the step. Supports HTML.
+
+### Body
+
+Main content of the banner used to provide more information about the step. Supports HTML.
+
+### Banner position
+
+Position of the banner on the screen. You can choose from the following options:
+
+- Top left
+- Top right
+- Bottom left
+- Bottom right
+
+### Hide close button
+
+If enabled, the close button will not be shown in the banner. This can be useful if you want to force the user to interact with the banner before continuing. Use this option with caution, as it can make the onboardings less user-friendly.
+
+## Footer
+
+The footer properties allow you to customize the footer buttons of the banner.
+
+<SectionLink href="/step-types/shared-properties/footer-properties">
+  Learn more about the footer properties →
+</SectionLink>
+
+## Wait
+
+The wait properties allow you to control what should the banner wait for before continuing to the next step.
+
+<SectionLink href="/step-types/shared-properties/wait-properties">
+  Learn more about the wait properties →
+</SectionLink>
+
+## Advanced
+
+### Step ID
+
+Unique identifier of the step. This is optional but can be useful for programmatic control of the flow.
+
+### Banner z-index
+
+Custom z-index of the banner. This can be useful if the banner is not displayed correctly because of the z-index of other elements on the page. The value is applied only to the step where it's set.
+
+Defaults to CSS variable `var(--flows-zIndex)` from style template.

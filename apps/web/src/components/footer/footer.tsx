@@ -172,6 +172,8 @@ export const Footer = (): ReactElement => {
                 <Text
                   asChild
                   className={css({
+                    display: "flex",
+                    gap: "space4",
                     padding: "space8 ",
                     mx: "-space8 ",
                     "&:hover": {

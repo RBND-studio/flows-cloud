@@ -1,5 +1,10 @@
 import type { FlowStep } from "@flows/js/core";
-import { renderModalElement, renderTooltipElement, updateTooltip } from "@flows/js/core";
+import {
+  renderBannerElement,
+  renderModalElement,
+  renderTooltipElement,
+  updateTooltip,
+} from "@flows/js/core";
 import { css } from "@flows/styled-system/css";
 import { Box } from "@flows/styled-system/jsx";
 import { useFetch } from "hooks/use-fetch";
@@ -63,6 +68,13 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
         placement: step.placement,
       });
       renderEl = res.root;
+    } else if (
+      "type" in step &&
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- remove when all step have type
+      step.type === "banner"
+    ) {
+      const res = renderBannerElement({ step, isFirstStep, isLastStep });
+      renderEl = res.root;
     } else {
       const res = renderModalElement({ step, isFirstStep, isLastStep });
       renderEl = res.root;
@@ -85,6 +97,7 @@ export const StepPreview: FC<Props> = ({ selectedStep }) => {
         ref={rootRef}
         overflow="hidden"
         transform="translate3d(0,0,0)"
+        borBottom="1px"
         {...{
           "& .flows-root *": { pointerEvents: "none!" },
         }}

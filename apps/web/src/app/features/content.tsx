@@ -2,6 +2,7 @@ import { css } from "@flows/styled-system/css";
 import type { FeatureGridTypes } from "components/feature-grid";
 import {
   Alert16,
+  Banner16,
   Comment16,
   Eye16,
   Filter16,
@@ -40,6 +41,15 @@ export const featuresData: FeatureGridTypes[] = [
         ),
         link: `${routes.featuresFlowSteps}#modal`,
         icon: Flows16,
+      },
+      {
+        mainSlot: (
+          <>
+            <span>Banner.</span> Announce important information.
+          </>
+        ),
+        link: `${routes.featuresFlowSteps}#banner`,
+        icon: Banner16,
       },
       {
         mainSlot: (

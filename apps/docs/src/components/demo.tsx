@@ -6,7 +6,7 @@ import { type FC, useEffect } from "react";
 import { useFirstRender } from "../hooks/use-first-render";
 
 type Props = {
-  variant: "tooltip" | "modal" | "wait" | "fork";
+  variant: "tooltip" | "modal" | "banner" | "wait" | "fork";
 };
 
 //TODO: add reset option
@@ -48,6 +48,20 @@ export const Demo: FC<Props> = ({ variant }) => {
         bg="bg.muted"
         bor="1px!"
         className="modal-root"
+        height="320px"
+        marginY="space24"
+        overflow="hidden"
+        rounded="radius8"
+        transform="translate3d(0,0,0)"
+      />
+    );
+
+  if (variant === "banner")
+    return (
+      <Box
+        bg="bg.muted"
+        bor="1px!"
+        className="banner-root"
         height="320px"
         marginY="space24"
         overflow="hidden"
