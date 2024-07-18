@@ -43,25 +43,8 @@ To protect your users' privacy Flows don’t store any personal data about your 
 
 ## Reset user progress
 
-You can reset which flows has user already seen either by calling a function from the SDK or by entering `userId` manually in the Flows cloud.
+You can reset which flows the user has already seen, either by calling a function from the SDK or by entering `userId` manually in the Flows cloud.
 
-### Reset from SDK
-
-To reset from SDK make sure you [identify user first](#). Calling one of the following functions will reset the progress for the given `userId`.
-
-```js
-import { resetFlow, resetAllFlows } from "@flows/js"
-
-// Reset single flow
-resetFlow("my-flow")
-
-// Reset all flows
-resetAllFlows()
-```
-
-### Reset from Flows cloud
-
-{/* TODO: make sure this reflects the actual workflow after UI review is made */}
-{/* TODO: currently it resets all flows, we can easily add option to reset single flow (implemented on the BE) */}
-
-Open your project settings for the project you want to reset the user progress for. Enter the `userId` you want to reset the progress for and click the "Reset user progress" button.
+<SectionLink href="/project-setup/reset-user-progress">
+  Learn how to reset user progress →
+</SectionLink>

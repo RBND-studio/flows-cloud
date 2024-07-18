@@ -1,10 +1,13 @@
 "use client";
 
-import { Box } from "@flows/styled-system/jsx";
+import { css } from "@flows/styled-system/css";
+import { Box, Flex } from "@flows/styled-system/jsx";
+import { SmartLink } from "components/ui/smart-link";
 import { useSend } from "hooks/use-send";
 import { api, type ProjectDetail } from "lib/api";
 import { type FC } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { links } from "shared";
 import { plural } from "translations";
 import { Button, Input, Text, toast } from "ui";
 
@@ -38,21 +41,40 @@ export const ProjectUserProgressDelete: FC<Props> = ({ project }) => {
 
   return (
     <Box cardWrap="-" p="space16">
-      <Text variant="titleL" mb="space16">
-        Project users
-      </Text>
+      <Flex flexDirection="column" mb="space16">
+        <Text variant="titleL">Reset user progress</Text>
+        <Text color="muted">
+          Reset progress of a user for all flows in this project.
+          <SmartLink color="text.primary" target="_blank" href={links.docs.resetFlow}>
+            Learn more
+          </SmartLink>
+        </Text>
+      </Flex>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input {...register("userId", { required: true })} label="User ID" />
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={css({
+          display: "flex",
+          gap: "space8",
+          alignItems: "flex-end",
+        })}
+      >
+        <Input
+          {...register("userId", { required: true })}
+          label="User ID"
+          description="Identifier of the user whose progress you want to reset. This is the same property you use in the flows init method."
+          className={css({
+            flex: 1,
+          })}
+        />
         <Button
-          size="small"
           type="submit"
-          variant="secondary"
+          variant="danger"
           disabled={!formState.isValid}
           loading={loading}
-          mt="space12"
+          mb="space20"
         >
-          Delete progress
+          Reset progress
         </Button>
       </form>
     </Box>
