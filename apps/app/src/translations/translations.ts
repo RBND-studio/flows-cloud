@@ -67,7 +67,9 @@ export const t = {
     stepType: {
       tooltip: "Tooltip",
       modal: "Modal",
+      banner: "Banner",
       wait: "Wait",
+      fork: "Fork",
     },
     placement: {
       top: "Top",
@@ -82,6 +84,12 @@ export const t = {
       "bottom-end": "Bottom end",
       "left-start": "Left start",
       "left-end": "Left end",
+    },
+    bannerPosition: {
+      "top-left": "Top left",
+      "top-right": "Top right",
+      "bottom-left": "Bottom left",
+      "bottom-right": "Bottom right",
     },
     stepIdLabel: "Step ID",
     stepIdDescription: "Unique ID of the step. Useful for programmatic control of the flow.",

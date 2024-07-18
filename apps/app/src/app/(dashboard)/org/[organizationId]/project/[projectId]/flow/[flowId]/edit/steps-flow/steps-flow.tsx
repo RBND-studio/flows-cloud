@@ -2,6 +2,7 @@ import { Flex, Grid } from "@flows/styled-system/jsx";
 import { Plus16 } from "icons";
 import { type FC, Fragment } from "react";
 import { type UseFieldArrayReturn } from "react-hook-form";
+import { t } from "translations";
 import { Button, Menu, MenuItem } from "ui";
 
 import { type IFlowEditForm, type SelectedItem, useFlowEditForm } from "../edit-constants";
@@ -73,10 +74,11 @@ export const StepsFlow: FC<Props> = ({ onSelectItem, selectedItem, fieldArray })
           }
         >
           {[
-            { label: "Tooltip", value: STEP_DEFAULT.tooltip },
-            { label: "Modal", value: STEP_DEFAULT.modal },
-            { label: "Wait", value: STEP_DEFAULT.wait },
-            { label: "Fork", value: [STEP_DEFAULT.fork] },
+            { label: t.steps.stepType.tooltip, value: STEP_DEFAULT.tooltip },
+            { label: t.steps.stepType.modal, value: STEP_DEFAULT.modal },
+            { label: t.steps.stepType.banner, value: STEP_DEFAULT.banner },
+            { label: t.steps.stepType.wait, value: STEP_DEFAULT.wait },
+            { label: t.steps.stepType.fork, value: [STEP_DEFAULT.fork] },
           ].map((item) => (
             <MenuItem key={item.label} onClick={() => append(item.value)}>
               {item.label}
