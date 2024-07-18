@@ -4,22 +4,21 @@ import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { SmartLink } from "components/ui/smart-link";
 import { useSend } from "hooks/use-send";
-import { api, type ProjectDetail } from "lib/api";
+import { api, type FlowDetail } from "lib/api";
 import { type FC } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { links } from "shared";
-import { plural } from "translations";
 import { Button, Input, Text, toast } from "ui";
 
 type Props = {
-  project: ProjectDetail;
+  flow: FlowDetail;
 };
 
 type IForm = {
   userId: string;
 };
 
-export const ProjectUserProgressDelete: FC<Props> = ({ project }) => {
+export const FlowResetUserProgress: FC<Props> = ({ flow }) => {
   const { register, reset, handleSubmit, formState } = useForm<IForm>({
     defaultValues: { userId: "" },
   });
@@ -27,14 +26,14 @@ export const ProjectUserProgressDelete: FC<Props> = ({ project }) => {
   const { loading, send } = useSend();
   const onSubmit: SubmitHandler<IForm> = async (data) => {
     const res = await send(
-      api["DELETE /projects/:projectId/users/:userId/progress"](project.id, data.userId, {}),
+      api["DELETE /projects/:projectId/users/:userId/progress"](flow.project_id, data.userId, {
+        flowId: flow.id,
+      }),
       { errorMessage: "Failed to delete user progress" },
     );
     if (!res.data) return;
     const count = res.data.deletedCount;
-    const message = count
-      ? `Deleted progress of ${count} ${plural(count, "flow", "flows")}`
-      : "No progress found";
+    const message = count ? "Successfully reset user progress" : "No progress found";
     toast.success(message);
     reset();
   };
@@ -44,7 +43,7 @@ export const ProjectUserProgressDelete: FC<Props> = ({ project }) => {
       <Flex flexDirection="column" mb="space16">
         <Text variant="titleL">Reset user progress</Text>
         <Text color="muted">
-          Reset progress of a user for all flows in this project.{" "}
+          Reset progress of a user for this flow.{" "}
           <SmartLink color="text.primary" target="_blank" href={links.docs.resetFlow}>
             Learn more
           </SmartLink>
