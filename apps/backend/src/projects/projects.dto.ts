@@ -40,3 +40,7 @@ export class CompleteUpdateProjectDto extends CreateProjectDto {
 }
 
 export class UpdateProjectDto extends PartialType(CompleteUpdateProjectDto) {}
+
+export class DeleteProgressResponseDto {
+  deletedCount: number;
+}

@@ -3,19 +3,19 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { type Auth, Authorization } from "../auth";
 import { UUIDParam } from "../lib/uuid";
-import type { AcceptInviteResponseDto, GetMeDto } from "./users.dto";
-import { JoinWaitlistDto, UpdateMeDto } from "./users.dto";
-import { UsersService } from "./users.service";
+import type { AcceptInviteResponseDto, GetMeDto } from "./members.dto";
+import { JoinWaitlistDto, UpdateMeDto } from "./members.dto";
+import { MembersService } from "./members.service";
 
-@ApiTags("users")
+@ApiTags("members")
 @ApiBearerAuth()
 @Controller()
-export class UsersController {
-  constructor(private usersService: UsersService) {}
+export class MembersController {
+  constructor(private membersService: MembersService) {}
 
   @Get("me")
   me(@Authorization() auth: Auth): Promise<GetMeDto> {
-    return this.usersService.me({ auth });
+    return this.membersService.me({ auth });
   }
 
   @Post("invites/:inviteId/accept")
@@ -23,12 +23,12 @@ export class UsersController {
     @Authorization() auth: Auth,
     @UUIDParam("inviteId") inviteId: string,
   ): Promise<AcceptInviteResponseDto> {
-    return this.usersService.acceptInvite({ auth, inviteId });
+    return this.membersService.acceptInvite({ auth, inviteId });
   }
 
   @Patch("me")
   updateMe(@Authorization() auth: Auth, @Body() body: UpdateMeDto): Promise<void> {
-    return this.usersService.updateProfile({ auth, data: body });
+    return this.membersService.updateProfile({ auth, data: body });
   }
 
   @Post("invites/:inviteId/decline")
@@ -36,22 +36,22 @@ export class UsersController {
     @Authorization() auth: Auth,
     @UUIDParam("inviteId") inviteId: string,
   ): Promise<void> {
-    return this.usersService.declineInvite({ auth, inviteId });
+    return this.membersService.declineInvite({ auth, inviteId });
   }
 
   @Post("waitlist")
   joinWaitlist(@Body() body: JoinWaitlistDto): Promise<void> {
-    return this.usersService.joinWaitlist({ data: body });
+    return this.membersService.joinWaitlist({ data: body });
   }
 
   @Post("newsletter")
   joinNewsletter(@Authorization() auth: Auth): Promise<void> {
-    return this.usersService.joinNewsletter({ auth });
+    return this.membersService.joinNewsletter({ auth });
   }
 
   @Delete("me")
   deleteAccount(@Authorization() auth: Auth): Promise<void> {
-    return this.usersService.deleteUser({ auth });
+    return this.membersService.deleteUser({ auth });
   }
 
   @Delete("me/identities/:providerId")
@@ -59,6 +59,6 @@ export class UsersController {
     @Authorization() auth: Auth,
     @Param("providerId") providerId: string,
   ): Promise<void> {
-    return this.usersService.deleteIdentity({ auth, providerId });
+    return this.membersService.deleteIdentity({ auth, providerId });
   }
 }

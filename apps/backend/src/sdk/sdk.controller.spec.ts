@@ -1,5 +1,5 @@
 import { Test } from "@nestjs/testing";
-import { events, flows } from "db";
+import { events, flows, flowUserProgresses } from "db";
 
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
@@ -96,7 +96,6 @@ describe("Get flows", () => {
   beforeEach(() => {
     db.query.flows.findMany.mockReturnValue(mockFlows);
     organizationUsageService.getIsOrganizationLimitReachedByProject.mockResolvedValue(false);
-    db.orderBy.mockResolvedValue([{ flow_id: "f1", event_time: new Date() }]);
   });
   it("should throw with not allowed origin", async () => {
     dbPermissionService.isAllowedOrigin.mockRejectedValue(new Error());
@@ -154,6 +153,7 @@ describe("Get flows", () => {
     });
   });
   it("should not return flows if user already seen it", async () => {
+    db.query.flowUserProgresses.findMany.mockResolvedValue([{ flow_id: "f1" }]);
     await expect(
       sdkController.getFlows("https://example.com", "projId", "userHash"),
     ).resolves.toEqual([
@@ -230,31 +230,48 @@ describe("Create event", () => {
       "error saving event",
     );
   });
+  it("should not create progress record without userHash", async () => {
+    await expect(
+      sdkController.createEvent("https://example.com", {
+        ...createEventDto,
+        type: "finishFlow",
+        userHash: undefined,
+      }),
+    ).resolves.toEqual({ id: "newEventId" });
+    expect(db.insert).toHaveBeenCalledWith(events);
+    expect(db.insert).not.toHaveBeenCalledWith(flowUserProgresses);
+    expect(db.values).toHaveBeenCalledTimes(1);
+  });
   it("should create local flow if it doesn't exist", async () => {
     db.returning.mockReset();
     db.returning.mockResolvedValueOnce([{ id: "newFlowId" }]);
     db.returning.mockResolvedValueOnce([{ id: "newEventId" }]);
     db.query.flows.findFirst.mockReturnValue(null);
     await expect(sdkController.createEvent("https://example.com", createEventDto)).resolves.toEqual(
-      {
-        id: "newEventId",
-      },
+      { id: "newEventId" },
     );
     expect(db.insert).toHaveBeenCalledWith(flows);
   });
-  it("should insert into database", async () => {
+  it("should create db event and not user progress for startFlow", async () => {
     await expect(sdkController.createEvent("https://example.com", createEventDto)).resolves.toEqual(
-      {
-        id: "newEventId",
-      },
+      { id: "newEventId" },
     );
     expect(db.insert).toHaveBeenCalledWith(events);
-    expect(db.values).toHaveBeenCalled();
+    expect(db.values).toHaveBeenCalledTimes(1);
     expect(lemonSqueezyService.createUsageRecord).toHaveBeenCalledWith({
       quantity: 1,
       subscriptionItemId: "subItemId",
       action: "increment",
     });
+  });
+  it("should create db event and user progress for finishFlow", async () => {
+    await expect(
+      sdkController.createEvent("https://example.com", { ...createEventDto, type: "finishFlow" }),
+    ).resolves.toEqual({ id: "newEventId" });
+    expect(db.insert).toHaveBeenCalledWith(events);
+    expect(db.insert).toHaveBeenCalledWith(flowUserProgresses);
+    expect(db.values).toHaveBeenCalledTimes(2);
+    expect(lemonSqueezyService.createUsageRecord).not.toHaveBeenCalled();
   });
 });
 
@@ -390,5 +407,30 @@ describe("Delete event", () => {
       sdkController.deleteEvent("https://example.com", "eventId"),
     ).resolves.toBeUndefined();
     expect(db.delete).toHaveBeenCalledWith(events);
+  });
+});
+
+describe("Delete user progress", () => {
+  beforeEach(() => {
+    db.query.flows.findMany.mockReturnValue([{ id: "flowId" }]);
+  });
+  it("should do nothing without flows", async () => {
+    db.query.flows.findMany.mockReturnValue([]);
+    await expect(
+      sdkController.deleteUserProgress("userHash", "projectId"),
+    ).resolves.toBeUndefined();
+    expect(db.delete).not.toHaveBeenCalled();
+  });
+  it("should delete user progress", async () => {
+    await expect(
+      sdkController.deleteUserProgress("userHash", "projectId"),
+    ).resolves.toBeUndefined();
+    expect(db.delete).toHaveBeenCalledWith(flowUserProgresses);
+  });
+  it("should delete user progress with flowId", async () => {
+    await expect(
+      sdkController.deleteUserProgress("userHash", "projectId", "flowId"),
+    ).resolves.toBeUndefined();
+    expect(db.delete).toHaveBeenCalledWith(flowUserProgresses);
   });
 });

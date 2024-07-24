@@ -15,13 +15,13 @@ import { EmailModule } from "./email/email.module";
 import { FlowsModule } from "./flows/flows.module";
 import { LemonSqueezyModule } from "./lemon-squeezy/lemon-squeezy.module";
 import { LogtailModule } from "./logtail/logtail.module";
+import { MembersModule } from "./members/members.module";
 import { LoggerMiddleware } from "./middleware/logger-middleware";
 import { NewsfeedModule } from "./newsfeed/newsfeed.module";
 import { OrganizationUsageModule } from "./organization-usage/organization-usage.module";
 import { OrganizationsModule } from "./organizations/organizations.module";
 import { ProjectsModule } from "./projects/projects.module";
 import { SdkModule } from "./sdk/sdk.module";
-import { UsersModule } from "./users/users.module";
 
 const publicRoutes: string[] = ["/v(.)/sdk/(.*)", "/sdk/(.*)"];
 
@@ -47,7 +47,7 @@ const isTest = process.env.NODE_ENV === "test";
     FlowsModule,
     ProjectsModule,
     OrganizationsModule,
-    UsersModule,
+    MembersModule,
     CssModule,
     BillingModule,
     LogtailModule,

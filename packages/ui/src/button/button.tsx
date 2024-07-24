@@ -1,28 +1,29 @@
 import { cva, cx } from "@flows/styled-system/css";
-import { styled } from "@flows/styled-system/jsx";
+import { type HTMLStyledProps, styled } from "@flows/styled-system/jsx";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 
 import { Spinner } from "../spinner";
 
-type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  /**
-   * @defaultValue "medium"
-   */
-  size?: (typeof button.variantMap.size)[number];
-  /**
-   * @defaultValue "primary"
-   */
-  variant?: (typeof button.variantMap.variant)[number];
-  startIcon?: React.ReactNode;
-  endIcon?: React.ReactNode;
-  asChild?: boolean;
-  loading?: boolean;
-  /**
-   * @defaultValue "default"
-   */
-  shadow?: (typeof button.variantMap.shadow)[number];
-};
+type Props = ButtonHTMLAttributes<HTMLButtonElement> &
+  HTMLStyledProps<"button"> & {
+    /**
+     * @defaultValue "medium"
+     */
+    size?: (typeof button.variantMap.size)[number];
+    /**
+     * @defaultValue "primary"
+     */
+    variant?: (typeof button.variantMap.variant)[number];
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
+    asChild?: boolean;
+    loading?: boolean;
+    /**
+     * @defaultValue "default"
+     */
+    shadow?: (typeof button.variantMap.shadow)[number];
+  };
 
 //TODO: separate icon only buttons intro separate component with tooltip and square shape
 
@@ -41,7 +42,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
   },
   ref,
 ): JSX.Element {
-  const Component = asChild ? Slot : "button";
+  const Component = asChild ? Slot : styled.button;
   return (
     <Component
       type={!asChild ? "button" : undefined}

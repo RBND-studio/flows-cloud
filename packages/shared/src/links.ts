@@ -32,5 +32,6 @@ export const links = {
     projectDomains: "https://flows.sh/docs/project-setup/project-domains",
     customStyles: "https://flows.sh/docs/customization-and-styling/custom-styles",
     migrateToFlows: "https://flows.sh/docs/migrate-to-flows",
+    resetFlow: "https://flows.sh/docs/project-setup/reset-user-progress",
   },
 };

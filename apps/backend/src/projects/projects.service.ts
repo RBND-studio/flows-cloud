@@ -1,12 +1,14 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { projects } from "db";
-import { asc, eq } from "drizzle-orm";
+import { flows, flowUserProgresses, projects } from "db";
+import { and, asc, eq, inArray } from "drizzle-orm";
 
 import type { Auth } from "../auth";
 import { DatabaseService } from "../database/database.service";
 import { DbPermissionService } from "../db-permission/db-permission.service";
+import { hash } from "../lib/hash";
 import type {
   CreateProjectDto,
+  DeleteProgressResponseDto,
   GetProjectDetailDto,
   GetProjectsDto,
   UpdateProjectDto,
@@ -146,5 +148,46 @@ export class ProjectsService {
     await this.dbPermissionService.doesUserHaveAccessToProject({ auth, projectId });
 
     await this.databaseService.db.delete(projects).where(eq(projects.id, projectId));
+  }
+
+  async deleteUserProgress({
+    auth,
+    projectId,
+    userId,
+    flowId,
+  }: {
+    auth: Auth;
+    projectId: string;
+    userId: string;
+    flowId?: string;
+  }): Promise<DeleteProgressResponseDto> {
+    await this.dbPermissionService.doesUserHaveAccessToProject({ auth, projectId });
+
+    const flowIds = await (() => {
+      if (flowId) return [flowId];
+
+      return this.databaseService.db.query.flows
+        .findMany({
+          columns: { id: true },
+          where: eq(flows.project_id, projectId),
+        })
+        .then((results) => results.map((f) => f.id));
+    })();
+
+    if (!flowIds.length) return { deletedCount: 0 };
+
+    const userHash = await hash(userId);
+
+    const deletedItems = await this.databaseService.db
+      .delete(flowUserProgresses)
+      .where(
+        and(
+          eq(flowUserProgresses.user_hash, userHash),
+          inArray(flowUserProgresses.flow_id, flowIds),
+        ),
+      )
+      .returning();
+
+    return { deletedCount: deletedItems.length };
   }
 }

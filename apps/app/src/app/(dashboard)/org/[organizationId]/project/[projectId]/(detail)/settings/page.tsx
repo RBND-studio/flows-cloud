@@ -6,6 +6,7 @@ import { Text } from "ui";
 import { ProjectDeleteDialog } from "./project-delete-dialog";
 import { ProjectDomains } from "./project-domains";
 import { ProjectEditForm } from "./project-edit-form";
+import { ProjectUserProgressDelete } from "./project-user-progress-delete";
 
 type Props = {
   params: { projectId: string };
@@ -27,6 +28,7 @@ export default async function ProjectSettingsPage({ params }: Props): Promise<JS
 
       <ProjectEditForm project={project} />
       <ProjectDomains project={project} />
+      <ProjectUserProgressDelete project={project} />
     </>
   );
 }

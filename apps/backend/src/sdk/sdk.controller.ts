@@ -90,4 +90,14 @@ export class SdkController {
   ): Promise<void> {
     return this.sdkService.deleteEvent({ eventId, requestOrigin: origin });
   }
+
+  @Delete("user/:userHash/progress")
+  @ApiQuery({ name: "flowId", required: false })
+  deleteUserProgress(
+    @Param("userHash") userHash: string,
+    @UUIDQuery("projectId") projectId: string,
+    @Query("flowId") flowId?: string,
+  ): Promise<void> {
+    return this.sdkService.deleteUserProgress({ userHash, projectId, flowId });
+  }
 }

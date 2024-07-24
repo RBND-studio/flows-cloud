@@ -12,10 +12,15 @@ import { DatabaseService } from "../database/database.service";
 import { EmailService } from "../email/email.service";
 import { verifyCaptcha } from "../lib/captcha";
 import { NewsfeedService } from "../newsfeed/newsfeed.service";
-import type { AcceptInviteResponseDto, GetMeDto, JoinWaitlistDto, UpdateMeDto } from "./users.dto";
+import type {
+  AcceptInviteResponseDto,
+  GetMeDto,
+  JoinWaitlistDto,
+  UpdateMeDto,
+} from "./members.dto";
 
 @Injectable()
-export class UsersService {
+export class MembersService {
   constructor(
     private databaseService: DatabaseService,
     private emailService: EmailService,

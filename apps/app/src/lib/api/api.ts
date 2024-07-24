@@ -19,6 +19,7 @@ export type CreateOrganization = Schemas["CreateOrganizationDto"];
 export type UpdateOrganization = Schemas["UpdateOrganizationDto"];
 export type ProjectPreview = Schemas["GetProjectsDto"];
 export type ProjectDetail = Schemas["GetProjectDetailDto"];
+export type DeleteUserProgressResponse = Schemas["DeleteProgressResponseDto"];
 export type UpdateProject = Schemas["UpdateProjectDto"];
 export type CreateProject = Schemas["CreateProjectDto"];
 export type FlowPreview = Schemas["GetFlowsDto"];
@@ -51,6 +52,10 @@ export type Api = {
   "/projects/:projectId": Endpoint<ProjectDetail, [string]>;
   "PATCH /projects/:projectId": Endpoint<ProjectDetail, [string, UpdateProject]>;
   "DELETE /projects/:projectId": Endpoint<void, [string]>;
+  "DELETE /projects/:projectId/users/:userId/progress": Endpoint<
+    DeleteUserProgressResponse,
+    [string, string, { flowId?: string }]
+  >;
   "/projects/:projectId/flows": Endpoint<FlowPreview[], [string]>;
   "POST /organizations/:organizationId/projects": Endpoint<ProjectDetail, [string, CreateProject]>;
   "/flows/:flowId": Endpoint<FlowDetail, [string]>;
@@ -101,6 +106,10 @@ export const api: Api = {
     fetcher(`/projects/${projectId}`, { method: "PATCH", body }),
   "DELETE /projects/:projectId": (projectId) =>
     fetcher(`/projects/${projectId}`, { method: "DELETE" }),
+  "DELETE /projects/:projectId/users/:userId/progress": (projectId, userId, params) =>
+    fetcher(`/projects/${projectId}/users/${userId}/progress${createParams(params)}`, {
+      method: "DELETE",
+    }),
   "POST /organizations/:organizationId/projects": (organizationId, body) =>
     fetcher(`/organizations/${organizationId}/projects`, { method: "POST", body }),
   "/projects/:projectId/flows": (projectId) => fetcher(`/projects/${projectId}/flows`),

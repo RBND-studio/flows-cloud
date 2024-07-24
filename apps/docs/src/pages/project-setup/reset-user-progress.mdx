@@ -1,0 +1,46 @@
+---
+title: Reset user progress
+description: Learn how to reset onboarding flows progress for a specific user.
+---
+
+# Reset user progress
+
+You can reset progress of a user for a specific flow or all flows. This can be useful when you want to test the onboarding experience again or when you want to reset the progress for a specific user. There are two ways to reset user progress:
+
+## Reset from SDK
+
+To reset from SDK make sure you [identify user first](/getting-started/identify-users). After the user is identified, you can call one of the following functions to reset the progress for the given `userId`.
+
+### Reset single flow
+
+To reset a specific flow for a user, you can call the `resetFlow` function with the flow human ID as an argument. To get the flow human ID head over to the Settings tab of the flow in the Flows cloud.
+
+```js
+import { resetFlow } from "@flows/js";
+
+// Reset single flow
+resetFlow("my-flow");
+```
+
+### Reset all flows
+
+To reset all flows for a user, you can call the `resetAllFlows` function.
+
+```js
+import { resetAllFlows } from "@flows/js";
+
+// Reset all flows
+resetAllFlows();
+```
+
+## Reset from Flows cloud
+
+Similarly to the SDK, you can reset user progress from the Flows cloud.
+
+### Reset all flows
+
+To reset all flows for a user, head over to project settings in Flows cloud and enter the `userId` you want to reset the progress for and confirm the action. This will reset the progress for the given `userId` for all flows in the project.
+
+### Reset single flow
+
+To reset a specific flow for a user, head over to the flow settings in Flows cloud and enter the `userId` you want to reset the progress for and confirm the action. This will reset the progress for the given `userId` for the specific flow.
