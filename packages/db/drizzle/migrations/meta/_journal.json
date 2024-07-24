@@ -253,6 +253,20 @@
       "when": 1718368395922,
       "tag": "0035_nappy_thena",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1720620734826,
+      "tag": "0036_zippy_wallflower",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1720892400549,
+      "tag": "0037_lyrical_shen",
+      "breakpoints": true
     }
   ]
 }

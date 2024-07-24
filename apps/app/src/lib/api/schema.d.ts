@@ -3,1031 +3,1848 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/status": {
-    get: operations["AppController_getStatus"];
-  };
-  "/sdk/css": {
-    get: operations["SdkController_getCss"];
-  };
-  "/sdk/flows": {
-    get: operations["SdkController_getFlows"];
-  };
-  "/v2/sdk/flows": {
-    get: operations["SdkController_getFlowsV2"];
-  };
-  "/sdk/flows/{flowId}/draft": {
-    get: operations["SdkController_getPreviewFlow"];
-  };
-  "/sdk/flows/{flowId}": {
-    get: operations["SdkController_getFlowDetail"];
-  };
-  "/sdk/events": {
-    post: operations["SdkController_createEvent"];
-  };
-  "/sdk/events/{eventId}": {
-    delete: operations["SdkController_deleteEvent"];
-  };
-  "/projects/{projectId}/flows": {
-    get: operations["FlowsController_getFlows"];
-    post: operations["FlowsController_createFlow"];
-  };
-  "/flows/{flowId}": {
-    get: operations["FlowsController_getFlowDetail"];
-    delete: operations["FlowsController_deleteFlow"];
-    patch: operations["FlowsController_updateFlow"];
-  };
-  "/flows/{flowId}/publish": {
-    post: operations["FlowsController_publishFlow"];
-  };
-  "/flows/{flowId}/versions": {
-    get: operations["FlowsController_getFlowVersions"];
-  };
-  "/flows/{flowId}/analytics": {
-    get: operations["FlowsController_getFlowAnalytics"];
-  };
-  "/organizations/{organizationId}/projects": {
-    get: operations["ProjectsController_getProjects"];
-    post: operations["ProjectsController_createProject"];
-  };
-  "/projects/{projectId}": {
-    get: operations["ProjectsController_getProjectDetail"];
-    delete: operations["ProjectsController_deleteProject"];
-    patch: operations["ProjectsController_updateProject"];
-  };
-  "/organizations": {
-    get: operations["OrganizationsController_getOrganizations"];
-    post: operations["OrganizationsController_createOrganization"];
-  };
-  "/organizations/{organizationId}": {
-    get: operations["OrganizationsController_getOrganizationDetail"];
-    delete: operations["OrganizationsController_deleteOrganization"];
-    patch: operations["OrganizationsController_updateOrganization"];
-  };
-  "/organizations/{organizationId}/users": {
-    get: operations["OrganizationsController_getUsers"];
-    post: operations["OrganizationsController_inviteUser"];
-  };
-  "/organizations/{organizationId}/users/leave": {
-    post: operations["OrganizationsController_leaveOrganization"];
-  };
-  "/organizations/{organizationId}/users/{userId}": {
-    delete: operations["OrganizationsController_removeUser"];
-  };
-  "/invites/{inviteId}": {
-    delete: operations["OrganizationsController_removeInvite"];
-  };
-  "/subscriptions/{subscriptionId}": {
-    get: operations["OrganizationsController_getSubscription"];
-  };
-  "/subscriptions/{subscriptionId}/cancel": {
-    post: operations["OrganizationsController_cancelSubscription"];
-  };
-  "/organizations/{organizationId}/invoices": {
-    get: operations["OrganizationsController_getInvoices"];
-  };
-  "/me": {
-    get: operations["UsersController_me"];
-    delete: operations["UsersController_deleteAccount"];
-    patch: operations["UsersController_updateMe"];
-  };
-  "/invites/{inviteId}/accept": {
-    post: operations["UsersController_acceptInvite"];
-  };
-  "/invites/{inviteId}/decline": {
-    post: operations["UsersController_declineInvite"];
-  };
-  "/waitlist": {
-    post: operations["UsersController_joinWaitlist"];
-  };
-  "/newsletter": {
-    post: operations["UsersController_joinNewsletter"];
-  };
-  "/me/identities/{providerId}": {
-    delete: operations["UsersController_deleteIdentity"];
-  };
-  "/css/vars": {
-    get: operations["CssController_getDefaultCssVars"];
-  };
-  "/css/template": {
-    get: operations["CssController_getDefaultCssTemplate"];
-  };
-  "/webhooks/lemon-squeezy": {
-    post: operations["BillingController_handleLemonSqueezyWebhook"];
-  };
+    "/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AppController_getStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sdk/css": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SdkController_getCss"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sdk/flows": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SdkController_getFlows"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v2/sdk/flows": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SdkController_getFlowsV2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sdk/flows/{flowId}/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SdkController_getPreviewFlow"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sdk/flows/{flowId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SdkController_getFlowDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sdk/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["SdkController_createEvent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sdk/events/{eventId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["SdkController_deleteEvent"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sdk/user/{userHash}/progress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["SdkController_deleteUserProgress"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/projects/{projectId}/flows": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FlowsController_getFlows"];
+        put?: never;
+        post: operations["FlowsController_createFlow"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/flows/{flowId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FlowsController_getFlowDetail"];
+        put?: never;
+        post?: never;
+        delete: operations["FlowsController_deleteFlow"];
+        options?: never;
+        head?: never;
+        patch: operations["FlowsController_updateFlow"];
+        trace?: never;
+    };
+    "/flows/{flowId}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["FlowsController_publishFlow"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/flows/{flowId}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FlowsController_getFlowVersions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/flows/{flowId}/analytics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FlowsController_getFlowAnalytics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/organizations/{organizationId}/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ProjectsController_getProjects"];
+        put?: never;
+        post: operations["ProjectsController_createProject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/projects/{projectId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ProjectsController_getProjectDetail"];
+        put?: never;
+        post?: never;
+        delete: operations["ProjectsController_deleteProject"];
+        options?: never;
+        head?: never;
+        patch: operations["ProjectsController_updateProject"];
+        trace?: never;
+    };
+    "/projects/{projectId}/users/{userId}/progress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["ProjectsController_deleteUserProgress"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/organizations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["OrganizationsController_getOrganizations"];
+        put?: never;
+        post: operations["OrganizationsController_createOrganization"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/organizations/{organizationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["OrganizationsController_getOrganizationDetail"];
+        put?: never;
+        post?: never;
+        delete: operations["OrganizationsController_deleteOrganization"];
+        options?: never;
+        head?: never;
+        patch: operations["OrganizationsController_updateOrganization"];
+        trace?: never;
+    };
+    "/organizations/{organizationId}/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["OrganizationsController_getUsers"];
+        put?: never;
+        post: operations["OrganizationsController_inviteUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/organizations/{organizationId}/users/leave": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["OrganizationsController_leaveOrganization"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/organizations/{organizationId}/users/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["OrganizationsController_removeUser"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invites/{inviteId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["OrganizationsController_removeInvite"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscriptions/{subscriptionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["OrganizationsController_getSubscription"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscriptions/{subscriptionId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["OrganizationsController_cancelSubscription"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/organizations/{organizationId}/invoices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["OrganizationsController_getInvoices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["MembersController_me"];
+        put?: never;
+        post?: never;
+        delete: operations["MembersController_deleteAccount"];
+        options?: never;
+        head?: never;
+        patch: operations["MembersController_updateMe"];
+        trace?: never;
+    };
+    "/invites/{inviteId}/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["MembersController_acceptInvite"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/invites/{inviteId}/decline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["MembersController_declineInvite"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/waitlist": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["MembersController_joinWaitlist"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/newsletter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["MembersController_joinNewsletter"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/identities/{providerId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["MembersController_deleteIdentity"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/css/vars": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CssController_getDefaultCssVars"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/css/template": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CssController_getDefaultCssTemplate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/webhooks/lemon-squeezy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["BillingController_handleLemonSqueezyWebhook"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
-
 export type webhooks = Record<string, never>;
-
 export interface components {
-  schemas: {
-    GetSdkFlowsDto: {
-      /** @enum {string|null} */
-      frequency?: "once" | "every-time" | "every-session" | null;
-      id: string;
-      start: Record<string, never>[];
-      steps: Record<string, never>[];
-      userProperties?: Record<string, never>;
-      _incompleteSteps?: boolean;
+    schemas: {
+        GetSdkFlowsDto: {
+            /** @enum {string|null} */
+            frequency?: "once" | "every-time" | "every-session" | null;
+            id: string;
+            start: Record<string, never>[];
+            steps: Record<string, never>[];
+            userProperties?: Record<string, never>;
+            _incompleteSteps?: boolean;
+        };
+        GetSdkFlowsV2Dto: {
+            results: components["schemas"]["GetSdkFlowsDto"][];
+            error_message?: string;
+        };
+        CreateEventDto: {
+            /** @enum {string} */
+            type: "startFlow" | "nextStep" | "prevStep" | "tooltipError" | "invalidStepError" | "cancelFlow" | "finishFlow";
+            /** Format: date-time */
+            eventTime: string;
+            userHash?: string;
+            flowId: string;
+            projectId: string;
+            stepIndex?: string;
+            stepHash?: string;
+            flowHash: string;
+            sdkVersion: string;
+            targetElement?: string;
+            location: string;
+        };
+        CreateEventResponseDto: {
+            id?: string;
+        };
+        GetFlowsDto: {
+            /** @enum {string} */
+            flow_type: "cloud" | "local";
+            start_count: number;
+            id: string;
+            human_id: string;
+            project_id: string;
+            name: string;
+            description: string;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            /** Format: date-time */
+            enabled_at: string | null;
+            preview_url: string | null;
+        };
+        PreviewStatBucketDto: {
+            count: number;
+            type: string;
+        };
+        FlowVersionDto: {
+            /** @enum {string} */
+            frequency: "once" | "every-time" | "every-session";
+            userProperties: Record<string, never>[][];
+            start: Record<string, never>[];
+            steps: Record<string, never>[];
+            /** Format: date-time */
+            published_at?: string;
+        };
+        GetFlowDetailDto: {
+            /** @enum {string} */
+            flow_type: "cloud" | "local";
+            preview_stats: components["schemas"]["PreviewStatBucketDto"][];
+            draftVersion?: components["schemas"]["FlowVersionDto"];
+            publishedVersion?: components["schemas"]["FlowVersionDto"];
+            id: string;
+            human_id: string;
+            project_id: string;
+            name: string;
+            description: string;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            /** Format: date-time */
+            enabled_at: string | null;
+            preview_url: string | null;
+        };
+        UpdateFlowDto: {
+            userProperties?: unknown[][];
+            name?: string;
+            description?: string;
+            human_id?: string;
+            enabled?: boolean;
+            start?: Record<string, never>[];
+            steps?: Record<string, never>[];
+            /** @enum {string} */
+            frequency?: "once" | "every-time" | "every-session";
+            preview_url?: string;
+        };
+        CreateFlowDto: {
+            name: string;
+        };
+        GetFlowVersionsDto: {
+            /** @enum {string} */
+            frequency: "once" | "every-time" | "every-session";
+            id: string;
+            /** Format: date-time */
+            created_at: string;
+            data: Record<string, never>;
+        };
+        StatBucketDto: {
+            /** Format: date-time */
+            date: string;
+            count: number;
+            type: string;
+        };
+        GetFlowAnalyticsDto: {
+            daily_stats: components["schemas"]["StatBucketDto"][];
+        };
+        GetProjectsDto: {
+            id: string;
+            organization_id: string;
+            name: string;
+            description: string | null;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+        };
+        GetProjectDetailDto: {
+            id: string;
+            organization_id: string;
+            name: string;
+            description: string | null;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            domains: string[];
+            css_vars?: string | null;
+            css_template?: string | null;
+        };
+        CreateProjectDto: {
+            name: string;
+            domains?: string[];
+        };
+        UpdateProjectDto: {
+            name?: string;
+            domains?: string[];
+            description?: string;
+            css_vars?: string | null;
+            css_template?: string | null;
+        };
+        DeleteProgressResponseDto: {
+            deletedCount: number;
+        };
+        GetOrganizationsProjectDto: {
+            id: string;
+            name: string;
+        };
+        GetOrganizationListItemDto: {
+            projects: components["schemas"]["GetOrganizationsProjectDto"][];
+            id: string;
+            name: string;
+            description: string | null;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            members_count?: number;
+        };
+        SubscriptionPriceTierDto: {
+            last_unit: string;
+            unit_price_decimal: string | null;
+        };
+        GetOrganizationSubscriptionDto: {
+            id: string;
+            name: string;
+            status: string;
+            status_formatted: string;
+            email: string;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            /** Format: date-time */
+            renews_at: string;
+            /** Format: date-time */
+            ends_at?: string | null;
+            is_paused: boolean;
+            price_tiers: components["schemas"]["SubscriptionPriceTierDto"][];
+        };
+        GetOrganizationDetailDto: {
+            id: string;
+            name: string;
+            description: string | null;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            usage: number;
+            limit: number;
+            estimated_price?: number;
+            subscription?: components["schemas"]["GetOrganizationSubscriptionDto"];
+        };
+        CreateOrganizationDto: {
+            name: string;
+        };
+        GetOrganizationDto: {
+            id: string;
+            name: string;
+            description: string | null;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            members_count?: number;
+        };
+        UpdateOrganizationDto: {
+            name?: string;
+            start_limit?: number;
+        };
+        InviteUserDto: {
+            email: string;
+        };
+        OrganizationMemberDto: {
+            id: string;
+            email: string;
+        };
+        OrganizationInviteDto: {
+            id: string;
+            email: string;
+            /** Format: date-time */
+            expires_at: string;
+        };
+        GetOrganizationMembersDto: {
+            members: components["schemas"]["OrganizationMemberDto"][];
+            pending_invites: components["schemas"]["OrganizationInviteDto"][];
+        };
+        GetSubscriptionDetailDto: {
+            customer_portal_url: string;
+            update_payment_method: string;
+        };
+        GetOrganizationInvoiceDto: {
+            id: string;
+            status_formatted: string;
+            invoice_url?: string | null;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            total_formatted: string;
+            subtotal_formatted: string;
+            discount_total_formatted: string;
+            tax_formatted: string;
+            /** Format: date-time */
+            refunded_at?: string | null;
+        };
+        Invite: {
+            id: string;
+            /** Format: date-time */
+            expires_at: string;
+            organization_name: string;
+        };
+        GetMeDto: {
+            /** @enum {string} */
+            role: "admin" | "user";
+            pendingInvites: components["schemas"]["Invite"][];
+            hasPassword: boolean;
+            finished_welcome: boolean;
+        };
+        AcceptInviteResponseDto: {
+            organization_id: string;
+        };
+        UpdateMeDto: {
+            finished_welcome?: boolean;
+        };
+        JoinWaitlistDto: {
+            email: string;
+            captcha_token: string;
+        };
     };
-    GetSdkFlowsV2Dto: {
-      results: components["schemas"]["GetSdkFlowsDto"][];
-      error_message?: string;
-    };
-    CreateEventDto: {
-      /** @enum {string} */
-      type: "startFlow" | "nextStep" | "prevStep" | "tooltipError" | "cancelFlow";
-      /** Format: date-time */
-      eventTime: string;
-      userHash?: string;
-      flowId: string;
-      projectId: string;
-      stepIndex?: string;
-      stepHash?: string;
-      flowHash: string;
-      sdkVersion: string;
-      targetElement?: string;
-      location: string;
-    };
-    CreateEventResponseDto: {
-      id?: string;
-    };
-    GetFlowsDto: {
-      /** @enum {string} */
-      flow_type: "cloud" | "local";
-      start_count: number;
-      id: string;
-      human_id: string;
-      project_id: string;
-      name: string;
-      description: string;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      /** Format: date-time */
-      enabled_at: string | null;
-      preview_url: string | null;
-    };
-    PreviewStatBucketDto: {
-      count: number;
-      type: string;
-    };
-    FlowVersionDto: {
-      /** @enum {string} */
-      frequency: "once" | "every-time" | "every-session";
-      userProperties: Record<string, never>[][];
-      start: Record<string, never>[];
-      steps: Record<string, never>[];
-      /** Format: date-time */
-      published_at?: string;
-    };
-    GetFlowDetailDto: {
-      /** @enum {string} */
-      flow_type: "cloud" | "local";
-      preview_stats: components["schemas"]["PreviewStatBucketDto"][];
-      draftVersion?: components["schemas"]["FlowVersionDto"];
-      publishedVersion?: components["schemas"]["FlowVersionDto"];
-      id: string;
-      human_id: string;
-      project_id: string;
-      name: string;
-      description: string;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      /** Format: date-time */
-      enabled_at: string | null;
-      preview_url: string | null;
-    };
-    UpdateFlowDto: {
-      userProperties?: unknown[][];
-      name?: string;
-      description?: string;
-      human_id?: string;
-      enabled?: boolean;
-      start?: Record<string, never>[];
-      steps?: Record<string, never>[];
-      /** @enum {string} */
-      frequency?: "once" | "every-time" | "every-session";
-      preview_url?: string;
-    };
-    CreateFlowDto: {
-      name: string;
-    };
-    GetFlowVersionsDto: {
-      /** @enum {string} */
-      frequency: "once" | "every-time" | "every-session";
-      id: string;
-      /** Format: date-time */
-      created_at: string;
-      data: Record<string, never>;
-    };
-    StatBucketDto: {
-      /** Format: date-time */
-      date: string;
-      count: number;
-      type: string;
-    };
-    GetFlowAnalyticsDto: {
-      daily_stats: components["schemas"]["StatBucketDto"][];
-    };
-    GetProjectsDto: {
-      id: string;
-      organization_id: string;
-      name: string;
-      description: string | null;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-    };
-    GetProjectDetailDto: {
-      id: string;
-      organization_id: string;
-      name: string;
-      description: string | null;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      domains: string[];
-      css_vars?: string | null;
-      css_template?: string | null;
-    };
-    CreateProjectDto: {
-      name: string;
-      domains?: string[];
-    };
-    UpdateProjectDto: {
-      name?: string;
-      domains?: string[];
-      description?: string;
-      css_vars?: string | null;
-      css_template?: string | null;
-    };
-    GetOrganizationsProjectDto: {
-      id: string;
-      name: string;
-    };
-    GetOrganizationListItemDto: {
-      projects: components["schemas"]["GetOrganizationsProjectDto"][];
-      id: string;
-      name: string;
-      description: string | null;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      members_count?: number;
-    };
-    SubscriptionPriceTierDto: {
-      last_unit: string;
-      unit_price_decimal: string | null;
-    };
-    GetOrganizationSubscriptionDto: {
-      id: string;
-      name: string;
-      status: string;
-      status_formatted: string;
-      email: string;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      /** Format: date-time */
-      renews_at: string;
-      /** Format: date-time */
-      ends_at?: string | null;
-      is_paused: boolean;
-      price_tiers: components["schemas"]["SubscriptionPriceTierDto"][];
-    };
-    GetOrganizationDetailDto: {
-      id: string;
-      name: string;
-      description: string | null;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      usage: number;
-      limit: number;
-      estimated_price?: number;
-      subscription?: components["schemas"]["GetOrganizationSubscriptionDto"];
-    };
-    CreateOrganizationDto: {
-      name: string;
-    };
-    GetOrganizationDto: {
-      id: string;
-      name: string;
-      description: string | null;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      members_count?: number;
-    };
-    UpdateOrganizationDto: {
-      name?: string;
-      start_limit?: number;
-    };
-    InviteUserDto: {
-      email: string;
-    };
-    OrganizationMemberDto: {
-      id: string;
-      email: string;
-    };
-    OrganizationInviteDto: {
-      id: string;
-      email: string;
-      /** Format: date-time */
-      expires_at: string;
-    };
-    GetOrganizationMembersDto: {
-      members: components["schemas"]["OrganizationMemberDto"][];
-      pending_invites: components["schemas"]["OrganizationInviteDto"][];
-    };
-    GetSubscriptionDetailDto: {
-      customer_portal_url: string;
-      update_payment_method: string;
-    };
-    GetOrganizationInvoiceDto: {
-      id: string;
-      status_formatted: string;
-      invoice_url?: string | null;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      updated_at: string;
-      total_formatted: string;
-      subtotal_formatted: string;
-      discount_total_formatted: string;
-      tax_formatted: string;
-      /** Format: date-time */
-      refunded_at?: string | null;
-    };
-    Invite: {
-      id: string;
-      /** Format: date-time */
-      expires_at: string;
-      organization_name: string;
-    };
-    GetMeDto: {
-      /** @enum {string} */
-      role: "admin" | "user";
-      pendingInvites: components["schemas"]["Invite"][];
-      hasPassword: boolean;
-      finished_welcome: boolean;
-    };
-    AcceptInviteResponseDto: {
-      organization_id: string;
-    };
-    UpdateMeDto: {
-      finished_welcome?: boolean;
-    };
-    JoinWaitlistDto: {
-      email: string;
-      captcha_token: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
-
 export type $defs = Record<string, never>;
-
-export type external = Record<string, never>;
-
 export interface operations {
-
-  AppController_getStatus: {
-    responses: {
-      200: {
-        content: {
-          "application/json": boolean;
+    AppController_getStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  SdkController_getCss: {
-    parameters: {
-      query: {
-        projectId: string;
-        v: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": string;
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
         };
-      };
     };
-  };
-  SdkController_getFlows: {
-    parameters: {
-      query: {
-        projectId: string;
-        userHash?: string;
-      };
-      header: {
-        origin: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetSdkFlowsDto"][];
+    SdkController_getCss: {
+        parameters: {
+            query: {
+                projectId: string;
+                v: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  SdkController_getFlowsV2: {
-    parameters: {
-      query: {
-        projectId: string;
-        userHash?: string;
-      };
-      header: {
-        origin: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetSdkFlowsV2Dto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
         };
-      };
     };
-  };
-  SdkController_getPreviewFlow: {
-    parameters: {
-      query: {
-        projectId: string;
-      };
-      header: {
-        origin: string;
-      };
-      path: {
-        flowId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetSdkFlowsDto"];
+    SdkController_getFlows: {
+        parameters: {
+            query: {
+                projectId: string;
+                userHash?: string;
+            };
+            header: {
+                origin: string;
+            };
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  SdkController_getFlowDetail: {
-    parameters: {
-      query: {
-        projectId: string;
-      };
-      header: {
-        origin: string;
-      };
-      path: {
-        flowId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetSdkFlowsDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetSdkFlowsDto"][];
+                };
+            };
         };
-      };
     };
-  };
-  SdkController_createEvent: {
-    parameters: {
-      header: {
-        origin: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateEventDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": components["schemas"]["CreateEventResponseDto"];
+    SdkController_getFlowsV2: {
+        parameters: {
+            query: {
+                projectId: string;
+                userHash?: string;
+            };
+            header: {
+                origin: string;
+            };
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  SdkController_deleteEvent: {
-    parameters: {
-      query: {
-        eventId: string;
-      };
-      header: {
-        origin: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  FlowsController_getFlows: {
-    parameters: {
-      path: {
-        projectId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetFlowsDto"][];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetSdkFlowsV2Dto"];
+                };
+            };
         };
-      };
     };
-  };
-  FlowsController_createFlow: {
-    parameters: {
-      path: {
-        projectId: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateFlowDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": components["schemas"]["GetFlowsDto"];
+    SdkController_getPreviewFlow: {
+        parameters: {
+            query: {
+                projectId: string;
+            };
+            header: {
+                origin: string;
+            };
+            path: {
+                flowId: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  FlowsController_getFlowDetail: {
-    parameters: {
-      path: {
-        flowId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetFlowDetailDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetSdkFlowsDto"];
+                };
+            };
         };
-      };
     };
-  };
-  FlowsController_deleteFlow: {
-    parameters: {
-      path: {
-        flowId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  FlowsController_updateFlow: {
-    parameters: {
-      path: {
-        flowId: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateFlowDto"];
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  FlowsController_publishFlow: {
-    parameters: {
-      path: {
-        flowId: string;
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  FlowsController_getFlowVersions: {
-    parameters: {
-      path: {
-        flowId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetFlowVersionsDto"][];
+    SdkController_getFlowDetail: {
+        parameters: {
+            query: {
+                projectId: string;
+            };
+            header: {
+                origin: string;
+            };
+            path: {
+                flowId: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  FlowsController_getFlowAnalytics: {
-    parameters: {
-      query?: {
-        startDate?: string;
-        endDate?: string;
-      };
-      path: {
-        flowId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetFlowAnalyticsDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetSdkFlowsDto"];
+                };
+            };
         };
-      };
     };
-  };
-  ProjectsController_getProjects: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetProjectsDto"][];
+    SdkController_createEvent: {
+        parameters: {
+            query?: never;
+            header: {
+                origin: string;
+            };
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  ProjectsController_createProject: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateProjectDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": components["schemas"]["GetProjectsDto"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateEventDto"];
+            };
         };
-      };
-    };
-  };
-  ProjectsController_getProjectDetail: {
-    parameters: {
-      path: {
-        projectId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetProjectDetailDto"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateEventResponseDto"];
+                };
+            };
         };
-      };
     };
-  };
-  ProjectsController_deleteProject: {
-    parameters: {
-      path: {
-        projectId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  ProjectsController_updateProject: {
-    parameters: {
-      path: {
-        projectId: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateProjectDto"];
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetProjectDetailDto"];
+    SdkController_deleteEvent: {
+        parameters: {
+            query: {
+                eventId: string;
+            };
+            header: {
+                origin: string;
+            };
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  OrganizationsController_getOrganizations: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetOrganizationListItemDto"][];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  OrganizationsController_createOrganization: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateOrganizationDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": components["schemas"]["GetOrganizationDto"];
+    SdkController_deleteUserProgress: {
+        parameters: {
+            query: {
+                projectId: string;
+                flowId?: string;
+            };
+            header?: never;
+            path: {
+                userHash: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  OrganizationsController_getOrganizationDetail: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetOrganizationDetailDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
     };
-  };
-  OrganizationsController_deleteOrganization: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  OrganizationsController_updateOrganization: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateOrganizationDto"];
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetOrganizationDto"];
+    FlowsController_getFlows: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                projectId: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  OrganizationsController_getUsers: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetOrganizationMembersDto"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetFlowsDto"][];
+                };
+            };
         };
-      };
     };
-  };
-  OrganizationsController_inviteUser: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["InviteUserDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  OrganizationsController_leaveOrganization: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  OrganizationsController_removeUser: {
-    parameters: {
-      path: {
-        organizationId: string;
-        userId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  OrganizationsController_removeInvite: {
-    parameters: {
-      path: {
-        inviteId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  OrganizationsController_getSubscription: {
-    parameters: {
-      path: {
-        subscriptionId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetSubscriptionDetailDto"];
+    FlowsController_createFlow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                projectId: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  OrganizationsController_cancelSubscription: {
-    parameters: {
-      path: {
-        subscriptionId: string;
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  OrganizationsController_getInvoices: {
-    parameters: {
-      path: {
-        organizationId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetOrganizationInvoiceDto"][];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateFlowDto"];
+            };
         };
-      };
-    };
-  };
-  UsersController_me: {
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetMeDto"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetFlowsDto"];
+                };
+            };
         };
-      };
     };
-  };
-  UsersController_deleteAccount: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UsersController_updateMe: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateMeDto"];
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  UsersController_acceptInvite: {
-    parameters: {
-      path: {
-        inviteId: string;
-      };
-    };
-    responses: {
-      201: {
-        content: {
-          "application/json": components["schemas"]["AcceptInviteResponseDto"];
+    FlowsController_getFlowDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                flowId: string;
+            };
+            cookie?: never;
         };
-      };
-    };
-  };
-  UsersController_declineInvite: {
-    parameters: {
-      path: {
-        inviteId: string;
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  UsersController_joinWaitlist: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["JoinWaitlistDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  UsersController_joinNewsletter: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  UsersController_deleteIdentity: {
-    parameters: {
-      path: {
-        providerId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  CssController_getDefaultCssVars: {
-    responses: {
-      200: {
-        content: {
-          "application/json": string;
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetFlowDetailDto"];
+                };
+            };
         };
-      };
     };
-  };
-  CssController_getDefaultCssTemplate: {
-    responses: {
-      200: {
-        content: {
-          "application/json": string;
+    FlowsController_deleteFlow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                flowId: string;
+            };
+            cookie?: never;
         };
-      };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  BillingController_handleLemonSqueezyWebhook: {
-    parameters: {
-      header: {
-        "X-Signature": string;
-      };
+    FlowsController_updateFlow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                flowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateFlowDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    responses: {
-      201: {
-        content: never;
-      };
+    FlowsController_publishFlow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                flowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
+    FlowsController_getFlowVersions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                flowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetFlowVersionsDto"][];
+                };
+            };
+        };
+    };
+    FlowsController_getFlowAnalytics: {
+        parameters: {
+            query?: {
+                startDate?: string;
+                endDate?: string;
+            };
+            header?: never;
+            path: {
+                flowId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetFlowAnalyticsDto"];
+                };
+            };
+        };
+    };
+    ProjectsController_getProjects: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetProjectsDto"][];
+                };
+            };
+        };
+    };
+    ProjectsController_createProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateProjectDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetProjectsDto"];
+                };
+            };
+        };
+    };
+    ProjectsController_getProjectDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                projectId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetProjectDetailDto"];
+                };
+            };
+        };
+    };
+    ProjectsController_deleteProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                projectId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProjectsController_updateProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                projectId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProjectDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetProjectDetailDto"];
+                };
+            };
+        };
+    };
+    ProjectsController_deleteUserProgress: {
+        parameters: {
+            query?: {
+                flowId?: string;
+            };
+            header?: never;
+            path: {
+                projectId: string;
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeleteProgressResponseDto"];
+                };
+            };
+        };
+    };
+    OrganizationsController_getOrganizations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetOrganizationListItemDto"][];
+                };
+            };
+        };
+    };
+    OrganizationsController_createOrganization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateOrganizationDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetOrganizationDto"];
+                };
+            };
+        };
+    };
+    OrganizationsController_getOrganizationDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetOrganizationDetailDto"];
+                };
+            };
+        };
+    };
+    OrganizationsController_deleteOrganization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_updateOrganization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateOrganizationDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetOrganizationDto"];
+                };
+            };
+        };
+    };
+    OrganizationsController_getUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetOrganizationMembersDto"];
+                };
+            };
+        };
+    };
+    OrganizationsController_inviteUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InviteUserDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_leaveOrganization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_removeUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_removeInvite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                inviteId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_getSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                subscriptionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetSubscriptionDetailDto"];
+                };
+            };
+        };
+    };
+    OrganizationsController_cancelSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                subscriptionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrganizationsController_getInvoices: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organizationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetOrganizationInvoiceDto"][];
+                };
+            };
+        };
+    };
+    MembersController_me: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetMeDto"];
+                };
+            };
+        };
+    };
+    MembersController_deleteAccount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_updateMe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMeDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_acceptInvite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                inviteId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AcceptInviteResponseDto"];
+                };
+            };
+        };
+    };
+    MembersController_declineInvite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                inviteId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_joinWaitlist: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["JoinWaitlistDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_joinNewsletter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    MembersController_deleteIdentity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                providerId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CssController_getDefaultCssVars: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    CssController_getDefaultCssTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    BillingController_handleLemonSqueezyWebhook: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Signature": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
 }

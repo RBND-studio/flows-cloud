@@ -55,6 +55,7 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
         flexDirection: "column",
         gap: "space16",
         p: "space16",
+        mb: "space16",
       })}
       onSubmit={handleSubmit(onSubmit)}
     >
