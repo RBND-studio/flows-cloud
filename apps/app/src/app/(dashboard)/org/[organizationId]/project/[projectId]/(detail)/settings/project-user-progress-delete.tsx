@@ -44,7 +44,8 @@ export const ProjectUserProgressDelete: FC<Props> = ({ project }) => {
       <Flex flexDirection="column" mb="space16">
         <Text variant="titleL">Reset user progress</Text>
         <Text color="muted">
-          Reset progress of a user for all flows in this project.{" "}
+          Reset progress of a user for all flows in this project. For the changes to propagate, you
+          have to start a new browser session in your app.{" "}
           <SmartLink color="text.primary" target="_blank" href={links.docs.resetFlow}>
             Learn more
           </SmartLink>

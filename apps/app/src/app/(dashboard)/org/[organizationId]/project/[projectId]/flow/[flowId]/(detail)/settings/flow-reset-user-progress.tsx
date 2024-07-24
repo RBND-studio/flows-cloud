@@ -43,7 +43,8 @@ export const FlowResetUserProgress: FC<Props> = ({ flow }) => {
       <Flex flexDirection="column" mb="space16">
         <Text variant="titleL">Reset user progress</Text>
         <Text color="muted">
-          Reset progress of a user for this flow.{" "}
+          Reset progress of a user for this flow. For the changes to propagate, you have to start a
+          new browser session in your app.{" "}
           <SmartLink color="text.primary" target="_blank" href={links.docs.resetFlow}>
             Learn more
           </SmartLink>

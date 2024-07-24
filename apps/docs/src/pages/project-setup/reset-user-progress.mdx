@@ -16,6 +16,8 @@ To reset from SDK make sure you [identify user first](/getting-started/identify-
 To reset a specific flow for a user, you can call the `resetFlow` function with the flow human ID as an argument. To get the flow human ID head over to the Settings tab of the flow in the Flows cloud.
 
 ```js
+import { resetFlow } from "@flows/js";
+
 // Reset single flow
 resetFlow("my-flow");
 ```
@@ -25,6 +27,8 @@ resetFlow("my-flow");
 To reset all flows for a user, you can call the `resetAllFlows` function.
 
 ```js
+import { resetAllFlows } from "@flows/js";
+
 // Reset all flows
 resetAllFlows();
 ```
