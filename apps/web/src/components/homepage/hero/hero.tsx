@@ -1,11 +1,41 @@
 import { css } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
-import { HeroCallout, LinesBox, SmartLink } from "components/ui";
+import { LinesBox, SmartLink } from "components/ui";
 import { Section } from "components/ui/section";
 import { SignupClick } from "components/utils/signup-click";
+import Image from "next/image";
 import type { ReactElement } from "react";
 import { links } from "shared";
 import { Button, Text } from "ui";
+
+const ProductHunt = () => {
+  return (
+    <a
+      href="https://www.producthunt.com/posts/flows-5?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-flows&#0045;5"
+      target="_blank"
+      rel="noopener"
+      className={css({
+        marginX: "auto",
+      })}
+    >
+      <Image
+        src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=465680&theme=light"
+        alt="Flows - User&#0032;onboarding&#0032;for&#0032;modern&#0032;SaaS | Product Hunt"
+        className={css({
+          width: "250px",
+          height: "54px",
+          opacity: 0,
+          animation: "topSlideIn 0.6s ease-out",
+          animationDelay: "0.8s",
+          animationFillMode: "forwards",
+        })}
+        width="250"
+        height="54"
+        unoptimized
+      />
+    </a>
+  );
+};
 
 export const Hero = (): ReactElement => {
   return (
@@ -32,9 +62,10 @@ export const Hero = (): ReactElement => {
       sectionPadding="none"
     >
       <Flex flexDirection="column" gap="space12" maxW="728px">
-        <HeroCallout link={links.docs.migrateToFlows} delay={0.8}>
+        <ProductHunt />
+        {/* <HeroCallout link={links.docs.migrateToFlows} delay={0.8}>
           Transitioning to Flows from another platform? We can help!
-        </HeroCallout>
+        </HeroCallout> */}
         <Text
           align="center"
           as="h1"
