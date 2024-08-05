@@ -10,7 +10,7 @@ const cspHeader = `
     };
     script-src 'self' 'unsafe-eval' 'unsafe-inline' https://flows.sh https://*.lemonsqueezy.com https://challenges.cloudflare.com https://*.posthog.com https://cdn.jsdelivr.net;
     style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
-    img-src 'self' blob: data: https://api.producthunt.com;
+    img-src 'self' blob: data:;
     font-src 'self' https://cdn.jsdelivr.net;
     worker-src 'self' blob:;
     object-src 'none';
@@ -53,11 +53,6 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
-      },
-      {
-        // ProductHunt
-        protocol: "https",
-        hostname: "api.producthunt.com",
       },
     ],
   },
