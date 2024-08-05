@@ -1,4 +1,5 @@
 import { Banner16, Comment16, Flows16, Video16 } from "icons";
+import { links } from "shared";
 
 import adoptionDark from "./adoption-dark.png";
 import adoptionLight from "./adoption-light.png";
@@ -37,6 +38,6 @@ export const tabs = [
   {
     icon: Video16,
     title: "Demo video",
-    videoUrl: "https://www.youtube.com/embed/XY3eU_p0AW4?si=kSQJFruZM8YViA0w",
+    videoUrl: links.demoVideoEmbed,
   },
 ];

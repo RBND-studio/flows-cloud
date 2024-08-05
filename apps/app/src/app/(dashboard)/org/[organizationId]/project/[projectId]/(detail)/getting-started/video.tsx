@@ -5,6 +5,7 @@ import { Box } from "@flows/styled-system/jsx";
 import { Play40 } from "icons";
 import Image from "next/image";
 import { useState } from "react";
+import { links } from "shared";
 import { Dialog, Icon } from "ui";
 
 import demoVideoCover from "./demo-video-cover.png";
@@ -49,7 +50,7 @@ export const VideoSection = (): JSX.Element => {
       <Dialog open={showVideo} onOpenChange={setShowVideo} maxWidth={1200}>
         <Box position="relative" width="100%" height="0" pb="56.25%">
           <iframe
-            src="https://www.youtube.com/embed/XY3eU_p0AW4?si=kSQJFruZM8YViA0w"
+            src={links.demoVideoEmbed}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
