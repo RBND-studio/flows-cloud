@@ -11,6 +11,7 @@ export const links = {
   terms: "https://flows.sh/terms",
   pricing: "https://flows.sh/pricing",
   changelog: "https://flows.sh/changelog",
+  productHunt: "https://www.producthunt.com/posts/flows-5",
   docs: {
     home: "https://flows.sh/docs",
     stepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",

@@ -13,7 +13,7 @@ const cspHeader = `
     default-src 'self';
     script-src 'self' 'unsafe-eval' 'unsafe-inline';
     style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data:;
+    img-src 'self' blob: data: https://api.producthunt.com;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
@@ -51,6 +51,11 @@ const nextConfig = {
         // For placeholder images
         protocol: "https",
         hostname: "via.placeholder.com",
+      },
+      {
+        // ProductHunt
+        protocol: "https",
+        hostname: "api.producthunt.com",
       },
     ],
   },
