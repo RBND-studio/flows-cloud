@@ -43,7 +43,6 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
     if (res.data) reset(createDefaultValues(res.data));
     toast.success(t.toasts.updateProjectSuccess);
     void mutate("/organizations", []);
-    void mutate("/organizations/:organizationId/projects", [project.organization_id]);
     router.refresh();
   };
 
