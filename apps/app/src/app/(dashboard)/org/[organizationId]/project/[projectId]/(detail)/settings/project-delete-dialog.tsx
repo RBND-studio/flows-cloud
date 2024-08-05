@@ -1,11 +1,13 @@
 "use client";
 
+import { css } from "@flows/styled-system/css";
 import { mutate } from "hooks/use-fetch";
 import { useSend } from "hooks/use-send";
 import type { ProjectDetail } from "lib/api";
 import { api } from "lib/api";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
+import { useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
 import {
@@ -15,6 +17,7 @@ import {
   DialogClose,
   DialogContent,
   DialogTitle,
+  Input,
   Text,
   toast,
 } from "ui";
@@ -24,6 +27,10 @@ type Props = {
 };
 
 export const ProjectDeleteDialog: FC<Props> = ({ project }) => {
+  const { register, handleSubmit, reset, formState } = useForm<{ projectName: string }>({
+    defaultValues: { projectName: "" },
+  });
+
   const router = useRouter();
   const { send, loading } = useSend();
   const handleDelete = async (): Promise<void> => {
@@ -33,16 +40,45 @@ export const ProjectDeleteDialog: FC<Props> = ({ project }) => {
     if (res.error) return;
     toast.success(t.toasts.deleteProjectSuccess);
     void mutate("/organizations", []);
-    void mutate("/organizations/:organizationId/projects", [project.organization_id]);
-    router.refresh();
     router.replace(routes.organization({ organizationId: project.organization_id }));
+    router.refresh();
   };
 
   return (
-    <Dialog trigger={<Button variant="secondary">{t.actions.delete}</Button>}>
+    <Dialog
+      onOpenChange={() => reset()}
+      trigger={<Button variant="secondary">{t.actions.delete}</Button>}
+    >
       <DialogTitle>{t.project.deleteDialog.title}</DialogTitle>
       <DialogContent>
-        <Text>{t.project.deleteDialog.description}</Text>
+        <form onSubmit={handleSubmit(handleDelete)} id="delete-project">
+          <Text mb="space24">{t.project.deleteDialog.description}</Text>
+          <Input
+            {...register("projectName", {
+              validate: (value) => {
+                if (value !== project.name) return "Project name does not match.";
+                return true;
+              },
+            })}
+            required
+            label={
+              <>
+                Enter{" "}
+                <span
+                  className={css({
+                    fontWeight: 700,
+                  })}
+                >
+                  {project.name}
+                </span>{" "}
+                to confirm
+              </>
+            }
+            placeholder={project.name}
+            error
+            description={formState.errors.projectName?.message}
+          />
+        </form>
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
@@ -50,7 +86,13 @@ export const ProjectDeleteDialog: FC<Props> = ({ project }) => {
             {t.actions.close}
           </Button>
         </DialogClose>
-        <Button loading={loading} onClick={handleDelete} size="small" variant="primary">
+        <Button
+          loading={loading}
+          type="submit"
+          form="delete-project"
+          size="small"
+          variant="primary"
+        >
           {t.project.deleteDialog.confirm}
         </Button>
       </DialogActions>
