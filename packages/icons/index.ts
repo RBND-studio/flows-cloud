@@ -31,6 +31,7 @@ export * from "./src/menu16";
 export * from "./src/organization16";
 export * from "./src/paintbrush16";
 export * from "./src/person24";
+export * from "./src/play40";
 export * from "./src/plus16";
 export * from "./src/question-circle24";
 export * from "./src/question16";
