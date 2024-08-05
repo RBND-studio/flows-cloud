@@ -25,9 +25,13 @@ export class EmailService {
     organizationName: string;
     email: string;
   }): Promise<ReturnType<LoopsClient["sendTransactionalEmail"]>> {
-    return this.loops.sendTransactionalEmail("clpxmw7h70012jo0pp0pe0hb5", email, {
-      orgName: organizationName,
-      acceptUrl: `${process.env.BACKEND_APP_URL}/accept-invite/${inviteId}`,
+    return this.loops.sendTransactionalEmail({
+      email,
+      transactionalId: "clpxmw7h70012jo0pp0pe0hb5",
+      dataVariables: {
+        orgName: organizationName,
+        acceptUrl: `${process.env.BACKEND_APP_URL}/accept-invite/${inviteId}`,
+      },
     });
   }
 
@@ -67,12 +71,16 @@ export class EmailService {
       ? subsribedTemplateByAlertType[type]
       : freeTemplateByAlertType[type];
 
-    return this.loops.sendTransactionalEmail(template, email, {
-      organizationId,
-      organizationName,
-      renewsAt,
-      usage,
-      limit,
+    return this.loops.sendTransactionalEmail({
+      email,
+      transactionalId: template,
+      dataVariables: {
+        organizationId,
+        organizationName,
+        renewsAt,
+        usage,
+        limit,
+      },
     });
   }
 
