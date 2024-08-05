@@ -1,4 +1,4 @@
-import { Flows16 } from "icons";
+import { Banner16, Comment16, Flows16, Video16 } from "icons";
 
 import adoptionDark from "./adoption-dark.png";
 import adoptionLight from "./adoption-light.png";
@@ -11,7 +11,7 @@ import tooltipsLight from "./tooltips-light.png";
 
 export const tabs = [
   {
-    icon: Flows16,
+    icon: Comment16,
     title: "User onboarding",
     imgLight: onboardingLight,
     imgDark: onboardingDark,
@@ -23,15 +23,20 @@ export const tabs = [
     imgDark: adoptionDark,
   },
   {
-    icon: Flows16,
+    icon: Banner16,
     title: "Announcements",
     imgLight: announcementsLight,
     imgDark: announcementsDark,
   },
   {
-    icon: Flows16,
+    icon: Comment16,
     title: "Tooltips",
     imgLight: tooltipsLight,
     imgDark: tooltipsDark,
+  },
+  {
+    icon: Video16,
+    title: "Demo video",
+    videoUrl: "https://www.youtube.com/embed/XY3eU_p0AW4?si=kSQJFruZM8YViA0w",
   },
 ];

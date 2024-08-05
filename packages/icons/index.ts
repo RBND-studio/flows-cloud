@@ -46,3 +46,4 @@ export * from "./src/stack16";
 export * from "./src/storage16";
 export * from "./src/versions16";
 export * from "./src/versions24";
+export * from "./src/video16";
