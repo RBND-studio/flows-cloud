@@ -1,6 +1,6 @@
 "use client";
 
-import { css, cx } from "@flows/styled-system/css";
+import { css, cva, cx } from "@flows/styled-system/css";
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { Close16 } from "icons";
 import type { FC, ReactNode } from "react";
@@ -16,7 +16,7 @@ type Props = {
   /**
    * @defaultValue 400
    */
-  maxWidth?: 400 | 600;
+  maxWidth?: (typeof contentCss.variantMap.maxWidth)[number];
 };
 
 export const Dialog: FC<Props> = ({ open, onOpenChange, trigger, children, maxWidth = 400 }) => {
@@ -46,27 +46,7 @@ export const Dialog: FC<Props> = ({ open, onOpenChange, trigger, children, maxWi
         />
         <RadixDialog.Content
           onSubmit={(e) => e.stopPropagation()}
-          className={css({
-            backgroundColor: "bg",
-            // TODO: come up with a systematic way for dialog widths
-            maxWidth: maxWidth === 400 ? "400px" : "600px",
-            width: "100%",
-            borderRadius: "radius12",
-            position: "fixed",
-            zIndex: 10,
-            top: "50%",
-            left: "50%",
-            translate: "-50% -50%",
-            boxShadow: "l4",
-            "&[data-state=open]": {
-              animationName: "enter",
-              animationDuration: "120ms",
-            },
-            "&[data-state=closed]": {
-              animationName: "exit",
-              animationDuration: "120ms",
-            },
-          })}
+          className={contentCss({ maxWidth })}
         >
           {children}
           <RadixDialog.Close
@@ -86,6 +66,35 @@ export const Dialog: FC<Props> = ({ open, onOpenChange, trigger, children, maxWi
     </RadixDialog.Root>
   );
 };
+
+const contentCss = cva({
+  base: {
+    backgroundColor: "bg",
+    width: "100%",
+    borderRadius: "radius12",
+    position: "fixed",
+    zIndex: 10,
+    top: "50%",
+    left: "50%",
+    translate: "-50% -50%",
+    boxShadow: "l4",
+    "&[data-state=open]": {
+      animationName: "enter",
+      animationDuration: "120ms",
+    },
+    "&[data-state=closed]": {
+      animationName: "exit",
+      animationDuration: "120ms",
+    },
+  },
+  variants: {
+    maxWidth: {
+      400: { maxWidth: "400px" },
+      600: { maxWidth: "600px" },
+      1200: { maxWidth: "1200px" },
+    },
+  },
+});
 
 export const DialogClose = RadixDialog.Close;
 
