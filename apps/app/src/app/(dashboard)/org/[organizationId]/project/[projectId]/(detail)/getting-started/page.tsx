@@ -10,7 +10,6 @@ type Props = {
   params: { projectId: string; organizationId: string };
 };
 
-//TODO: make this responsive
 export default function ProjectSettingsPage({ params }: Props): JSX.Element {
   return (
     <Flex flexDirection="column" gap="space48" mt="space24">
@@ -18,8 +17,8 @@ export default function ProjectSettingsPage({ params }: Props): JSX.Element {
         <Text variant="titleXl">Welcome to Flows 👋</Text>
         <Text color="muted">Here’s how to get up and running with Flows in three easy steps.</Text>
       </Flex>
-      <Flex gap="space40" mb="space40">
-        <Flex flexDirection="column" gap="space48">
+      <Flex gap="space40" mb="space40" lgDown={{ flexDirection: "column" }}>
+        <Flex width="100%" flexDirection="column" gap="space48" overflow="hidden">
           <InstallInstructions
             organizationId={params.organizationId}
             projectId={params.projectId}
