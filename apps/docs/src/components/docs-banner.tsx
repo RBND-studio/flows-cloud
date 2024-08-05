@@ -4,19 +4,18 @@ import { links } from "shared";
 export const DocsBanner = (): JSX.Element => {
   return (
     <>
-      We are live on{" "}
+      Flows docs are in early stages and not everything is documented yet. If you have any
+      questions, please{" "}
       <a
         className={css({
           textDecoration: "underline!",
           fontWeight: "700!",
         })}
-        href={links.productHunt}
-        target="_blank"
-        rel="noopener"
+        href={links.docs.contact}
       >
-        Product Hunt
-      </a>{" "}
-      🚀
+        contact us
+      </a>
+      .
     </>
   );
 };

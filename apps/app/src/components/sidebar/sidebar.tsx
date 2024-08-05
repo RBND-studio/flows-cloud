@@ -3,7 +3,6 @@
 import { css, cx } from "@flows/styled-system/css";
 import { Flex } from "@flows/styled-system/jsx";
 import { Flows16, Hat16, Paintbrush16, Settings16 } from "icons";
-import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { type FC, useMemo } from "react";
@@ -21,35 +20,6 @@ const NavSectionCss = css({
   flexDirection: "column",
   paddingX: "space8",
 });
-
-const ProductHunt = () => {
-  return (
-    <a
-      href="https://www.producthunt.com/posts/flows-5?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-flows&#0045;5"
-      target="_blank"
-      rel="noopener"
-      className={css({
-        marginX: "auto",
-      })}
-    >
-      <Image
-        src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=465680&theme=light"
-        alt="Flows - User&#0032;onboarding&#0032;for&#0032;modern&#0032;SaaS | Product Hunt"
-        className={css({
-          width: "207px",
-          height: "45px",
-          opacity: 0,
-          animation: "topSlideIn 0.6s ease-out",
-          animationDelay: "0.8s",
-          animationFillMode: "forwards",
-        })}
-        width="207"
-        height="45"
-        unoptimized
-      />
-    </a>
-  );
-};
 
 export const Sidebar: FC = () => {
   const { projectId, organizationId } = useParams<{ projectId?: string; organizationId: string }>();
@@ -197,9 +167,6 @@ export const Sidebar: FC = () => {
         <Flex direction="column" gap="space12">
           <div className={NavSectionCss}>
             <Invites />
-          </div>
-          <div className={NavSectionCss}>
-            <ProductHunt />
           </div>
           <div className={NavSectionCss}>
             <UsageWidget organizationId={organizationId} />
