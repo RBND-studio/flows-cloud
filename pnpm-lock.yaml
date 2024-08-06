@@ -196,8 +196,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/db
       drizzle-orm:
-        specifier: ^0.32.0
-        version: 0.32.0(@opentelemetry/api@1.8.0)(@types/react@18.3.3)(postgres@3.4.4)(react@18.3.1)
+        specifier: ^0.32.2
+        version: 0.32.2(@opentelemetry/api@1.8.0)(@types/react@18.3.3)(postgres@3.4.4)(react@18.3.1)
       fastify:
         specifier: ^4.27.0
         version: 4.27.0
@@ -445,8 +445,8 @@ importers:
   packages/db:
     dependencies:
       drizzle-orm:
-        specifier: ^0.32.0
-        version: 0.32.0(@opentelemetry/api@1.8.0)(@types/react@18.3.3)(postgres@3.4.4)(react@18.3.1)
+        specifier: ^0.32.2
+        version: 0.32.2(@opentelemetry/api@1.8.0)(@types/react@18.3.3)(postgres@3.4.4)(react@18.3.1)
       postgres:
         specifier: ^3.4.4
         version: 3.4.4
@@ -5723,8 +5723,8 @@ packages:
     resolution: {integrity: sha512-w9jE97z193dd4jzAyj4Uv2SOh8Ydue70Ki6W0awy4bGM1aPXan6zD6Yv+nNTA6oGgNTDl2MJFxutjHG4fden5g==}
     hasBin: true
 
-  drizzle-orm@0.32.0:
-    resolution: {integrity: sha512-99IlfVGPNHzOFEXo9Phyu5At5TALLsY2t6WxFFy68rYd9Ej4cHX/7WjdPOn7JNRW69MNeNtP8XrDQg43SppuAA==}
+  drizzle-orm@0.32.2:
+    resolution: {integrity: sha512-3fXKzPzrgZIcnWCSLiERKN5Opf9Iagrag75snfFlKeKSYB1nlgPBshzW3Zn6dQymkyiib+xc4nIz0t8U+Xdpuw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
@@ -16288,7 +16288,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.32.0(@opentelemetry/api@1.8.0)(@types/react@18.3.3)(postgres@3.4.4)(react@18.3.1):
+  drizzle-orm@0.32.2(@opentelemetry/api@1.8.0)(@types/react@18.3.3)(postgres@3.4.4)(react@18.3.1):
     optionalDependencies:
       '@opentelemetry/api': 1.8.0
       '@types/react': 18.3.3
