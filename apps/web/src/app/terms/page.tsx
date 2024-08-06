@@ -36,7 +36,7 @@ const Page = (): ReactElement => {
         </Text>
         <Text className={paragraphCss} variant="bodyM">
           When we say ”company”, “we”, “our”, “us”, ”service” or ”services” in this document, we are
-          referring to Flows.
+          referring to Flows or RBND studio s.r.o. (the company behind Flows).
         </Text>
         <Text className={paragraphCss} variant="bodyM">
           We may update these Terms of Service in the future. Whenever we make a significant change
@@ -90,8 +90,7 @@ const Page = (): ReactElement => {
           generate each billing period.
         </Text>
         <Text className={paragraphCss} variant="bodyM">
-          Paying customers are billed automatically via credit card or PayPal depending on their
-          preference.
+          Paying customers are billed automatically via the payment method you provide to us.
         </Text>
         <Text className={paragraphCss} variant="bodyM">
           You will never be charged extra. There are no surprise fees and your card will never be
@@ -206,6 +205,22 @@ const Page = (): ReactElement => {
         </Text>
 
         <Text as="h2" className={headingCss} variant="titleXl">
+          Publicity
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          You agree that we may, but have no obligation, to identify you as a customer and that we
+          may refer to you by name, trade name, trademark, logo and other proprietary marks or
+          words, and may describe your business, in our marketing or publicity materials, on our
+          website, and in press releases or other public statements.
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          You hereby grant the Company a nonexclusive, royalty-free, worldwide, fully-paid, and
+          sub-licensable license to use your name and any of your trade names, trademarks, logos and
+          other proprietary marks or words pursuant to this Section. You can opt-out of this use by
+          requesting opt-out by sending an email to hello@flows.sh.
+        </Text>
+
+        <Text as="h2" className={headingCss} variant="titleXl">
           General conditions
         </Text>
         <Text className={paragraphCss} variant="bodyM">
@@ -280,6 +295,14 @@ const Page = (): ReactElement => {
         </Text>
 
         <Text as="h2" className={headingCss} variant="titleXl">
+          Acknowledgement
+        </Text>
+        <Text className={paragraphCss} variant="bodyM">
+          By using our services or other services provided by us, you acknowledge that you have read
+          these terms, as may be amended from time to time, and agree to be bound by them.
+        </Text>
+
+        <Text as="h2" className={headingCss} variant="titleXl">
           Contact us
         </Text>
         <Text className={paragraphCss} variant="bodyM">
@@ -287,7 +310,7 @@ const Page = (): ReactElement => {
           <strong>hello@flows.sh</strong>.
         </Text>
         <Text className={paragraphCss} variant="bodyM">
-          Last updated: April 6, 2024
+          Last updated: August 5, 2024
         </Text>
       </Section>
     </>

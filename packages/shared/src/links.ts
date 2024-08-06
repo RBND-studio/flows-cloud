@@ -11,6 +11,8 @@ export const links = {
   terms: "https://flows.sh/terms",
   pricing: "https://flows.sh/pricing",
   changelog: "https://flows.sh/changelog",
+  demoVideoEmbed: "https://www.youtube.com/embed/XY3eU_p0AW4?si=kSQJFruZM8YViA0w",
+  demoVideo: "https://youtu.be/XY3eU_p0AW4?si=I-Kws9rhJ9RLak7Q",
   docs: {
     home: "https://flows.sh/docs",
     stepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",

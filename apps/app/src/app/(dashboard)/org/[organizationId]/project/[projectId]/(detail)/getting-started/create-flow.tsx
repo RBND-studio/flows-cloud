@@ -24,7 +24,7 @@ export const CreateFlow: FC<Props> = ({ projectId, organizationId }) => {
       >
         <Flex flexDirection="column" gap="space4">
           <Text variant="titleL">Create your first flow</Text>
-          <Text color="muted">Start onboarding your users by creating your first flow.</Text>
+          <Text color="muted">Start onboarding users by creating your first flow.</Text>
         </Flex>
         <CreateFlowDialog
           organizationId={organizationId}
