@@ -16,7 +16,7 @@ const cspHeader = `
     object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-src https://flows-sh.lemonsqueezy.com https://challenges.cloudflare.com;
+    frame-src https://flows-sh.lemonsqueezy.com https://challenges.cloudflare.com https://www.youtube.com/;
     frame-ancestors 'none';
     upgrade-insecure-requests;
 `;
