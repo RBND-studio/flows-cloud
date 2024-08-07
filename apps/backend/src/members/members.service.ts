@@ -52,6 +52,12 @@ export class MembersService {
       const newMeta = await this.databaseService.db
         .insert(userMetadata)
         .values({ user_id: auth.userId })
+        .onConflictDoUpdate({
+          target: userMetadata.user_id,
+          set: {
+            user_id: auth.userId,
+          },
+        })
         .returning();
       if (user.email) await this.emailService.signedUp({ email: user.email });
       await this.newsfeedService.postMessage({
