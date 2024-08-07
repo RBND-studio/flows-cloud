@@ -58,7 +58,7 @@ Selecting elements on the page requires the right CSS selector to avoid conflict
 - **Use unique classes or IDs**: If possible, use unique classes or IDs for the target element to ensure the selector matches only the desired element.
 - **Use the most specific selector possible**: If unique classes or IDs aren't available, use the most specific selector possible to reduce conflicts.
 - **Use browser developer tools**: Use browser developer tools to find the right selector. This [guide](https://www.scrapingbee.com/tutorials/how-to-extract-css-selectors-using-chrome/) can help you find the right CSS selector.
-- **Test the selector**: After selecting a selector, test it in the browser's console to ensure it matches the correct element. Use `document.querySelector` for testing.
+- **Test the selector**: After selecting a selector, test it in the browser's console to ensure it matches the correct element. Use `document.querySelectorAll(".my-selector")` to make sure there is only one element on the page.
 
 Examples of CSS selectors:
 
@@ -67,3 +67,5 @@ Examples of CSS selectors:
 - `button` - matches all button elements
 - `input[type="text"]` - matches all text input elements
 - `body > div > div > form > div:nth-child(2) > button` - matches a specific button element
+
+{/* TODO: move this to a separate page */}
