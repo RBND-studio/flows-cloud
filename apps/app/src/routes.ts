@@ -4,11 +4,14 @@ export const routes = {
   login: (params?: { message?: string }) => `/login${createParams(params)}`,
   authCallback: "/auth/callback",
   signUp: (params?: { message?: string }) => `/signup${createParams(params)}`,
-  signupSuccess: ({ email }: { email: string }) => `/signup/success?email=${email}`,
+  signupSuccess: ({ email }: { email: string }) =>
+    `/signup/success?email=${encodeURIComponent(email)}`,
   resetPassword: `/reset-password`,
-  resetPasswordSuccess: ({ email }: { email: string }) => `/reset-password/success?email=${email}`,
+  resetPasswordSuccess: ({ email }: { email: string }) =>
+    `/reset-password/success?email=${encodeURIComponent(email)}`,
   resetPasswordNew: `/reset-password/new`,
-  verifyError: ({ message }: { message: string }) => `/verify/error?message=${message}`,
+  verifyError: ({ message }: { message: string }) =>
+    `/verify/error?message=${encodeURIComponent(message)}`,
 
   home: "/",
 
