@@ -103,16 +103,13 @@ export const DeleteAccountDialog = (): JSX.Element => {
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
-          <Button shadow="none" size="small" variant="secondary">
-            {t.personal.deleteAccount.cancel}
-          </Button>
+          <Button variant="secondary">{t.personal.deleteAccount.cancel}</Button>
         </DialogClose>
         <Button
           disabled={isDisabled}
           loading={loading}
           type="submit"
           form="delete-account"
-          size="small"
           variant="danger"
         >
           {t.personal.deleteAccount.confirm}

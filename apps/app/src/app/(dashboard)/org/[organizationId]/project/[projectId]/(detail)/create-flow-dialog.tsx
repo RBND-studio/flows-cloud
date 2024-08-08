@@ -53,11 +53,9 @@ export const CreateFlowDialog: FC<Props> = ({ projectId, organizationId, trigger
         </DialogContent>
         <DialogActions>
           <DialogClose asChild>
-            <Button shadow="none" size="small" variant="secondary">
-              Close
-            </Button>
+            <Button variant="secondary">Close</Button>
           </DialogClose>
-          <Button loading={loading} size="small" type="submit">
+          <Button loading={loading} type="submit">
             Create
           </Button>
         </DialogActions>

@@ -6,7 +6,7 @@ import { SmartLink } from "components/ui";
 import { Menu16 } from "icons";
 import { usePathname } from "next/navigation";
 import { type FC, useState } from "react";
-import { Button, Text } from "ui";
+import { IconButton, Text } from "ui";
 
 import { menuItems } from "./menu-items";
 
@@ -19,14 +19,15 @@ export const MobileMenu: FC = () => {
 
   return (
     <>
-      <Button
+      {/* eslint-disable-next-line no-restricted-syntax -- hamburger menu */}
+      <IconButton
         className={css({ sm: { display: "none" }, px: "8px" })}
         onClick={toggleOpen}
         variant="ghost"
       >
         <Menu16 />
         <span className={css({ srOnly: true })}>Open main menu</span>
-      </Button>
+      </IconButton>
       <Box
         backgroundColor="bg"
         borBottom="1px"

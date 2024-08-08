@@ -75,11 +75,9 @@ export const OrganizationLeaveDialog: FC<Props> = ({ organization }) => {
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
-          <Button shadow="none" size="small" variant="secondary">
-            {t.actions.close}
-          </Button>
+          <Button variant="secondary">{t.actions.close}</Button>
         </DialogClose>
-        <Button loading={loading} onClick={handleDelete} size="small" variant="primary">
+        <Button loading={loading} onClick={handleDelete} variant="primary">
           {t.actions.leave}
         </Button>
       </DialogActions>

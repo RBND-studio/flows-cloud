@@ -74,7 +74,7 @@ export function Select<T extends string>({
             </RadixSelect.Icon>
           }
           size={buttonSize}
-          variant="grey"
+          variant="field"
         >
           <RadixSelect.Value placeholder={placeholder}>
             {currentOption?.label ?? currentOption?.value}

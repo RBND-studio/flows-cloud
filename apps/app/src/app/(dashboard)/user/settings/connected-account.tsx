@@ -93,17 +93,9 @@ export const ConnectedAccount = ({
                 </DialogContent>
                 <DialogActions>
                   <DialogClose asChild>
-                    <Button shadow="none" size="small" variant="secondary">
-                      {t.actions.close}
-                    </Button>
+                    <Button variant="secondary">{t.actions.close}</Button>
                   </DialogClose>
-                  <Button
-                    type="button"
-                    size="small"
-                    loading={loading}
-                    variant="primary"
-                    onClick={handleUnlink}
-                  >
+                  <Button type="button" loading={loading} variant="primary" onClick={handleUnlink}>
                     {t.personal.connectedAccounts.unlinkDialog.confirm}
                   </Button>
                 </DialogActions>

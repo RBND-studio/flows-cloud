@@ -3,7 +3,7 @@ import { Box, Flex } from "@flows/styled-system/jsx";
 import { Close16, Plus16 } from "icons";
 import type { FC } from "react";
 import { useFieldArray } from "react-hook-form";
-import { Button, Icon, Input, Text } from "ui";
+import { Button, Icon, IconButton, Input, Text } from "ui";
 
 import { useFlowEditForm } from "../edit-constants";
 
@@ -45,7 +45,6 @@ export const StepWaitForm: FC<Props> = ({ fieldName }) => {
       <Box padding="space12">
         <Button
           onClick={() => submitValueFieldArray.append({ element: "", value: "" })}
-          shadow="none"
           size="small"
           startIcon={<Plus16 />}
           variant="secondary"
@@ -73,9 +72,9 @@ const SubmitValueForm: FC<SubmitValueProps> = ({ fieldName, index, onRemove }) =
     <Box borBottom="1px" padding="space12">
       <Flex align="center" justify="space-between" mb="space8">
         <Text variant="titleS">Checked form field {index + 1}</Text>
-        <Button onClick={onRemove} size="small" variant="ghost">
+        <IconButton onClick={onRemove} size="small" variant="ghost" tooltip="Remove form field">
           <Icon icon={Close16} />
-        </Button>
+        </IconButton>
       </Flex>
       <Input
         {...register(`${fieldName}.element`)}

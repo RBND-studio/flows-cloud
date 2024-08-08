@@ -13,7 +13,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
-import { Button, Icon, Separator, Text } from "ui";
+import { Icon, IconButton, Separator, Text } from "ui";
 
 import { FlowPreviewDialog } from "../(detail)/flow-preview-dialog";
 import { FlowPublishChangesDialog } from "../(detail)/flow-publish-changes-dialog";
@@ -120,11 +120,12 @@ export const FlowEditForm: FC<Props> = ({ flow, organizationId }) => {
               <RemoveDraft flow={flow} />
               <FlowPreviewDialog flow={flow} />
               <FlowPublishChangesDialog flow={flow} />
-              <Button variant="ghost" size="icon" asChild>
+              {/* eslint-disable-next-line no-restricted-syntax -- close button */}
+              <IconButton variant="ghost" asChild>
                 <Link href={backLink}>
                   <Icon icon={Close16} />
                 </Link>
-              </Button>
+              </IconButton>
             </Flex>
           </Flex>
         </Box>

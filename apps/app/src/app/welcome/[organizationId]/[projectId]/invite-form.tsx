@@ -12,7 +12,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { useFieldArray, useForm } from "react-hook-form";
 import { routes } from "routes";
 import { t } from "translations";
-import { Button, Icon, Input, Text, toast } from "ui";
+import { Button, Icon, IconButton, Input, Text, toast } from "ui";
 
 type Props = {
   organizationId: string;
@@ -68,9 +68,10 @@ export const InviteForm: FC<Props> = ({ organizationId, projectId }) => {
                   })}
                   type="email"
                 />
-                <Button size="icon" shadow="none" onClick={() => remove(i)} variant="secondary">
+                {/* eslint-disable-next-line no-restricted-syntax -- remove button */}
+                <IconButton onClick={() => remove(i)} variant="secondary">
                   <Icon icon={Close16} />
-                </Button>
+                </IconButton>
               </Flex>
             ))}
           </Flex>

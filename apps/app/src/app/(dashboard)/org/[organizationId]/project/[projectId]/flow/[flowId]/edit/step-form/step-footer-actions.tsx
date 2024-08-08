@@ -5,7 +5,7 @@ import { Close16, Plus16 } from "icons";
 import type { FC } from "react";
 import { Controller, useFieldArray } from "react-hook-form";
 import { t } from "translations";
-import { Button, Checkbox, Icon, Input, Label, Select, Text } from "ui";
+import { Button, Checkbox, Icon, IconButton, Input, Label, Select, Text } from "ui";
 
 import { type FooterActionPlacement, useFlowEditForm } from "../edit-constants";
 import { TargetBranchInput } from "./target-branch-input";
@@ -36,7 +36,6 @@ export const StepFooterActions: FC<Props> = ({ index, placement }) => {
       <Box padding="space12">
         <Button
           onClick={() => fieldArray.append({ label: "" })}
-          shadow="none"
           size="small"
           startIcon={<Plus16 />}
           variant="secondary"
@@ -93,9 +92,10 @@ const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
     <Box borBottom="1px" padding="space12">
       <Flex alignItems="center" gap="space8" justifyContent="space-between" mb="space8">
         <Text variant="titleS">Button {index + 1}</Text>
-        <Button onClick={onRemove} size="small" variant="ghost">
+        {}
+        <IconButton onClick={onRemove} tooltip="Remove footer button" size="small" variant="ghost">
           <Icon icon={Close16} />
-        </Button>
+        </IconButton>
       </Flex>
       <Input
         {...control.register(`${fieldName}.label`)}

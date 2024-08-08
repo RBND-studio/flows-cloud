@@ -69,11 +69,9 @@ export const CancelSubscription: FC<Props> = ({ subscriptionId, organizationId }
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
-          <Button shadow="none" size="small" variant="secondary">
-            Close
-          </Button>
+          <Button variant="secondary">Close</Button>
         </DialogClose>
-        <Button loading={loading} onClick={handleCancel} size="small" variant="danger">
+        <Button loading={loading} onClick={handleCancel} variant="danger">
           Cancel subscription
         </Button>
       </DialogActions>
