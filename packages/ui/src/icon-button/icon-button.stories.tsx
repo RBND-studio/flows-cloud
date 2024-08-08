@@ -1,6 +1,8 @@
+import { Flex } from "@flows/styled-system/jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Plus16 } from "icons";
 
+import { Text } from "../text";
 import { IconButton } from "./icon-button";
 
 const meta: Meta<typeof IconButton> = {
@@ -19,7 +21,6 @@ export default meta;
 type Story = StoryObj<typeof IconButton>;
 
 export const Default: Story = {
-  // eslint-disable-next-line no-restricted-syntax -- passed in as props
   render: (props) => <IconButton {...props} />,
 };
 
@@ -38,23 +39,28 @@ export const Grid: Story = {
         gridTemplateColumns: "repeat(5, 1fr)",
         justifyItems: "center",
         alignItems: "center",
-        gap: 8,
+        rowGap: 24,
+        columnGap: 16,
       }}
     >
       {Object.values(buttonVariants.size).map((size) =>
         Object.values(buttonVariants.shadow).map((shadow) =>
           Object.values(buttonVariants.disabled).map((disabled) =>
             Object.values(buttonVariants.variant).map((variant) => (
-              <IconButton
-                key={`${size}-${variant}`}
-                size={size}
-                variant={variant}
-                shadow={shadow}
-                disabled={disabled}
-                tooltip={variant}
-              >
-                <Plus16 />
-              </IconButton>
+              <Flex direction="column" gap="space12" alignItems="center" key={`${size}-${variant}`}>
+                <IconButton
+                  size={size}
+                  variant={variant}
+                  shadow={shadow}
+                  disabled={disabled}
+                  tooltip={variant}
+                >
+                  <Plus16 />
+                </IconButton>
+                <Text variant="bodyXs" color="muted" align="center">
+                  {[size, shadow, disabled, variant].join(", ")}
+                </Text>
+              </Flex>
             )),
           ),
         ),

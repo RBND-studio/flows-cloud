@@ -92,7 +92,6 @@ const Option: FC<OptionProps> = ({ fieldName, onRemove, index }) => {
     <Box borBottom="1px" padding="space12">
       <Flex alignItems="center" gap="space8" justifyContent="space-between" mb="space8">
         <Text variant="titleS">Button {index + 1}</Text>
-        {}
         <IconButton onClick={onRemove} tooltip="Remove footer button" size="small" variant="ghost">
           <Icon icon={Close16} />
         </IconButton>

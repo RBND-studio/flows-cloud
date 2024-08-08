@@ -1,6 +1,8 @@
+import { Flex } from "@flows/styled-system/jsx";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ChevronDown16, Plus16 } from "icons";
 
+import { Text } from "../text";
 import { Button } from "./button";
 
 const meta: Meta<typeof Button> = {
@@ -40,7 +42,8 @@ export const Grid: Story = {
         gridTemplateColumns: "repeat(6, 1fr)",
         justifyItems: "center",
         alignItems: "center",
-        gap: 8,
+        rowGap: 24,
+        columnGap: 16,
       }}
     >
       {Object.values(buttonVariants.size).map((size) =>
@@ -49,17 +52,27 @@ export const Grid: Story = {
             Object.values(buttonVariants.shadow).map((shadow) =>
               Object.values(buttonVariants.disabled).map((disabled) =>
                 Object.values(buttonVariants.variant).map((variant) => (
-                  <Button
+                  <Flex
+                    direction="column"
+                    gap="space12"
+                    alignItems="center"
                     key={`${size}-${variant}`}
-                    startIcon={startIcon}
-                    size={size}
-                    variant={variant}
-                    endIcon={endIcon}
-                    shadow={shadow}
-                    disabled={disabled}
                   >
-                    {variant}
-                  </Button>
+                    <Button
+                      key={`${size}-${variant}`}
+                      startIcon={startIcon}
+                      size={size}
+                      variant={variant}
+                      endIcon={endIcon}
+                      shadow={shadow}
+                      disabled={disabled}
+                    >
+                      {variant}
+                    </Button>
+                    <Text variant="bodyXs" color="muted" align="center">
+                      {[size, shadow, disabled, variant].join(", ")}
+                    </Text>
+                  </Flex>
                 )),
               ),
             ),

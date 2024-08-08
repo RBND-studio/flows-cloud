@@ -41,6 +41,7 @@ export const IconButton = forwardRef<HTMLButtonElement, Props>(function Button(
 
   const buttonRender = (
     <Component
+      aria-label={tooltip}
       type={!asChild ? "button" : undefined}
       {...props}
       className={cx(button({ size, variant, shadow }), props.className)}
