@@ -17,7 +17,6 @@
     "e2e": "pnpm --filter e2e",
     "prepare": "husky",
     "pre-push": "TURBO_NO_UPDATE_NOTIFIER=true turbo lint tsc test spellcheck pre-commit",
-    "web-docs": "pnpm --filter=web --filter=docs",
     "spellcheck": "pnpm cspell .  --quiet"
   },
   "devDependencies": {
