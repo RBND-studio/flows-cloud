@@ -2,7 +2,6 @@ import { endFlow, startFlow } from "@flows/js";
 import { css, cx } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { type FC, useEffect } from "react";
-import { Button } from "ui";
 
 import { useFirstRender } from "../hooks/use-first-render";
 
@@ -92,9 +91,22 @@ export const Demo: FC<Props> = ({ variant }) => {
           rounded="radius100"
           w="16px"
         />
-        <Button className="flow-3" variant="black" size="large">
+        <button
+          className={cx(
+            css({
+              backgroundColor: "bg.primary!",
+              paddingY: "space8!",
+              paddingX: "space16!",
+              borderRadius: "radius8",
+              color: "text.onPrimary!",
+              marginLeft: "space40!",
+            }),
+            "flow-3",
+          )}
+          type="button"
+        >
           Click me to continue
-        </Button>
+        </button>
       </Flex>
     );
 
