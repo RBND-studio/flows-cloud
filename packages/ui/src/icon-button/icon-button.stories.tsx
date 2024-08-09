@@ -21,6 +21,7 @@ export default meta;
 type Story = StoryObj<typeof IconButton>;
 
 export const Default: Story = {
+  // eslint-disable-next-line no-restricted-syntax -- passed as a prop
   render: (props) => <IconButton {...props} />,
 };
 
