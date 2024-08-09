@@ -4,7 +4,7 @@ import { Close16, Plus16 } from "icons";
 import { type FC } from "react";
 import { useFieldArray } from "react-hook-form";
 import { t } from "translations";
-import { Button, Icon, Text } from "ui";
+import { Button, Icon, IconButton, Text } from "ui";
 
 import { useFlowEditForm } from "../edit-constants";
 import { PropertyMatcher } from "./property-matcher";
@@ -22,9 +22,9 @@ export const FlowMatchGroup: FC<Props> = ({ index, onRemove }) => {
     <Flex borBottom="1px" flexDirection="column" gap="space12" paddingY="space16" p="space16">
       <div className={css({ display: "flex", gap: "space8", alignItems: "center" })}>
         <Text variant="titleS">{t.targeting.group}</Text>
-        <Button onClick={onRemove} size="small" variant="ghost">
+        <IconButton onClick={onRemove} size="small" variant="ghost" tooltip="Remove filter group">
           <Icon icon={Close16} />
-        </Button>
+        </IconButton>
       </div>
       <Flex direction="column" gap="space12">
         {fields.map((f, matcherIndex) => (
@@ -39,7 +39,6 @@ export const FlowMatchGroup: FC<Props> = ({ index, onRemove }) => {
       <div>
         <Button
           onClick={() => append({ key: "" })}
-          shadow="none"
           size="small"
           startIcon={<Plus16 />}
           variant="secondary"

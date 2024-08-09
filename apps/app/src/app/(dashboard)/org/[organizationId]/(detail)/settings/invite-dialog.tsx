@@ -69,11 +69,9 @@ export const InviteDialog: FC<Props> = ({ organizationId }) => {
         </DialogContent>
         <DialogActions>
           <DialogClose asChild>
-            <Button shadow="none" size="small" variant="secondary">
-              {t.actions.close}
-            </Button>
+            <Button variant="secondary">{t.actions.close}</Button>
           </DialogClose>
-          <Button loading={loading} size="small" type="submit">
+          <Button loading={loading} type="submit">
             {t.organization.members.addDialog.confirm}
           </Button>
         </DialogActions>

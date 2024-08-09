@@ -3,7 +3,7 @@ import { Flex, Grid } from "@flows/styled-system/jsx";
 import { Fork16 } from "icons";
 import { type FC } from "react";
 import { useFieldArray } from "react-hook-form";
-import { Button, Icon } from "ui";
+import { Icon, IconButton } from "ui";
 
 import { type SelectedItem, useFlowEditForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
@@ -64,14 +64,15 @@ export const Fork: FC<Props> = ({ index, onSelectStep, selectedStep, onRemove })
         w="48px"
         _hover={{ "& button": { opacity: 1 } }}
       >
-        <Button
-          size="smallIcon"
+        <IconButton
+          size="small"
           variant="secondary"
+          tooltip="Add branch"
           className={css({ opacity: "0" })}
           onClick={() => append([[STEP_DEFAULT.tooltip]] as never[])}
         >
           <Icon icon={Fork16} />
-        </Button>
+        </IconButton>
       </Grid>
     </Flex>
   );

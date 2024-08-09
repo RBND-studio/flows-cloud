@@ -83,11 +83,9 @@ export const PasswordChangeDialog = ({
         </DialogContent>
         <DialogActions>
           <DialogClose asChild>
-            <Button shadow="none" size="small" variant="secondary">
-              Close
-            </Button>
+            <Button variant="secondary">Close</Button>
           </DialogClose>
-          <Button loading={isLoading} size="small" type="submit" variant="primary">
+          <Button loading={isLoading} type="submit" variant="primary">
             {t.actions.save}
           </Button>
         </DialogActions>

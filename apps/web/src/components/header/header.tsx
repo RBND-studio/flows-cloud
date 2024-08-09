@@ -62,7 +62,7 @@ export const Header = (): ReactElement => {
             <a href={links.logIn}>Log in</a>
           </Button>
           <SignupClick>
-            <Button asChild variant="black">
+            <Button asChild>
               <a href={links.signUp}>Sign up</a>
             </Button>
           </SignupClick>

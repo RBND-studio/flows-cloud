@@ -82,17 +82,9 @@ export const OrganizationDeleteDialog: FC<Props> = ({ organization }) => {
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
-          <Button shadow="none" size="small" variant="secondary">
-            {t.actions.close}
-          </Button>
+          <Button variant="secondary">{t.actions.close}</Button>
         </DialogClose>
-        <Button
-          loading={loading}
-          type="submit"
-          form="delete-organization"
-          size="small"
-          variant="primary"
-        >
+        <Button loading={loading} type="submit" form="delete-organization" variant="primary">
           {t.organization.deleteDialog.confirm}
         </Button>
       </DialogActions>

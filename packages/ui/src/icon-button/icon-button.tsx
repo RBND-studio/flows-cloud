@@ -3,7 +3,7 @@ import { type HTMLStyledProps, styled } from "@flows/styled-system/jsx";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 
-import { Spinner } from "../spinner";
+import { Tooltip } from "../tooltip/tooltip";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> &
   HTMLStyledProps<"button"> & {
@@ -15,49 +15,48 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> &
      * @defaultValue "primary"
      */
     variant?: (typeof button.variantMap.variant)[number];
-    startIcon?: React.ReactNode;
-    endIcon?: React.ReactNode;
     asChild?: boolean;
     loading?: boolean;
     /**
      * @defaultValue "default"
      */
     shadow?: (typeof button.variantMap.shadow)[number];
+    tooltip?: string;
   };
 
-export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
+export const IconButton = forwardRef<HTMLButtonElement, Props>(function Button(
   {
     size = "default",
     variant = "black",
     shadow = "default",
     children,
-    startIcon,
-    endIcon,
+    tooltip,
     asChild,
     disabled,
-    loading,
     ...props
   },
   ref,
 ): JSX.Element {
   const Component = asChild ? Slot : styled.button;
-  return (
+
+  const buttonRender = (
     <Component
+      aria-label={tooltip}
       type={!asChild ? "button" : undefined}
       {...props}
       className={cx(button({ size, variant, shadow }), props.className)}
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing cannot be used here
-      disabled={disabled || loading}
+      disabled={disabled}
       ref={ref}
     >
-      {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- nullish coalescing cannot be used here */}
-      {startIcon || loading ? (
-        <Icon position="start">{loading ? <Spinner color="inherit" size={16} /> : startIcon}</Icon>
-      ) : null}
-      <Slottable>{children}</Slottable>
-      {endIcon ? <Icon position="end">{endIcon}</Icon> : null}
+      <Slottable>
+        <Icon>{children}</Icon>
+      </Slottable>
     </Component>
   );
+
+  if (!tooltip) return buttonRender;
+
+  return <Tooltip text={tooltip} trigger={buttonRender} />;
 });
 
 const Icon = styled("span", {
@@ -100,23 +99,19 @@ const button = cva({
   variants: {
     size: {
       small: {
-        textStyle: "titleS",
-        padding: "3px 7px",
+        width: 28,
         height: 28,
       },
       default: {
-        textStyle: "titleS",
-        padding: "5px 11px",
+        width: 32,
         height: 32,
       },
       medium: {
-        textStyle: "titleS",
-        padding: "7px 15px",
+        width: 36,
         height: 36,
       },
       large: {
-        textStyle: "titleL",
-        padding: "9px 19px",
+        width: 48,
         height: 48,
       },
     },
@@ -183,25 +178,6 @@ const button = cva({
         _active: {
           backgroundColor: "bg.blackActive",
           borderColor: "bg.blackActive",
-        },
-      },
-      // Used in select
-      field: {
-        color: "text",
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "border.strong",
-        backgroundColor: "bg.muted",
-        _hover: {
-          borderColor: "border.primary",
-          backgroundColor: "bg",
-        },
-        _disabled: {
-          backgroundColor: "bg.subtle",
-          borderColor: "bg.subtle",
-          color: "text.subtle",
-          pointerEvents: "none",
-          boxShadow: "none",
         },
       },
       ghost: {

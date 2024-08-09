@@ -21,9 +21,9 @@ const TooltipContent = ({
         zIndex: "tooltip",
         overflow: "hidden",
         borderRadius: "radius8",
-        py: "space8",
-        px: "space12",
-        textStyle: "bodyS",
+        py: "6px", // This is intentional
+        px: "space8",
+        textStyle: "bodyXs",
         display: "flex",
         gap: "space8",
         backgroundColor: "bg.black",

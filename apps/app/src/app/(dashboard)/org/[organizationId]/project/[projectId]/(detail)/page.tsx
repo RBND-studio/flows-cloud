@@ -26,7 +26,7 @@ export default async function ProjectDetailPage({
           <CreateFlowDialog
             organizationId={project.organization_id}
             projectId={projectId}
-            trigger={<Button variant="black">New flow</Button>}
+            trigger={<Button>New flow</Button>}
           />
         </Flex>
         <Text color="muted">{project.description}</Text>

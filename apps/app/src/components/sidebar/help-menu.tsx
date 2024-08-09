@@ -2,7 +2,7 @@ import { showSurvey } from "components/providers";
 import { Book16, Comment16, Log16, Question16, Question24, Slack16 } from "icons";
 import type { FC } from "react";
 import { links } from "shared";
-import { Button, Icon, Menu, MenuItem, MenuSeparator } from "ui";
+import { Icon, IconButton, Menu, MenuItem, MenuSeparator } from "ui";
 
 const options = [
   {
@@ -37,9 +37,9 @@ export const HelpMenu: FC = () => {
   return (
     <Menu
       trigger={
-        <Button size="icon" shadow="none" variant="secondary">
+        <IconButton variant="secondary" tooltip="Help menu">
           <Icon icon={Question24} />
-        </Button>
+        </IconButton>
       }
     >
       {options.map((opt, i) => {

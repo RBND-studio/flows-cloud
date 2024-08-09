@@ -67,7 +67,7 @@ const Page = (): ReactElement => {
             tier.
           </Text>
         </Flex>
-        <Button asChild shadow="highlight" size="large">
+        <Button shadow="highlight" asChild size="large">
           <SmartLink href={links.signUp}>Sign up for free</SmartLink>
         </Button>
       </Section>

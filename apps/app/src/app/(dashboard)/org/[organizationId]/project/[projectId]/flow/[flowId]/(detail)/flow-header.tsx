@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import { routes } from "routes";
 import { t } from "translations";
-import { Badge, Button, Icon, Menu, Switch, Text, toast } from "ui";
+import { Badge, Button, Icon, IconButton, Menu, Switch, Text, toast } from "ui";
 
 import { FlowPreviewDialog } from "./flow-preview-dialog";
 import { FlowPublishChangesDialog } from "./flow-publish-changes-dialog";
@@ -46,9 +46,10 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
   const dropdownMenu = (
     <Menu
       trigger={
-        <Button variant="ghost">
+        // eslint-disable-next-line no-restricted-syntax -- kebab menu
+        <IconButton variant="ghost">
           <Icon icon={KebabHorizontal16} />
-        </Button>
+        </IconButton>
       }
     >
       <FlowDeleteDialog
@@ -74,7 +75,7 @@ export const FlowHeader: FC<Props> = ({ flow, params }) => {
           </Flex>
           {flowIsCloud ? (
             <Flex alignItems="center" gap="space12">
-              <Button variant="black" asChild>
+              <Button asChild>
                 <Link href={routes.flowEdit({ flowId, organizationId, projectId })}>Edit</Link>
               </Button>
               <FlowPublishChangesDialog flow={flow} />

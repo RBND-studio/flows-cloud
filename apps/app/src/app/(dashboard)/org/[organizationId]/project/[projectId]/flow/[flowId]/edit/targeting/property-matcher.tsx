@@ -2,7 +2,7 @@ import { Flex, Wrap } from "@flows/styled-system/jsx";
 import { Close16 } from "icons";
 import { type FC, useState } from "react";
 import { useController } from "react-hook-form";
-import { Button, Icon, Input, Select, Text } from "ui";
+import { Icon, IconButton, Input, Select, Text } from "ui";
 
 import { useFlowEditForm } from "../edit-constants";
 import { CompareValueInput } from "./compare-value-input";
@@ -95,9 +95,9 @@ export const PropertyMatcher: FC<Props> = ({ groupIndex, matcherIndex, onRemove 
             value={field.value[variant]}
           />
         )}
-        <Button onClick={onRemove} variant="ghost">
+        <IconButton onClick={onRemove} variant="ghost" tooltip="Remove filter">
           <Icon icon={Close16} />
-        </Button>
+        </IconButton>
       </Wrap>
     </Flex>
   );

@@ -53,7 +53,7 @@ export const StringValueInput: FC<Props> = ({ onChange, value, allowArray, onKey
           />
         </Fragment>
       ))}
-      <Button onClick={() => onChange([...value, ""])} shadow="none" variant="secondary">
+      <Button onClick={() => onChange([...value, ""])} variant="secondary">
         {t.targeting.or}
       </Button>
     </>

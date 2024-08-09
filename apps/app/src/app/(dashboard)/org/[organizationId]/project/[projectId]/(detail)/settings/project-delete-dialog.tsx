@@ -47,7 +47,7 @@ export const ProjectDeleteDialog: FC<Props> = ({ project }) => {
   return (
     <Dialog
       onOpenChange={() => reset()}
-      trigger={<Button variant="secondary">{t.actions.delete}</Button>}
+      trigger={<Button variant="danger">{t.actions.delete}</Button>}
     >
       <DialogTitle>{t.project.deleteDialog.title}</DialogTitle>
       <DialogContent>
@@ -82,17 +82,9 @@ export const ProjectDeleteDialog: FC<Props> = ({ project }) => {
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
-          <Button shadow="none" size="small" variant="secondary">
-            {t.actions.close}
-          </Button>
+          <Button variant="secondary">{t.actions.close}</Button>
         </DialogClose>
-        <Button
-          loading={loading}
-          type="submit"
-          form="delete-project"
-          size="small"
-          variant="primary"
-        >
+        <Button loading={loading} type="submit" form="delete-project" variant="primary">
           {t.project.deleteDialog.confirm}
         </Button>
       </DialogActions>
