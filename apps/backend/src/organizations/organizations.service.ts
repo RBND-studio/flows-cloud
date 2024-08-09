@@ -46,7 +46,10 @@ export class OrganizationsService {
 
   async getOrganizations({ auth }: { auth: Auth }): Promise<GetOrganizationListItemDto[]> {
     const otu = alias(organizationsToUsers, "otu");
-    const otuQuery = sql<number>`(SELECT COUNT(${otu.user_id}) FROM organization_to_user otu WHERE ${otu.organization_id} = ${organizations.id}) as members_count`;
+    const otuQuery =
+      sql<number>`SELECT COUNT(${otu.user_id}) FROM organization_to_user otu WHERE ${otu.organization_id} = ${organizations.id}`
+        .mapWith(Number)
+        .as("members_count");
     const query = this.databaseService.db
       .select({
         organization: organizations,
