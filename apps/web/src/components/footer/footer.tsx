@@ -1,7 +1,6 @@
 import { css } from "@flows/styled-system/css";
 import { Box, Flex } from "@flows/styled-system/jsx";
 import { SmartLink } from "components/ui";
-import Image from "next/image";
 import type { ReactElement } from "react";
 import { routes } from "routes";
 import { links } from "shared";
@@ -79,31 +78,6 @@ const footerGroups: FooterGroup[] = [
   },
 ];
 
-const ProductHunt = () => {
-  return (
-    <a
-      href="https://www.producthunt.com/posts/flows-5?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-flows&#0045;5"
-      target="_blank"
-      rel="noopener"
-      className={css({
-        marginX: "auto",
-      })}
-    >
-      <Image
-        src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=465680&theme=light"
-        alt="Flows - User&#0032;onboarding&#0032;for&#0032;modern&#0032;SaaS | Product Hunt"
-        className={css({
-          width: "180px",
-          height: "40px",
-        })}
-        width="180"
-        height="40"
-        unoptimized
-      />
-    </a>
-  );
-};
-
 export const Footer = (): ReactElement => {
   return (
     <footer
@@ -128,9 +102,6 @@ export const Footer = (): ReactElement => {
         <Box>
           <Box display="inline-flex" alignItems="center" gap="space8" marginBottom="space24">
             <Logo type="type" size={20} />
-          </Box>
-          <Box mb="space24">
-            <ProductHunt />
           </Box>
           <Box marginBottom="space16">
             <Text color="subtle" variant="bodyS">
