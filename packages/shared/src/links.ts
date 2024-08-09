@@ -13,7 +13,6 @@ export const links = {
   changelog: "https://flows.sh/changelog",
   demoVideoEmbed: "https://www.youtube.com/embed/XY3eU_p0AW4?si=kSQJFruZM8YViA0w",
   demoVideo: "https://youtu.be/XY3eU_p0AW4?si=I-Kws9rhJ9RLak7Q",
-  productHunt: "https://www.producthunt.com/posts/flows-5",
   docs: {
     home: "https://flows.sh/docs",
     stepsEditor: "https://flows.sh/docs/creating-flows/steps-editor",
