@@ -1,19 +1,19 @@
 ---
 title: Steps editor
-description: Flows Cloud comes with a no-code steps editor that allows you to create and manage your steps in a visual way.
+description: Flows come with a no-code editor that allows you to create and manage your onboarding flows without writing any code.
 ---
 
 # Steps editor
 
-Flows Cloud comes with a no-code steps editor that allows you to create and manage your steps in a visual way.
+Flows come with a no-code editor that allows you to create and manage your onboarding flows without writing any code.
 
-![Steps editor](/creating-flows/steps-editor.png)
+![Flows steps editor](/creating-flows/steps-editor.png)
 
 ## Create a new step
 
-To create a new step, click on the **Add step** button below the last step in the flow or hover between two steps and click on the the **+** button that shows up. After you pick a step type, you can start configuring it by clicking on the step card and editing the form that appears on the right side of the screen.
+To create a new step, click on the **Add step** button below the last step in the flow, or hover between two steps and click on the **+** button that shows up. After you pick a step type, you can start configuring it by clicking on the step card and editing the form that appears on the right side of the screen.
 
-![Steps editor](/creating-flows/add-step.png)
+![Add step illustration](/creating-flows/add-step.png)
 
 ### Pick a step type
 
@@ -21,6 +21,7 @@ The first thing you need to do is to pick a step type. This will define the beha
 
 - [Tooltip](/step-types/tooltip) - simple step that shows a tooltip on the screen pointing to an element
 - [Modal](/step-types/modal) - step that shows a modal with an overlay
+- [Banner](/step-types/banner) - step that shows a banner in a corner of the screen
 - [Wait](/step-types/wait) - step that waits for a user action to continue
 - [Fork](/step-types/fork) - step that splits the flow into multiple branches
 
@@ -28,24 +29,33 @@ The first thing you need to do is to pick a step type. This will define the beha
 
 Once you have selected the step type, you can start configuring the step. The configuration options will depend on the step type you have selected. For guides on how to configure each step type, check the **Step types** section in the sidebar or the links above.
 
-![Steps editor](/creating-flows/step-form.png)
+![Step form illustration](/creating-flows/step-form.png)
 
 ### Configure branches (optional)
 
-By default, after a step is completed, the flow will continue to the next step. When a following step is a fork you need to create ways for the flow to continue to all possible branches. When editing a tooltip or modal step, you can point to different branches when setting up the Footer buttons. When editing a wait step, you need to specify the target branch for each wait option.
+By default, after a step is completed, the flow will continue to the next step in the sequence. When a following step is a fork, you need to create ways for the flow to continue to all possible branches.
+
+You can configure target branches in two main ways:
+
+- **After clicking next step button**: When editing a tooltip or modal step, you can point to different branches when setting up the Next step button. [Learn more](/step-types/shared-properties/footer-properties#custom-actions)
+- **After waiting for user action**: When waiting for a user action, you can specify the target branch for each wait option. [Learn more](/step-types/wait#target-branch)
 
 ## Create a fork
 
 To create a fork, click on the **Add step** or **+** buttons in the step editor and select the **Fork** option.
 
-By default a fork is created with two branches, you can add more branches by hovering to the right side of the fork boundary (the dashed line) and clicking on the fork icon that appears.
+By default, a fork is created with two branches, you can add more branches by hovering to the right side of the fork boundary (the dashed line) and clicking on the fork icon that appears.
 
-![Steps editor](/creating-flows/add-branch.png)
+![Add fork illustration](/creating-flows/add-fork.png)
+
+### Add branches to a fork
+
+To add more branches to a fork, hover to the left side of the fork boundary (the dashed line) and click on the fork icon that appears. This will add a new branch to the fork with a tooltip step.
+
+![Add branch illustration](/creating-flows/add-branch.png)
 
 ## Step preview
 
-When you have a step selected in the steps editor, you can see a preview of the step in the right side of the screen under the step configuration form. This will help you to visualize how the step will look like when the flow is executed. The preview is not interactive, but it will show you the content of the step and how it will be displayed on the screen.
+When you have a step selected in the steps editor, you can see a preview of the step on the right side of the screen under the step configuration form. The preview is not interactive, but it will show you the content of the step and how it will be displayed on the screen.
 
-![Steps editor](/creating-flows/step-preview.png)
-
-{/* TODO: Add link to guide on defining flows in code */}
+![Step preview illustration](/creating-flows/step-preview.png)

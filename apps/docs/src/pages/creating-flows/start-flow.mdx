@@ -1,28 +1,71 @@
 ---
 title: Start a flow
-description: Select when and where to show a flow.
+description: Select when and where your onboarding flow should start.
 ---
 
 # Start a flow
 
-Select when and where to show a flow.
+Select when and where your onboarding flow should start.
 
 ![Start form](/creating-flows/start-flow.png)
 
-You can set the following options for when a flow should start:
+## Start options
 
-- **When visiting a page**: The flow will be shown when the user visits a specific page.
-- **On click**: The flow will be shown when the user clicks on a specific element.
-- **When element shows up on a page**: The flow will be shown when a specific element appears on the page / DOM.
-- **On input change**: The flow will be shown when the user changes the value of a specific input.
-- **On form submit**: The flow will be shown when the user submits a specific form.
+Start options are conditions that need to be met for the flow to be shown. You can set multiple start options for a flow. The flow will be shown when the user meets any of the conditions. To add another start option, click the **Add start option** button at the bottom of the form.
 
-<SectionLink href="/step-types/shared-properties/wait-properties">
-  Learn more about the setting up start options →
-</SectionLink>
+## Different types of start options
 
-## Multiple start options
+There are currently five types of start options. These are the same as the wait options you can set for a step.
 
-You can set multiple start options for a flow. The flow will be shown when the user meets any of the conditions. To add another start options, click the **Add start option** button at the bottom of the form.
+### Location
 
-{/* TODO: better describe how location works and it's syntax (eg. https:// breaks the regex) */}
+The **Location** option starts a flow when the user visits a specific page. We use only the location pathname for matching. For example, from the URL `https://acme.com/search=query=onboarding`, the `/search=query=onboarding` part is used.
+
+When matching a location, the SDK uses regex. Entering `/onboarding` triggers a partial match. For exact matching, add the start `^` and end `$` symbols to the location, e.g., `^/onboarding$`.
+
+Examples of possible locations:
+
+- empty - matches any URL (this will not start flow on its own but can be combined with other options)
+- `/` - matches any URL (starts the flow on every page if no other options are set)
+- `^/$` - matches the root page
+- `/onboarding` - matches any URL with `/onboarding` in it
+- `^/onboarding` - matches any URL starting with `/onboarding`
+- `^/onboarding$` - matches exactly `/onboarding`
+- `search=.+` - matches any URL with `search` query parameter and at least one character value
+
+Location can be combined with other options to narrow down the start conditions further.
+
+### Click
+
+The **Click** option starts a flow when the user clicks on a specific element. Use a [CSS selector](#how-to-pick-the-right-css-selector) that matches the element.
+
+### Element on page
+
+The **Element on page** option starts a flow when a specific element appears on the page/DOM. Use a [CSS selector](#how-to-pick-the-right-css-selector) that matches the element. This is useful to ensure the page is in a specific state before showing the flow, such as when a page loads or when there is an empty state.
+
+### Input change
+
+The **Input change** option starts a flow when the user changes the value of a specific input, like a text input in a form. Use a [CSS selector](#how-to-pick-the-right-css-selector) that matches the input element.
+
+### Form submit
+
+Similarly to **Input change**, the **Form submit** option starts a flow when the user submits a specific form. Use a [CSS selector](#how-to-pick-the-right-css-selector) that matches the form element.
+
+## How to pick the right CSS selector
+
+Selecting elements on the page requires the right CSS selector to avoid conflicts with other elements. Here are some tips:
+
+- **Use unique classes or IDs**: If possible, use unique classes or IDs for the target element to ensure the selector matches only the desired element.
+- **Use the most specific selector possible**: If unique classes or IDs aren't available, use the most specific selector possible to reduce conflicts.
+- **Use browser developer tools**: Use browser developer tools to find the right selector. This [guide](https://www.scrapingbee.com/tutorials/how-to-extract-css-selectors-using-chrome/) can help you find the right CSS selector.
+- **Test the selector**: After selecting a selector, test it in the browser's console to ensure it matches the correct element. Use `document.querySelectorAll(".my-selector")` to make sure there is only one element on the page.
+
+Examples of CSS selectors:
+
+- `#my-button` - matches an element with the ID `my-button`
+- `.my-class` - matches an element with the class `my-class`
+- `button` - matches all button elements
+- `input[type="text"]` - matches all text input elements
+- `body > div > div > form > div:nth-child(2) > button` - matches a specific button element
+
+{/* TODO: move this to a separate page */}

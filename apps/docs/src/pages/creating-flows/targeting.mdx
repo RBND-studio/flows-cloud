@@ -11,6 +11,11 @@ Filter the users that should see a specific flow.
 
 When starting flows, you can show them to specific users based on their attributes. This is useful when you want to show a flow to a specific segment of your users, for example, only to users that have a specific role or that have been using your app for a certain amount of time.
 
+<BetterCallout variant="warning">
+  For targeting to work you need to set up the user properties in the `init` function. [Learn
+  more](/getting-started/identify-users#adding-user-properties)
+</BetterCallout>
+
 ## Create targeting filter
 
 1. Add a new filter group. Filter groups combine all the filters in them with an `AND` operator. This means that all the filters in the group must be true for the flow to be shown to the user.
