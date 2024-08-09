@@ -4,7 +4,7 @@ import { Box, Flex, Grid } from "@flows/styled-system/jsx";
 import { Banner16, Close16, Comment16, Flows16, Hourglass16, Plus16 } from "icons";
 import type { FC } from "react";
 import { plural, t } from "translations";
-import { Button, Icon, Menu, MenuItem, Text } from "ui";
+import { Icon, IconButton, Menu, MenuItem, Text } from "ui";
 
 import { useFlowEditForm } from "../edit-constants";
 import { STEP_DEFAULT } from "../step-form";
@@ -107,7 +107,7 @@ export const StepsFlowStep: FC<Props> = ({
           {title}
         </Text>
       </Flex>
-      <Button
+      <IconButton
         className={`${css({
           position: "absolute",
           top: "-14px",
@@ -117,11 +117,12 @@ export const StepsFlowStep: FC<Props> = ({
           _hover: { opacity: 1 },
         })} remove-button`}
         onClick={handleRemove}
-        size="smallIcon"
+        size="small"
         variant="secondary"
+        tooltip="Remove step"
       >
         <Icon icon={Close16} />
-      </Button>
+      </IconButton>
       <AddButton onAdd={onAddBefore} variant="top" allowFork={rootStep} />
       {!(rootStep && lastStep) ? (
         <AddButton onAdd={onAddAfter} variant="bottom" allowFork={rootStep} />
@@ -149,9 +150,14 @@ const AddButton: FC<{
     >
       <Menu
         trigger={
-          <Button className={css({ opacity: 0 })} size="smallIcon" variant="secondary">
+          <IconButton
+            tooltip="Add step"
+            className={css({ opacity: 0 })}
+            size="small"
+            variant="secondary"
+          >
             <Icon icon={Plus16} />
-          </Button>
+          </IconButton>
         }
       >
         {[

@@ -27,6 +27,7 @@ type Props<T extends string> = {
   description?: string;
   descriptionClassName?: string;
   id?: string;
+  ["aria-label"]?: string;
 };
 
 export function Select<T extends string>({
@@ -41,6 +42,7 @@ export function Select<T extends string>({
   buttonSize = "small",
   onChange,
   optional,
+  "aria-label": ariaLabel,
   ...props
 }: Props<T>): JSX.Element {
   const id = useId();
@@ -50,6 +52,7 @@ export function Select<T extends string>({
     <RadixSelect.Root {...props} onValueChange={onChange}>
       <RadixSelect.Trigger asChild id={props.id ?? id}>
         <Button
+          aria-label={ariaLabel}
           className={cx(
             css({
               textStyle: "bodyS",
@@ -74,7 +77,7 @@ export function Select<T extends string>({
             </RadixSelect.Icon>
           }
           size={buttonSize}
-          variant="grey"
+          variant="field"
         >
           <RadixSelect.Value placeholder={placeholder}>
             {currentOption?.label ?? currentOption?.value}

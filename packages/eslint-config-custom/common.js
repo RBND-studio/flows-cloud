@@ -19,6 +19,14 @@ module.exports = {
     // Re-enable this rule when @vercel/style-guide v7 is released
     // More info: https://github.com/vercel/style-guide/issues/105
     "@typescript-eslint/restrict-template-expressions": "off",
+    "no-restricted-syntax": [
+      "warn",
+      {
+        selector:
+          "JSXElement[openingElement.name.name='IconButton']:not(:has(JSXAttribute[name.name='tooltip']))",
+        message: "You should add a tooltip to the IconButton unless it's self-explanatory.",
+      },
+    ],
   },
   plugins: ["simple-import-sort"],
 };

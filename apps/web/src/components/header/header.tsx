@@ -49,6 +49,7 @@ export const Header = (): ReactElement => {
               gap: "space8",
             })}
             href={routes.home}
+            aria-label="Home"
           >
             <Logo type="type" size={20} />
           </Link>
@@ -61,7 +62,7 @@ export const Header = (): ReactElement => {
             <a href={links.logIn}>Log in</a>
           </Button>
           <SignupClick>
-            <Button asChild variant="black">
+            <Button asChild>
               <a href={links.signUp}>Sign up</a>
             </Button>
           </SignupClick>

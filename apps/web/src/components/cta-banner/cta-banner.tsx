@@ -30,11 +30,11 @@ export const CtaBanner = (): ReactElement => {
 
       <Flex gap="space16">
         <SignupClick>
-          <Button asChild shadow="highlight" size="betweenMediumAndLarge">
+          <Button asChild shadow="highlight" size="large">
             <a href={links.signUp}>Sign up for free</a>
           </Button>
         </SignupClick>
-        <Button variant="secondary" asChild size="betweenMediumAndLarge">
+        <Button variant="secondary" asChild size="large">
           <a href={links.nextJsDemo} target="_blank" rel="noopener">
             See demo
           </a>

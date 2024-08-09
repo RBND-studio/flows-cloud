@@ -46,11 +46,11 @@ export const UsageWidget = ({ organizationId }: Props): JSX.Element | null => {
       ) : null}
 
       {data.subscription ? (
-        <Button size="small" variant="secondary" shadow="none" asChild>
+        <Button size="small" variant="secondary" asChild>
           <Link href={routes.organizationSettings({ organizationId })}>Subscription</Link>
         </Button>
       ) : (
-        <Button size="small" variant="black" shadow="none" asChild>
+        <Button size="small" asChild>
           <Link href={routes.organizationSettings({ organizationId })}>Upgrade</Link>
         </Button>
       )}

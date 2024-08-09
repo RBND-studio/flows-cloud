@@ -46,7 +46,9 @@ export const PricingCalculator = (): ReactElement => {
               mb="space16"
               mdDown={{ flexDirection: "column", gap: "space8" }}
             >
-              <Text variant="titleL">Started flows</Text>
+              <Text id="calculatorLabel" variant="titleL">
+                Started flows
+              </Text>
               <Flex gap="space8" alignItems="baseline">
                 <Text variant="titleL">{formatNumberWithThousandSeparator(selectedValue)}</Text>
                 <Text variant="bodyL" color="muted">
@@ -55,6 +57,7 @@ export const PricingCalculator = (): ReactElement => {
               </Flex>
             </Flex>
             <Slider
+              aria-labelledby="calculatorLabel"
               defaultValue={[1.5]}
               max={120}
               min={0}

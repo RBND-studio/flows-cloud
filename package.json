@@ -17,7 +17,6 @@
     "e2e": "pnpm --filter e2e",
     "prepare": "husky",
     "pre-push": "TURBO_NO_UPDATE_NOTIFIER=true turbo lint tsc test spellcheck pre-commit",
-    "web-docs": "pnpm --filter=web --filter=docs",
     "spellcheck": "pnpm cspell .  --quiet"
   },
   "devDependencies": {
@@ -29,5 +28,5 @@
     "tsconfig": "workspace:*",
     "turbo": "^2.0.6"
   },
-  "packageManager": "pnpm@9.6.0"
+  "packageManager": "pnpm@9.7.0"
 }

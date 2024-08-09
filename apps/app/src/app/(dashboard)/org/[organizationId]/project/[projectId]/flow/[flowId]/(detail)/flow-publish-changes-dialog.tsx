@@ -81,11 +81,9 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
         </DialogContent>
         <DialogActions>
           <DialogClose asChild>
-            <Button shadow="none" size="small" variant="secondary">
-              Close
-            </Button>
+            <Button variant="secondary">Close</Button>
           </DialogClose>
-          <Button loading={loading} onClick={handleMakeLive} size="small" variant="primary">
+          <Button loading={loading} onClick={handleMakeLive} variant="primary">
             Make live
           </Button>
         </DialogActions>
@@ -98,7 +96,11 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
     <Dialog
       onOpenChange={setOpen}
       open={open}
-      trigger={<Button disabled={!changesToPublish}>Publish changes</Button>}
+      trigger={
+        <Button variant="primary" disabled={!changesToPublish}>
+          Publish changes
+        </Button>
+      }
     >
       <DialogTitle>Publish changes</DialogTitle>
       <DialogContent>
@@ -112,11 +114,9 @@ export const FlowPublishChangesDialog: FC<Props> = ({ flow }) => {
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
-          <Button shadow="none" size="small" variant="secondary">
-            Close
-          </Button>
+          <Button variant="secondary">Close</Button>
         </DialogClose>
-        <Button loading={loading} onClick={handlePublish} size="small" variant="primary">
+        <Button loading={loading} onClick={handlePublish} variant="primary">
           Publish
         </Button>
       </DialogActions>

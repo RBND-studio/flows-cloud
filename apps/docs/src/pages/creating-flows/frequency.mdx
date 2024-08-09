@@ -1,17 +1,25 @@
 ---
 title: Flow frequency
-description: Set how often the flow be shown to the user.
+description: Set how often the onboarding flow is shown to the user.
 ---
 
 # Flow frequency
 
-Set how often the flow be shown to the user.
+Set how often the onboarding flow is shown to the user.
 
 ![Frequency form](/creating-flows/frequency.png)
 
-Frequency currently supports:
+## Frequency options
 
 - **Once** (default): The flow will be shown only once to the user. For this option to work, the user must be identified.
 - **Every session**: The flow will be shown once per session when the user meets all flow conditions.
-- **Every time**: The flow will be shown every time the user meets all flow conditions. We recommend using this option only for flows that are not intrusive 
-and are not shown to the user too often.
+- **Every time**: The flow will be shown every time the user meets all flow conditions. We recommend using this option only for flows that are not intrusive
+  and are not shown to the user too often.
+
+## Reset user progress
+
+When the flow is set to show only once, you can reset the progress for a selected user. This can be useful when you are testing the flow and want to see it again, or when you want to show the flow to the user again after some time.
+
+<SectionLink href="/project-setup/reset-user-progress">
+  Learn more about resetting flow progress →
+</SectionLink>

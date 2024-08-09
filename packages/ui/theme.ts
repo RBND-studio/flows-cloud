@@ -18,6 +18,7 @@ import {
   semanticTokens,
   shadows,
   spacing,
+  superFastEaseInOut,
   textStyles,
 } from "./src/theme";
 
@@ -51,5 +52,6 @@ export const utilities: Config["utilities"] = {
     borRight,
     cardWrap,
     fastEaseInOut,
+    superFastEaseInOut,
   },
 };

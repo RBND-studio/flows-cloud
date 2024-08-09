@@ -46,9 +46,7 @@ export const RemoveDraft: FC<Props> = ({ flow }) => {
       </DialogContent>
       <DialogActions>
         <DialogClose asChild>
-          <Button shadow="none" size="small" variant="secondary">
-            Close
-          </Button>
+          <Button variant="secondary">Close</Button>
         </DialogClose>
         <Button loading={loading} onClick={handleRemoveDraft}>
           Discard draft

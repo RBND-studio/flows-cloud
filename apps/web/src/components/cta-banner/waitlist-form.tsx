@@ -55,9 +55,7 @@ export const WaitlistForm: FC = () => {
 
         <DialogActions>
           <DialogClose asChild>
-            <Button shadow="none" variant="secondary">
-              Close
-            </Button>
+            <Button variant="secondary">Close</Button>
           </DialogClose>
         </DialogActions>
       </Dialog>

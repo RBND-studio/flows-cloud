@@ -25,12 +25,10 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> &
     shadow?: (typeof button.variantMap.shadow)[number];
   };
 
-//TODO: separate icon only buttons intro separate component with tooltip and square shape
-
 export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
   {
     size = "default",
-    variant = "primary",
+    variant = "black",
     shadow = "default",
     children,
     startIcon,
@@ -85,7 +83,7 @@ const button = cva({
     justifyContent: "center",
     cursor: "pointer",
     borderRadius: 8,
-    fastEaseInOut: "all",
+    superFastEaseInOut: "all",
     shadow: "l1",
     textWrap: "nowrap",
     border: "1px solid transparent",
@@ -101,38 +99,25 @@ const button = cva({
   },
   variants: {
     size: {
-      default: {
-        textStyle: "titleS",
-        padding: "5px 11px",
-        height: 32,
-      },
-      large: {
-        textStyle: "titleL",
-        padding: "11px 23px",
-        height: 52,
-      },
       small: {
         textStyle: "titleS",
         padding: "3px 7px",
         height: 28,
       },
-      icon: {
-        width: 32,
+      default: {
+        textStyle: "titleS",
+        padding: "5px 11px",
         height: 32,
-      },
-      smallIcon: {
-        height: 28,
-        width: 28,
       },
       medium: {
         textStyle: "titleS",
         padding: "7px 15px",
         height: 36,
       },
-      betweenMediumAndLarge: {
-        textStyle: "titleM",
-        height: 40,
+      large: {
+        textStyle: "titleL",
         padding: "9px 19px",
+        height: 48,
       },
     },
     variant: {
@@ -153,6 +138,10 @@ const button = cva({
           pointerEvents: "none",
           boxShadow: "none",
         },
+        _active: {
+          backgroundColor: "bg.primaryActive",
+          borderColor: "bg.primaryActive",
+        },
       },
       secondary: {
         color: "text",
@@ -169,6 +158,9 @@ const button = cva({
           color: "text.subtle",
           pointerEvents: "none",
           boxShadow: "none",
+        },
+        _active: {
+          backgroundColor: "bg.active",
         },
       },
       black: {
@@ -188,8 +180,13 @@ const button = cva({
           pointerEvents: "none",
           boxShadow: "none",
         },
+        _active: {
+          backgroundColor: "bg.blackActive",
+          borderColor: "bg.blackActive",
+        },
       },
-      grey: {
+      // Used in select
+      field: {
         color: "text",
         borderStyle: "solid",
         borderWidth: 1,
@@ -199,6 +196,13 @@ const button = cva({
           borderColor: "border.primary",
           backgroundColor: "bg",
         },
+        _disabled: {
+          backgroundColor: "bg.subtle",
+          borderColor: "bg.subtle",
+          color: "text.subtle",
+          pointerEvents: "none",
+          boxShadow: "none",
+        },
       },
       ghost: {
         color: "text",
@@ -207,6 +211,14 @@ const button = cva({
         _hover: {
           backgroundColor: "bg.hover",
           shadow: "none",
+        },
+        _disabled: {
+          color: "text.subtle",
+          pointerEvents: "none",
+          boxShadow: "none",
+        },
+        _active: {
+          backgroundColor: "bg.active",
         },
       },
       danger: {
@@ -225,14 +237,15 @@ const button = cva({
           pointerEvents: "none",
           boxShadow: "none",
         },
+        _active: {
+          backgroundColor: "bg.dangerActive",
+          borderColor: "bg.dangerActive",
+        },
       },
     },
     shadow: {
-      none: {
-        boxShadow: "none",
-      },
       highlight: {
-        boxShadow: "focus",
+        boxShadow: "l3",
       },
       default: {},
     },

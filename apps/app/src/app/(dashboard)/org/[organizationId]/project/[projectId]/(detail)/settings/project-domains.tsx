@@ -118,7 +118,7 @@ export const ProjectDomains: FC<Props> = ({ project }) => {
         </Button>
       </div>
       <div>
-        <Button disabled={!formState.isDirty} loading={loading} type="submit" variant="black">
+        <Button disabled={!formState.isDirty} loading={loading} type="submit">
           {t.actions.save}
         </Button>
       </div>

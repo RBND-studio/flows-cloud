@@ -42,13 +42,7 @@ export const StartForm: FC = () => {
           />
         ))}
 
-        <Button
-          onClick={() => append({})}
-          shadow="none"
-          size="small"
-          startIcon={<Plus16 />}
-          variant="secondary"
-        >
+        <Button onClick={() => append({})} size="small" startIcon={<Plus16 />} variant="secondary">
           {t.start.addOption}
         </Button>
       </Box>

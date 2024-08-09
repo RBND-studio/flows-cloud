@@ -8,7 +8,7 @@ import { useParams, usePathname } from "next/navigation";
 import type { FC } from "react";
 import { routes } from "routes";
 import { t } from "translations";
-import { Button, Icon, Popover, PopoverContent, PopoverTrigger, Text } from "ui";
+import { Icon, IconButton, Popover, PopoverContent, PopoverTrigger, Text } from "ui";
 
 import { MenuItem } from "./menu-item";
 import { MenuSection } from "./menu-section";
@@ -55,9 +55,9 @@ export const SettingsMenu: FC = () => {
   ];
 
   const trigger = (
-    <Button size="icon" shadow="none" variant="secondary">
+    <IconButton tooltip="Settings" variant="secondary">
       <Icon icon={Settings24} className={css({ w: "20px", h: "20px" })} />
-    </Button>
+    </IconButton>
   );
 
   if (!auth) return trigger;

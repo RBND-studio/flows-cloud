@@ -78,3 +78,13 @@ export const fastEaseInOut = defineUtility({
     };
   },
 });
+
+export const superFastEaseInOut = defineUtility({
+  transform(value, { token }) {
+    return {
+      transitionProperty: value,
+      transitionTimingFunction: token("easings.easeInOut"),
+      transitionDuration: token(`durations.superFast`),
+    };
+  },
+});

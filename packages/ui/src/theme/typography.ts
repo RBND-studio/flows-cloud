@@ -60,7 +60,7 @@ export const textStyles = defineTextStyles({
   titleL: {
     value: {
       fontStyle: "normal",
-      fontWeight: "750",
+      fontWeight: "700",
       fontSize: "18px",
       lineHeight: "28px",
       fontFamily: "var(--font-main)",
@@ -69,7 +69,7 @@ export const textStyles = defineTextStyles({
   titleM: {
     value: {
       fontStyle: "normal",
-      fontWeight: "750",
+      fontWeight: "700",
       fontSize: "16px",
       lineHeight: "24px",
       fontFamily: "var(--font-main)",
@@ -78,7 +78,7 @@ export const textStyles = defineTextStyles({
   titleS: {
     value: {
       fontStyle: "normal",
-      fontWeight: "750",
+      fontWeight: "700",
       fontSize: "14px",
       lineHeight: "20px",
       fontFamily: "var(--font-main)",
@@ -87,7 +87,7 @@ export const textStyles = defineTextStyles({
   titleXs: {
     value: {
       fontStyle: "normal",
-      fontWeight: "750",
+      fontWeight: "700",
       fontSize: "12px",
       lineHeight: "16px",
       fontFamily: "var(--font-main)",

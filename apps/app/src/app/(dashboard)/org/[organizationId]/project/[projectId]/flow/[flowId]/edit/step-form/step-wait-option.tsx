@@ -3,7 +3,7 @@ import { Box, Flex } from "@flows/styled-system/jsx";
 import { Close16 } from "icons";
 import type { FC } from "react";
 import { t } from "translations";
-import { Button, Icon, Input, Text } from "ui";
+import { Button, Icon, IconButton, Input, Text } from "ui";
 
 import { useFlowEditForm, type WaitOptions } from "../edit-constants";
 import { StepWaitChange } from "./step-wait-change";
@@ -71,9 +71,9 @@ export const StepWaitOption: FC<Props> = ({ fieldName, index, onRemove }) => {
     <Box>
       <Flex align="center" justify="space-between" mb="space8">
         <Text variant="titleS">{title}</Text>
-        <Button onClick={onRemove} size="small" variant="ghost">
+        <IconButton onClick={onRemove} size="small" variant="ghost" tooltip="Remove wait option">
           <Icon icon={Close16} />
-        </Button>
+        </IconButton>
       </Flex>
       <Input
         {...register(`${fieldName}.location`)}

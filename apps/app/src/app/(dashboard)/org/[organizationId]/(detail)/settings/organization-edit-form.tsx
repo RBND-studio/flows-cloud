@@ -57,7 +57,7 @@ export const OrganizationEditForm: FC<Props> = ({ org }) => {
       />
 
       <div>
-        <Button disabled={!formState.isDirty} loading={loading} type="submit" variant="black">
+        <Button disabled={!formState.isDirty} loading={loading} type="submit">
           {t.actions.save}
         </Button>
       </div>
